@@ -1,5 +1,11 @@
 import { Button, EButtonLayout, Table } from "@neufund/design-system";
-import { withContainer } from "@neufund/shared";
+import {
+  ECurrency,
+  ENumberInputFormat,
+  ENumberOutputFormat,
+  selectUnits,
+  withContainer,
+} from "@neufund/shared";
 import * as cn from "classnames";
 import * as React from "react";
 import { FormattedDate } from "react-intl";
@@ -13,12 +19,6 @@ import { appConnect } from "../../store";
 import { Container } from "../layouts/Container";
 import { Money } from "../shared/formatters/Money";
 import { MoneyWithLessThan } from "../shared/formatters/MoneyWithLessThan";
-import {
-  ECurrency,
-  ENumberInputFormat,
-  ENumberOutputFormat,
-  selectUnits,
-} from "../shared/formatters/utils";
 import { Heading } from "../shared/Heading";
 import { CurrencyIcon } from "../shared/icons/CurrencyIcon";
 import { ExternalLink } from "../shared/links/ExternalLink";

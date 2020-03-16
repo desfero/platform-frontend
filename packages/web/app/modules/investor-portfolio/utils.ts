@@ -1,9 +1,8 @@
-import { convertToUlps, ETH_DECIMALS, multiplyBigNumbers, Q18 } from "@neufund/shared";
+import { convertToUlps, ECurrency, ETH_DECIMALS, multiplyBigNumbers, Q18 } from "@neufund/shared";
 import BigNumber from "bignumber.js";
 import { includes } from "lodash/fp";
 
 import { IWindowWithData } from "../../../test/helperTypes";
-import { ECurrency } from "../../components/shared/formatters/utils";
 import { EUserType } from "../../lib/api/users/interfaces";
 import { EETOStateOnChain } from "../eto/types";
 import {

@@ -1,6 +1,3 @@
-import * as jstz from "jstimezonedetect";
-import * as moment from "moment";
-
 import {
   ECurrency,
   ENumberInputFormat,
@@ -8,7 +5,9 @@ import {
   ERoundingMode,
   selectDecimalPlaces,
   toFixedPrecision,
-} from "./formatters/utils";
+} from "@neufund/shared";
+import * as jstz from "jstimezonedetect";
+import * as moment from "moment";
 
 const calculateTimeLeftUnits = (timeLeft: number): [number, number, number, number] => {
   const minute = 60;

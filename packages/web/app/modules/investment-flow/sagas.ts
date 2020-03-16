@@ -3,13 +3,13 @@ import {
   addBigNumbers,
   compareBigNumbers,
   convertToUlps,
+  ECurrency,
   extractNumber,
   nonNullable,
   subtractBigNumbers,
 } from "@neufund/shared";
 import BigNumber from "bignumber.js";
 
-import { ECurrency } from "../../components/shared/formatters/utils";
 import { TGlobalDependencies } from "../../di/setupBindings";
 import { ETOCommitment } from "../../lib/contracts/ETOCommitment";
 import { ITxData } from "../../lib/web3/types";

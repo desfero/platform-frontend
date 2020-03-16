@@ -1,4 +1,10 @@
-import { divideBigNumbers, multiplyBigNumbers } from "@neufund/shared";
+import {
+  divideBigNumbers,
+  ECurrency,
+  ENumberInputFormat,
+  ENumberOutputFormat,
+  multiplyBigNumbers,
+} from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { compose, withProps } from "recompose";
@@ -11,7 +17,6 @@ import { selectEtherPriceEur } from "../../modules/shared/tokenPrice/selectors";
 import { appConnect } from "../../store";
 import { DashboardWidget } from "../shared/dashboard-widget/DashboardWidget";
 import { Money } from "../shared/formatters/Money";
-import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "../shared/formatters/utils";
 import { IPanelProps } from "../shared/Panel";
 
 import * as styles from "./ETOFundraisingStatistics.module.scss";

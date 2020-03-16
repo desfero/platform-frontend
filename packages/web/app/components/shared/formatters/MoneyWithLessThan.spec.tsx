@@ -1,9 +1,9 @@
+import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
 import { expect } from "chai";
 import { shallow } from "enzyme";
 import * as React from "react";
 
 import { MoneyWithLessThan } from "./MoneyWithLessThan";
-import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "./utils";
 
 describe("MoneyWithLessThan", () => {
   it("should format money as ETH with full decimals according to `Neufund Language` style guide", () => {

@@ -1,6 +1,6 @@
+import { ECurrency } from "@neufund/shared";
 import * as Yup from "yup";
 
-import { ECurrency } from "../../../components/shared/formatters/utils";
 import {
   getMessageTranslation,
   ValidationMessage,

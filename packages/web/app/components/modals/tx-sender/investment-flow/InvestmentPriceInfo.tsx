@@ -1,16 +1,17 @@
-import { convertFromUlps, isZero } from "@neufund/shared";
+import {
+  convertFromUlps,
+  ECurrency,
+  ENumberInputFormat,
+  ENumberOutputFormat,
+  EPriceFormat,
+  isZero,
+} from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { EETOStateOnChain, IEtoTokenGeneralDiscounts } from "../../../../modules/eto/types";
 import { IPersonalDiscount } from "../../../../modules/investor-portfolio/types";
 import { Money } from "../../../shared/formatters/Money";
-import {
-  ECurrency,
-  ENumberInputFormat,
-  ENumberOutputFormat,
-  EPriceFormat,
-} from "../../../shared/formatters/utils";
 import { Percentage } from "../../../shared/Percentage";
 
 interface IExternalProps {

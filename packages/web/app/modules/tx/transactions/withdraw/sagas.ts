@@ -1,9 +1,8 @@
 import { fork, put, select, take } from "@neufund/sagas";
-import { ETH_DECIMALS, toEthereumAddress } from "@neufund/shared";
+import { ECurrency, ETH_DECIMALS, toEthereumAddress } from "@neufund/shared";
 import BigNumber from "bignumber.js";
 
 import { IWindowWithData } from "../../../../../test/helperTypes";
-import { ECurrency } from "../../../../components/shared/formatters/utils";
 import { TGlobalDependencies } from "../../../../di/setupBindings";
 import { ITxData } from "../../../../lib/web3/types";
 import { DEFAULT_UPPER_GAS_LIMIT } from "../../../../lib/web3/Web3Manager/Web3Manager";

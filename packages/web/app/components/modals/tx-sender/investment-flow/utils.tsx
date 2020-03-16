@@ -1,4 +1,16 @@
-import { assertNever, Dictionary, divideBigNumbers } from "@neufund/shared";
+import {
+  assertNever,
+  Dictionary,
+  divideBigNumbers,
+  ECurrency,
+  ENumberInputFormat,
+  ENumberOutputFormat,
+  EPriceFormat,
+  ERoundingMode,
+  formatNumber,
+  selectDecimalPlaces,
+  toFixedPrecision,
+} from "@neufund/shared";
 import BigNumber from "bignumber.js";
 import { includes } from "lodash/fp";
 import * as React from "react";
@@ -25,16 +37,6 @@ import {
 import { TAppGlobalState } from "../../../../store";
 import { TTranslatedString } from "../../../../types";
 import { Money } from "../../../shared/formatters/Money";
-import {
-  ECurrency,
-  ENumberInputFormat,
-  ENumberOutputFormat,
-  EPriceFormat,
-  ERoundingMode,
-  formatNumber,
-  selectDecimalPlaces,
-  toFixedPrecision,
-} from "../../../shared/formatters/utils";
 import { WalletSelectionData } from "./InvestmentTypeSelector";
 
 export enum EInvestmentCurrency {

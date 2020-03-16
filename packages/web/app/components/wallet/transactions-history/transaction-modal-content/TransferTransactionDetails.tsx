@@ -1,4 +1,4 @@
-import { assertNever } from "@neufund/shared";
+import { assertNever, ECurrency } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
@@ -12,7 +12,6 @@ import {
 } from "../../../../modules/tx-history/types";
 import { etoPublicViewByIdLinkLegacy } from "../../../appRouteUtils";
 import { DataRow, DataRowSeparator } from "../../../shared/DataRow";
-import { ECurrency } from "../../../shared/formatters/utils";
 import { getIconForCurrency } from "../../../shared/icons/CurrencyIcon";
 import { EtherscanAddressLink } from "../../../shared/links/EtherscanLink";
 import { ExternalLink } from "../../../shared/links/ExternalLink";

@@ -1,3 +1,4 @@
+import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
@@ -8,11 +9,6 @@ import { generateColor } from "../../../../../shared/charts/utils";
 import { DashboardHeading } from "../../../../../shared/DashboardHeading";
 import { FormatNumber } from "../../../../../shared/formatters/FormatNumber";
 import { Money } from "../../../../../shared/formatters/Money";
-import {
-  ECurrency,
-  ENumberInputFormat,
-  ENumberOutputFormat,
-} from "../../../../../shared/formatters/utils";
 import { Panel } from "../../../../../shared/Panel";
 import { CHART_COLORS, FUNDING_ROUNDS } from "../../../../shared/constants";
 import { generateShareholders } from "../../../../utils";

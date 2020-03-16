@@ -4,6 +4,7 @@ import {
   convertFromUlps,
   convertToUlps,
   DataUnavailableError,
+  ECurrency,
   EthereumAddress,
   nonNullable,
   Q18,
@@ -11,7 +12,6 @@ import {
 import BigNumber from "bignumber.js";
 import { filter, map } from "lodash/fp";
 
-import { ECurrency } from "../../components/shared/formatters/utils";
 import { InvestorPortfolioMessage } from "../../components/translatedMessages/messages";
 import { createMessage } from "../../components/translatedMessages/utils";
 import { TGlobalDependencies } from "../../di/setupBindings";

@@ -1,11 +1,11 @@
 import { Button, EButtonLayout } from "@neufund/design-system";
+import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
 import * as cn from "classnames";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { ILedgerAccount } from "../../../modules/wallet-selector/ledger-wizard/reducer";
 import { Money } from "../../shared/formatters/Money";
-import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "../../shared/formatters/utils";
 import { NavigationButton } from "../../shared/Navigation";
 
 import * as styles from "./WalletLedgerChooserTableAdvanced.module.scss";

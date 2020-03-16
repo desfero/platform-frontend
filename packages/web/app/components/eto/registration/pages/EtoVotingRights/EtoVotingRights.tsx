@@ -1,5 +1,7 @@
 import { Button, EButtonLayout } from "@neufund/design-system";
 import {
+  ENumberInputFormat,
+  ENumberOutputFormat,
   MAX_RESTRICTED_ACT_VOTING_DURATION,
   MAX_VOTING_DURATION,
   MAX_VOTING_FINALIZATION_DURATION,
@@ -11,7 +13,6 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { TPartialEtoSpecData } from "../../../../../lib/api/eto/EtoApi.interfaces.unsafe";
-import { ENumberInputFormat, ENumberOutputFormat } from "../../../../shared/formatters/utils";
 import { FormFieldLabel } from "../../../../shared/forms/fields/FormFieldLabel";
 import { FormStaticRadioButton } from "../../../../shared/forms/fields/FormStaticRadioButton";
 import {

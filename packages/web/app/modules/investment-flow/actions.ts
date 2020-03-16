@@ -1,6 +1,5 @@
-import { createActionFactory } from "@neufund/shared";
+import { createActionFactory, ECurrency } from "@neufund/shared";
 
-import { ECurrency } from "../../components/shared/formatters/utils";
 import { EInvestmentErrorState, EInvestmentType } from "./reducer";
 
 export const investmentFlowActions = {

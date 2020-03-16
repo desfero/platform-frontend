@@ -1,4 +1,12 @@
-import { divideBigNumbers } from "@neufund/shared";
+import {
+  divideBigNumbers,
+  ECurrency,
+  ENumberInputFormat,
+  ENumberOutputFormat,
+  EPriceFormat,
+  ESpecialNumber,
+  selectUnits,
+} from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { compose } from "recompose";
@@ -19,14 +27,6 @@ import { FormatNumber } from "../../../../../shared/formatters/FormatNumber";
 import { FormatNumberRange } from "../../../../../shared/formatters/FormatNumberRange";
 import { Money } from "../../../../../shared/formatters/Money";
 import { MoneyRange } from "../../../../../shared/formatters/MoneyRange";
-import {
-  ECurrency,
-  ENumberInputFormat,
-  ENumberOutputFormat,
-  EPriceFormat,
-  ESpecialNumber,
-  selectUnits,
-} from "../../../../../shared/formatters/utils";
 import { Panel } from "../../../../../shared/Panel";
 import { Percentage } from "../../../../../shared/Percentage";
 import { Tooltip } from "../../../../../shared/tooltips/Tooltip";

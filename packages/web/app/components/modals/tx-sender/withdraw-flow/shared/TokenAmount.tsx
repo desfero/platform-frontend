@@ -1,8 +1,7 @@
-import { EquityToken } from "@neufund/shared";
+import { ECurrency, EquityToken } from "@neufund/shared";
 import * as React from "react";
 
 import { DataRow } from "../../../../shared/DataRow";
-import { ECurrency } from "../../../../shared/formatters/utils";
 import {
   ETextPosition,
   ETheme,

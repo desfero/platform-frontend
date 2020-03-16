@@ -1,8 +1,8 @@
+import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
 import { action } from "@storybook/addon-actions";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "../../formatters/utils";
 import { MaskedNumberInputLayout } from "./MaskedNumberInputLayout";
 
 const defaultProps = {

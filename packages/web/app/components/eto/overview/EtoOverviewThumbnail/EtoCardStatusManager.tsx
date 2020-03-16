@@ -1,4 +1,10 @@
-import { nonNullable } from "@neufund/shared";
+import {
+  EAbbreviatedNumberOutputFormat,
+  ECurrency,
+  ENumberInputFormat,
+  ENumberOutputFormat,
+  nonNullable,
+} from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
@@ -10,12 +16,6 @@ import {
 } from "../../../../modules/eto/types";
 import { isOnChain } from "../../../../modules/eto/utils";
 import { Money } from "../../../shared/formatters/Money";
-import {
-  EAbbreviatedNumberOutputFormat,
-  ECurrency,
-  ENumberInputFormat,
-  ENumberOutputFormat,
-} from "../../../shared/formatters/utils";
 import { CounterWidget } from "../EtoOverviewStatus/CounterWidget";
 import { InvestmentStatusWidget } from "../EtoOverviewStatus/InvestmentWidget/InvestmentStatusWidget";
 import { EndTimeWidget } from "../shared/EndTimeWidget";

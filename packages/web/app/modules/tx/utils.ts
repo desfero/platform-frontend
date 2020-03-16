@@ -1,9 +1,8 @@
-import { EquityToken, ETH_DECIMALS, multiplyBigNumbers } from "@neufund/shared";
+import { ECurrency, EquityToken, ETH_DECIMALS, multiplyBigNumbers } from "@neufund/shared";
 import BigNumber from "bignumber.js";
 import { addHexPrefix } from "ethereumjs-util";
 import { TxData } from "web3";
 
-import { ECurrency } from "../../components/shared/formatters/utils";
 import { ETransactionDirection, ETransactionType } from "../../lib/api/analytics-api/interfaces";
 import { TxPendingWithMetadata } from "../../lib/api/users/interfaces";
 import { TBigNumberVariants } from "../../lib/web3/types";

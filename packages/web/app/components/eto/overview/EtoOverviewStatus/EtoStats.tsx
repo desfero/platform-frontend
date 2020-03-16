@@ -1,3 +1,10 @@
+import {
+  ECurrency,
+  ENumberFormat,
+  ENumberInputFormat,
+  ENumberOutputFormat,
+  EPriceFormat,
+} from "@neufund/shared";
 import * as cn from "classnames";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
@@ -13,13 +20,6 @@ import {
 import { appConnect } from "../../../../store";
 import { Money } from "../../../shared/formatters/Money";
 import { MoneyRange } from "../../../shared/formatters/MoneyRange";
-import {
-  ECurrency,
-  ENumberFormat,
-  ENumberInputFormat,
-  ENumberOutputFormat,
-  EPriceFormat,
-} from "../../../shared/formatters/utils";
 import { ToBeAnnounced, ToBeAnnouncedTooltip } from "../../shared/ToBeAnnouncedTooltip";
 
 import * as styles from "./EtoOverviewStatus.module.scss";

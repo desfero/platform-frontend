@@ -1,4 +1,9 @@
-import { divideBigNumbers } from "@neufund/shared";
+import {
+  divideBigNumbers,
+  ECurrency,
+  ENumberInputFormat,
+  ENumberOutputFormat,
+} from "@neufund/shared";
 import * as cn from "classnames";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
@@ -13,11 +18,6 @@ import { selectEtherPriceEur } from "../../../../modules/shared/tokenPrice/selec
 import { appConnect } from "../../../../store";
 import { FormatNumber } from "../../../shared/formatters/FormatNumber";
 import { Money } from "../../../shared/formatters/Money";
-import {
-  ECurrency,
-  ENumberInputFormat,
-  ENumberOutputFormat,
-} from "../../../shared/formatters/utils";
 import { InvestmentProgress } from "../../shared/InvestmentProgress";
 import { CounterWidget } from "./CounterWidget";
 import { SuccessMessage } from "./Message";

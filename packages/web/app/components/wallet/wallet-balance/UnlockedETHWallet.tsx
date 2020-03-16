@@ -1,4 +1,4 @@
-import { isZero } from "@neufund/shared";
+import { ECurrency, isZero } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
@@ -6,7 +6,6 @@ import { CommonHtmlProps } from "../../../types";
 import { EColumnSpan } from "../../layouts/Container";
 import { AccountAddressWithHistoryLink } from "../../shared/AccountAddress";
 import { AccountBalance } from "../../shared/AccountBalance";
-import { ECurrency } from "../../shared/formatters/utils";
 import { WalletBalanceContainer } from "./WalletBalance";
 
 import ethIcon from "../../../assets/img/eth_icon.svg";

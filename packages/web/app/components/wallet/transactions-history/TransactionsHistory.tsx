@@ -1,4 +1,5 @@
 import { Button, EButtonLayout } from "@neufund/design-system";
+import { ENumberOutputFormat } from "@neufund/shared";
 import * as cn from "classnames";
 import * as React from "react";
 import { FormattedDate } from "react-intl";
@@ -14,7 +15,6 @@ import { onEnterAction } from "../../../utils/react-connected-components/OnEnter
 import { onLeaveAction } from "../../../utils/react-connected-components/OnLeaveAction";
 import { PendingTransactionImage } from "../../layouts/header/PendingTransactionStatus";
 import { ETheme, Money } from "../../shared/formatters/Money";
-import { ENumberOutputFormat } from "../../shared/formatters/utils";
 import { Heading } from "../../shared/Heading";
 import { LoadingIndicator } from "../../shared/loading-indicator/LoadingIndicator";
 import { Panel } from "../../shared/Panel";

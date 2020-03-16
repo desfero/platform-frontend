@@ -1,4 +1,12 @@
 import { ButtonArrowRight, ButtonInline } from "@neufund/design-system";
+import {
+  ECurrency,
+  ENumberInputFormat,
+  ENumberOutputFormat,
+  ERoundingMode,
+  formatNumber,
+  selectDecimalPlaces,
+} from "@neufund/shared";
 import BigNumber from "bignumber.js";
 import * as cn from "classnames";
 import * as React from "react";
@@ -19,14 +27,6 @@ import { doesUserHaveEnoughNEuro, doesUserWithdrawMinimal } from "../../../../mo
 import { appConnect } from "../../../../store";
 import { onEnterAction } from "../../../../utils/react-connected-components/OnEnterAction";
 import { FormatNumber } from "../../../shared/formatters/FormatNumber";
-import {
-  ECurrency,
-  ENumberInputFormat,
-  ENumberOutputFormat,
-  ERoundingMode,
-  formatNumber,
-  selectDecimalPlaces,
-} from "../../../shared/formatters/utils";
 import { Form, FormLabel, FormMaskedNumberInput } from "../../../shared/forms/index";
 import { EHeadingSize, Heading } from "../../../shared/Heading";
 import { ETheme, MoneySuiteWidget } from "../../../shared/MoneySuiteWidget/MoneySuiteWidget";

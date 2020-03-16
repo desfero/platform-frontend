@@ -1,8 +1,8 @@
+import { EAbbreviatedNumberOutputFormat, ENumberInputFormat } from "@neufund/shared";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
 import { FormatShortNumber, FormatShortNumberRange } from "./FormatShortNumber";
-import { EAbbreviatedNumberOutputFormat, ENumberInputFormat } from "./utils";
 
 storiesOf("FormatShortNumber", module)
   .add("one million", () => (

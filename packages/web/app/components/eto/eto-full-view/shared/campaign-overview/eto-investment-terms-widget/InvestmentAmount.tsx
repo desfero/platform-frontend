@@ -1,3 +1,4 @@
+import { EAbbreviatedNumberOutputFormat, ECurrency, ENumberInputFormat } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
@@ -6,11 +7,6 @@ import { TEtoWithCompanyAndContractReadonly } from "../../../../../../modules/et
 import { getEtoEurMaxTarget, getEtoEurMinTarget } from "../../../../../../modules/eto/utils";
 import { Entry } from "../../../../../shared/Entry";
 import { MoneyRange } from "../../../../../shared/formatters/MoneyRange";
-import {
-  EAbbreviatedNumberOutputFormat,
-  ECurrency,
-  ENumberInputFormat,
-} from "../../../../../shared/formatters/utils";
 import { Tooltip } from "../../../../../shared/tooltips/Tooltip";
 import { ECustomTooltipTextPosition } from "../../../../../shared/tooltips/TooltipBase";
 import { ToBeAnnounced } from "../../../../shared/ToBeAnnouncedTooltip";

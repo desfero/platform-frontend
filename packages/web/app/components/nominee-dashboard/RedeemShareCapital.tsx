@@ -1,5 +1,10 @@
 import { Button, EButtonLayout } from "@neufund/design-system";
-import { DataUnavailableError } from "@neufund/shared";
+import {
+  DataUnavailableError,
+  ECurrency,
+  ENumberInputFormat,
+  ENumberOutputFormat,
+} from "@neufund/shared";
 import * as React from "react";
 import { FormattedRelative } from "react-intl";
 import { FormattedMessage } from "react-intl-phraseapp";
@@ -16,7 +21,6 @@ import {
 import { ERedeemShareCapitalTaskSubstate } from "../../modules/nominee-flow/types";
 import { appConnect } from "../../store";
 import { Money } from "../shared/formatters/Money";
-import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "../shared/formatters/utils";
 
 import * as styles from "./NomineeDashboard.module.scss";
 

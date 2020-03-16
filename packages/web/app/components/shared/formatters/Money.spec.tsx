@@ -1,16 +1,16 @@
-import { expect } from "chai";
-import { shallow } from "enzyme";
-import * as React from "react";
-
-import { FormatShortNumber } from "./FormatShortNumber";
-import { ECurrencySymbol, Money } from "./Money";
 import {
   EAbbreviatedNumberOutputFormat,
   ECurrency,
   ENumberInputFormat,
   ENumberOutputFormat,
   ERoundingMode,
-} from "./utils";
+} from "@neufund/shared";
+import { expect } from "chai";
+import { shallow } from "enzyme";
+import * as React from "react";
+
+import { FormatShortNumber } from "./FormatShortNumber";
+import { ECurrencySymbol, Money } from "./Money";
 
 describe("Money", () => {
   it("should format money as ETH with full decimals according to `Neufund Language` style guide", () => {

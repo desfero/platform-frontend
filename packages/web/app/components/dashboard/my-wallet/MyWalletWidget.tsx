@@ -5,7 +5,7 @@ import {
   EButtonWidth,
   TokenIcon,
 } from "@neufund/design-system";
-import { withContainer } from "@neufund/shared";
+import { ECurrency, ENumberInputFormat, ENumberOutputFormat, withContainer } from "@neufund/shared";
 import * as cn from "classnames";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
@@ -26,7 +26,6 @@ import { onEnterAction } from "../../../utils/react-connected-components/OnEnter
 import { EColumnSpan } from "../../layouts/Container";
 import { DataRowSeparated } from "../../shared/DataRow";
 import { Money } from "../../shared/formatters/Money";
-import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "../../shared/formatters/utils";
 import { LoadingIndicator } from "../../shared/loading-indicator";
 import { MoneySuiteWidget } from "../../shared/MoneySuiteWidget/MoneySuiteWidget";
 import { PanelRounded } from "../../shared/Panel";

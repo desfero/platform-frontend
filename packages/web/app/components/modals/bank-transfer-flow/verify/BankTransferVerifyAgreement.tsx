@@ -1,4 +1,5 @@
 import { ButtonArrowRight } from "@neufund/design-system";
+import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { branch, compose, renderComponent, StateHandler, withStateHandlers } from "recompose";
@@ -6,11 +7,6 @@ import { branch, compose, renderComponent, StateHandler, withStateHandlers } fro
 import { selectBankTransferMinAmount } from "../../../../modules/bank-transfer-flow/selectors";
 import { appConnect } from "../../../../store";
 import { Money } from "../../../shared/formatters/Money";
-import {
-  ECurrency,
-  ENumberInputFormat,
-  ENumberOutputFormat,
-} from "../../../shared/formatters/utils";
 import { Message } from "../../message/Message";
 import { BankTransferAgreement } from "../shared/BankTransferAgreement";
 

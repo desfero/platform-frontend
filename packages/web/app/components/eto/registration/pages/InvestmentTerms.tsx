@@ -1,4 +1,16 @@
 import { Button, EButtonLayout } from "@neufund/design-system";
+import {
+  ECurrency,
+  ENumberFormat,
+  ENumberInputFormat,
+  ENumberOutputFormat,
+  EPriceFormat,
+  formatNumber,
+  selectDecimalPlaces,
+  selectUnits,
+  THumanReadableFormat,
+  TValueFormat,
+} from "@neufund/shared";
 import { FormikConsumer } from "formik";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
@@ -29,18 +41,6 @@ import { EEtoFormTypes } from "../../../../modules/eto-flow/types";
 import { etoInvestmentTermsProgressOptions } from "../../../../modules/eto-flow/utils";
 import { appConnect } from "../../../../store";
 import { TTranslatedString } from "../../../../types";
-import {
-  ECurrency,
-  ENumberFormat,
-  ENumberInputFormat,
-  ENumberOutputFormat,
-  EPriceFormat,
-  formatNumber,
-  selectDecimalPlaces,
-  selectUnits,
-  THumanReadableFormat,
-  TValueFormat,
-} from "../../../shared/formatters/utils";
 import { FormField, FormHighlightGroup, FormMaskedNumberInput, Input } from "../../../shared/forms";
 import {
   convert,

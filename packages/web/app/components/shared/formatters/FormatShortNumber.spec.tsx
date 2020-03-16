@@ -1,10 +1,10 @@
+import { EAbbreviatedNumberOutputFormat, ENumberInputFormat } from "@neufund/shared";
 import { expect } from "chai";
 import { mount } from "enzyme";
 import * as React from "react";
 
 import { wrapWithIntl } from "../../../../test/integrationTestUtils.unsafe";
 import { FormatShortNumber } from "./FormatShortNumber";
-import { EAbbreviatedNumberOutputFormat, ENumberInputFormat } from "./utils";
 
 describe("FormatShortNumber component LONG", () => {
   it("should render number in LONG abbreviated form", () => {

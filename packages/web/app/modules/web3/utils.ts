@@ -1,6 +1,7 @@
 import {
   compareBigNumbers,
   convertToUlps,
+  ERoundingMode,
   ETH_DECIMALS,
   ETHEREUM_ADDRESS_LENGTH,
   EthereumAddress,
@@ -10,7 +11,6 @@ import {
 } from "@neufund/shared";
 import { isAddress, randomHex, toChecksumAddress } from "web3-utils";
 
-import { ERoundingMode } from "../../components/shared/formatters/utils";
 import { TBigNumberVariants } from "../../lib/web3/types";
 
 export function makeEthereumAddressChecksummed(

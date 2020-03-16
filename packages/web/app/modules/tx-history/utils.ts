@@ -1,4 +1,5 @@
-import { ECurrency, ENumberInputFormat } from "../../components/shared/formatters/utils";
+import { ECurrency, ENumberInputFormat } from "@neufund/shared";
+
 import {
   TAnalyticsTransaction,
   TAnalyticsTransactionTokenMetadata,

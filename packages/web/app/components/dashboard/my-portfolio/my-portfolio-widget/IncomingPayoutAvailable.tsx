@@ -1,5 +1,5 @@
 import { EButtonLayout, EIconPosition } from "@neufund/design-system";
-import { nonNullable } from "@neufund/shared";
+import { ENumberInputFormat, ENumberOutputFormat, nonNullable } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { compose } from "recompose";
@@ -11,7 +11,6 @@ import { appRoutes } from "../../../appRoutes";
 import { ButtonLink } from "../../../shared/buttons/ButtonLink";
 import { ETheme } from "../../../shared/formatters/Money";
 import { MoneyWithLessThan } from "../../../shared/formatters/MoneyWithLessThan";
-import { ENumberInputFormat, ENumberOutputFormat } from "../../../shared/formatters/utils";
 
 import arrowRight from "../../../../assets/img/inline_icons/arrow_right.svg";
 import * as styles from "./PayoutWidget.module.scss";

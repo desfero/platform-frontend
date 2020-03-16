@@ -1,15 +1,10 @@
-import { nonNullable } from "@neufund/shared";
+import { ECurrency, ENumberInputFormat, ENumberOutputFormat, nonNullable } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { TEtoWithCompanyAndContractReadonly } from "../../../../../modules/eto/types";
 import { getEtoEurMinTarget } from "../../../../../modules/eto/utils";
 import { Money } from "../../../../shared/formatters/Money";
-import {
-  ECurrency,
-  ENumberInputFormat,
-  ENumberOutputFormat,
-} from "../../../../shared/formatters/utils";
 import { Tooltip } from "../../../../shared/tooltips/Tooltip";
 import { ECustomTooltipTextPosition } from "../../../../shared/tooltips/TooltipBase";
 

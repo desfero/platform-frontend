@@ -1,4 +1,4 @@
-import { isZero } from "@neufund/shared";
+import { ECurrency, ENumberInputFormat, ENumberOutputFormat, isZero } from "@neufund/shared";
 import * as moment from "moment";
 import * as React from "react";
 import { FormattedHTMLMessage, FormattedMessage } from "react-intl-phraseapp";
@@ -13,11 +13,6 @@ import {
 import { appConnect } from "../../../../store";
 import { Counter } from "../../../shared/Counter";
 import { ETheme, Money } from "../../../shared/formatters/Money";
-import {
-  ECurrency,
-  ENumberInputFormat,
-  ENumberOutputFormat,
-} from "../../../shared/formatters/utils";
 
 import * as styles from "./PayoutWidget.module.scss";
 

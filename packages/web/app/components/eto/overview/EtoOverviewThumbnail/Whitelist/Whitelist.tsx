@@ -1,4 +1,9 @@
-import { assertNever } from "@neufund/shared";
+import {
+  assertNever,
+  EAbbreviatedNumberOutputFormat,
+  ECurrency,
+  ENumberInputFormat,
+} from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { compose, setDisplayName, withProps } from "recompose";
@@ -12,11 +17,6 @@ import {
 import { TEtoWithCompanyAndContractReadonly } from "../../../../../modules/eto/types";
 import { appConnect } from "../../../../../store";
 import { Money } from "../../../../shared/formatters/Money";
-import {
-  EAbbreviatedNumberOutputFormat,
-  ECurrency,
-  ENumberInputFormat,
-} from "../../../../shared/formatters/utils";
 import { LoadingIndicator } from "../../../../shared/loading-indicator/LoadingIndicator";
 import { GreyInfo, Info } from "../Info";
 import { WhitelistStatus } from "./WhitelistStatus";

@@ -1,6 +1,9 @@
 import { Button, EButtonLayout, EButtonWidth, TokenIcon } from "@neufund/design-system";
 import {
   convertToUlps,
+  ECurrency,
+  ENumberInputFormat,
+  ENumberOutputFormat,
   multiplyBigNumbers,
   nonNullable,
   OmitKeys,
@@ -22,7 +25,6 @@ import { TETOWithTokenData } from "../../../modules/investor-portfolio/types";
 import { appConnect } from "../../../store";
 import { DataRowSeparated } from "../../shared/DataRow";
 import { Money } from "../../shared/formatters/Money";
-import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "../../shared/formatters/utils";
 import { LoadingIndicator } from "../../shared/loading-indicator/LoadingIndicator";
 import { MoneySuiteWidget } from "../../shared/MoneySuiteWidget/MoneySuiteWidget";
 import { ESize } from "../../shared/transaction/TransactionData";

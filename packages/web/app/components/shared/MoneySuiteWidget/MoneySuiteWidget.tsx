@@ -1,15 +1,15 @@
 import { TokenIcon } from "@neufund/design-system";
-import * as cn from "classnames";
-import * as React from "react";
-
-import { TDataTestId, TTranslatedString } from "../../../types";
-import { Money } from "../formatters/Money";
 import {
   ENumberInputFormat,
   ENumberOutputFormat,
   THumanReadableFormat,
   TValueFormat,
-} from "../formatters/utils";
+} from "@neufund/shared";
+import * as cn from "classnames";
+import * as React from "react";
+
+import { TDataTestId, TTranslatedString } from "../../../types";
+import { Money } from "../formatters/Money";
 import {
   ESize as ETransactionDataSize,
   ETheme as ETransactionTheme,

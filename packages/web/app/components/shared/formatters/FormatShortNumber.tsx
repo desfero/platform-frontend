@@ -1,16 +1,16 @@
-import { ceil, findLast, floor, round } from "lodash";
-import * as React from "react";
-import { FormattedMessage } from "react-intl-phraseapp";
-
-import { TBigNumberVariants } from "../../../lib/web3/types";
-import { TTranslatedString } from "../../../types";
 import {
   EAbbreviatedNumberOutputFormat,
   ENumberInputFormat,
   ERoundingMode,
   THumanReadableFormat,
   toFixedPrecision,
-} from "./utils";
+} from "@neufund/shared";
+import { ceil, findLast, floor, round } from "lodash";
+import * as React from "react";
+import { FormattedMessage } from "react-intl-phraseapp";
+
+import { TBigNumberVariants } from "../../../lib/web3/types";
+import { TTranslatedString } from "../../../types";
 
 enum ERangeKey {
   THOUSAND = "thousand",

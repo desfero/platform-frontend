@@ -1,7 +1,7 @@
+import { ECurrency } from "@neufund/shared";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { ECurrency } from "../formatters/utils";
 import {
   ESize,
   ETextPosition,

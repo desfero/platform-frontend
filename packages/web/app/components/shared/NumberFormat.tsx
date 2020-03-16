@@ -1,7 +1,7 @@
+import { formatThousands } from "@neufund/shared";
 import * as React from "react";
 
 import { TBigNumberVariants } from "../../lib/web3/types";
-import { formatThousands } from "./formatters/utils";
 
 interface IProps {
   value: TBigNumberVariants;

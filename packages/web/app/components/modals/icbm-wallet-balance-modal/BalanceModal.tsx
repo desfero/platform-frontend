@@ -1,10 +1,10 @@
 import { Button, EButtonLayout } from "@neufund/design-system";
+import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { DocumentButton } from "../../shared/DocumentLink";
 import { Money } from "../../shared/formatters/Money";
-import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "../../shared/formatters/utils";
 import { Heading } from "../../shared/Heading";
 import { CurrencyIcon } from "../../shared/icons/CurrencyIcon";
 import { InfoList } from "../tx-sender/shared/InfoList";

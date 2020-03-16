@@ -1,10 +1,17 @@
 import { Button, ButtonInline, EButtonLayout } from "@neufund/design-system";
 import {
   addBigNumbers,
+  ECurrency,
+  ENumberInputFormat,
+  ENumberOutputFormat,
+  ERoundingMode,
+  formatNumber,
+  formatThousands,
   IIntlProps,
   injectIntlHelpers,
   multiplyBigNumbers,
   nonNullable,
+  selectDecimalPlaces,
 } from "@neufund/shared";
 import { BigNumber } from "bignumber.js";
 import * as cn from "classnames";
@@ -61,15 +68,6 @@ import { appConnect } from "../../../../store";
 import { appRoutes } from "../../../appRoutes";
 import { InfoAlert } from "../../../shared/Alerts";
 import { Money } from "../../../shared/formatters/Money";
-import {
-  ECurrency,
-  ENumberInputFormat,
-  ENumberOutputFormat,
-  ERoundingMode,
-  formatNumber,
-  formatThousands,
-  selectDecimalPlaces,
-} from "../../../shared/formatters/utils";
 import { MaskedNumberInput } from "../../../shared/forms";
 import { EHeadingSize, Heading } from "../../../shared/Heading";
 import { InvestmentPriceInfo } from "./InvestmentPriceInfo";

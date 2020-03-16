@@ -1,5 +1,6 @@
+import { formatThousands } from "@neufund/shared";
+
 import { etoPublicViewByIdLinkLegacy, etoPublicViewLink } from "../../../components/appRouteUtils";
-import { formatThousands } from "../../../components/shared/formatters/utils";
 import { fillForm } from "../../utils/forms";
 import {
   confirmAccessModal,

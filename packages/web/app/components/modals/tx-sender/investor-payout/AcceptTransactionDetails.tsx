@@ -1,13 +1,9 @@
+import { ENumberInputFormat, ENumberOutputFormat, selectUnits } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { ETxSenderType } from "../../../../modules/tx/types";
 import { Money } from "../../../shared/formatters/Money";
-import {
-  ENumberInputFormat,
-  ENumberOutputFormat,
-  selectUnits,
-} from "../../../shared/formatters/utils";
 import { InfoList } from "../shared/InfoList";
 import { InfoRow } from "../shared/InfoRow";
 import { TimestampRow } from "../shared/TimestampRow";

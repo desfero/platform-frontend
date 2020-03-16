@@ -1,6 +1,7 @@
 import {
   addBigNumbers,
   compareBigNumbers,
+  ECurrency,
   isZero,
   multiplyBigNumbers,
   Q18,
@@ -11,7 +12,6 @@ import { isArray } from "lodash/fp";
 import { createSelector } from "reselect";
 
 import { shouldShowToken } from "../../components/portfolio/utils";
-import { ECurrency } from "../../components/shared/formatters/utils";
 import { TEtoSpecsData } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { TAppGlobalState } from "../../store";
 import { selectMyPledge } from "../bookbuilding-flow/selectors";

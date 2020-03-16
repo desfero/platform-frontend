@@ -1,15 +1,15 @@
+import {
+  EAbbreviatedNumberOutputFormat,
+  ECurrency,
+  ENumberInputFormat,
+  ENumberOutputFormat,
+} from "@neufund/shared";
 import { expect } from "chai";
 import { mount, shallow } from "enzyme";
 import * as React from "react";
 
 import { wrapWithIntl } from "../../../../test/integrationTestUtils.unsafe";
 import { MoneyRange } from "./MoneyRange";
-import {
-  EAbbreviatedNumberOutputFormat,
-  ECurrency,
-  ENumberInputFormat,
-  ENumberOutputFormat,
-} from "./utils";
 
 describe("MoneyRange", () => {
   it("renders money range", () => {

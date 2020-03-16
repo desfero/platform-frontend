@@ -1,9 +1,8 @@
-import { Q18 } from "@neufund/shared";
+import { ECurrency, Q18 } from "@neufund/shared";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
 import { AccountBalance } from "./AccountBalance";
-import { ECurrency } from "./formatters/utils";
 
 import ethIcon from "../../assets/img/eth_icon.svg";
 

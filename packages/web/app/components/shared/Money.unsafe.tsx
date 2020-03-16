@@ -1,7 +1,12 @@
-import { ETH_DECIMALS, formatMoney } from "@neufund/shared";
+import {
+  ECurrency,
+  ENumberInputFormat,
+  ERoundingMode,
+  ETH_DECIMALS,
+  formatMoney,
+} from "@neufund/shared";
 
 import { TBigNumberVariants } from "../../lib/web3/types";
-import { ECurrency, ENumberInputFormat, ERoundingMode } from "./formatters/utils";
 
 const selectDecimalPlaces = (currency: ECurrency, isPrice?: boolean): number => {
   if (isPrice) {

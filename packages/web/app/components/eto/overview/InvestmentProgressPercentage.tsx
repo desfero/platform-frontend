@@ -1,15 +1,15 @@
-import { nonNullable } from "@neufund/shared";
+import {
+  ENumberFormat,
+  ENumberInputFormat,
+  ENumberOutputFormat,
+  nonNullable,
+} from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { TEtoWithCompanyAndContractReadonly } from "../../../modules/eto/types";
 import { getInvestmentCalculatedPercentage } from "../../../modules/eto/utils";
 import { Money } from "../../shared/formatters/Money";
-import {
-  ENumberFormat,
-  ENumberInputFormat,
-  ENumberOutputFormat,
-} from "../../shared/formatters/utils";
 
 type TExternalProps = {
   eto: TEtoWithCompanyAndContractReadonly;

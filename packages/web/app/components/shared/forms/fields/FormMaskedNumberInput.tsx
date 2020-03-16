@@ -1,8 +1,7 @@
-import { XOR } from "@neufund/shared";
+import { ENumberInputFormat, ENumberOutputFormat, TValueFormat, XOR } from "@neufund/shared";
 import { Field, FieldProps } from "formik";
 import * as React from "react";
 
-import { ENumberInputFormat, ENumberOutputFormat, TValueFormat } from "../../formatters/utils";
 import { MaskedNumberInputLayout } from "../layouts/MaskedNumberInputLayout";
 import { useFieldMeta } from "./utils";
 

@@ -1,10 +1,9 @@
-import { ETH_DECIMALS } from "@neufund/shared";
+import { ECurrency, ETH_DECIMALS } from "@neufund/shared";
 import { action } from "@storybook/addon-actions";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
 import { withStore } from "../../../../utils/react-connected-components/storeDecorator.unsafe";
-import { ECurrency } from "../../../shared/formatters/utils";
 import { IncomingPayoutAvailableBase } from "./IncomingPayoutAvailable";
 import { IncomingPayoutPendingLayout } from "./IncomingPayoutPending";
 import { IncomingPayoutWaitingLayout } from "./IncomingPayoutWaiting";

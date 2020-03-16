@@ -1,4 +1,7 @@
 import {
+  ECurrency,
+  ENumberInputFormat,
+  ENumberOutputFormat,
   getCurrentUTCTimestamp,
   multiplyBigNumbers,
   PLATFORM_UNLOCK_FEE,
@@ -12,11 +15,6 @@ import { compose, lifecycle, withState } from "recompose";
 import { ETxSenderType } from "../../../../modules/tx/types";
 import { getUnlockedWalletEtherAmountAfterFee } from "../../../../modules/wallet/utils";
 import { Money } from "../../../shared/formatters/Money";
-import {
-  ECurrency,
-  ENumberInputFormat,
-  ENumberOutputFormat,
-} from "../../../shared/formatters/utils";
 import { InfoList } from "../shared/InfoList";
 import { InfoRow } from "../shared/InfoRow";
 import { TimestampRow } from "../shared/TimestampRow";

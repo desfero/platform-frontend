@@ -1,4 +1,4 @@
-import { toEquityTokenSymbol } from "@neufund/shared";
+import { ECurrency, toEquityTokenSymbol } from "@neufund/shared";
 import { storiesOf } from "@storybook/react";
 import * as moment from "moment";
 import * as React from "react";
@@ -13,7 +13,6 @@ import {
 } from "../../../../modules/eto/types";
 import { withStore } from "../../../../utils/react-connected-components/storeDecorator.unsafe";
 import { withMockedDate } from "../../../../utils/react-connected-components/storybookHelpers.unsafe";
-import { ECurrency } from "../../../shared/formatters/utils";
 import { EtoOverviewStatus } from "./EtoOverviewStatus";
 
 const eto: TEtoWithCompanyAndContractReadonly = {

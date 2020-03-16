@@ -1,9 +1,5 @@
-import {
-  ECurrency,
-  ENumberInputFormat,
-  ERoundingMode,
-  toFixedPrecision,
-} from "../../../../components/shared/formatters/utils";
+import { ECurrency, ENumberInputFormat, ERoundingMode, toFixedPrecision } from "@neufund/shared";
+
 import { selectDecimalPlaces } from "../../../../components/shared/Money.unsafe";
 
 export const toFormValue = (amountUlps: string, decimals?: number) =>

@@ -1,4 +1,4 @@
-import { ETH_DECIMALS } from "@neufund/shared";
+import { ECurrency, ETH_DECIMALS } from "@neufund/shared";
 import { action } from "@storybook/addon-actions";
 import { storiesOf } from "@storybook/react";
 import * as moment from "moment";
@@ -9,7 +9,6 @@ import {
   withMockedDate,
   withModalBody,
 } from "../../../../utils/react-connected-components/storybookHelpers.unsafe";
-import { ECurrency } from "../../../shared/formatters/utils";
 import { InvestorRedistributePayoutSuccessLayout } from "./RedistributeSuccess";
 
 const ethTokenDisbursal: ITokenDisbursal = {

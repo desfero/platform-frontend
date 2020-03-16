@@ -1,4 +1,4 @@
-import { EquityToken } from "@neufund/shared";
+import { ECurrency, ENumberInputFormat, ENumberOutputFormat, EquityToken } from "@neufund/shared";
 import * as cn from "classnames";
 import { FormikErrors, FormikTouched } from "formik";
 import * as React from "react";
@@ -7,11 +7,6 @@ import { FormattedMessage } from "react-intl-phraseapp";
 import { EAdditionalValidationDataNotifications } from "../../../../../../modules/tx/validator/reducer";
 import { isValidFormNumber } from "../../../../../../modules/tx/validator/transfer/utils";
 import { Money } from "../../../../../shared/formatters/Money";
-import {
-  ECurrency,
-  ENumberInputFormat,
-  ENumberOutputFormat,
-} from "../../../../../shared/formatters/utils";
 import {
   EInputTheme,
   FormFieldBoolean,

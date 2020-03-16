@@ -1,9 +1,8 @@
-import { convertToUlps } from "@neufund/shared";
+import { convertToUlps, ECurrency } from "@neufund/shared";
 import { storiesOf } from "@storybook/react";
 import React from "react";
 
 import { ITokenDisbursal } from "../../modules/investor-portfolio/types";
-import { ECurrency } from "../shared/formatters/utils";
 import { AssetPortfolio } from "./AssetPortfolio";
 
 const tokensDisbursal: readonly ITokenDisbursal[] = [

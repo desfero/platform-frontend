@@ -1,13 +1,13 @@
-import { multiplyBigNumbers } from "@neufund/shared";
-import * as React from "react";
-
-import { Money } from "../../../shared/formatters/Money";
 import {
   ECurrency,
   ENumberInputFormat,
   ENumberOutputFormat,
   ERoundingMode,
-} from "../../../shared/formatters/utils";
+  multiplyBigNumbers,
+} from "@neufund/shared";
+import * as React from "react";
+
+import { Money } from "../../../shared/formatters/Money";
 import { getFormattedMoney } from "../../../shared/Money.unsafe";
 
 const CalculatedFee: React.FunctionComponent<{ amount: string; bankFee: string }> = ({

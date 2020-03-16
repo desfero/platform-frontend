@@ -1,5 +1,3 @@
-import BigNumber from "bignumber.js";
-
 import {
   ECurrency,
   ENumberInputFormat,
@@ -7,7 +5,9 @@ import {
   formatNumber,
   selectDecimalPlaces,
   stripNumberFormatting,
-} from "../../../../components/shared/formatters/utils";
+} from "@neufund/shared";
+import BigNumber from "bignumber.js";
+
 import { fillForm } from "../../../utils/forms";
 import {
   assertWallet,

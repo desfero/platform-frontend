@@ -1,13 +1,9 @@
 import { ButtonInline } from "@neufund/design-system";
+import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { ETheme, Money } from "../../../shared/formatters/Money";
-import {
-  ECurrency,
-  ENumberInputFormat,
-  ENumberOutputFormat,
-} from "../../../shared/formatters/utils";
 import { InlineIcon } from "../../../shared/icons/InlineIcon";
 
 import infoIcon from "../../../../assets/img/inline_icons/info.svg";

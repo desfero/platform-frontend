@@ -1,4 +1,4 @@
-import { InvariantError, isZero, NEUR_ALLOWED_US_STATES } from "@neufund/shared";
+import { ECurrency, InvariantError, isZero, NEUR_ALLOWED_US_STATES } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
@@ -10,7 +10,6 @@ import { US_STATES } from "../../../utils/enums/usStatesEnum";
 import { EColumnSpan } from "../../layouts/Container";
 import { AccountBalance } from "../../shared/AccountBalance";
 import { EDelimiter, FormattedList } from "../../shared/FormattedList";
-import { ECurrency } from "../../shared/formatters/utils";
 import { ExternalLink } from "../../shared/links/ExternalLink";
 import { VerifiedBankAccount } from "../VerifiedBankAccount";
 import { WalletBalanceContainer } from "./WalletBalance";

@@ -1,6 +1,5 @@
-import { assertNever, multiplyBigNumbers } from "@neufund/shared";
+import { assertNever, ECurrency, multiplyBigNumbers } from "@neufund/shared";
 
-import { ECurrency } from "../../../components/shared/formatters/utils";
 import { TAppGlobalState } from "../../../store";
 import { ITokenPriceStateData } from "./reducer";
 

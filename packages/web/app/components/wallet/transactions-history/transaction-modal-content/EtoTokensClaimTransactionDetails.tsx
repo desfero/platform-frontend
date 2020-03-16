@@ -1,3 +1,4 @@
+import { ECurrency, ENumberInputFormat } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
@@ -5,7 +6,6 @@ import { ETransactionType } from "../../../../lib/api/analytics-api/interfaces";
 import { TExtractTxHistoryFromType } from "../../../../modules/tx-history/types";
 import { etoPublicViewByIdLinkLegacy } from "../../../appRouteUtils";
 import { DataRow, DataRowSeparator } from "../../../shared/DataRow";
-import { ECurrency, ENumberInputFormat } from "../../../shared/formatters/utils";
 import { getIconForCurrency } from "../../../shared/icons/CurrencyIcon";
 import { ExternalLink } from "../../../shared/links/ExternalLink";
 import {

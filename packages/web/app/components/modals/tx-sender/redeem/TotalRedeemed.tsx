@@ -1,14 +1,16 @@
-import { multiplyBigNumbers, Q18, subtractBigNumbers } from "@neufund/shared";
-import * as React from "react";
-
-import { Money } from "../../../shared/formatters/Money";
 import {
   ECurrency,
   ENumberInputFormat,
   ENumberOutputFormat,
   isEmptyValue,
   isValidNumber,
-} from "../../../shared/formatters/utils";
+  multiplyBigNumbers,
+  Q18,
+  subtractBigNumbers,
+} from "@neufund/shared";
+import * as React from "react";
+
+import { Money } from "../../../shared/formatters/Money";
 
 const TotalRedeemed: React.FunctionComponent<{ amount: string; bankFee: string }> = ({
   amount,

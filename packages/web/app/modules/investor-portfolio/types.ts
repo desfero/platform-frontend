@@ -1,4 +1,5 @@
-import { ECurrency } from "../../components/shared/formatters/utils";
+import { ECurrency } from "@neufund/shared";
+
 import { IEtoTokenData, TEtoWithCompanyAndContractReadonly } from "../eto/types";
 
 export interface ITokenDisbursal {

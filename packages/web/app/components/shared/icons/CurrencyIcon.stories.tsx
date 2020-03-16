@@ -1,7 +1,7 @@
+import { ECurrency } from "@neufund/shared";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { ECurrency } from "../formatters/utils";
 import { CurrencyIcon } from "./CurrencyIcon";
 
 storiesOf("CurrencyIcon", module).add("all currencies", () => (

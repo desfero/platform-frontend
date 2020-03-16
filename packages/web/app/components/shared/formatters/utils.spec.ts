@@ -1,13 +1,10 @@
-import { formatMoney } from "@neufund/shared";
-import BigNumber from "bignumber.js";
-import { expect } from "chai";
-
 import {
   EAbbreviatedNumberOutputFormat,
   ECurrency,
   ENumberInputFormat,
   ENumberOutputFormat,
   ERoundingMode,
+  formatMoney,
   formatNumber,
   formatThousands,
   isEmptyValue,
@@ -17,7 +14,9 @@ import {
   selectDecimalPlaces,
   stripNumberFormatting,
   toFixedPrecision,
-} from "./utils";
+} from "@neufund/shared";
+import BigNumber from "bignumber.js";
+import { expect } from "chai";
 
 describe("formatNumber", () => {
   /* formatNumber only formats numbers (!),

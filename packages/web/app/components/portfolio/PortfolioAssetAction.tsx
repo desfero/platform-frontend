@@ -1,4 +1,5 @@
 import { Button, EButtonLayout } from "@neufund/design-system";
+import { ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
 import * as React from "react";
 import { FormattedRelative } from "react-intl";
 import { FormattedMessage } from "react-intl-phraseapp";
@@ -10,7 +11,6 @@ import { EETOStateOnChain, TEtoWithCompanyAndContractReadonly } from "../../modu
 import { getInvestmentCalculatedPercentage } from "../../modules/eto/utils";
 import { appConnect } from "../../store";
 import { FormatNumber } from "../shared/formatters/FormatNumber";
-import { ENumberInputFormat, ENumberOutputFormat } from "../shared/formatters/utils";
 
 type TExternalProps = {
   state: EETOStateOnChain;

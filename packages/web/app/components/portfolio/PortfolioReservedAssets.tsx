@@ -1,5 +1,12 @@
 import { Table, TokenDetails } from "@neufund/design-system";
-import { withContainer } from "@neufund/shared";
+import {
+  ECurrency,
+  ENumberInputFormat,
+  ENumberOutputFormat,
+  EPriceFormat,
+  ERoundingMode,
+  withContainer,
+} from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { branch, compose, renderComponent } from "recompose";
@@ -17,13 +24,6 @@ import { Container } from "../layouts/Container";
 import { EProjectStatusSize, ETOInvestorState } from "../shared/eto-state/ETOState";
 import { FormatNumber } from "../shared/formatters/FormatNumber";
 import { Money } from "../shared/formatters/Money";
-import {
-  ECurrency,
-  ENumberInputFormat,
-  ENumberOutputFormat,
-  EPriceFormat,
-  ERoundingMode,
-} from "../shared/formatters/utils";
 import { Heading } from "../shared/Heading";
 import { LoadingIndicator } from "../shared/loading-indicator/LoadingIndicator";
 import { PanelRounded } from "../shared/Panel";

@@ -1,9 +1,8 @@
-import { convertToUlps, ETH_DECIMALS } from "@neufund/shared";
+import { convertToUlps, ECurrency, ETH_DECIMALS } from "@neufund/shared";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
 import { withStore } from "../../utils/react-connected-components/storeDecorator.unsafe";
-import { ECurrency } from "../shared/formatters/utils";
 import { PortfolioLayout, TPortfolioLayoutProps } from "./PortfolioLayout";
 
 const data: TPortfolioLayoutProps = {

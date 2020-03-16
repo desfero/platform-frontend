@@ -1,6 +1,6 @@
+import { ENumberInputFormat } from "@neufund/shared";
 import { createSelector } from "reselect";
 
-import { ENumberInputFormat } from "../../../components/shared/formatters/utils";
 import { ETransactionDirection } from "../../../lib/api/analytics-api/interfaces";
 import { TxPendingWithMetadata, TxWithMetadata } from "../../../lib/api/users/interfaces";
 import { TAppGlobalState } from "../../../store";

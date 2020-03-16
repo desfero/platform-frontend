@@ -1,11 +1,10 @@
-import { ETH_DECIMALS, EthereumAddressWithChecksum } from "@neufund/shared";
+import { ECurrency, ETH_DECIMALS, EthereumAddressWithChecksum } from "@neufund/shared";
 import { action } from "@storybook/addon-actions";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
 import { ITokenDisbursal } from "../../../../modules/investor-portfolio/types";
 import { withModalBody } from "../../../../utils/react-connected-components/storybookHelpers.unsafe";
-import { ECurrency } from "../../../shared/formatters/utils";
 import { InvestorAcceptPayoutSummaryLayout } from "./AcceptSummary";
 
 const ethTokenDisbursal: ITokenDisbursal = {

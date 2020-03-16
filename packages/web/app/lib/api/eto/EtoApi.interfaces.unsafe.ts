@@ -1,6 +1,7 @@
 import {
   DeepReadonly,
   Dictionary,
+  ECurrency,
   EquityToken,
   EthereumAddressWithChecksum,
   MAX_PERCENTAGE,
@@ -24,7 +25,6 @@ import {
 } from "@neufund/shared";
 import { NumberSchema, StringSchema } from "yup";
 
-import { ECurrency } from "../../../components/shared/formatters/utils";
 import {
   getMessageTranslation,
   ValidationMessage,

@@ -1,7 +1,6 @@
 import { all, fork, put, select, take } from "@neufund/sagas";
-import { EthereumAddressWithChecksum, subtractBigNumbers } from "@neufund/shared";
+import { ECurrency, EthereumAddressWithChecksum, subtractBigNumbers } from "@neufund/shared";
 
-import { ECurrency } from "../../components/shared/formatters/utils";
 import { ETxHistoryMessage } from "../../components/translatedMessages/messages";
 import { createMessage } from "../../components/translatedMessages/utils";
 import { TransactionDetailsModal } from "../../components/wallet/transactions-history/TransactionDetailsModal";

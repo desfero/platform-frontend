@@ -1,7 +1,7 @@
+import { isValidNumber } from "@neufund/shared";
 import BigNumber from "bignumber.js";
 import { TestContext, TestOptions } from "yup";
 
-import { isValidNumber } from "../../components/shared/formatters/utils";
 import {
   getMessageTranslation,
   ValidationMessage,

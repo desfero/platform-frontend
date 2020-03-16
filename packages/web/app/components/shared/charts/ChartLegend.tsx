@@ -1,9 +1,9 @@
+import { ENumberFormat, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { OTHERS_NAME } from "../../eto/utils";
 import { Money } from "../formatters/Money";
-import { ENumberFormat, ENumberInputFormat, ENumberOutputFormat } from "../formatters/utils";
 
 import * as styles from "./ChartLegend.module.scss";
 

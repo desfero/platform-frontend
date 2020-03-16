@@ -1,5 +1,13 @@
 import { TokenIcon } from "@neufund/design-system";
-import { addBigNumbers, divideBigNumbers, multiplyBigNumbers } from "@neufund/shared";
+import {
+  addBigNumbers,
+  divideBigNumbers,
+  ECurrency,
+  ENumberInputFormat,
+  ENumberOutputFormat,
+  EPriceFormat,
+  multiplyBigNumbers,
+} from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
@@ -7,12 +15,6 @@ import { TEtoEquityTokenInfoType } from "../../../../lib/api/eto/EtoApi.interfac
 import { ETxSenderType } from "../../../../modules/tx/types";
 import { FormatNumber } from "../../../shared/formatters/FormatNumber";
 import { Money } from "../../../shared/formatters/Money";
-import {
-  ECurrency,
-  ENumberInputFormat,
-  ENumberOutputFormat,
-  EPriceFormat,
-} from "../../../shared/formatters/utils";
 import { CurrencyIcon } from "../../../shared/icons/CurrencyIcon";
 import { TooltipBase } from "../../../shared/tooltips";
 import { InfoList } from "../shared/InfoList";

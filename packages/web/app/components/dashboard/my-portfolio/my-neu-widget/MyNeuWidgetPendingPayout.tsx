@@ -1,4 +1,5 @@
 import { ButtonInline } from "@neufund/design-system";
+import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
 import * as cn from "classnames";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
@@ -13,11 +14,6 @@ import {
 import { appConnect } from "../../../../store";
 import { ButtonLink } from "../../../shared/buttons/ButtonLink";
 import { ETheme, Money } from "../../../shared/formatters/Money";
-import {
-  ECurrency,
-  ENumberInputFormat,
-  ENumberOutputFormat,
-} from "../../../shared/formatters/utils";
 import { InlineIcon } from "../../../shared/icons/InlineIcon";
 import { TimeLeftWithSeconds } from "../../../shared/TimeLeft.unsafe";
 import { getTomorrowsDate } from "../../../shared/utils";

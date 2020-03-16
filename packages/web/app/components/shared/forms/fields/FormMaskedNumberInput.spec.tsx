@@ -1,9 +1,9 @@
+import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
 import { expect } from "chai";
 import { mount } from "enzyme";
 import { Formik } from "formik";
 import * as React from "react";
 
-import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "../../formatters/utils";
 import { FormMaskedNumberInput } from "./FormMaskedNumberInput";
 
 describe("FormMaskedNumberInput", () => {

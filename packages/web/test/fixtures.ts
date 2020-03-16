@@ -1,4 +1,5 @@
 import {
+  ECurrency,
   EthereumAddress,
   EthereumAddressWithChecksum,
   EthereumNetworkId,
@@ -6,7 +7,6 @@ import {
 } from "@neufund/shared";
 import { createStore, Store } from "redux";
 
-import { ECurrency } from "../app/components/shared/formatters/utils";
 import { IConfig } from "../app/config/getConfig";
 import {
   EEtoMarketingDataVisibleInPreview,

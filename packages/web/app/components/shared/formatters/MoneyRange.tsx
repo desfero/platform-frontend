@@ -1,11 +1,3 @@
-import * as cn from "classnames";
-import * as React from "react";
-
-import { TBigNumberVariants } from "../../../lib/web3/types";
-import { CommonHtmlProps, TDataTestId } from "../../../types";
-import { FormatNumberRange } from "./FormatNumberRange";
-import { FormatShortNumberRange } from "./FormatShortNumber";
-import { ECurrencySymbol, IMoneyCommonProps } from "./Money";
 import {
   EAbbreviatedNumberOutputFormat,
   ENumberInputFormat,
@@ -14,7 +6,15 @@ import {
   ESpecialNumber,
   selectDecimalPlaces,
   selectUnits,
-} from "./utils";
+} from "@neufund/shared";
+import * as cn from "classnames";
+import * as React from "react";
+
+import { TBigNumberVariants } from "../../../lib/web3/types";
+import { CommonHtmlProps, TDataTestId } from "../../../types";
+import { FormatNumberRange } from "./FormatNumberRange";
+import { FormatShortNumberRange } from "./FormatShortNumber";
+import { ECurrencySymbol, IMoneyCommonProps } from "./Money";
 
 import * as styles from "./Money.module.scss";
 

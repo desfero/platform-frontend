@@ -1,14 +1,14 @@
-import { storiesOf } from "@storybook/react";
-import * as React from "react";
-
-import { ECurrencySymbol, EMoneyTransfer, ETheme, Money } from "./Money";
-import { MoneyRange } from "./MoneyRange";
 import {
   EAbbreviatedNumberOutputFormat,
   ECurrency,
   ENumberInputFormat,
   ENumberOutputFormat,
-} from "./utils";
+} from "@neufund/shared";
+import { storiesOf } from "@storybook/react";
+import * as React from "react";
+
+import { ECurrencySymbol, EMoneyTransfer, ETheme, Money } from "./Money";
+import { MoneyRange } from "./MoneyRange";
 
 const value = "1234567" + "0".repeat(18);
 const value1 = "321" + "0".repeat(18);

@@ -1,3 +1,4 @@
+import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
@@ -5,7 +6,6 @@ import { IBookBuildingStats } from "../../../lib/api/eto/EtoPledgeApi.interfaces
 import { Document } from "../../shared/Document";
 import { DocumentButton } from "../../shared/DocumentLink";
 import { Money } from "../../shared/formatters/Money";
-import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "../../shared/formatters/utils";
 
 import * as styles from "./BookBuildingStats.module.scss";
 

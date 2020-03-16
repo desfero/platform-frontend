@@ -1,5 +1,5 @@
 import { EButtonLayout } from "@neufund/design-system";
-import { withContainer } from "@neufund/shared";
+import { ECurrency, withContainer } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { branch, compose, renderComponent } from "recompose";
@@ -26,7 +26,6 @@ import {
 import { appConnect } from "../../../../store";
 import { onEnterAction } from "../../../../utils/react-connected-components/OnEnterAction";
 import { ButtonLink } from "../../../shared/buttons/ButtonLink";
-import { ECurrency } from "../../../shared/formatters/utils";
 import {
   ELoadingIndicator,
   LoadingIndicator,

@@ -1,3 +1,4 @@
+import { ECurrency } from "@neufund/shared";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
@@ -5,7 +6,6 @@ import { ETransactionDirection, ETransactionType } from "../../../lib/api/analyt
 import { TxPendingWithMetadata } from "../../../lib/api/users/interfaces";
 import { generalPendingTxFixture } from "../../../modules/tx/utils";
 import { PendingTransactionImage } from "../../layouts/header/PendingTransactionStatus";
-import { ECurrency } from "../formatters/utils";
 import { Transaction } from "./Transaction";
 
 const fromAddress = "0x16cd5aC5A1b77FB72032E3A09E91A98bB21D8989";

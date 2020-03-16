@@ -1,4 +1,9 @@
-import { XOR } from "@neufund/shared";
+import {
+  EAbbreviatedNumberOutputFormat,
+  ECurrency,
+  ENumberInputFormat,
+  XOR,
+} from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { branch, compose, renderComponent } from "recompose";
@@ -18,11 +23,6 @@ import {
   SuccessEtoState,
 } from "../../../shared/eto-state/ETOState";
 import { Money } from "../../../shared/formatters/Money";
-import {
-  EAbbreviatedNumberOutputFormat,
-  ECurrency,
-  ENumberInputFormat,
-} from "../../../shared/formatters/utils";
 import { VALUES } from "../../../shared/forms/fields/form-select-fields/FormSelectCountryField";
 import { EHeadingSize, Heading } from "../../../shared/Heading";
 import { FUNDING_ROUNDS } from "../../shared/constants";
