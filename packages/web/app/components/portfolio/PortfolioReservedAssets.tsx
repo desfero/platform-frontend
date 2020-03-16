@@ -1,10 +1,9 @@
-import { Table, TokenDetails } from "@neufund/design-system";
+import { Table, TokenDetails, Neu } from "@neufund/design-system";
 import {
   ECurrency,
   ENumberInputFormat,
   ENumberOutputFormat,
   EPriceFormat,
-  ERoundingMode,
   withContainer,
 } from "@neufund/shared";
 import * as React from "react";
@@ -80,12 +79,9 @@ const prepareTableColumns = (
     Header: <FormattedMessage id="portfolio.section.reserved-assets.table.header.neu-reward" />,
     accessor: "reward",
     Footer: () => (
-      <Money
+      <Neu
         value={pendingAssetsTotalReward}
-        inputFormat={ENumberInputFormat.ULPS}
-        valueType={ECurrency.NEU}
         outputFormat={ENumberOutputFormat.FULL}
-        roundingMode={ERoundingMode.DOWN}
         data-test-id="portfolio-reserved-assets-total-reward"
       />
     ),
@@ -139,10 +135,8 @@ const prepareTableRowData = (pendingAssets: TETOWithInvestorTicket[]) =>
         />
       ),
       reward: (
-        <Money
+        <Neu
           value={investorTicket.rewardNmkUlps.toString()}
-          inputFormat={ENumberInputFormat.ULPS}
-          valueType={ECurrency.NEU}
           outputFormat={ENumberOutputFormat.FULL}
           data-test-id="portfolio-reserved-asset-neu-reward"
         />

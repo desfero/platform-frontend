@@ -7,6 +7,7 @@ import {
   PLATFORM_UNLOCK_FEE,
   PLATFORM_ZERO_FEE,
 } from "@neufund/shared";
+import { Neu } from "@neufund/design-system";
 import BigNumber from "bignumber.js";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
@@ -55,12 +56,7 @@ const UnlockWalletTransactionDetailsLayout: React.FunctionComponent<TTxPendingPr
     <InfoRow
       caption={<FormattedMessage id="unlock-funds-flow.neumarks-due" />}
       value={
-        <Money
-          value={additionalData.etherNeumarksDue}
-          inputFormat={ENumberInputFormat.ULPS}
-          valueType={ECurrency.NEU}
-          outputFormat={ENumberOutputFormat.FULL}
-        />
+        <Neu value={additionalData.etherNeumarksDue} outputFormat={ENumberOutputFormat.FULL} />
       }
     />
     <InfoRow

@@ -1,4 +1,4 @@
-import { Button, EButtonLayout } from "@neufund/design-system";
+import { Button, EButtonLayout, Neu } from "@neufund/design-system";
 import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
@@ -80,14 +80,7 @@ export const BalanceModal: React.FunctionComponent<IBalanceModal> = ({
             <FormattedMessage id="settings.modal.icbm-wallet-balance.neu-balance.label" />
           </>
         }
-        value={
-          <Money
-            value={neumarksDue}
-            inputFormat={ENumberInputFormat.ULPS}
-            valueType={ECurrency.NEU}
-            outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
-          />
-        }
+        value={<Neu value={neumarksDue} />}
       />
 
       <InfoRow

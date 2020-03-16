@@ -1,4 +1,4 @@
-import { Button, EButtonLayout } from "@neufund/design-system";
+import { Button, EButtonLayout, Neu } from "@neufund/design-system";
 import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
 import * as cn from "classnames";
 import * as React from "react";
@@ -34,12 +34,7 @@ export class AccountRow extends React.Component<IAccountRow> {
           />
         </td>
         <td data-test-id="account-balance-neu" className={cn(styles.currencyCol, styles.neuCol)}>
-          <Money
-            value={this.props.ledgerAccount.balanceNEU}
-            inputFormat={ENumberInputFormat.ULPS}
-            valueType={ECurrency.NEU}
-            outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
-          />
+          <Neu value={this.props.ledgerAccount.balanceNEU} />
         </td>
         <td className={styles.select}>
           <Button

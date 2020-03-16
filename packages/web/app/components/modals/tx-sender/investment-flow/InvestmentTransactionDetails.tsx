@@ -1,4 +1,4 @@
-import { TokenIcon } from "@neufund/design-system";
+import { TokenIcon , Neu} from "@neufund/design-system";
 import {
   addBigNumbers,
   divideBigNumbers,
@@ -81,13 +81,7 @@ const EquityTokensValue: React.FunctionComponent<IEquityTockenValue> = ({
 
 const EstimatedRewardValue: React.FunctionComponent<IEstimatedReward> = ({ estimatedReward }) => (
   <span>
-    <CurrencyIcon currency={ECurrency.NEU} />{" "}
-    <Money
-      value={estimatedReward}
-      inputFormat={ENumberInputFormat.ULPS}
-      valueType={ECurrency.NEU}
-      outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
-    />
+    <CurrencyIcon currency={ECurrency.NEU} /> <Neu value={estimatedReward} />
   </span>
 );
 

@@ -1,4 +1,4 @@
-import { Button, ButtonInline, EButtonLayout } from "@neufund/design-system";
+import { Button, ButtonInline, EButtonLayout, Neu } from "@neufund/design-system";
 import {
   addBigNumbers,
   ECurrency,
@@ -334,12 +334,7 @@ export class InvestmentSelectionComponent extends React.Component<IProps, IState
                   </Label>
                   <InfoAlert data-test-id="invest-modal.est-neu-tokens">
                     {(showTokens && !error && neuReward && (
-                      <Money
-                        value={neuReward}
-                        inputFormat={ENumberInputFormat.ULPS}
-                        valueType={ECurrency.NEU}
-                        outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
-                      />
+                      <Neu value={neuReward} inputFormat={ENumberInputFormat.ULPS} />
                     )) ||
                       "\xA0"}
                   </InfoAlert>

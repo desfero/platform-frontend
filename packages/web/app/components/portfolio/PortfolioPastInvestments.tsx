@@ -1,4 +1,4 @@
-import { Button, EButtonLayout, Table, TokenDetails } from "@neufund/design-system";
+import { Button, EButtonLayout, Table, TokenDetails, Neu } from "@neufund/design-system";
 import {
   ECurrency,
   ENumberInputFormat,
@@ -116,10 +116,8 @@ const prepareTableRowData = (
           />
         ),
         reward: (
-          <Money
+          <Neu
             value={investorTicket.rewardNmkUlps.toString()}
-            inputFormat={ENumberInputFormat.ULPS}
-            valueType={ECurrency.NEU}
             outputFormat={ENumberOutputFormat.FULL}
             data-test-id="past-investments-asset-neu-reward"
           />

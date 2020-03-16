@@ -1,4 +1,4 @@
-import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
+import { ECurrency, ENumberInputFormat, ENumberOutputFormat, Neu } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
@@ -28,14 +28,7 @@ const ClaimTransactionDetails: TransactionDetailsComponent<ETxSenderType.USER_CL
 
     <InfoRow
       caption={<FormattedMessage id="user-claim-flow.estimated-reward" />}
-      value={
-        <Money
-          value={additionalData.neuRewardUlps}
-          valueType={ECurrency.NEU}
-          inputFormat={ENumberInputFormat.ULPS}
-          outputFormat={ENumberOutputFormat.FULL}
-        />
-      }
+      value={<Neu value={additionalData.neuRewardUlps} />}
     />
 
     <InfoRow
