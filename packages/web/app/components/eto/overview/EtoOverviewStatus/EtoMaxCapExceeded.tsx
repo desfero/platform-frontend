@@ -1,10 +1,5 @@
-import { Eth } from "@neufund/design-system";
-import {
-  divideBigNumbers,
-  ECurrency,
-  ENumberInputFormat,
-  ENumberOutputFormat,
-} from "@neufund/shared";
+import { Eth, EurToken } from "@neufund/design-system";
+import { divideBigNumbers, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
 import * as cn from "classnames";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
@@ -18,7 +13,6 @@ import {
 import { selectEtherPriceEur } from "../../../../modules/shared/tokenPrice/selectors";
 import { appConnect } from "../../../../store";
 import { FormatNumber } from "../../../shared/formatters/FormatNumber";
-import { Money } from "../../../shared/formatters/Money";
 import { InvestmentProgress } from "../../shared/InvestmentProgress";
 import { CounterWidget } from "./CounterWidget";
 import { SuccessMessage } from "./Message";
@@ -90,11 +84,9 @@ const EtoMaxCapExceededComponent: React.FunctionComponent<IExternalProps &
       </div>
       <div className={styles.header}>
         <div>
-          <Money
+          <EurToken
             value={eto.contract!.totalInvestment.totalTokensInt}
             inputFormat={ENumberInputFormat.FLOAT}
-            outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
-            valueType={ECurrency.EUR_TOKEN}
           />
         </div>
         <div className={cn(styles.capReached, "text-uppercase")}>

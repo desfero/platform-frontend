@@ -1,5 +1,13 @@
-import { Button, EButtonLayout, EButtonSize, EButtonWidth, Eth, Eur } from "@neufund/design-system";
-import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
+import {
+  Button,
+  EButtonLayout,
+  EButtonSize,
+  EButtonWidth,
+  Eth,
+  Eur,
+  EurToken,
+} from "@neufund/design-system";
+import { ENumberOutputFormat } from "@neufund/shared";
 import * as cn from "classnames";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
@@ -8,7 +16,6 @@ import { Col, FormGroup } from "reactstrap";
 import { EInvestmentType } from "../../../../modules/investment-flow/reducer";
 import { getCurrencyByInvestmentType } from "../../../../modules/investment-flow/utils";
 import { ETokenType } from "../../../../modules/tx/types";
-import { Money } from "../../../shared/formatters/Money";
 import { CurrencyIcon } from "../../../shared/icons/CurrencyIcon";
 
 import * as styles from "./InvestmentTypeSelector.module.scss";
@@ -71,12 +78,7 @@ const WalletBalanceValues: React.FunctionComponent<WalletSelectionData> = wallet
     case EInvestmentType.ICBMnEuro:
       return (
         <>
-          <Money
-            inputFormat={ENumberInputFormat.ULPS}
-            outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
-            valueType={ECurrency.EUR_TOKEN}
-            value={wallet.enabled ? wallet.balanceNEuro : wallet.icbmBalanceNEuro}
-          />
+          <EurToken value={wallet.enabled ? wallet.balanceNEuro : wallet.icbmBalanceNEuro} />
           <div className={styles.balanceEur}>
             ={" "}
             <Eur

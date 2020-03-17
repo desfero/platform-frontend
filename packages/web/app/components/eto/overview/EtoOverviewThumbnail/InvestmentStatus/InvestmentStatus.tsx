@@ -34,9 +34,7 @@ const InvestmentLayout: React.FunctionComponent<TInvestWidgetProps> = ({ eto }) 
         {eto.contract!.timedState !== EETOStateOnChain.Payout && (
           <div>
             {"≈"}
-            <Eur
-              value={eto.contract!.totalInvestment.totalEquivEurUlps}
-            />
+            <Eur value={eto.contract!.totalInvestment.totalEquivEurUlps} />
           </div>
         )}
         {process.env.NF_MAY_SHOW_INVESTOR_STATS === "1" && (

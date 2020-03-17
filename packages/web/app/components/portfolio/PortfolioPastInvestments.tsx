@@ -1,6 +1,5 @@
-import { Button, EButtonLayout, Neu, Table, TokenDetails } from "@neufund/design-system";
+import { Button, EButtonLayout, Eur, Neu, Table, TokenDetails } from "@neufund/design-system";
 import {
-  ECurrency,
   ENumberInputFormat,
   ENumberOutputFormat,
   EPriceFormat,
@@ -98,11 +97,8 @@ const prepareTableRowData = (
           />
         ),
         value: (
-          <Money
+          <Eur
             value={investorTicket.equivEurUlps}
-            inputFormat={ENumberInputFormat.ULPS}
-            valueType={ECurrency.EUR}
-            outputFormat={ENumberOutputFormat.FULL}
             data-test-id="past-investments-invested-amount"
           />
         ),

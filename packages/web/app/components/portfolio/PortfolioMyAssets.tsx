@@ -1,4 +1,4 @@
-import { Button, EButtonLayout, Table, TokenDetails, Eur } from "@neufund/design-system";
+import { Button, EButtonLayout, Eur, Table, TokenDetails } from "@neufund/design-system";
 import {
   ENumberInputFormat,
   ENumberOutputFormat,
@@ -83,12 +83,7 @@ const prepareTableColumns = (totalEurEquiv: string) => [
   {
     Header: <FormattedMessage id="portfolio.section.my-assets.table.header.current-value" />,
     accessor: "value",
-    Footer: () => (
-      <Eur
-        value={totalEurEquiv}
-        outputFormat={ENumberOutputFormat.FULL}
-      />
-    ),
+    Footer: () => <Eur value={totalEurEquiv} outputFormat={ENumberOutputFormat.FULL} />,
   },
   { Header: "", accessor: "actions" },
 ];
@@ -121,12 +116,7 @@ const prepareTableRowData = (
               outputFormat={ENumberOutputFormat.FULL}
             />
           ),
-          value: (
-            <Eur
-              value={neuValue}
-              outputFormat={ENumberOutputFormat.FULL}
-            />
-          ),
+          value: <Eur value={neuValue} outputFormat={ENumberOutputFormat.FULL} />,
           currentPrice: (
             <Money
               value={neuPrice}
@@ -181,11 +171,7 @@ const prepareTableRowData = (
           </span>
         ),
 
-        value: (
-          <Eur
-            value={multiplyBigNumbers([tokenData.tokenPrice, tokenData.balance])}
-          />
-        ),
+        value: <Eur value={multiplyBigNumbers([tokenData.tokenPrice, tokenData.balance])} />,
 
         currentPrice: (
           <Money

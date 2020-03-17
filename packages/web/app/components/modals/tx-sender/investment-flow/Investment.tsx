@@ -363,10 +363,7 @@ export class InvestmentSelectionComponent extends React.Component<IProps, IState
                     />
                     <span className={styles.helpText}>
                       {" ≈ "}
-                      <Eur
-                        value={gasCostEuro}
-                        roundingMode={ERoundingMode.UP}
-                      />
+                      <Eur value={gasCostEuro} roundingMode={ERoundingMode.UP} />
                     </span>
                   </span>
                 </div>

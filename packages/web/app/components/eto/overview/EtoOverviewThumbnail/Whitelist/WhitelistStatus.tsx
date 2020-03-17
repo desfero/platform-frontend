@@ -3,7 +3,6 @@ import { ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
-
 import * as styles from "./WhitelistStatus.module.scss";
 
 export interface IInvestmentWidgetProps {

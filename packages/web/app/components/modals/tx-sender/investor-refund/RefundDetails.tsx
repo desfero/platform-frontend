@@ -1,10 +1,9 @@
-import { Eth, Eur } from "@neufund/design-system";
-import { ECurrency, ENumberInputFormat, ENumberOutputFormat, isZero } from "@neufund/shared";
+import { Eth, Eur, EurToken } from "@neufund/design-system";
+import { ENumberOutputFormat, isZero } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { ETxSenderType } from "../../../../modules/tx/types";
-import { Money } from "../../../shared/formatters/Money";
 import { InfoList } from "../shared/InfoList";
 import { InfoRow } from "../shared/InfoRow";
 import { TimestampRow } from "../shared/TimestampRow";
@@ -25,12 +24,9 @@ const RefundTransactionDetails: TransactionDetailsComponent<ETxSenderType.INVEST
       <InfoRow
         caption={<FormattedMessage id="user-refund-flow.amount.neur" />}
         value={
-          <Money
+          <EurToken
             data-test-id="modals.tx-sender.user-refund-flow.amount.neur"
             value={additionalData.amountEurUlps}
-            valueType={ECurrency.EUR_TOKEN}
-            inputFormat={ENumberInputFormat.ULPS}
-            outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
           />
         }
       />
@@ -54,9 +50,7 @@ const RefundTransactionDetails: TransactionDetailsComponent<ETxSenderType.INVEST
         caption={<FormattedMessage id="user-refund-flow.cost" />}
         value={
           <>
-            <Eur
-              value={additionalData.costEurUlps}
-            />
+            <Eur value={additionalData.costEurUlps} />
             {" ≈ "}
             <Eth value={additionalData.costUlps} outputFormat={ENumberOutputFormat.FULL} />
           </>

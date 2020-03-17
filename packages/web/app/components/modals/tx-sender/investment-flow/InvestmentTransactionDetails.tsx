@@ -1,4 +1,4 @@
-import { Eth, Eur, Neu,TokenIcon } from "@neufund/design-system";
+import { Eth, Eur, Neu, TokenIcon } from "@neufund/design-system";
 import {
   addBigNumbers,
   divideBigNumbers,

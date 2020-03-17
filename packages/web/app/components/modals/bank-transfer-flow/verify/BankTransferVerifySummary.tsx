@@ -48,12 +48,7 @@ const BankTransferVerifySummaryLayout: React.FunctionComponent<IProps> = ({
       <InfoRow
         data-test-id="bank-transfer.summary.amount"
         caption={<FormattedMessage id="bank-transfer.verify.summary.min-amount" />}
-        value={
-          <Eur
-            value={minAmount}
-            outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
-          />
-        }
+        value={<Eur value={minAmount} outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS} />}
       />
       <InfoRow
         caption={<FormattedMessage id="bank-transfer.summary.purchase-price.caption" />}

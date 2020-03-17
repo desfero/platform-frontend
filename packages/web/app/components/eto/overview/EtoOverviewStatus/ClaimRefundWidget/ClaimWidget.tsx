@@ -30,11 +30,7 @@ const ClaimWidgetLayout: React.FunctionComponent<IExternalProps> = ({
           <FormattedMessage
             id="shared-component.eto-overview.success.summary"
             values={{
-              totalAmount: (
-                <Eur
-                  value={totalEquivEurUlps}
-                />
-              ),
+              totalAmount: <Eur value={totalEquivEurUlps} />,
               totalInvestors,
             }}
           />
@@ -42,11 +38,7 @@ const ClaimWidgetLayout: React.FunctionComponent<IExternalProps> = ({
           <FormattedMessage
             id="shared-component.eto-overview.success.summary-no-investors-count"
             values={{
-              totalAmount: (
-                <Eur
-                  value={totalEquivEurUlps}
-                />
-              ),
+              totalAmount: <Eur value={totalEquivEurUlps} />,
             }}
           />
         )

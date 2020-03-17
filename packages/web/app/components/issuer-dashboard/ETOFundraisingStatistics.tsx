@@ -1,11 +1,5 @@
-import { Eth, Eur } from "@neufund/design-system";
-import {
-  divideBigNumbers,
-  ECurrency,
-  ENumberInputFormat,
-  ENumberOutputFormat,
-  multiplyBigNumbers,
-} from "@neufund/shared";
+import { Eth, Eur, EurToken } from "@neufund/design-system";
+import { divideBigNumbers, ENumberOutputFormat, multiplyBigNumbers } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { compose, withProps } from "recompose";
@@ -17,7 +11,6 @@ import { isOnChain } from "../../modules/eto/utils";
 import { selectEtherPriceEur } from "../../modules/shared/tokenPrice/selectors";
 import { appConnect } from "../../store";
 import { DashboardWidget } from "../shared/dashboard-widget/DashboardWidget";
-import { Money } from "../shared/formatters/Money";
 import { IPanelProps } from "../shared/Panel";
 
 import * as styles from "./ETOFundraisingStatistics.module.scss";
@@ -64,10 +57,7 @@ const ETOFundraisingStatisticsLayout: React.ComponentType<IProps> = ({
         <span className={styles.label}>
           <FormattedMessage id="settings.fundraising-statistics.total-investment" />
         </span>
-        <Eur
-          value={totalEquivEurUlps}
-          outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
-        />
+        <Eur value={totalEquivEurUlps} outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS} />
         <span className={styles.label}>
           <FormattedMessage id="settings.fundraising-statistics.eth-investment" />
         </span>
@@ -82,12 +72,7 @@ const ETOFundraisingStatisticsLayout: React.ComponentType<IProps> = ({
         <span className={styles.label}>
           <FormattedMessage id="settings.fundraising-statistics.neur-investment" />
         </span>
-        <Money
-          value={euroTokenBalance}
-          valueType={ECurrency.EUR_TOKEN}
-          inputFormat={ENumberInputFormat.ULPS}
-          outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
-        />
+        <EurToken value={euroTokenBalance} />
         <span className={styles.label}>
           <FormattedMessage id="settings.fundraising-statistics.average-investment-value" />
         </span>

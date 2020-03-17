@@ -1,8 +1,5 @@
-import {Eur} from '@neufund/design-system';
-import {
-  EAbbreviatedNumberOutputFormat,
-  XOR,
-} from "@neufund/shared";
+import { Eur } from "@neufund/design-system";
+import { EAbbreviatedNumberOutputFormat, XOR } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { branch, compose, renderComponent } from "recompose";

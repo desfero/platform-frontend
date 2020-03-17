@@ -1,6 +1,5 @@
-import { Neu, Table, TokenDetails } from "@neufund/design-system";
+import { Eur, Neu, Table, TokenDetails } from "@neufund/design-system";
 import {
-  ECurrency,
   ENumberInputFormat,
   ENumberOutputFormat,
   EPriceFormat,
@@ -66,11 +65,8 @@ const prepareTableColumns = (
     Header: <FormattedMessage id="portfolio.section.reserved-assets.table.header.value-eur" />,
     accessor: "value",
     Footer: () => (
-      <Money
+      <Eur
         value={pendingAssetsTotalInvested}
-        inputFormat={ENumberInputFormat.ULPS}
-        valueType={ECurrency.EUR}
-        outputFormat={ENumberOutputFormat.FULL}
         data-test-id="portfolio-reserved-assets-total-invested"
       />
     ),
@@ -108,11 +104,8 @@ const prepareTableRowData = (pendingAssets: TETOWithInvestorTicket[]) =>
         </TokenDetails>
       ),
       value: (
-        <Money
+        <Eur
           value={investorTicket.equivEurUlps}
-          inputFormat={ENumberInputFormat.ULPS}
-          valueType={ECurrency.EUR}
-          outputFormat={ENumberOutputFormat.FULL}
           data-test-id="portfolio-reserved-asset-invested-amount"
         />
       ),

@@ -41,11 +41,7 @@ const BankTransferVerifyInfoLayout: React.FunctionComponent<IProps> = ({
       <FormattedMessage
         id="bank-verification.info.text"
         values={{
-          min: (
-            <Eur
-              value={minEuroUlps}
-            />
-          ),
+          min: <Eur value={minEuroUlps} />,
         }}
       />
     }

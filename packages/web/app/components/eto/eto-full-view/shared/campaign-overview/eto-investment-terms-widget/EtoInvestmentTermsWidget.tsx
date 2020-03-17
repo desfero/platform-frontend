@@ -1,4 +1,4 @@
-import {Eur} from '@neufund/design-system';
+import { Eur } from "@neufund/design-system";
 import {
   divideBigNumbers,
   ECurrency,

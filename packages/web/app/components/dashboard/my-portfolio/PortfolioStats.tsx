@@ -57,13 +57,7 @@ const PortfolioStatsLayoutContainer: React.FunctionComponent<Pick<
           <FormattedMessage id="dashboard.portfolio-stats.title" />
         </h4>
       }
-      value={
-        myAssetsEurEquivTotal && (
-          <Eur
-            value={myAssetsEurEquivTotal}
-          />
-        )
-      }
+      value={myAssetsEurEquivTotal && <Eur value={myAssetsEurEquivTotal} />}
     />
     {children}
   </section>

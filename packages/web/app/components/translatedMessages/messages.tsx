@@ -1,11 +1,11 @@
-import { assertNever, ECurrency, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
+import { Eur } from "@neufund/design-system";
+import { assertNever, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
 import * as React from "react";
 import { FormattedHTMLMessage, FormattedMessage } from "react-intl-phraseapp";
 
 import { externalRoutes } from "../../config/externalRoutes";
 import { EWalletSubType } from "../../modules/web3/types";
 import { TTranslatedString } from "../../types";
-import { Money } from "../shared/formatters/Money";
 import { formatMatchingFieldNames, TMessage } from "./utils";
 
 interface ITranslationValues {
@@ -633,11 +633,10 @@ const getMessageTranslation = ({ messageType, messageData }: TMessage): TTransla
           id="shared-component.eto-overview.error.min-pledge"
           values={{
             minPledge: (
-              <Money
+              <Eur
                 value={messageData as string}
                 // TODO: Investigate why is the value up force casted
                 inputFormat={ENumberInputFormat.FLOAT}
-                valueType={ECurrency.EUR}
                 outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS_ROUND_UP}
               />
             ),
@@ -650,11 +649,10 @@ const getMessageTranslation = ({ messageType, messageData }: TMessage): TTransla
           id="shared-component.eto-overview.error.max-pledge"
           values={{
             maxPledge: (
-              <Money
+              <Eur
                 value={messageData as string}
                 // TODO: Investigate why we are force casting this
                 inputFormat={ENumberInputFormat.FLOAT}
-                valueType={ECurrency.EUR}
                 outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
               />
             ),

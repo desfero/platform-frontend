@@ -4,7 +4,7 @@ import {
   EButtonLayout,
   EButtonWidth,
   Eur,
-  TokenIcon
+  TokenIcon,
 } from "@neufund/design-system";
 import { ECurrency, ENumberOutputFormat, withContainer } from "@neufund/shared";
 import * as cn from "classnames";
@@ -151,12 +151,7 @@ export const MyWalletWidgetComponentContainer: React.FunctionComponent<CommonHtm
     rightComponent={
       !props.isLoading &&
       !props.hasError &&
-      props.data && (
-        <Eur
-          data-test-id="my-wallet-widget-total"
-          value={props.data.totalAmount}
-        />
-      )
+      props.data && <Eur data-test-id="my-wallet-widget-total" value={props.data.totalAmount} />
     }
   >
     {children}

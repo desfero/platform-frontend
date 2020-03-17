@@ -1,8 +1,5 @@
-import {Eur} from '@neufund/design-system';
-import {
-  EAbbreviatedNumberOutputFormat,
-  nonNullable,
-} from "@neufund/shared";
+import { Eur } from "@neufund/design-system";
+import { EAbbreviatedNumberOutputFormat, nonNullable } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
@@ -103,11 +100,7 @@ const EtoCardStatusManager = ({ eto }: IExternalProps) => {
             <FormattedMessage
               id="eto-overview-thumbnail.signing.raised-amount"
               values={{
-                totalAmount: (
-                  <Eur
-                    value={eto.contract!.totalInvestment.totalEquivEurUlps}
-                  />
-                ),
+                totalAmount: <Eur value={eto.contract!.totalInvestment.totalEquivEurUlps} />,
               }}
             />
           </Info>
