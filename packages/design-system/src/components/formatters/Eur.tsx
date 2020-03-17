@@ -5,13 +5,15 @@ import {
   ERoundingMode,
   formatNumber,
   selectDecimalPlaces,
+  TDataTestId,
 } from "@neufund/shared";
 import * as React from "react";
 
-import { IMoneyProps, Money } from "./Money";
+import { Units } from "./atoms/Units";
+import { IValueProps, Value } from "./atoms/Value";
 import { ICommonMoneyProps } from "./types";
 
-export const Eur: React.FunctionComponent<IMoneyProps & ICommonMoneyProps> = ({
+export const Eur: React.FunctionComponent<IValueProps & ICommonMoneyProps & TDataTestId> = ({
   className,
   value,
   defaultValue,
@@ -33,8 +35,9 @@ export const Eur: React.FunctionComponent<IMoneyProps & ICommonMoneyProps> = ({
     });
 
   return (
-    <Money className={className} data-test-id={dataTestId}>
-      {formattedValue || defaultValue || " "} EUR
-    </Money>
+    <span className={className} data-test-id={dataTestId}>
+      <Value>{formattedValue || defaultValue || " "}</Value>
+      <Units show={!!formattedValue}>EUR</Units>
+    </span>
   );
 };

@@ -9,7 +9,7 @@ import { Neu } from "./Neu";
 storiesOf("NDS/Formatters", module)
   .add("Eth", () => (
     <PaddedWrapper>
-      <Eth defaultValue="TBA" />
+      <Eth defaultValue="TBA" value={undefined} />
       <br />
       <Eth value="0" />
       <br />
@@ -23,7 +23,7 @@ storiesOf("NDS/Formatters", module)
   ))
   .add("Eur", () => (
     <PaddedWrapper>
-      <Eur defaultValue="TBA" />
+      <Eur defaultValue="TBA" value={undefined} />
       <br />
       <Eur value="0" />
       <br />
@@ -37,7 +37,7 @@ storiesOf("NDS/Formatters", module)
   ))
   .add("Neu", () => (
     <PaddedWrapper>
-      <Neu defaultValue="TBA" />
+      <Neu defaultValue="TBA" value={undefined} />
       <br />
       <Neu value="0" />
       <br />

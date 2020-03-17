@@ -1,17 +1,19 @@
 import {
-  DEFAULT_DECIMAL_PLACES,
+  ECurrency,
   ENumberInputFormat,
   ENumberOutputFormat,
   ERoundingMode,
   formatNumber,
   selectDecimalPlaces,
-  ECurrency,
+  TDataTestId,
 } from "@neufund/shared";
 import * as React from "react";
-import { IMoneyProps, Money } from "./Money";
+
+import { Units } from "./atoms/Units";
+import { IValueProps, Value } from "./atoms/Value";
 import { ICommonMoneyProps } from "./types";
 
-export const Neu: React.FunctionComponent<IMoneyProps & ICommonMoneyProps> = ({
+export const Neu: React.FunctionComponent<IValueProps & ICommonMoneyProps & TDataTestId> = ({
   className,
   value,
   defaultValue,
@@ -33,8 +35,9 @@ export const Neu: React.FunctionComponent<IMoneyProps & ICommonMoneyProps> = ({
     });
 
   return (
-    <Money className={className} data-test-id={dataTestId}>
-      {formattedValue || defaultValue || " "} NEU
-    </Money>
+    <span className={className} data-test-id={dataTestId}>
+      <Value>{formattedValue || defaultValue || " "}</Value>
+      <Units show={!!formattedValue}>NEU</Units>
+    </span>
   );
 };
