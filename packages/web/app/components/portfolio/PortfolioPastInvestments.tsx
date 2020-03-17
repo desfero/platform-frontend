@@ -1,4 +1,4 @@
-import { Button, EButtonLayout, Table, TokenDetails, Neu } from "@neufund/design-system";
+import { Button, EButtonLayout, Neu, Table, TokenDetails } from "@neufund/design-system";
 import {
   ECurrency,
   ENumberInputFormat,

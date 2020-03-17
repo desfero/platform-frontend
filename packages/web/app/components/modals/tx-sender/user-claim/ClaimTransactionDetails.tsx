@@ -1,4 +1,5 @@
-import { ECurrency, ENumberInputFormat, ENumberOutputFormat, Neu } from "@neufund/shared";
+import { Neu } from "@neufund/design-system";
+import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 

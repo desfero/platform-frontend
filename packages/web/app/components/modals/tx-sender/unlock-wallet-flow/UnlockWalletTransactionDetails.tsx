@@ -1,3 +1,4 @@
+import { Neu } from "@neufund/design-system";
 import {
   ECurrency,
   ENumberInputFormat,
@@ -7,7 +8,6 @@ import {
   PLATFORM_UNLOCK_FEE,
   PLATFORM_ZERO_FEE,
 } from "@neufund/shared";
-import { Neu } from "@neufund/design-system";
 import BigNumber from "bignumber.js";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";

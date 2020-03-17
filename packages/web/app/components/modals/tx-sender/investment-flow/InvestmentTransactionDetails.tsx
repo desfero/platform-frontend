@@ -1,4 +1,4 @@
-import { TokenIcon , Neu} from "@neufund/design-system";
+import { Neu, TokenIcon } from "@neufund/design-system";
 import {
   addBigNumbers,
   divideBigNumbers,

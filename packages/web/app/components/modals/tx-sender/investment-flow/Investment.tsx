@@ -333,10 +333,7 @@ export class InvestmentSelectionComponent extends React.Component<IProps, IState
                     <FormattedMessage id="investment-flow.estimated-neu-tokens" />
                   </Label>
                   <InfoAlert data-test-id="invest-modal.est-neu-tokens">
-                    {(showTokens && !error && neuReward && (
-                      <Neu value={neuReward} inputFormat={ENumberInputFormat.ULPS} />
-                    )) ||
-                      "\xA0"}
+                    {(showTokens && !error && neuReward && <Neu value={neuReward} />) || "\xA0"}
                   </InfoAlert>
                 </FormGroup>
               </Col>

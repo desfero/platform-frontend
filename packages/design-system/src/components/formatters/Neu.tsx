@@ -14,7 +14,7 @@ interface INeuProps {
   outputFormat?: ENumberOutputFormat;
 }
 
-export const Neu = ({ value, defaultValue, outputFormat }): React.FunctionComponent<INeuProps> => {
+export const Neu: React.FunctionComponent<INeuProps> = ({ value, defaultValue, outputFormat }) => {
   const formattedValue =
     value &&
     formatNumber({

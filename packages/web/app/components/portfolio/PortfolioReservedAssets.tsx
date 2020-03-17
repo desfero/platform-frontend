@@ -1,4 +1,4 @@
-import { Table, TokenDetails, Neu } from "@neufund/design-system";
+import { Neu, Table, TokenDetails } from "@neufund/design-system";
 import {
   ECurrency,
   ENumberInputFormat,
