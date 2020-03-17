@@ -1,4 +1,5 @@
-import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
+import { Eur } from "@neufund/design-system";
+import { ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { compose } from "recompose";
@@ -10,7 +11,6 @@ import {
 } from "../../../../../modules/eto/types";
 import { appConnect } from "../../../../../store";
 import { FormatNumber } from "../../../../shared/formatters/FormatNumber";
-import { Money } from "../../../../shared/formatters/Money";
 import { InvestmentProgress } from "../../../shared/InvestmentProgress";
 
 import * as styles from "./InvestmentStatus.module.scss";
@@ -34,11 +34,8 @@ const InvestmentLayout: React.FunctionComponent<TInvestWidgetProps> = ({ eto }) 
         {eto.contract!.timedState !== EETOStateOnChain.Payout && (
           <div>
             {"≈"}
-            <Money
+            <Eur
               value={eto.contract!.totalInvestment.totalEquivEurUlps}
-              inputFormat={ENumberInputFormat.ULPS}
-              valueType={ECurrency.EUR}
-              outputFormat={ENumberOutputFormat.FULL}
             />
           </div>
         )}

@@ -1,8 +1,8 @@
-import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
+import { Eur } from "@neufund/design-system";
+import { ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
-import { Money } from "../../../../shared/formatters/Money";
 
 import * as styles from "./WhitelistStatus.module.scss";
 
@@ -24,11 +24,10 @@ const WhitelistStatus: React.FunctionComponent<IInvestmentWidgetProps> = ({
           id="eto-overview-thumbnail.whitelist.amount-signed-up"
           values={{
             amount: (
-              <Money
+              <Eur
                 value={pledgedAmount ? pledgedAmount.toString() : "0"}
                 inputFormat={ENumberInputFormat.FLOAT}
                 outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
-                valueType={ECurrency.EUR}
               />
             ),
           }}

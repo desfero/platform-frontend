@@ -1,6 +1,5 @@
-import { Button, EButtonLayout, Table } from "@neufund/design-system";
+import { Button, EButtonLayout, Eur, Table } from "@neufund/design-system";
 import {
-  ECurrency,
   ENumberInputFormat,
   ENumberOutputFormat,
   selectUnits,
@@ -17,7 +16,6 @@ import { actions } from "../../modules/actions";
 import { ITokenDisbursal } from "../../modules/investor-portfolio/types";
 import { appConnect } from "../../store";
 import { Container } from "../layouts/Container";
-import { Money } from "../shared/formatters/Money";
 import { MoneyWithLessThan } from "../shared/formatters/MoneyWithLessThan";
 import { Heading } from "../shared/Heading";
 import { CurrencyIcon } from "../shared/icons/CurrencyIcon";
@@ -137,10 +135,8 @@ const prepareTableColumns = (
     Footer: () => (
       <>
         ~
-        <Money
+        <Eur
           value={tokensDisbursalEurEquivTotalDisbursed}
-          inputFormat={ENumberInputFormat.ULPS}
-          valueType={ECurrency.EUR}
           outputFormat={ENumberOutputFormat.FULL}
         />
       </>
@@ -152,12 +148,7 @@ const prepareTableColumns = (
     Footer: () => (
       <>
         ~
-        <Money
-          value={tokensDisbursalEurEquivTotal}
-          inputFormat={ENumberInputFormat.ULPS}
-          valueType={ECurrency.EUR}
-          outputFormat={ENumberOutputFormat.FULL}
-        />
+        <Eur value={tokensDisbursalEurEquivTotal} />
       </>
     ),
   },

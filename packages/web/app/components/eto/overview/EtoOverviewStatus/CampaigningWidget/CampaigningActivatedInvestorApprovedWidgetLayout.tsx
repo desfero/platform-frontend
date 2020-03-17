@@ -1,11 +1,10 @@
-import { Button, EButtonSize, EButtonWidth } from "@neufund/design-system";
+import { Button, EButtonSize, EButtonWidth, Eur } from "@neufund/design-system";
 import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
 import * as cn from "classnames";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { generateCampaigningValidation } from "../../../../../lib/api/eto/EtoPledgeApi.interfaces.unsafe";
-import { Money } from "../../../../shared/formatters/Money";
 import {
   CheckboxLayout,
   EInputSize,
@@ -70,10 +69,9 @@ const CampaigningActivatedInvestorApprovedWidgetLayout: React.FunctionComponent<
         <div className={styles.label} data-test-id="campaigning-your-commitment">
           <FormattedMessage id="eto-overview.campaigning.your-commitment" />
           <br />
-          <Money
+          <Eur
             value={pledgedAmount}
             inputFormat={ENumberInputFormat.FLOAT}
-            valueType={ECurrency.EUR}
             outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
           />
         </div>

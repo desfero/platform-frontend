@@ -1,7 +1,6 @@
+import {Eur} from '@neufund/design-system';
 import {
   EAbbreviatedNumberOutputFormat,
-  ECurrency,
-  ENumberInputFormat,
   XOR,
 } from "@neufund/shared";
 import * as React from "react";
@@ -22,7 +21,6 @@ import {
   ETOInvestorState,
   SuccessEtoState,
 } from "../../../shared/eto-state/ETOState";
-import { Money } from "../../../shared/formatters/Money";
 import { VALUES } from "../../../shared/forms/fields/form-select-fields/FormSelectCountryField";
 import { EHeadingSize, Heading } from "../../../shared/Heading";
 import { FUNDING_ROUNDS } from "../../shared/constants";
@@ -113,10 +111,8 @@ const MockEtoOverviewLayout: React.FunctionComponent<TMockEtoProps &
               id="eto-overview-thumbnail.success.raised-amount"
               values={{
                 totalAmount: (
-                  <Money
+                  <Eur
                     value={mockedEto.totalAmount}
-                    inputFormat={ENumberInputFormat.ULPS}
-                    valueType={ECurrency.EUR}
                     outputFormat={EAbbreviatedNumberOutputFormat.SHORT}
                   />
                 ),

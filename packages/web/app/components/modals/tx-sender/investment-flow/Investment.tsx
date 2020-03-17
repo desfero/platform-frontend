@@ -1,4 +1,4 @@
-import { Button, ButtonInline, EButtonLayout, Eth, Neu } from "@neufund/design-system";
+import { Button, ButtonInline, EButtonLayout, Eth, Eur, Neu } from "@neufund/design-system";
 import {
   addBigNumbers,
   ECurrency,
@@ -67,7 +67,6 @@ import { isValidFormNumber } from "../../../../modules/tx/validator/transfer/uti
 import { appConnect } from "../../../../store";
 import { appRoutes } from "../../../appRoutes";
 import { InfoAlert } from "../../../shared/Alerts";
-import { Money } from "../../../shared/formatters/Money";
 import { MaskedNumberInput } from "../../../shared/forms";
 import { EHeadingSize, Heading } from "../../../shared/Heading";
 import { InvestmentPriceInfo } from "./InvestmentPriceInfo";
@@ -277,15 +276,12 @@ export class InvestmentSelectionComponent extends React.Component<IProps, IState
                   />
                   <div className={styles.helpText}>
                     {"≈ "}
-                    <Money
+                    <Eur
                       value={
                         isValidFormNumber(this.props.euroValue)
                           ? this.props.euroValue
                           : "0" /* Show 0 if form is invalid */
                       }
-                      inputFormat={ENumberInputFormat.ULPS}
-                      valueType={ECurrency.EUR}
-                      outputFormat={ENumberOutputFormat.FULL}
                     />
                   </div>
                 </>
@@ -367,11 +363,8 @@ export class InvestmentSelectionComponent extends React.Component<IProps, IState
                     />
                     <span className={styles.helpText}>
                       {" ≈ "}
-                      <Money
+                      <Eur
                         value={gasCostEuro}
-                        inputFormat={ENumberInputFormat.ULPS}
-                        outputFormat={ENumberOutputFormat.FULL}
-                        valueType={ECurrency.EUR}
                         roundingMode={ERoundingMode.UP}
                       />
                     </span>
@@ -382,10 +375,8 @@ export class InvestmentSelectionComponent extends React.Component<IProps, IState
                 <FormattedMessage id="investment-flow.total" />:{" "}
                 <span className="text-warning" data-test-id="invest-modal-total-cost">
                   {investmentCurrency === EInvestmentCurrency.EUR_TOKEN && (
-                    <Money
+                    <Eur
                       value={this.calculateTotalCostIfValid(gasCostEuro, euroValue)}
-                      inputFormat={ENumberInputFormat.ULPS}
-                      valueType={ECurrency.EUR}
                       outputFormat={ENumberOutputFormat.FULL}
                     />
                   )}

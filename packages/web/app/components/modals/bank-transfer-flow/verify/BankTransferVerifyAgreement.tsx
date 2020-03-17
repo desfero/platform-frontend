@@ -1,12 +1,10 @@
-import { ButtonArrowRight } from "@neufund/design-system";
-import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
+import { ButtonArrowRight, Eur } from "@neufund/design-system";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { branch, compose, renderComponent, StateHandler, withStateHandlers } from "recompose";
 
 import { selectBankTransferMinAmount } from "../../../../modules/bank-transfer-flow/selectors";
 import { appConnect } from "../../../../store";
-import { Money } from "../../../shared/formatters/Money";
 import { Message } from "../../message/Message";
 import { BankTransferAgreement } from "../shared/BankTransferAgreement";
 
@@ -44,11 +42,8 @@ const BankTransferVerifyInfoLayout: React.FunctionComponent<IProps> = ({
         id="bank-verification.info.text"
         values={{
           min: (
-            <Money
+            <Eur
               value={minEuroUlps}
-              inputFormat={ENumberInputFormat.ULPS}
-              valueType={ECurrency.EUR}
-              outputFormat={ENumberOutputFormat.FULL}
             />
           ),
         }}

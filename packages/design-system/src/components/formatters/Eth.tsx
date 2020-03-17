@@ -4,27 +4,20 @@ import {
   ENumberOutputFormat,
   ERoundingMode,
   formatNumber,
-  TBigNumberVariants,
 } from "@neufund/shared";
 import * as React from "react";
 
 import { IMoneyProps, Money } from "./Money";
+import { ICommonMoneyProps } from "./types";
 
-interface IEthProps {
-  defaultValue?: TBigNumberVariants | null | undefined;
-  value: TBigNumberVariants | null | undefined;
-  inputFormat?: ENumberInputFormat;
-  outputFormat?: ENumberOutputFormat;
-  roundingMode?: ERoundingMode;
-}
-
-export const Eth: React.FunctionComponent<IMoneyProps & IEthProps> = ({
+export const Eth: React.FunctionComponent<IMoneyProps & ICommonMoneyProps> = ({
   className,
   value,
   defaultValue,
   roundingMode,
   inputFormat,
   outputFormat,
+  "data-test-id": dataTestId,
 }) => {
   const formattedValue =
     value &&
@@ -36,5 +29,9 @@ export const Eth: React.FunctionComponent<IMoneyProps & IEthProps> = ({
       decimalPlaces: DEFAULT_DECIMAL_PLACES,
     });
 
-  return <Money className={className}>{formattedValue || defaultValue || " "} ETH</Money>;
+  return (
+    <Money className={className} data-test-id={dataTestId}>
+      {formattedValue || defaultValue || " "} ETH
+    </Money>
+  );
 };

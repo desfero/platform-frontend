@@ -1,13 +1,12 @@
+import {Eur} from '@neufund/design-system';
 import {
   ECurrency,
   ENumberInputFormat,
-  ENumberOutputFormat,
   ERoundingMode,
   multiplyBigNumbers,
 } from "@neufund/shared";
 import * as React from "react";
 
-import { Money } from "../../../shared/formatters/Money";
 import { getFormattedMoney } from "../../../shared/Money.unsafe";
 
 const CalculatedFee: React.FunctionComponent<{ amount: string; bankFee: string }> = ({
@@ -27,12 +26,9 @@ const CalculatedFee: React.FunctionComponent<{ amount: string; bankFee: string }
   const calculatedFee = multiplyBigNumbers([providedAmount, bankFee]);
 
   return (
-    <Money
+    <Eur
       data-test-id="bank-transfer.redeem.init.fee"
       value={calculatedFee}
-      inputFormat={ENumberInputFormat.ULPS}
-      valueType={ECurrency.EUR}
-      outputFormat={ENumberOutputFormat.FULL}
     />
   );
 };

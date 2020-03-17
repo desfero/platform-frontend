@@ -1,4 +1,5 @@
-import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
+import { Eur } from "@neufund/design-system";
+import { ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
@@ -8,7 +9,6 @@ import { ChartDoughnutLazy } from "../../../../../shared/charts/ChartDoughnutLaz
 import { generateColor } from "../../../../../shared/charts/utils";
 import { DashboardHeading } from "../../../../../shared/DashboardHeading";
 import { FormatNumber } from "../../../../../shared/formatters/FormatNumber";
-import { Money } from "../../../../../shared/formatters/Money";
 import { Panel } from "../../../../../shared/Panel";
 import { CHART_COLORS, FUNDING_ROUNDS } from "../../../../shared/constants";
 import { generateShareholders } from "../../../../utils";
@@ -107,10 +107,9 @@ export const LegalInformationWidget: React.FunctionComponent<IProps> = ({
                 <FormattedMessage id="eto.public-view.legal-information.last-funding-amount" />
               </span>
               <span className={styles.value}>
-                <Money
+                <Eur
                   value={companyData.lastFundingSizeEur.toString()}
                   inputFormat={ENumberInputFormat.FLOAT}
-                  valueType={ECurrency.EUR}
                   outputFormat={ENumberOutputFormat.INTEGER}
                 />
               </span>

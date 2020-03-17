@@ -1,5 +1,5 @@
+import {Eur} from '@neufund/design-system';
 import {
-  ECurrency,
   ENumberFormat,
   ENumberInputFormat,
   ENumberOutputFormat,
@@ -60,10 +60,9 @@ const EtoStatsLayout: React.FunctionComponent<IStateProps & IExternalProps> = ({
           <FormattedMessage id="shared-component.eto-overview-status.pre-money-valuation" />
         </span>
         <span className={styles.value}>
-          <Money
+          <Eur
             value={eto.preMoneyValuationEur ? eto.preMoneyValuationEur.toString() : undefined}
             inputFormat={ENumberInputFormat.FLOAT}
-            valueType={ECurrency.EUR}
             outputFormat={ENumberOutputFormat.INTEGER}
             defaultValue={<ToBeAnnouncedTooltip />}
             data-test-id="eto-overview.stats.pre-money-valuation"
@@ -75,10 +74,9 @@ const EtoStatsLayout: React.FunctionComponent<IStateProps & IExternalProps> = ({
           <FormattedMessage id="shared-component.eto-overview-status.target-investment-amount" />
         </span>
         <span className={styles.value}>
-          <Money
+          <Eur
             value={eurMinTarget}
             inputFormat={ENumberInputFormat.FLOAT}
-            valueType={ECurrency.EUR}
             outputFormat={ENumberOutputFormat.INTEGER}
             defaultValue={<ToBeAnnounced />}
             data-test-id="eto-overview.stats.target-investment-amount"

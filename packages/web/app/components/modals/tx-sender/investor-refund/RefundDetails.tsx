@@ -1,4 +1,4 @@
-import { Eth } from "@neufund/design-system";
+import { Eth, Eur } from "@neufund/design-system";
 import { ECurrency, ENumberInputFormat, ENumberOutputFormat, isZero } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
@@ -54,11 +54,8 @@ const RefundTransactionDetails: TransactionDetailsComponent<ETxSenderType.INVEST
         caption={<FormattedMessage id="user-refund-flow.cost" />}
         value={
           <>
-            <Money
+            <Eur
               value={additionalData.costEurUlps}
-              valueType={ECurrency.EUR}
-              inputFormat={ENumberInputFormat.ULPS}
-              outputFormat={ENumberOutputFormat.FULL}
             />
             {" ≈ "}
             <Eth value={additionalData.costUlps} outputFormat={ENumberOutputFormat.FULL} />

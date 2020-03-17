@@ -1,4 +1,4 @@
-import { Button, EButtonLayout } from "@neufund/design-system";
+import { Button, EButtonLayout } from  "@neufund/design-system";
 import { withContainer } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";

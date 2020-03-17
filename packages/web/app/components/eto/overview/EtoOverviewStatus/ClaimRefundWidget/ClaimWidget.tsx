@@ -1,9 +1,7 @@
-import { Button } from "@neufund/design-system";
-import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
+import { Button, Eur } from "@neufund/design-system";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
-import { Money } from "../../../../shared/formatters/Money";
 import { SuccessMessage } from "../Message";
 import { withCanClaimToken } from "./withCanClaimToken";
 
@@ -33,11 +31,8 @@ const ClaimWidgetLayout: React.FunctionComponent<IExternalProps> = ({
             id="shared-component.eto-overview.success.summary"
             values={{
               totalAmount: (
-                <Money
+                <Eur
                   value={totalEquivEurUlps}
-                  inputFormat={ENumberInputFormat.ULPS}
-                  valueType={ECurrency.EUR}
-                  outputFormat={ENumberOutputFormat.FULL}
                 />
               ),
               totalInvestors,
@@ -48,11 +43,8 @@ const ClaimWidgetLayout: React.FunctionComponent<IExternalProps> = ({
             id="shared-component.eto-overview.success.summary-no-investors-count"
             values={{
               totalAmount: (
-                <Money
+                <Eur
                   value={totalEquivEurUlps}
-                  inputFormat={ENumberInputFormat.ULPS}
-                  valueType={ECurrency.EUR}
-                  outputFormat={ENumberOutputFormat.FULL}
                 />
               ),
             }}

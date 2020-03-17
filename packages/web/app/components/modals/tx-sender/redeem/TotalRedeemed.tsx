@@ -1,6 +1,5 @@
+import {Eur} from '@neufund/design-system';
 import {
-  ECurrency,
-  ENumberInputFormat,
   ENumberOutputFormat,
   isEmptyValue,
   isValidNumber,
@@ -10,7 +9,6 @@ import {
 } from "@neufund/shared";
 import * as React from "react";
 
-import { Money } from "../../../shared/formatters/Money";
 
 const TotalRedeemed: React.FunctionComponent<{ amount: string; bankFee: string }> = ({
   amount,
@@ -21,10 +19,8 @@ const TotalRedeemed: React.FunctionComponent<{ amount: string; bankFee: string }
   const totalRedeemed = subtractBigNumbers([Q18.mul(providedAmount), calculatedFee]);
 
   return (
-    <Money
+    <Eur
       value={totalRedeemed}
-      inputFormat={ENumberInputFormat.ULPS}
-      valueType={ECurrency.EUR}
       outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
     />
   );

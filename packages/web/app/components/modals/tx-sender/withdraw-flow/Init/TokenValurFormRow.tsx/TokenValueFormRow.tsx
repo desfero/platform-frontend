@@ -1,3 +1,4 @@
+import { Eur } from "@neufund/design-system";
 import { ECurrency, ENumberInputFormat, ENumberOutputFormat, EquityToken } from "@neufund/shared";
 import * as cn from "classnames";
 import { FormikErrors, FormikTouched } from "formik";
@@ -6,7 +7,6 @@ import { FormattedMessage } from "react-intl-phraseapp";
 
 import { EAdditionalValidationDataNotifications } from "../../../../../../modules/tx/validator/reducer";
 import { isValidFormNumber } from "../../../../../../modules/tx/validator/transfer/utils";
-import { Money } from "../../../../../shared/formatters/Money";
 import {
   EInputTheme,
   FormFieldBoolean,
@@ -63,14 +63,12 @@ const TokenValueFormRow: React.FunctionComponent<{
       {tokenSymbol === ECurrency.ETH && (
         <small>
           {"= "}
-          <Money
+          <Eur
             value={
               isValidFormNumber(valueEuro)
                 ? valueEuro
                 : "0" /* Show 0 if form is invalid due of initially populated state */
             }
-            inputFormat={ENumberInputFormat.ULPS}
-            valueType={ECurrency.EUR}
             outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
           />
         </small>

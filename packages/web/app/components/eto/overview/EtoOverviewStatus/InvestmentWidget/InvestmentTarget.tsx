@@ -1,10 +1,10 @@
-import { ECurrency, ENumberInputFormat, ENumberOutputFormat, nonNullable } from "@neufund/shared";
+import { Eur } from "@neufund/design-system";
+import { ENumberInputFormat, nonNullable } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { TEtoWithCompanyAndContractReadonly } from "../../../../../modules/eto/types";
 import { getEtoEurMinTarget } from "../../../../../modules/eto/utils";
-import { Money } from "../../../../shared/formatters/Money";
 import { Tooltip } from "../../../../shared/tooltips/Tooltip";
 import { ECustomTooltipTextPosition } from "../../../../shared/tooltips/TooltipBase";
 
@@ -24,12 +24,10 @@ const InvestmentTarget: React.FunctionComponent<TExternalProps> = ({ eto }) => {
           id="shared-component.eto-overview.investment-stats.target"
           values={{
             amountRaised: (
-              <Money
+              <Eur
                 data-test-id="investment-widget-nEur-target"
                 value={target ? target : minInvestmentAmount.toString()}
                 inputFormat={ENumberInputFormat.FLOAT}
-                valueType={ECurrency.EUR}
-                outputFormat={ENumberOutputFormat.FULL}
               />
             ),
           }}
@@ -43,12 +41,10 @@ const InvestmentTarget: React.FunctionComponent<TExternalProps> = ({ eto }) => {
                 values={{
                   lineBreak: <br />,
                   target: (
-                    <Money
+                    <Eur
                       data-test-id="investment-widget-nEur-original-target"
                       value={minInvestmentAmount.toString()}
                       inputFormat={ENumberInputFormat.FLOAT}
-                      valueType={ECurrency.EUR}
-                      outputFormat={ENumberOutputFormat.FULL}
                     />
                   ),
                 }}

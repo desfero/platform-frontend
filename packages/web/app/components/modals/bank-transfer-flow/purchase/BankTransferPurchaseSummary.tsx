@@ -1,5 +1,5 @@
-import { ButtonArrowRight } from "@neufund/design-system";
-import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
+import { ButtonArrowRight, Eur } from "@neufund/design-system";
+import { ENumberOutputFormat } from "@neufund/shared";
 import * as React from "react";
 import { FormattedHTMLMessage, FormattedMessage } from "react-intl-phraseapp";
 import { Container } from "reactstrap";
@@ -13,7 +13,6 @@ import {
 } from "../../../../modules/bank-transfer-flow/selectors";
 import { selectQuintessenceBankAccount } from "../../../../modules/kyc/selectors";
 import { appConnect } from "../../../../store";
-import { Money } from "../../../shared/formatters/Money";
 import { EHeadingSize, Heading } from "../../../shared/Heading";
 import { InfoList } from "../../tx-sender/shared/InfoList";
 import { InfoRow } from "../../tx-sender/shared/InfoRow";
@@ -50,10 +49,8 @@ const BankTransferPurchaseLayout: React.FunctionComponent<IProps> = ({
         data-test-id="bank-transfer.purchase.summary.min-amount"
         caption={<FormattedMessage id="bank-transfer.purchase.summary.min-amount" />}
         value={
-          <Money
+          <Eur
             value={minAmount}
-            inputFormat={ENumberInputFormat.ULPS}
-            valueType={ECurrency.EUR}
             outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS_ROUND_UP}
           />
         }

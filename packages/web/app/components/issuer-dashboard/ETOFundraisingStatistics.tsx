@@ -1,4 +1,4 @@
-import { Eth } from "@neufund/design-system";
+import { Eth, Eur } from "@neufund/design-system";
 import {
   divideBigNumbers,
   ECurrency,
@@ -64,10 +64,8 @@ const ETOFundraisingStatisticsLayout: React.ComponentType<IProps> = ({
         <span className={styles.label}>
           <FormattedMessage id="settings.fundraising-statistics.total-investment" />
         </span>
-        <Money
+        <Eur
           value={totalEquivEurUlps}
-          valueType={ECurrency.EUR}
-          inputFormat={ENumberInputFormat.ULPS}
           outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
         />
         <span className={styles.label}>
@@ -76,10 +74,8 @@ const ETOFundraisingStatisticsLayout: React.ComponentType<IProps> = ({
         <span>
           <Eth value={etherTokenBalance} />
           {" ≈ "}
-          <Money
+          <Eur
             value={etherTokenEurEquivUlps}
-            valueType={ECurrency.EUR}
-            inputFormat={ENumberInputFormat.ULPS}
             outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
           />
         </span>
@@ -95,10 +91,8 @@ const ETOFundraisingStatisticsLayout: React.ComponentType<IProps> = ({
         <span className={styles.label}>
           <FormattedMessage id="settings.fundraising-statistics.average-investment-value" />
         </span>
-        <Money
+        <Eur
           value={averageInvestmentEurUlps}
-          valueType={ECurrency.EUR}
-          inputFormat={ENumberInputFormat.ULPS}
           outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
         />
         <span className={styles.label}>

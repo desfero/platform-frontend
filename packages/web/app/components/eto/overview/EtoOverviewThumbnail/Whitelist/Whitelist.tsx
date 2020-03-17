@@ -1,7 +1,7 @@
+import {Eur} from '@neufund/design-system';
 import {
   assertNever,
   EAbbreviatedNumberOutputFormat,
-  ECurrency,
   ENumberInputFormat,
 } from "@neufund/shared";
 import * as React from "react";
@@ -16,7 +16,6 @@ import {
 } from "../../../../../modules/bookbuilding-flow/utils";
 import { TEtoWithCompanyAndContractReadonly } from "../../../../../modules/eto/types";
 import { appConnect } from "../../../../../store";
-import { Money } from "../../../../shared/formatters/Money";
 import { LoadingIndicator } from "../../../../shared/loading-indicator/LoadingIndicator";
 import { GreyInfo, Info } from "../Info";
 import { WhitelistStatus } from "./WhitelistStatus";
@@ -83,10 +82,9 @@ const WhitelistLayout: React.FunctionComponent<IProps> = ({
               id="eto-overview-thumbnail.whitelist.committed-amount"
               values={{
                 pledgedAmount: (
-                  <Money
+                  <Eur
                     value={pledgedAmount ? pledgedAmount.toString() : null}
                     inputFormat={ENumberInputFormat.FLOAT}
-                    valueType={ECurrency.EUR}
                     outputFormat={EAbbreviatedNumberOutputFormat.SHORT}
                   />
                 ),
@@ -114,10 +112,8 @@ const WhitelistLayout: React.FunctionComponent<IProps> = ({
               id="eto-overview-thumbnail.whitelist.committed-amount"
               values={{
                 pledgedAmount: (
-                  <Money
+                  <Eur
                     value={pledgedAmount ? pledgedAmount.toString() : null}
-                    inputFormat={ENumberInputFormat.FLOAT}
-                    valueType={ECurrency.EUR}
                     outputFormat={EAbbreviatedNumberOutputFormat.SHORT}
                   />
                 ),

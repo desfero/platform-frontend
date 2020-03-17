@@ -1,3 +1,4 @@
+import {Eur} from '@neufund/design-system';
 import {
   divideBigNumbers,
   ECurrency,
@@ -110,10 +111,9 @@ const EtoInvestmentTermsWidgetLayout: React.FunctionComponent<TExternalProps & T
             <Entry
               label={<FormattedMessage id="eto.public-view.token-terms.pre-money-valuation" />}
               value={
-                <Money
+                <Eur
                   value={eto.preMoneyValuationEur ? eto.preMoneyValuationEur.toString() : undefined}
                   inputFormat={ENumberInputFormat.FLOAT}
-                  valueType={ECurrency.EUR}
                   outputFormat={ENumberOutputFormat.INTEGER}
                   defaultValue={<ToBeAnnouncedTooltip />}
                 />

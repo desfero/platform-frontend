@@ -1,10 +1,10 @@
-import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
+import { Eur } from "@neufund/design-system";
+import { ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
 import * as React from "react";
 import { FormattedHTMLMessage, FormattedMessage } from "react-intl-phraseapp";
 
 import { appRoutes } from "../../../../appRoutes";
 import { ButtonLink } from "../../../../shared/buttons/ButtonLink";
-import { Money } from "../../../../shared/formatters/Money";
 import { Message } from "../Message";
 
 type TExternalProps = {
@@ -29,10 +29,9 @@ const RegisterNowWidget: React.FunctionComponent<TExternalProps> = ({
             id="shared-component.eto-overview.register-cta.title-pledged"
             values={{
               totalAmount: (
-                <Money
+                <Eur
                   value={pledgedAmount ? pledgedAmount.toString() : undefined}
                   inputFormat={ENumberInputFormat.FLOAT}
-                  valueType={ECurrency.EUR}
                   outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
                 />
               ),

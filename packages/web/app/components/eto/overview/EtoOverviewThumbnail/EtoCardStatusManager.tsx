@@ -1,8 +1,6 @@
+import {Eur} from '@neufund/design-system';
 import {
   EAbbreviatedNumberOutputFormat,
-  ECurrency,
-  ENumberInputFormat,
-  ENumberOutputFormat,
   nonNullable,
 } from "@neufund/shared";
 import * as React from "react";
@@ -15,7 +13,6 @@ import {
   TEtoWithCompanyAndContractReadonly,
 } from "../../../../modules/eto/types";
 import { isOnChain } from "../../../../modules/eto/utils";
-import { Money } from "../../../shared/formatters/Money";
 import { CounterWidget } from "../EtoOverviewStatus/CounterWidget";
 import { InvestmentStatusWidget } from "../EtoOverviewStatus/InvestmentWidget/InvestmentStatusWidget";
 import { EndTimeWidget } from "../shared/EndTimeWidget";
@@ -107,11 +104,8 @@ const EtoCardStatusManager = ({ eto }: IExternalProps) => {
               id="eto-overview-thumbnail.signing.raised-amount"
               values={{
                 totalAmount: (
-                  <Money
+                  <Eur
                     value={eto.contract!.totalInvestment.totalEquivEurUlps}
-                    inputFormat={ENumberInputFormat.ULPS}
-                    valueType={ECurrency.EUR}
-                    outputFormat={ENumberOutputFormat.FULL}
                   />
                 ),
               }}
@@ -133,10 +127,8 @@ const EtoCardStatusManager = ({ eto }: IExternalProps) => {
               id="eto-overview-thumbnail.success.raised-amount"
               values={{
                 totalAmount: (
-                  <Money
+                  <Eur
                     value={eto.contract!.totalInvestment.totalEquivEurUlps}
-                    inputFormat={ENumberInputFormat.ULPS}
-                    valueType={ECurrency.EUR}
                     outputFormat={EAbbreviatedNumberOutputFormat.SHORT}
                   />
                 ),

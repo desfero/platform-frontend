@@ -1,4 +1,4 @@
-import { Eth } from "@neufund/design-system";
+import { Eth, Eur } from "@neufund/design-system";
 import {
   assertNever,
   Dictionary,
@@ -37,7 +37,6 @@ import {
 } from "../../../../modules/wallet/selectors";
 import { TAppGlobalState } from "../../../../store";
 import { TTranslatedString } from "../../../../types";
-import { Money } from "../../../shared/formatters/Money";
 import { WalletSelectionData } from "./InvestmentTypeSelector";
 
 export enum EInvestmentCurrency {
@@ -144,10 +143,9 @@ export function getInputErrorMessage(
           id="investment-flow.error-message.above-maximum-ticket-size"
           values={{
             maxEurAmount: (
-              <Money
+              <Eur
                 value={maxTicketEur || "0"}
                 inputFormat={ENumberInputFormat.FLOAT}
-                valueType={ECurrency.EUR}
                 outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
               />
             ),
@@ -161,10 +159,9 @@ export function getInputErrorMessage(
           values={{
             investmentCurrency,
             minEurAmount: (
-              <Money
+              <Eur
                 value={minTicketEur || "0"}
                 inputFormat={ENumberInputFormat.FLOAT}
-                valueType={ECurrency.EUR}
                 outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
               />
             ),

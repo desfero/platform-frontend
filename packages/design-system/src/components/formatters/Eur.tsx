@@ -6,16 +6,17 @@ import {
   formatNumber,
 } from "@neufund/shared";
 import * as React from "react";
+
 import { IMoneyProps, Money } from "./Money";
 import { ICommonMoneyProps } from "./types";
 
-export const Neu: React.FunctionComponent<IMoneyProps & ICommonMoneyProps> = ({
+export const Eur: React.FunctionComponent<IMoneyProps & ICommonMoneyProps> = ({
   className,
   value,
   defaultValue,
+  roundingMode,
   inputFormat,
   outputFormat,
-  roundingMode,
   "data-test-id": dataTestId,
 }) => {
   const formattedValue =
@@ -23,14 +24,10 @@ export const Neu: React.FunctionComponent<IMoneyProps & ICommonMoneyProps> = ({
     formatNumber({
       value,
       inputFormat: inputFormat || ENumberInputFormat.ULPS,
-      outputFormat: outputFormat || ENumberOutputFormat.ONLY_NONZERO_DECIMALS,
+      outputFormat: outputFormat || ENumberOutputFormat.FULL,
       roundingMode: roundingMode || ERoundingMode.DOWN,
       decimalPlaces: DEFAULT_DECIMAL_PLACES,
     });
 
-  return (
-    <Money className={className} data-test-id={dataTestId}>
-      {formattedValue || defaultValue || " "} NEU
-    </Money>
-  );
+  return <Money className={className} data-test-id={dataTestId}>{formattedValue || defaultValue || " "} EUR</Money>;
 };

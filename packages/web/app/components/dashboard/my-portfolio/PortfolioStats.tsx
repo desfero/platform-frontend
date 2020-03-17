@@ -1,4 +1,4 @@
-import { Button, EButtonLayout, EButtonWidth, TokenIcon } from "@neufund/design-system";
+import { Button, EButtonLayout, EButtonWidth, Eur, TokenIcon } from "@neufund/design-system";
 import {
   convertToUlps,
   ECurrency,
@@ -24,7 +24,6 @@ import {
 import { TETOWithTokenData } from "../../../modules/investor-portfolio/types";
 import { appConnect } from "../../../store";
 import { DataRowSeparated } from "../../shared/DataRow";
-import { Money } from "../../shared/formatters/Money";
 import { LoadingIndicator } from "../../shared/loading-indicator/LoadingIndicator";
 import { MoneySuiteWidget } from "../../shared/MoneySuiteWidget/MoneySuiteWidget";
 import { ESize } from "../../shared/transaction/TransactionData";
@@ -60,11 +59,8 @@ const PortfolioStatsLayoutContainer: React.FunctionComponent<Pick<
       }
       value={
         myAssetsEurEquivTotal && (
-          <Money
+          <Eur
             value={myAssetsEurEquivTotal}
-            inputFormat={ENumberInputFormat.ULPS}
-            valueType={ECurrency.EUR}
-            outputFormat={ENumberOutputFormat.FULL}
           />
         )
       }

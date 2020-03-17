@@ -3,9 +3,10 @@ import {
   ButtonInline,
   EButtonLayout,
   EButtonWidth,
-  TokenIcon,
+  Eur,
+  TokenIcon
 } from "@neufund/design-system";
-import { ECurrency, ENumberInputFormat, ENumberOutputFormat, withContainer } from "@neufund/shared";
+import { ECurrency, ENumberOutputFormat, withContainer } from "@neufund/shared";
 import * as cn from "classnames";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
@@ -25,7 +26,6 @@ import { CommonHtmlProps } from "../../../types";
 import { onEnterAction } from "../../../utils/react-connected-components/OnEnterAction";
 import { EColumnSpan } from "../../layouts/Container";
 import { DataRowSeparated } from "../../shared/DataRow";
-import { Money } from "../../shared/formatters/Money";
 import { LoadingIndicator } from "../../shared/loading-indicator";
 import { MoneySuiteWidget } from "../../shared/MoneySuiteWidget/MoneySuiteWidget";
 import { PanelRounded } from "../../shared/Panel";
@@ -152,12 +152,9 @@ export const MyWalletWidgetComponentContainer: React.FunctionComponent<CommonHtm
       !props.isLoading &&
       !props.hasError &&
       props.data && (
-        <Money
+        <Eur
           data-test-id="my-wallet-widget-total"
           value={props.data.totalAmount}
-          inputFormat={ENumberInputFormat.ULPS}
-          valueType={ECurrency.EUR}
-          outputFormat={ENumberOutputFormat.FULL}
         />
       )
     }

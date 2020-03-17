@@ -1,6 +1,6 @@
+import {Eur} from '@neufund/design-system';
 import {
   convertFromUlps,
-  ECurrency,
   ENumberInputFormat,
   ENumberOutputFormat,
   EPriceFormat,
@@ -29,11 +29,9 @@ const PersonalWhitelistDiscountMessage: React.FunctionComponent<Pick<
     id="investment-flow.token-price-info.personal-discount"
     values={{
       whitelistDiscountAmountLeft: (
-        <Money
+        <Eur
           data-test-id="investment-flow.token-price.personal-discount.amount-left"
           value={etoTokenPersonalDiscount.whitelistDiscountAmountLeft}
-          inputFormat={ENumberInputFormat.ULPS}
-          valueType={ECurrency.EUR}
           outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS_ROUND_UP}
         />
       ),

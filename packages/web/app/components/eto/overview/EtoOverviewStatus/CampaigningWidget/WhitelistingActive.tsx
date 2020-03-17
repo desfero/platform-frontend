@@ -1,4 +1,5 @@
-import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
+import { Eur } from "@neufund/design-system";
+import { ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
 import * as cn from "classnames";
 import * as React from "react";
 import { FormattedHTMLMessage, FormattedMessage } from "react-intl-phraseapp";
@@ -6,7 +7,6 @@ import { FormattedHTMLMessage, FormattedMessage } from "react-intl-phraseapp";
 import { IPledge } from "../../../../../lib/api/eto/EtoPledgeApi.interfaces.unsafe";
 import { appRoutes } from "../../../../appRoutes";
 import { ButtonLink } from "../../../../shared/buttons/ButtonLink";
-import { Money } from "../../../../shared/formatters/Money";
 import { Tooltip } from "../../../../shared/tooltips";
 import { CampaigningActivatedInvestorApprovedWidget } from "./CampaigningActivatedInvestorApprovedWidget";
 
@@ -64,9 +64,8 @@ export const WhitelistingActive: React.FunctionComponent<TWhitelistingActiveProp
           <FormattedMessage id="shared-component.eto-overview.amount-backed" />
         </span>
         <span className={styles.value} data-test-id="eto-bookbuilding-amount-backed">
-          <Money
+          <Eur
             value={pledgedAmount ? pledgedAmount.toString() : undefined}
-            valueType={ECurrency.EUR}
             inputFormat={ENumberInputFormat.FLOAT}
             outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
           />

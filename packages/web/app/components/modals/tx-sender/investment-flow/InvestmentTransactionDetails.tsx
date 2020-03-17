@@ -1,4 +1,4 @@
-import { Eth, Neu, TokenIcon } from "@neufund/design-system";
+import { Eth, Eur, Neu,TokenIcon } from "@neufund/design-system";
 import {
   addBigNumbers,
   divideBigNumbers,
@@ -87,11 +87,9 @@ const EstimatedRewardValue: React.FunctionComponent<IEstimatedReward> = ({ estim
 
 const Investment: React.FunctionComponent<IInvestment> = ({ investmentEur, investmentEth }) => (
   <>
-    <Money
+    <Eur
       data-test-id="euro"
       value={investmentEur}
-      inputFormat={ENumberInputFormat.ULPS}
-      valueType={ECurrency.EUR}
       outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
     />
     {" ≈ "}
@@ -128,11 +126,9 @@ const TokenPriceAndDiscount: React.FunctionComponent<ITokenPriceAndDiscount> = (
 
 const Total: React.FunctionComponent<ITotal> = ({ totalCostEur, totalCostEth }) => (
   <>
-    <Money
+    <Eur
       data-test-id="total-cost-euro"
       value={totalCostEur}
-      inputFormat={ENumberInputFormat.ULPS}
-      valueType={ECurrency.EUR}
       outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
     />
     {" ≈ "}
