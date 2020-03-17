@@ -1,10 +1,9 @@
-import { Neu } from "@neufund/design-system";
-import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
+import { Eth, Neu } from "@neufund/design-system";
+import { ENumberOutputFormat } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { ETxSenderType } from "../../../../modules/tx/types";
-import { Money } from "../../../shared/formatters/Money";
 import { InfoList } from "../shared/InfoList";
 import { InfoRow } from "../shared/InfoRow";
 import { TimestampRow } from "../shared/TimestampRow";
@@ -29,19 +28,12 @@ const ClaimTransactionDetails: TransactionDetailsComponent<ETxSenderType.USER_CL
 
     <InfoRow
       caption={<FormattedMessage id="user-claim-flow.estimated-reward" />}
-      value={<Neu value={additionalData.neuRewardUlps} />}
+      value={<Neu value={additionalData.neuRewardUlps} outputFormat={ENumberOutputFormat.FULL} />}
     />
 
     <InfoRow
       caption={<FormattedMessage id="upgrade-flow.transaction-cost" />}
-      value={
-        <Money
-          value={additionalData.costUlps}
-          valueType={ECurrency.ETH}
-          inputFormat={ENumberInputFormat.ULPS}
-          outputFormat={ENumberOutputFormat.FULL}
-        />
-      }
+      value={<Eth value={additionalData.costUlps} outputFormat={ENumberOutputFormat.FULL} />}
     />
 
     {children}

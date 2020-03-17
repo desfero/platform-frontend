@@ -1,4 +1,4 @@
-import { Neu, TokenIcon } from "@neufund/design-system";
+import { Eth, Neu, TokenIcon } from "@neufund/design-system";
 import {
   addBigNumbers,
   divideBigNumbers,
@@ -95,13 +95,7 @@ const Investment: React.FunctionComponent<IInvestment> = ({ investmentEur, inves
       outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
     />
     {" ≈ "}
-    <Money
-      data-test-id="eth"
-      value={investmentEth}
-      inputFormat={ENumberInputFormat.ULPS}
-      valueType={ECurrency.ETH}
-      outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
-    />
+    <Eth data-test-id="eth" value={investmentEth} />
   </>
 );
 
@@ -142,13 +136,7 @@ const Total: React.FunctionComponent<ITotal> = ({ totalCostEur, totalCostEth }) 
       outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
     />
     {" ≈ "}
-    <Money
-      data-test-id="total-cost-eth"
-      value={totalCostEth}
-      inputFormat={ENumberInputFormat.ULPS}
-      valueType={ECurrency.ETH}
-      outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
-    />
+    <Eth data-test-id="total-cost-eth" value={totalCostEth} />
   </>
 );
 
@@ -201,14 +189,7 @@ const InvestmentTransactionDetails: TransactionDetailsComponent<ETxSenderType.IN
       <InfoRow
         data-test-id="investment-flow.summary.transaction-cost"
         caption={<FormattedMessage id="investment-flow.summary.transaction-cost" />}
-        value={
-          <Money
-            value={additionalData.gasCostEth}
-            inputFormat={ENumberInputFormat.ULPS}
-            valueType={ECurrency.ETH}
-            outputFormat={ENumberOutputFormat.FULL}
-          />
-        }
+        value={<Eth value={additionalData.gasCostEth} outputFormat={ENumberOutputFormat.FULL} />}
       />
       <InfoRow
         data-test-id="investment-flow.summary.equity-tokens"

@@ -1,3 +1,4 @@
+import { Eth } from "@neufund/design-system";
 import {
   assertNever,
   Dictionary,
@@ -168,12 +169,7 @@ export function getInputErrorMessage(
               />
             ),
             minEthAmount: (
-              <Money
-                value={minTicketEth || "0"}
-                inputFormat={ENumberInputFormat.FLOAT}
-                valueType={ECurrency.ETH}
-                outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS_ROUND_UP}
-              />
+              <Eth value={minTicketEth || "0"} inputFormat={ENumberInputFormat.FLOAT} />
             ),
           }}
         />

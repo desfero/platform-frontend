@@ -1,3 +1,4 @@
+import { Eth } from "@neufund/design-system";
 import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
@@ -28,12 +29,7 @@ const FundraisingBreakdownTooltip: React.FunctionComponent<TExternalProps &
           valueType={ECurrency.EUR_TOKEN}
         />
         <br />
-        <Money
-          value={etherTokenBalance}
-          inputFormat={ENumberInputFormat.ULPS}
-          outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
-          valueType={ECurrency.ETH}
-        />
+        <Eth value={etherTokenBalance} />
       </>
     }
     {...props}

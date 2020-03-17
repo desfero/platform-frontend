@@ -1,7 +1,5 @@
-import { Neu } from "@neufund/design-system";
+import { Eth, Neu } from "@neufund/design-system";
 import {
-  ECurrency,
-  ENumberInputFormat,
   ENumberOutputFormat,
   getCurrentUTCTimestamp,
   multiplyBigNumbers,
@@ -15,7 +13,6 @@ import { compose, lifecycle, withState } from "recompose";
 
 import { ETxSenderType } from "../../../../modules/tx/types";
 import { getUnlockedWalletEtherAmountAfterFee } from "../../../../modules/wallet/utils";
-import { Money } from "../../../shared/formatters/Money";
 import { InfoList } from "../shared/InfoList";
 import { InfoRow } from "../shared/InfoRow";
 import { TimestampRow } from "../shared/TimestampRow";
@@ -45,12 +42,7 @@ const UnlockWalletTransactionDetailsLayout: React.FunctionComponent<TTxPendingPr
     <InfoRow
       caption={<FormattedMessage id="unlock-funds-flow.eth-committed" />}
       value={
-        <Money
-          value={additionalData.lockedEtherBalance}
-          inputFormat={ENumberInputFormat.ULPS}
-          valueType={ECurrency.ETH}
-          outputFormat={ENumberOutputFormat.FULL}
-        />
+        <Eth value={additionalData.lockedEtherBalance} outputFormat={ENumberOutputFormat.FULL} />
       }
     />
     <InfoRow
@@ -72,22 +64,13 @@ const UnlockWalletTransactionDetailsLayout: React.FunctionComponent<TTxPendingPr
     />
     <InfoRow
       caption={<FormattedMessage id="unlock-funds-flow.amount-returned" />}
-      value={
-        <Money
-          value={returnedEther}
-          inputFormat={ENumberInputFormat.ULPS}
-          valueType={ECurrency.ETH}
-          outputFormat={ENumberOutputFormat.FULL}
-        />
-      }
+      value={<Eth value={returnedEther} outputFormat={ENumberOutputFormat.FULL} />}
     />
     <InfoRow
       caption={<FormattedMessage id="unlock-funds-flow.transaction-cost" />}
       value={
-        <Money
+        <Eth
           value={multiplyBigNumbers([txData!.gasPrice, txData!.gas])}
-          inputFormat={ENumberInputFormat.ULPS}
-          valueType={ECurrency.ETH}
           outputFormat={ENumberOutputFormat.FULL}
         />
       }

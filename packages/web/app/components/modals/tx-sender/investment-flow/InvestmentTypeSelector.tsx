@@ -1,4 +1,4 @@
-import { Button, EButtonLayout, EButtonSize, EButtonWidth } from "@neufund/design-system";
+import { Button, EButtonLayout, EButtonSize, EButtonWidth, Eth } from "@neufund/design-system";
 import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
 import * as cn from "classnames";
 import * as React from "react";
@@ -56,12 +56,7 @@ const WalletBalanceValues: React.FunctionComponent<WalletSelectionData> = wallet
     case EInvestmentType.Eth:
       return (
         <>
-          <Money
-            valueType={ECurrency.ETH}
-            inputFormat={ENumberInputFormat.ULPS}
-            outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
-            value={wallet.enabled ? wallet.balanceEth : wallet.icbmBalanceEth}
-          />
+          <Eth value={wallet.enabled ? wallet.balanceEth : wallet.icbmBalanceEth} />
           <div className={styles.balanceEur}>
             ={" "}
             <Money

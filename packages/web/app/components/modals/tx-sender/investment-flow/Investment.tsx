@@ -1,4 +1,4 @@
-import { Button, ButtonInline, EButtonLayout, Neu } from "@neufund/design-system";
+import { Button, ButtonInline, EButtonLayout, Eth, Neu } from "@neufund/design-system";
 import {
   addBigNumbers,
   ECurrency,
@@ -360,11 +360,9 @@ export class InvestmentSelectionComponent extends React.Component<IProps, IState
                 <div>
                   + <FormattedMessage id="investment-flow.estimated-gas-cost" />:{" "}
                   <span className="text-warning" data-test-id="invest-modal-gas-cost">
-                    <Money
+                    <Eth
                       value={gasCostEth}
-                      inputFormat={ENumberInputFormat.ULPS}
                       outputFormat={ENumberOutputFormat.FULL}
-                      valueType={ECurrency.ETH}
                       roundingMode={ERoundingMode.UP}
                     />
                     <span className={styles.helpText}>
@@ -393,18 +391,14 @@ export class InvestmentSelectionComponent extends React.Component<IProps, IState
                   )}
                   {investmentCurrency === EInvestmentCurrency.ETH && (
                     <>
-                      <Money
+                      <Eth
                         value={this.calculateTotalCostIfValid(gasCostEth, ethValue)}
-                        inputFormat={ENumberInputFormat.ULPS}
                         outputFormat={ENumberOutputFormat.FULL}
-                        valueType={ECurrency.ETH}
                       />
                       <span className={styles.helpText}>
                         {" ≈ "}
-                        <Money
+                        <Eth
                           value={this.calculateTotalCostIfValid(gasCostEuro, euroValue)}
-                          inputFormat={ENumberInputFormat.ULPS}
-                          valueType={ECurrency.EUR}
                           outputFormat={ENumberOutputFormat.FULL}
                         />
                       </span>

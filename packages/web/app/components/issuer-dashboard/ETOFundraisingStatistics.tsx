@@ -1,3 +1,4 @@
+import { Eth } from "@neufund/design-system";
 import {
   divideBigNumbers,
   ECurrency,
@@ -73,12 +74,7 @@ const ETOFundraisingStatisticsLayout: React.ComponentType<IProps> = ({
           <FormattedMessage id="settings.fundraising-statistics.eth-investment" />
         </span>
         <span>
-          <Money
-            value={etherTokenBalance}
-            valueType={ECurrency.ETH}
-            inputFormat={ENumberInputFormat.ULPS}
-            outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
-          />
+          <Eth value={etherTokenBalance} />
           {" ≈ "}
           <Money
             value={etherTokenEurEquivUlps}

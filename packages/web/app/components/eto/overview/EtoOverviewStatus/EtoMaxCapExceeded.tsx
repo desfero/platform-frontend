@@ -1,3 +1,4 @@
+import { Eth } from "@neufund/design-system";
 import {
   divideBigNumbers,
   ECurrency,
@@ -67,11 +68,8 @@ const EtoMaxCapExceededComponent: React.FunctionComponent<IExternalProps &
       </div>
       <div className={styles.header}>
         <div>
-          <Money
+          <Eth
             value={divideBigNumbers(eto.contract!.totalInvestment.totalEquivEurUlps, etherPriceEur)}
-            inputFormat={ENumberInputFormat.ULPS}
-            valueType={ECurrency.ETH}
-            outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
           />
         </div>
         <div>

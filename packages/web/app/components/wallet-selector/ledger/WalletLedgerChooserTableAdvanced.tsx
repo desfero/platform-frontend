@@ -1,11 +1,9 @@
-import { Button, EButtonLayout, Neu } from "@neufund/design-system";
-import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
+import { Button, EButtonLayout, Eth, Neu } from "@neufund/design-system";
 import * as cn from "classnames";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { ILedgerAccount } from "../../../modules/wallet-selector/ledger-wizard/reducer";
-import { Money } from "../../shared/formatters/Money";
 import { NavigationButton } from "../../shared/Navigation";
 
 import * as styles from "./WalletLedgerChooserTableAdvanced.module.scss";
@@ -34,12 +32,7 @@ export class AccountRow extends React.Component<IAccountRow> {
         </td>
         <td className={cn(styles.balance, styles.pseudoBorderLeft)}>
           <div data-test-id="account-balance-eth" className={styles.eth}>
-            <Money
-              value={this.props.ledgerAccount.balanceETH}
-              inputFormat={ENumberInputFormat.ULPS}
-              valueType={ECurrency.ETH}
-              outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
-            />
+            <Eth value={this.props.ledgerAccount.balanceETH} />
           </div>
           <div data-test-id="account-balance-neu" className={styles.neu}>
             <Neu value={this.props.ledgerAccount.balanceNEU} />

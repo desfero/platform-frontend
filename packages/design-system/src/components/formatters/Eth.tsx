@@ -10,25 +10,27 @@ import * as React from "react";
 
 import { IMoneyProps, Money } from "./Money";
 
-interface INeuProps {
+interface IEthProps {
   defaultValue?: TBigNumberVariants | null | undefined;
   value: TBigNumberVariants | null | undefined;
+  inputFormat?: ENumberInputFormat;
   outputFormat?: ENumberOutputFormat;
   roundingMode?: ERoundingMode;
 }
 
-export const Eth: React.FunctionComponent<IMoneyProps & INeuProps> = ({
+export const Eth: React.FunctionComponent<IMoneyProps & IEthProps> = ({
   className,
   value,
   defaultValue,
   roundingMode,
+  inputFormat,
   outputFormat,
 }) => {
   const formattedValue =
     value &&
     formatNumber({
       value,
-      inputFormat: ENumberInputFormat.ULPS,
+      inputFormat: inputFormat || ENumberInputFormat.ULPS,
       outputFormat: outputFormat || ENumberOutputFormat.ONLY_NONZERO_DECIMALS,
       roundingMode: roundingMode || ERoundingMode.DOWN,
       decimalPlaces: DEFAULT_DECIMAL_PLACES,

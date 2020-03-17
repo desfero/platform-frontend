@@ -1,10 +1,9 @@
-import { Button, EButtonLayout, Neu } from "@neufund/design-system";
-import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
+import { Button, EButtonLayout, Eth, Neu } from "@neufund/design-system";
+import { ECurrency } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { DocumentButton } from "../../shared/DocumentLink";
-import { Money } from "../../shared/formatters/Money";
 import { Heading } from "../../shared/Heading";
 import { CurrencyIcon } from "../../shared/icons/CurrencyIcon";
 import { InfoList } from "../tx-sender/shared/InfoList";
@@ -91,14 +90,7 @@ export const BalanceModal: React.FunctionComponent<IBalanceModal> = ({
             <FormattedMessage id="settings.modal.icbm-wallet-balance.eth-balance.label" />
           </>
         }
-        value={
-          <Money
-            value={etherBalance}
-            inputFormat={ENumberInputFormat.ULPS}
-            outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
-            valueType={ECurrency.ETH}
-          />
-        }
+        value={<Eth value={etherBalance} />}
       />
     </InfoList>
 

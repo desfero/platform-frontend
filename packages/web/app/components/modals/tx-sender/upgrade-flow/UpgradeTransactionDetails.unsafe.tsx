@@ -1,14 +1,9 @@
-import {
-  ECurrency,
-  ENumberInputFormat,
-  ENumberOutputFormat,
-  multiplyBigNumbers,
-} from "@neufund/shared";
+import { Eth } from "@neufund/design-system";
+import { ENumberOutputFormat, multiplyBigNumbers } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { ETxSenderType } from "../../../../modules/tx/types";
-import { Money } from "../../../shared/formatters/Money";
 import { InfoList } from "../shared/InfoList";
 import { InfoRow } from "../shared/InfoRow";
 import { TimestampRow } from "../shared/TimestampRow";
@@ -24,23 +19,14 @@ const UpgradeTransactionDetails: TransactionDetailsComponent<ETxSenderType.UPGRA
 
     <InfoRow
       caption={<FormattedMessage id="upgrade-flow.value" />}
-      value={
-        <Money
-          value={txData!.value}
-          inputFormat={ENumberInputFormat.ULPS}
-          valueType={ECurrency.ETH}
-          outputFormat={ENumberOutputFormat.FULL}
-        />
-      }
+      value={<Eth value={txData!.value} outputFormat={ENumberOutputFormat.FULL} />}
     />
 
     <InfoRow
       caption={<FormattedMessage id="upgrade-flow.transaction-cost" />}
       value={
-        <Money
+        <Eth
           value={multiplyBigNumbers([txData!.gasPrice, txData!.gas])}
-          inputFormat={ENumberInputFormat.ULPS}
-          valueType={ECurrency.ETH}
           outputFormat={ENumberOutputFormat.FULL}
         />
       }
