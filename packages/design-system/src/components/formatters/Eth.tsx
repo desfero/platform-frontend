@@ -1,9 +1,10 @@
 import {
-  DEFAULT_DECIMAL_PLACES,
+  ECurrency,
   ENumberInputFormat,
   ENumberOutputFormat,
   ERoundingMode,
   formatNumber,
+  selectDecimalPlaces,
 } from "@neufund/shared";
 import * as React from "react";
 
@@ -14,19 +15,21 @@ export const Eth: React.FunctionComponent<IMoneyProps & ICommonMoneyProps> = ({
   className,
   value,
   defaultValue,
-  roundingMode,
-  inputFormat,
-  outputFormat,
+  roundingMode = ERoundingMode.DOWN,
+  inputFormat = ENumberInputFormat.ULPS,
+  outputFormat = ENumberOutputFormat.ONLY_NONZERO_DECIMALS,
   "data-test-id": dataTestId,
 }) => {
+  const decimalPlaces = selectDecimalPlaces(ECurrency.EUR, outputFormat);
+
   const formattedValue =
     value &&
     formatNumber({
       value,
-      inputFormat: inputFormat || ENumberInputFormat.ULPS,
-      outputFormat: outputFormat || ENumberOutputFormat.ONLY_NONZERO_DECIMALS,
-      roundingMode: roundingMode || ERoundingMode.DOWN,
-      decimalPlaces: DEFAULT_DECIMAL_PLACES,
+      inputFormat: inputFormat,
+      outputFormat: outputFormat,
+      roundingMode: roundingMode,
+      decimalPlaces,
     });
 
   return (
