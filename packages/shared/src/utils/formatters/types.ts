@@ -78,5 +78,6 @@ export interface IFormatShortNumber {
   inputFormat: ENumberInputFormat;
   decimalPlaces: number;
   outputFormat: THumanReadableFormat;
+  divider: number;
   decimals?: number;
 }

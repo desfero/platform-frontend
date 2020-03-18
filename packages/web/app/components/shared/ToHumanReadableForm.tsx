@@ -1,7 +1,7 @@
-import { findLast, floor } from "lodash";
+import { getRange } from "@neufund/shared";
+import { floor } from "lodash";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
-import {getRange} from '@neufund/shared';
 
 /*
  * @deprecated

@@ -1,4 +1,9 @@
-import { EAbbreviatedNumberOutputFormat, ENumberInputFormat, ERoundingMode, formatShortNumber } from "@neufund/shared";
+import {
+  EAbbreviatedNumberOutputFormat,
+  ENumberInputFormat,
+  ERoundingMode,
+  formatShortNumber,
+} from "@neufund/shared";
 import * as React from "react";
 
 import { TBigNumberVariants } from "../../../lib/web3/types";

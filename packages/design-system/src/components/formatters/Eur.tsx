@@ -3,8 +3,6 @@ import {
   ENumberInputFormat,
   ENumberOutputFormat,
   ERoundingMode,
-  formatNumber,
-  selectDecimalPlaces,
   TDataTestId,
 } from "@neufund/shared";
 import * as React from "react";
@@ -12,6 +10,7 @@ import * as React from "react";
 import { Units } from "./atoms/Units";
 import { IValueProps, Value } from "./atoms/Value";
 import { ICommonMoneyProps } from "./types";
+import { formatCurrency } from "./utils";
 
 export const Eur: React.FunctionComponent<IValueProps & ICommonMoneyProps & TDataTestId> = ({
   className,
@@ -22,16 +21,14 @@ export const Eur: React.FunctionComponent<IValueProps & ICommonMoneyProps & TDat
   outputFormat = ENumberOutputFormat.FULL,
   "data-test-id": dataTestId,
 }) => {
-  const decimalPlaces = selectDecimalPlaces(ECurrency.EUR, outputFormat);
-
   const formattedValue =
     value &&
-    formatNumber({
+    formatCurrency({
       value,
+      valueType: ECurrency.EUR,
       inputFormat: inputFormat,
       outputFormat: outputFormat,
       roundingMode: roundingMode,
-      decimalPlaces,
     });
 
   return (
