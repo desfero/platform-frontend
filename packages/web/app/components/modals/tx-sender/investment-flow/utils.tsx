@@ -166,7 +166,12 @@ export function getInputErrorMessage(
               />
             ),
             minEthAmount: (
-              <Eth value={minTicketEth || "0"} inputFormat={ENumberInputFormat.FLOAT} />
+              <Eth
+                value={minTicketEth || "0"}
+                inputFormat={ENumberInputFormat.FLOAT}
+                outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS_ROUND_UP}
+                roundingMode={ERoundingMode.UP}
+              />
             ),
           }}
         />

@@ -5,6 +5,7 @@ import {
   ENumberOutputFormat,
   EPriceFormat,
   isZero,
+  ERoundingMode
 } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
@@ -33,6 +34,7 @@ const PersonalWhitelistDiscountMessage: React.FunctionComponent<Pick<
           data-test-id="investment-flow.token-price.personal-discount.amount-left"
           value={etoTokenPersonalDiscount.whitelistDiscountAmountLeft}
           outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS_ROUND_UP}
+          roundingMode={ERoundingMode.UP}
         />
       ),
       whitelistDiscount: (

@@ -1,5 +1,5 @@
 import { ButtonArrowRight, Eur } from "@neufund/design-system";
-import { ENumberOutputFormat } from "@neufund/shared";
+import { ENumberOutputFormat, ERoundingMode } from "@neufund/shared";
 import * as React from "react";
 import { FormattedHTMLMessage, FormattedMessage } from "react-intl-phraseapp";
 import { Container } from "reactstrap";
@@ -52,6 +52,7 @@ const BankTransferPurchaseLayout: React.FunctionComponent<IProps> = ({
           <Eur
             value={minAmount}
             outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS_ROUND_UP}
+            roundingMode={ERoundingMode.UP}
           />
         }
       />

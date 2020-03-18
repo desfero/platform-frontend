@@ -1,5 +1,5 @@
 import { Eur } from "@neufund/design-system";
-import { assertNever, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
+import { assertNever, ENumberInputFormat, ENumberOutputFormat, ERoundingMode } from "@neufund/shared";
 import * as React from "react";
 import { FormattedHTMLMessage, FormattedMessage } from "react-intl-phraseapp";
 
@@ -638,6 +638,7 @@ const getMessageTranslation = ({ messageType, messageData }: TMessage): TTransla
                 // TODO: Investigate why is the value up force casted
                 inputFormat={ENumberInputFormat.FLOAT}
                 outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS_ROUND_UP}
+                roundingMode={ERoundingMode.UP}
               />
             ),
           }}
