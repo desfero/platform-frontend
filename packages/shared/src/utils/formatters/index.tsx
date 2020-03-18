@@ -1,7 +1,6 @@
 import BigNumber from "bignumber.js";
 import { ceil, findLast, floor, round } from "lodash";
 
-import { TTranslatedString } from "../../../../web/app/types";
 import { DEFAULT_DECIMAL_PLACES } from "../constants";
 import { invariant } from "../invariant";
 import { convertFromUlps } from "../NumberUtils";
@@ -18,12 +17,14 @@ import {
   IToFixedPrecision,
   THumanReadableFormat,
   TValueFormat,
+  ESpecialNumber
 } from "./types";
 import { getBigNumberRoundingMode } from "./utils.unsafe";
 
 export {
   EAbbreviatedNumberOutputFormat,
   ECurrency,
+  ESpecialNumber,
   ENumberFormat,
   ENumberInputFormat,
   ENumberOutputFormat,
@@ -160,6 +161,9 @@ export function getRange(number: number, divider?: number): TRangeDescriptor | u
   return findLast(ranges, range => number / range.divider >= 1);
 }
 
+/**
+ * Formats number for SHORT & LONG
+ */
 export const formatShortNumber = ({
   value,
   roundingMode,
@@ -179,7 +183,7 @@ export const formatShortNumber = ({
     const shortValue = roundingFn(number / range.divider, 1).toString();
 
     const translation = (translationKeys[range.key] as {
-      [key in THumanReadableFormat]: TTranslatedString;
+      [key in THumanReadableFormat]: string;
     })[outputFormat];
 
     return `${shortValue}${outputFormat === EAbbreviatedNumberOutputFormat.LONG &&

@@ -61,7 +61,6 @@ const FormatShortNumber: React.FunctionComponent<IProps> = ({
         decimalPlaces,
         inputFormat,
         outputFormat,
-        className,
         divider,
         decimals,
       })}

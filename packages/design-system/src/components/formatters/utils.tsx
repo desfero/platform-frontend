@@ -23,8 +23,8 @@ interface IFormatCurrency {
 export const formatCurrency = ({
   value,
   valueType,
-  roundingMode ,
-  inputFormat ,
+  roundingMode,
+  inputFormat,
   outputFormat,
 }: ICommonMoneyProps & IFormatCurrency): string => {
   const decimalPlaces = selectDecimalPlaces(valueType, outputFormat);

@@ -24,16 +24,6 @@ enum ERangeKey {
   MILLION = "million",
 }
 
-type TRangeDescriptor = {
-  divider: number;
-  key: ERangeKey;
-};
-
-const ranges: TRangeDescriptor[] = [
-  { divider: 1e3, key: ERangeKey.THOUSAND },
-  { divider: 1e6, key: ERangeKey.MILLION },
-];
-
 const translationKeys = {
   [ERangeKey.MILLION]: {
     [THumanReadableFormat.LONG]: (
