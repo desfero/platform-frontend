@@ -71,3 +71,12 @@ export interface IFormatNumber {
   outputFormat?: THumanReadableFormat;
   decimals?: number;
 }
+
+export interface IFormatShortNumber {
+  value: TBigNumberVariants;
+  roundingMode: ERoundingMode;
+  inputFormat: ENumberInputFormat;
+  decimalPlaces: number;
+  outputFormat: THumanReadableFormat;
+  decimals?: number;
+}

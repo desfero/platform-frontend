@@ -4,6 +4,7 @@ import {
   ENumberOutputFormat,
   ERoundingMode,
   formatNumber,
+  getRange,
   stripNumberFormatting,
   THumanReadableFormat,
   toFixedPrecision,
@@ -12,7 +13,6 @@ import BigNumber from "bignumber.js";
 import { floor, get } from "lodash";
 
 import { appRoutes } from "../../components/appRoutes";
-import { getRange } from "../../components/shared/formatters/FormatShortNumber";
 import { MOCK_API_URL } from "../config";
 import {
   assertDashboard,

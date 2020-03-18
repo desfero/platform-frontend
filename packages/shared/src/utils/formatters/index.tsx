@@ -1,9 +1,12 @@
 import BigNumber from "bignumber.js";
+import { ceil, findLast, floor, round } from "lodash";
 
+import { TTranslatedString } from "../../../../web/app/types";
 import { DEFAULT_DECIMAL_PLACES } from "../constants";
 import { invariant } from "../invariant";
 import { convertFromUlps } from "../NumberUtils";
 import {
+  EAbbreviatedNumberOutputFormat,
   ECurrency,
   ENumberFormat,
   ENumberInputFormat,
@@ -11,19 +14,20 @@ import {
   EPriceFormat,
   ERoundingMode,
   IFormatNumber,
+  IFormatShortNumber,
   IToFixedPrecision,
   THumanReadableFormat,
   TValueFormat,
 } from "./types";
 
 export {
+  EAbbreviatedNumberOutputFormat,
   ECurrency,
   ENumberFormat,
   ENumberInputFormat,
   ENumberOutputFormat,
   EPriceFormat,
   ERoundingMode,
-  IFormatNumber,
   IToFixedPrecision,
   THumanReadableFormat,
   TValueFormat,
@@ -132,6 +136,82 @@ export const toFixedPrecision = ({
   const moneyInPrimaryBase =
     inputFormat === ENumberInputFormat.ULPS ? convertFromUlps(asBigNumber, decimals) : asBigNumber;
   return moneyInPrimaryBase.toFixed(dp, getBigNumberRoundingMode(roundingMode, outputFormat));
+};
+
+export const getShortNumberRoundingFn = (roundingMode: ERoundingMode) => {
+  switch (roundingMode) {
+    case ERoundingMode.DOWN:
+      return floor;
+    case ERoundingMode.UP:
+      return ceil;
+    case ERoundingMode.HALF_UP:
+    case ERoundingMode.HALF_DOWN:
+    default:
+      return round;
+  }
+};
+
+enum ERangeKey {
+  THOUSAND = "thousand",
+  MILLION = "million",
+}
+
+// TODO use formatted message
+export const translationKeys = {
+  [ERangeKey.MILLION]: {
+    [EAbbreviatedNumberOutputFormat.LONG]: "million",
+    [EAbbreviatedNumberOutputFormat.SHORT]: "M",
+  },
+  [ERangeKey.THOUSAND]: {
+    [EAbbreviatedNumberOutputFormat.LONG]: "thousand",
+    [EAbbreviatedNumberOutputFormat.SHORT]: "k",
+  },
+};
+
+type TRangeDescriptor = {
+  divider: number;
+  key: ERangeKey;
+};
+
+const ranges: TRangeDescriptor[] = [
+  { divider: 1e3, key: ERangeKey.THOUSAND },
+  { divider: 1e6, key: ERangeKey.MILLION },
+];
+
+export function getRange(number: number, divider?: number): TRangeDescriptor | undefined {
+  if (divider) {
+    return ranges.find(range => range.divider === divider);
+  }
+
+  return findLast(ranges, range => number / range.divider >= 1);
+}
+
+export const formatShortNumber = ({
+  value,
+  roundingMode,
+  inputFormat,
+  decimalPlaces,
+  outputFormat,
+  decimals,
+}: IFormatShortNumber): string => {
+  const number = parseFloat(
+    toFixedPrecision({ value, roundingMode, inputFormat, decimalPlaces, outputFormat, decimals }),
+  );
+
+  const range = getRange(number, undefined);
+  if (range) {
+    const roundingFn = getShortNumberRoundingFn(roundingMode);
+    const shortValue = roundingFn(number / range.divider, 1).toString();
+
+    const translation = (translationKeys[range.key] as {
+      [key in THumanReadableFormat]: TTranslatedString;
+    })[outputFormat];
+
+    return `${shortValue}${outputFormat === EAbbreviatedNumberOutputFormat.LONG &&
+      " "}${translation}`;
+  }
+
+  return number.toString();
 };
 
 /* SHORT and LONG formats are not handled by this fn, it's the job of the FormatShortNumber components */

@@ -1,6 +1,7 @@
 import { findLast, floor } from "lodash";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
+import {getRange} from '@neufund/shared';
 
 /*
  * @deprecated
@@ -51,14 +52,6 @@ const translationKeys = {
     ),
   },
 };
-
-function getRange(number: number, divider?: number): TRangeDescriptor | undefined {
-  if (divider) {
-    return ranges.find(range => range.divider === divider);
-  }
-
-  return findLast(ranges, range => number / range.divider >= 1);
-}
 
 const ToHumanReadableForm: React.FunctionComponent<TExternalProps> = ({
   number,

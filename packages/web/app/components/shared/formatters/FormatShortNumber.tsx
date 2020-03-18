@@ -1,26 +1,7 @@
-import {
-  EAbbreviatedNumberOutputFormat,
-  ENumberInputFormat,
-  ERoundingMode,
-  THumanReadableFormat,
-  toFixedPrecision,
-} from "@neufund/shared";
-import { ceil, findLast, floor, round } from "lodash";
+import { EAbbreviatedNumberOutputFormat, ENumberInputFormat, ERoundingMode, formatShortNumber } from "@neufund/shared";
 import * as React from "react";
-import { FormattedMessage } from "react-intl-phraseapp";
 
 import { TBigNumberVariants } from "../../../lib/web3/types";
-import { TTranslatedString } from "../../../types";
-
-enum ERangeKey {
-  THOUSAND = "thousand",
-  MILLION = "million",
-}
-
-type TRangeDescriptor = {
-  divider: number;
-  key: ERangeKey;
-};
 
 interface IProps {
   value: TBigNumberVariants | undefined | null;
@@ -48,51 +29,6 @@ interface IRangeProps {
   separator?: string;
 }
 
-const ranges: TRangeDescriptor[] = [
-  { divider: 1e3, key: ERangeKey.THOUSAND },
-  { divider: 1e6, key: ERangeKey.MILLION },
-];
-
-export const translationKeys = {
-  [ERangeKey.MILLION]: {
-    [EAbbreviatedNumberOutputFormat.LONG]: (
-      <FormattedMessage id="shared-component.to-human-readable-form.million.long" />
-    ),
-    [EAbbreviatedNumberOutputFormat.SHORT]: (
-      <FormattedMessage id="shared-component.to-human-readable-form.million.short" />
-    ),
-  },
-  [ERangeKey.THOUSAND]: {
-    [EAbbreviatedNumberOutputFormat.LONG]: (
-      <FormattedMessage id="shared-component.to-human-readable-form.thousand.long" />
-    ),
-    [EAbbreviatedNumberOutputFormat.SHORT]: (
-      <FormattedMessage id="shared-component.to-human-readable-form.thousand.short" />
-    ),
-  },
-};
-
-export function getRange(number: number, divider?: number): TRangeDescriptor | undefined {
-  if (divider) {
-    return ranges.find(range => range.divider === divider);
-  }
-
-  return findLast(ranges, range => number / range.divider >= 1);
-}
-
-export const getShortNumberRoundingFn = (roundingMode: ERoundingMode) => {
-  switch (roundingMode) {
-    case ERoundingMode.DOWN:
-      return floor;
-    case ERoundingMode.UP:
-      return ceil;
-    case ERoundingMode.HALF_UP:
-    case ERoundingMode.HALF_DOWN:
-    default:
-      return round;
-  }
-};
-
 const FormatShortNumber: React.FunctionComponent<IProps> = ({
   value,
   defaultValue = "",
@@ -111,32 +47,21 @@ const FormatShortNumber: React.FunctionComponent<IProps> = ({
       </span>
     );
   }
-  const number = parseFloat(
-    toFixedPrecision({ value, roundingMode, inputFormat, decimalPlaces, outputFormat, decimals }),
+
+  return (
+    <span className={className} data-test-id="value">
+      {formatShortNumber({
+        value,
+        roundingMode,
+        decimalPlaces,
+        inputFormat,
+        outputFormat,
+        className,
+        divider,
+        decimals,
+      })}
+    </span>
   );
-  const range = getRange(number, divider);
-  if (range) {
-    const roundingFn = getShortNumberRoundingFn(roundingMode);
-    const shortValue = roundingFn(number / range.divider, 1).toString();
-
-    const translation = (translationKeys[range.key] as {
-      [key in THumanReadableFormat]: TTranslatedString;
-    })[outputFormat];
-
-    return (
-      <span className={className} data-test-id="value">
-        {shortValue}
-        {outputFormat === EAbbreviatedNumberOutputFormat.LONG && " "}
-        {translation}
-      </span>
-    );
-  } else {
-    return (
-      <span className={className} data-test-id="value">
-        {number.toString()}
-      </span>
-    );
-  }
 };
 
 export const FormatShortNumberRange: React.FunctionComponent<IRangeProps> = ({
