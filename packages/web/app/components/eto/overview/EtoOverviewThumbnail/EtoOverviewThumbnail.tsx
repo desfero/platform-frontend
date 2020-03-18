@@ -1,5 +1,5 @@
 import { Eur } from "@neufund/design-system";
-import { EAbbreviatedNumberOutputFormat, XOR } from "@neufund/shared";
+import { EAbbreviatedNumberOutputFormat, XOR, ERoundingMode } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { branch, compose, renderComponent } from "recompose";
@@ -111,6 +111,7 @@ const MockEtoOverviewLayout: React.FunctionComponent<TMockEtoProps &
                   <Eur
                     value={mockedEto.totalAmount}
                     outputFormat={EAbbreviatedNumberOutputFormat.SHORT}
+                    roundingMode={ERoundingMode.HALF_UP}
                   />
                 ),
               }}

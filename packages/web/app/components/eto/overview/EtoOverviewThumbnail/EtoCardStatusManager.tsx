@@ -1,5 +1,5 @@
 import { Eur } from "@neufund/design-system";
-import { EAbbreviatedNumberOutputFormat, nonNullable } from "@neufund/shared";
+import { EAbbreviatedNumberOutputFormat, nonNullable, ERoundingMode } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
@@ -123,6 +123,7 @@ const EtoCardStatusManager = ({ eto }: IExternalProps) => {
                   <Eur
                     value={eto.contract!.totalInvestment.totalEquivEurUlps}
                     outputFormat={EAbbreviatedNumberOutputFormat.SHORT}
+                    roundingMode={ERoundingMode.HALF_UP}
                   />
                 ),
               }}

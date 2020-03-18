@@ -1,5 +1,5 @@
 import { Eur } from "@neufund/design-system";
-import { assertNever, EAbbreviatedNumberOutputFormat, ENumberInputFormat } from "@neufund/shared";
+import { assertNever, EAbbreviatedNumberOutputFormat, ENumberInputFormat, ERoundingMode } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { compose, setDisplayName, withProps } from "recompose";
@@ -82,6 +82,7 @@ const WhitelistLayout: React.FunctionComponent<IProps> = ({
                     value={pledgedAmount ? pledgedAmount.toString() : null}
                     inputFormat={ENumberInputFormat.FLOAT}
                     outputFormat={EAbbreviatedNumberOutputFormat.SHORT}
+                    roundingMode={ERoundingMode.HALF_UP}
                   />
                 ),
               }}
@@ -111,6 +112,7 @@ const WhitelistLayout: React.FunctionComponent<IProps> = ({
                   <Eur
                     value={pledgedAmount ? pledgedAmount.toString() : null}
                     outputFormat={EAbbreviatedNumberOutputFormat.SHORT}
+                    roundingMode={ERoundingMode.HALF_UP}
                   />
                 ),
               }}
