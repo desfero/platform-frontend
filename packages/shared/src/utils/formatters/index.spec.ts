@@ -1,13 +1,8 @@
 import BigNumber from "bignumber.js";
 import { expect } from "chai";
 
-import { formatMoney } from "./MoneyUtils";
+import { formatMoney } from "../MoneyUtils";
 import {
-  EAbbreviatedNumberOutputFormat,
-  ECurrency,
-  ENumberInputFormat,
-  ENumberOutputFormat,
-  ERoundingMode,
   formatNumber,
   formatThousands,
   isEmptyValue,
@@ -17,7 +12,14 @@ import {
   selectDecimalPlaces,
   stripNumberFormatting,
   toFixedPrecision,
-} from "./utils";
+} from "./index";
+import {
+  EAbbreviatedNumberOutputFormat,
+  ECurrency,
+  ENumberInputFormat,
+  ENumberOutputFormat,
+  ERoundingMode,
+} from "./types";
 
 describe("formatNumber", () => {
   /* formatNumber only formats numbers (!),

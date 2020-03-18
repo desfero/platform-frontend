@@ -1,7 +1,7 @@
 import BigNumber from "bignumber.js";
 
+import { ERoundingMode } from "./formatters";
 import { TBigNumberVariants } from "./types";
-import { ERoundingMode } from "./utils";
 /*
  * @deprecated
  * use "/app/components/shared/formatters/utils.ts"

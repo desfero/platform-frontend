@@ -1,5 +1,5 @@
 import { Eur } from "@neufund/design-system";
-import { EAbbreviatedNumberOutputFormat, nonNullable, ERoundingMode } from "@neufund/shared";
+import { EAbbreviatedNumberOutputFormat, ERoundingMode, nonNullable } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 

@@ -1,81 +1,33 @@
 import BigNumber from "bignumber.js";
 
-import { DEFAULT_DECIMAL_PLACES } from "./constants";
-import { invariant } from "./invariant";
-import { convertFromUlps } from "./NumberUtils";
-import { EquityToken } from "./opaque-types/types";
-import { TBigNumberVariants } from "./types";
+import { DEFAULT_DECIMAL_PLACES } from "../constants";
+import { invariant } from "../invariant";
+import { convertFromUlps } from "../NumberUtils";
+import {
+  ECurrency,
+  ENumberFormat,
+  ENumberInputFormat,
+  ENumberOutputFormat,
+  EPriceFormat,
+  ERoundingMode,
+  IFormatNumber,
+  IToFixedPrecision,
+  THumanReadableFormat,
+  TValueFormat,
+} from "./types";
 
-export enum ERoundingMode {
-  UP = "up",
-  DOWN = "down",
-  HALF_UP = "half_up",
-  HALF_DOWN = "half_down",
-}
-
-export enum ENumberInputFormat {
-  ULPS = "ulps",
-  FLOAT = "float",
-}
-
-export enum ECurrency {
-  NEU = "neu",
-  EUR = "eur",
-  EUR_TOKEN = "eur_t",
-  ETH = "eth",
-}
-
-export enum ENumberFormat {
-  PERCENTAGE = "percentage",
-}
-
-export enum EPriceFormat {
-  EQUITY_TOKEN_PRICE_ETH = "equityTokenPriceEth",
-  EQUITY_TOKEN_PRICE_EURO = "equityTokenPriceEuro",
-  EQUITY_TOKEN_PRICE_EUR_TOKEN = "equityTokenPriceEuroToken",
-  SHARE_PRICE = "sharePrice",
-}
-
-export enum ENumberOutputFormat {
-  INTEGER = "integer",
-  ONLY_NONZERO_DECIMALS = "onlyNonzeroDecimals", // see removeZeroDecimals unit test
-  FULL = "full",
-  ONLY_NONZERO_DECIMALS_ROUND_UP = "onlyNonzeroDecimalsRoundUp", // see removeZeroDecimals unit test
-  FULL_ROUND_UP = "fullRoundUp",
-}
-
-export enum EAbbreviatedNumberOutputFormat {
-  LONG = "long",
-  SHORT = "short",
-}
-
-export type THumanReadableFormat = ENumberOutputFormat | EAbbreviatedNumberOutputFormat;
-
-export enum ESpecialNumber {
-  UNLIMITED = "unlimited",
-}
-
-export type TValueFormat = ECurrency | EPriceFormat | ENumberFormat | EquityToken;
-
-interface IToFixedPrecision {
-  value: TBigNumberVariants;
-  roundingMode?: ERoundingMode;
-  inputFormat?: ENumberInputFormat;
-  decimalPlaces: number | undefined;
-  isPrice?: boolean;
-  outputFormat?: THumanReadableFormat;
-  decimals?: number;
-}
-
-interface IFormatNumber {
-  value: TBigNumberVariants;
-  roundingMode?: ERoundingMode;
-  inputFormat?: ENumberInputFormat;
-  decimalPlaces?: number;
-  isPrice?: boolean;
-  outputFormat?: THumanReadableFormat;
-  decimals?: number;
-}
+export {
+  ECurrency,
+  ENumberFormat,
+  ENumberInputFormat,
+  ENumberOutputFormat,
+  EPriceFormat,
+  ERoundingMode,
+  IFormatNumber,
+  IToFixedPrecision,
+  THumanReadableFormat,
+  TValueFormat,
+};
 
 export const selectDecimalPlaces = (
   valueType: TValueFormat,
@@ -181,6 +133,7 @@ export const toFixedPrecision = ({
     inputFormat === ENumberInputFormat.ULPS ? convertFromUlps(asBigNumber, decimals) : asBigNumber;
   return moneyInPrimaryBase.toFixed(dp, getBigNumberRoundingMode(roundingMode, outputFormat));
 };
+
 /* SHORT and LONG formats are not handled by this fn, it's the job of the FormatShortNumber components */
 export const formatNumber = ({
   value,
@@ -204,6 +157,7 @@ export const formatNumber = ({
     ? formatThousands(removeZeroDecimals(asFixedPrecisionNumber))
     : formatThousands(asFixedPrecisionNumber);
 };
+
 export const parseInputToNumber = (val: string | undefined): string | null => {
   if (!val || val.trim() === "") {
     return "";
@@ -262,8 +216,10 @@ export const parseInputToNumber = (val: string | undefined): string | null => {
 
   return value;
 };
+
 /* this is only to check if the user input/formik value is empty */
 export const isEmptyValue = (val: string | undefined) => val === undefined || val.trim() === "";
+
 export const isValidNumber = (val: string | undefined) => {
   if (!val) {
     return false;
@@ -272,6 +228,7 @@ export const isValidNumber = (val: string | undefined) => {
 
   return value.match(/^\d+([.,]\d+)?$/) !== null;
 };
+
 export const stripNumberFormatting = (value: string) => {
   if (isEmptyValue(value)) {
     return "";
@@ -293,6 +250,7 @@ export const stripNumberFormatting = (value: string) => {
     return value;
   }
 };
+
 export const selectUnits = (valueType: TValueFormat): string => {
   switch (valueType) {
     case ECurrency.ETH:
