@@ -4,8 +4,8 @@ import {
   ENumberInputFormat,
   ENumberOutputFormat,
   EPriceFormat,
+  ERoundingMode,
   isZero,
-  ERoundingMode
 } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";

@@ -1,5 +1,10 @@
 import { Eur } from "@neufund/design-system";
-import { assertNever, ENumberInputFormat, ENumberOutputFormat, ERoundingMode } from "@neufund/shared";
+import {
+  assertNever,
+  ENumberInputFormat,
+  ENumberOutputFormat,
+  ERoundingMode,
+} from "@neufund/shared";
 import * as React from "react";
 import { FormattedHTMLMessage, FormattedMessage } from "react-intl-phraseapp";
 
