@@ -76,6 +76,7 @@ $payout-container-color: rgba($neu-white-two, .1);
 
 .payout-amount {
   font-weight: bold;
+  color: $neu-base-green;
 
   &::before {
     content: "~";

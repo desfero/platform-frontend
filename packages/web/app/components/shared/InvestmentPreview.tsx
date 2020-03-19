@@ -1,11 +1,10 @@
-import { Button, EButtonLayout } from "@neufund/design-system";
-import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
+import { Button, EButtonLayout, EurToken } from "@neufund/design-system";
+import { ENumberOutputFormat } from "@neufund/shared";
 import * as React from "react";
 import { FormattedPlural } from "react-intl";
 import { FormattedHTMLMessage, FormattedMessage } from "react-intl-phraseapp";
 
 import { ButtonLink } from "./buttons/ButtonLink";
-import { ETheme, Money } from "./formatters/Money";
 import { PercentageIndicatorBar } from "./PercentageIndicatorBar";
 import { Tag, TTag } from "./Tag";
 
@@ -130,12 +129,10 @@ export const InvestmentPreview: React.FunctionComponent<IProps> = ({
               </div>
               <PercentageIndicatorBar percent={25} className="my-2" />
               <strong>
-                <Money
+                <EurToken
+                  className={styles.eurToken}
                   value="123456000000000000000000"
-                  inputFormat={ENumberInputFormat.ULPS}
-                  valueType={ECurrency.EUR_TOKEN}
                   outputFormat={ENumberOutputFormat.FULL}
-                  theme={ETheme.GREEN}
                 />
               </strong>
             </div>

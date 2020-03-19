@@ -1,4 +1,5 @@
-import { ECurrency, ENumberInputFormat, ENumberOutputFormat, isZero } from "@neufund/shared";
+import { Eth, EurToken } from "@neufund/design-system";
+import { isZero } from "@neufund/shared";
 import * as moment from "moment";
 import * as React from "react";
 import { FormattedHTMLMessage, FormattedMessage } from "react-intl-phraseapp";
@@ -12,7 +13,6 @@ import {
 } from "../../../../modules/investor-portfolio/selectors";
 import { appConnect } from "../../../../store";
 import { Counter } from "../../../shared/Counter";
-import { ETheme, Money } from "../../../shared/formatters/Money";
 
 import * as styles from "./PayoutWidget.module.scss";
 
@@ -43,28 +43,20 @@ export const IncomingPayoutPendingBase: React.FunctionComponent<IIncomingPayoutD
     {children}
     <div>
       {!isZero(euroTokenIncomingPayout) && (
-        <Money
+        <EurToken
           value={euroTokenIncomingPayout}
-          inputFormat={ENumberInputFormat.ULPS}
-          outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
-          valueType={ECurrency.EUR_TOKEN}
           data-test-id="incoming-payout-euro-token"
           className={styles.incomingValue}
-          theme={ETheme.GREEN}
         />
       )}
       {!isZero(euroTokenIncomingPayout) && !isZero(etherTokenIncomingPayout) && (
         <span className={styles.incomingValue}> & </span>
       )}
       {!isZero(etherTokenIncomingPayout) && (
-        <Money
+        <Eth
           value={etherTokenIncomingPayout}
-          inputFormat={ENumberInputFormat.ULPS}
-          valueType={ECurrency.ETH}
-          outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
           data-test-id="incoming-payout-ether-token"
           className={styles.incomingValue}
-          theme={ETheme.GREEN}
         />
       )}
     </div>

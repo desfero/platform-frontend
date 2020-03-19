@@ -1,5 +1,4 @@
-import { ButtonInline } from "@neufund/design-system";
-import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "@neufund/shared";
+import { ButtonInline, Eur } from "@neufund/design-system";
 import * as cn from "classnames";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
@@ -13,7 +12,6 @@ import {
 } from "../../../../modules/investor-portfolio/selectors";
 import { appConnect } from "../../../../store";
 import { ButtonLink } from "../../../shared/buttons/ButtonLink";
-import { ETheme, Money } from "../../../shared/formatters/Money";
 import { InlineIcon } from "../../../shared/icons/InlineIcon";
 import { TimeLeftWithSeconds } from "../../../shared/TimeLeft.unsafe";
 import { getTomorrowsDate } from "../../../shared/utils";
@@ -53,12 +51,8 @@ const MyNeuWidgetPendingPayoutLayout: React.FunctionComponent<TPendingPayoutProp
             />
           ),
           amount: (
-            <Money
+            <Eur
               value={incomingPayoutEurEquiv}
-              inputFormat={ENumberInputFormat.ULPS}
-              valueType={ECurrency.EUR}
-              outputFormat={ENumberOutputFormat.FULL}
-              theme={ETheme.GREEN}
               className={cn(styles.payoutAmount, "text-nowrap")}
             />
           ),
