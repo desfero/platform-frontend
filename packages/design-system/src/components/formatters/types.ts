@@ -13,3 +13,8 @@ export interface ICommonMoneyProps {
   outputFormat?: THumanReadableFormat;
   roundingMode?: ERoundingMode;
 }
+
+export interface ICommonFormatterProps {
+  defaultValue?: React.ReactChild;
+  value: TBigNumberVariants | null | undefined;
+}

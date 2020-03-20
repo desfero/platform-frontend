@@ -25,7 +25,7 @@ export const Eth: React.FunctionComponent<IValueProps & ICommonMoneyProps & TDat
     value &&
     formatCurrency({
       value,
-      valueType: ECurrency.EUR,
+      valueType: ECurrency.ETH,
       inputFormat: inputFormat,
       outputFormat: outputFormat,
       roundingMode: roundingMode,
