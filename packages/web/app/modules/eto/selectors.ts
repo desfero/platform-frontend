@@ -315,3 +315,5 @@ export const selectStartOfOnchainState = (
 };
 
 export const selectEtosError = createSelector(selectEtoState, eto => eto.etosError);
+
+export const selectTokensLoading = createSelector(selectEtoState, eto => eto.tokensLoading);

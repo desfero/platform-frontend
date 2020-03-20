@@ -30,6 +30,7 @@ jobs:
       # Linting
       - run: yarn workspace @neufund/web lint
       - run: yarn workspace @neufund/shared lint
+      - run: yarn workspace @neufund/design-system lint
       # Unit Tests
       - run: yarn workspace @neufund/web test
       - run: yarn workspace @neufund/shared test

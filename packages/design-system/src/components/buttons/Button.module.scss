@@ -24,16 +24,11 @@
   //       even if it's small change to the existing one that can be done through prop (e.g theme prop)
 
   &--primary {
-    $hover-box-shadow: rgba(20, 36, 49, .2);
-
     background: $neu-neon-yellow;
     border: px-to-rem(1px) solid $neu-neon-yellow;
 
     &:not(:disabled) {
-      &:hover {
-        box-shadow: 0 5px 10px 0 $hover-box-shadow;
-      }
-
+      &:hover,
       &:active,
       &#{$button}--is-active {
         background: $neu-bitter-lemon;
@@ -52,10 +47,7 @@
     background: $neu-white-two;
 
     &:not(:disabled) {
-      &:hover {
-        border-color: $neu-bitter-lemon;
-      }
-
+      &:hover,
       &:active,
       &#{$button}--is-active {
         background: $neu-bitter-lemon;
@@ -92,17 +84,12 @@
   }
 
   &--ghost {
-    border: px-to-rem(1px) solid transparent;
-
     &:not(:disabled) {
-      &:hover {
-        background: $neu-very-light-blue;
-      }
-
+      &:hover,
       &:active,
       &#{$button}--is-active {
-        background: transparent;
-        color: $neu-bitter-lemon;
+        background: $neu-bitter-lemon;
+        border-color: $neu-bitter-lemon;
       }
     }
   }
@@ -113,6 +100,14 @@
   }
 
   // sizes
+  &--extra-small {
+    @include media-breakpoint-up(sm) {
+      min-width: px-to-rem(80px);
+    }
+    line-height: px-to-rem(22px);
+    padding: 0 px-to-rem(12px);
+  }
+
   &--small {
     @include media-breakpoint-up(sm) {
       min-width: px-to-rem(110px);

@@ -1,12 +1,5 @@
 const path = require("path");
-
-const paths = {
-  assets: path.join(__dirname, "../src/assets"),
-  inlineIcons: path.join(__dirname, "../src/assets/img/inline_icons"),
-  postCSSConfig: path.join(__dirname, "../postcss.config.js"),
-  sassResource: path.join(__dirname, "../src/styles/neufund-theme.scss"),
-  src: path.join(__dirname, "../src"),
-};
+const paths = require("../webpack/paths");
 
 module.exports = {
   stories: ["../src/**/*.stories.tsx"],

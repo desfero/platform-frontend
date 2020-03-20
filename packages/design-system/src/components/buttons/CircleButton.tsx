@@ -24,6 +24,7 @@ type TExternalProps = {
   iconPosition?: ECircleButtonIconPosition;
   iconProps?: Omit<React.ComponentProps<typeof InlineIcon>, "svgIcon">;
   layout: ECircleButtonLayout;
+  isActive?: boolean;
 };
 
 const CircleButton: React.FunctionComponent<TExternalProps & TButtonBaseProps> = ({
@@ -33,6 +34,7 @@ const CircleButton: React.FunctionComponent<TExternalProps & TButtonBaseProps> =
   svgIcon,
   iconProps = {},
   iconPosition,
+  isActive,
   ...props
 }) => {
   const withIconOnly = children === undefined;
@@ -52,6 +54,7 @@ const CircleButton: React.FunctionComponent<TExternalProps & TButtonBaseProps> =
     <ButtonBase
       className={cn(className, layout, styles.circleButton, {
         [styles.circleButtonOnlyIcon]: withIconOnly,
+        [styles.circleButtonIsActive]: isActive,
       })}
       {...props}
     >

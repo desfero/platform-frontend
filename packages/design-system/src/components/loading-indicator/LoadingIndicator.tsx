@@ -5,9 +5,10 @@ import * as React from "react";
 import { CommonHtmlProps } from "../../types";
 import { InlineIcon } from "../icons/InlineIcon";
 import { Container, EColumnSpan, EContainerType } from "../layouts/Container";
-import { LoadingSpinnerIcon, SpinnerIcon } from "./icon";
 import { LoadingIndicatorHexagon } from "./LoadingIndicatorHexagon";
 
+import LoadingSpinnerIcon from "../../assets/img/inline_icons/loading-spinner.svg";
+import SpinnerIcon from "../../assets/img/inline_icons/spinner.svg";
 import * as styles from "./LoadingIndicator.module.scss";
 
 export enum ELoadingIndicator {

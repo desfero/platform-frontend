@@ -1,6 +1,6 @@
 import { action } from "@storybook/addon-actions";
 import { storiesOf } from "@storybook/react";
-import React from "react";
+import * as React from "react";
 
 import { EKycRequestType } from "../../../lib/api/kyc/KycApi.interfaces";
 import { SelectTypeCard } from "./SelectTypeCard";

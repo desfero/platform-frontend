@@ -1,6 +1,6 @@
 import { convertToUlps } from "@neufund/shared";
 import { storiesOf } from "@storybook/react";
-import React from "react";
+import * as React from "react";
 
 import { testEto } from "../../../test/fixtures";
 import { ETOFundraisingStatisticsLayout } from "./ETOFundraisingStatistics";

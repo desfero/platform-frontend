@@ -9,27 +9,25 @@
   padding: px-to-rem(4px) px-to-rem(12px) px-to-rem(3px);
   transition: background-color 200ms ease-out, box-shadow 200ms ease-out, color 200ms ease-out;
 
+
   &:disabled {
     background: $neu-light-blue-grey-two;
     border-color: $neu-light-blue-grey-two;
     color: $neu-gull-gray;
   }
 
+  &:not(:disabled) {
+    &:hover,
+    &:active,
+    &#{$button}--is-active {
+      background: $neu-bitter-lemon;
+      border-color: $neu-bitter-lemon;
+    }
+  }
+
   &--secondary {
     border: px-to-rem(1px) solid $neu-very-light-blue;
     background: $neu-very-light-blue;
-
-    &:not(:disabled) {
-      &:hover {
-        border-color: $neu-bitter-lemon;
-        background: $neu-bitter-lemon;
-      }
-
-      &:active {
-        background: transparent;
-        border-color: $neu-bitter-lemon;
-      }
-    }
   }
 
   &--danger {

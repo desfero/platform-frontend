@@ -67,6 +67,7 @@ storiesOf("NDS|Molecules/Button", module)
   ))
   .add("Sizes", () => (
     <PaddedWrapper>
+      <GenerateStory title="Extra small" size={EButtonSize.EXTRA_SMALL} />
       <GenerateStory title="Small" size={EButtonSize.SMALL} />
       <GenerateStory title="Normal" size={EButtonSize.NORMAL} />
       <GenerateStory title="Huge" size={EButtonSize.HUGE} />

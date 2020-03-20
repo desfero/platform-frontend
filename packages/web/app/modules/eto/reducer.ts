@@ -23,6 +23,7 @@ export interface IEtoState {
   tokenGeneralDiscounts: { [etoId: string]: IEtoTokenGeneralDiscounts | undefined };
   offeringAgreementsStatus: { [previewCode: string]: TOfferingAgreementsStatus | undefined };
   signedInvestmentAgreements: { [previewCode: string]: SignedISHAStatus | undefined };
+  tokensLoading: boolean;
 }
 
 export const etoFlowInitialState: IEtoState = {
@@ -37,6 +38,7 @@ export const etoFlowInitialState: IEtoState = {
   tokenGeneralDiscounts: {},
   offeringAgreementsStatus: {},
   signedInvestmentAgreements: {},
+  tokensLoading: false,
 };
 
 export const etoReducer: AppReducer<IEtoState> = (
@@ -146,6 +148,18 @@ export const etoReducer: AppReducer<IEtoState> = (
       return {
         ...state,
         etosError: true,
+      };
+
+    case actions.eto.loadEtos.getType():
+      return {
+        ...state,
+        tokensLoading: true,
+      };
+
+    case actions.eto.setTokensLoadingDone.getType():
+      return {
+        ...state,
+        tokensLoading: false,
       };
   }
 

@@ -14,6 +14,11 @@ const GenerateStory: React.FunctionComponent<TGenerateStoryProps> = ({ layout })
     <CircleButton layout={layout}>Normal</CircleButton>
     <br />
     <br />
+    <CircleButton layout={layout} isActive={true}>
+      Active
+    </CircleButton>
+    <br />
+    <br />
     <CircleButton layout={layout} autoFocus>
       Focused
     </CircleButton>

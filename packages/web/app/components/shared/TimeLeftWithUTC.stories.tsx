@@ -1,6 +1,6 @@
 import { storiesOf } from "@storybook/react";
 import * as moment from "moment";
-import React from "react";
+import * as React from "react";
 
 import { withMockedDate } from "../../utils/react-connected-components/storybookHelpers.unsafe";
 import { TimeLeftWithUTC } from "./TimeLeftWithUTC";

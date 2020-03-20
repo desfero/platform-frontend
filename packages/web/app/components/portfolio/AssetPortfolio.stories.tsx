@@ -1,6 +1,6 @@
 import { convertToUlps, ECurrency } from "@neufund/shared";
 import { storiesOf } from "@storybook/react";
-import React from "react";
+import * as React from "react";
 
 import { ITokenDisbursal } from "../../modules/investor-portfolio/types";
 import { AssetPortfolio } from "./AssetPortfolio";

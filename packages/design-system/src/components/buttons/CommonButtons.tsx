@@ -1,7 +1,10 @@
 import * as React from "react";
 
 import { Button, EButtonLayout, EButtonWidth, EIconPosition } from "./Button";
-import { ArrowLeft, ArrowRight, CloseIcon } from "./icons";
+
+import ArrowLeftIcon from "../../assets/img/inline_icons/arrow-left.svg";
+import ArrowRightIcon from "../../assets/img/inline_icons/arrow-right.svg";
+import CloseIcon from "../../assets/img/inline_icons/close.svg";
 
 type TButtonProps = React.ComponentProps<typeof Button>;
 
@@ -12,7 +15,7 @@ const ButtonArrowRight: React.FunctionComponent<TButtonArrowProps> = props => (
     {...props}
     layout={EButtonLayout.GHOST}
     iconPosition={EIconPosition.ICON_AFTER}
-    svgIcon={ArrowRight}
+    svgIcon={ArrowRightIcon}
   />
 );
 
@@ -21,7 +24,7 @@ const ButtonArrowLeft: React.FunctionComponent<TButtonArrowProps> = props => (
     {...props}
     layout={EButtonLayout.GHOST}
     iconPosition={EIconPosition.ICON_BEFORE}
-    svgIcon={ArrowLeft}
+    svgIcon={ArrowLeftIcon}
   />
 );
 

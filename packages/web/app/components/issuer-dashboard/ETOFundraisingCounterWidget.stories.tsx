@@ -1,6 +1,6 @@
 import { storiesOf } from "@storybook/react";
 import * as moment from "moment";
-import React from "react";
+import * as React from "react";
 
 import { testEto } from "../../../test/fixtures";
 import {

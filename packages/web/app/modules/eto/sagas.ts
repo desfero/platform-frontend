@@ -44,7 +44,6 @@ import { TTranslatedString } from "../../types";
 import { actions, TActionFromCreator } from "../actions";
 import { selectIsUserFullyVerified, selectUserId, selectUserType } from "../auth/selectors";
 import { shouldLoadBookbuildingStats, shouldLoadPledgeData } from "../bookbuilding-flow/utils";
-import { selectMyAssets } from "../investor-portfolio/selectors";
 import { selectClientJurisdiction } from "../kyc/selectors";
 import { neuCall, neuFork, neuTakeEvery, neuTakeLatest, neuTakeUntil } from "../sagasUtils";
 import { selectTxAdditionalData, selectTxType } from "../tx/sender/selectors";
@@ -371,7 +370,7 @@ export function* watchEto(_: TGlobalDependencies, previewCode: string): any {
   }
 }
 
-function* loadEtos({ apiEtoService, logger, notificationCenter }: TGlobalDependencies): any {
+export function* loadEtos({ apiEtoService, logger, notificationCenter }: TGlobalDependencies): any {
   try {
     const etos: TEtoDataWithCompany[] = yield apiEtoService.getEtos();
     const jurisdiction: string | undefined = yield select(selectClientJurisdiction);
@@ -410,15 +409,12 @@ function* loadEtos({ apiEtoService, logger, notificationCenter }: TGlobalDepende
     if (userType === EUserType.INVESTOR) {
       yield put(actions.investorEtoTicket.loadInvestorTickets(etosByPreviewCode));
 
-      yield all(
-        etosWithContract
-          .filter(
-            eto =>
-              eto.contract &&
-              [EETOStateOnChain.Payout, EETOStateOnChain.Claim].includes(eto.contract.timedState),
-          )
-          .map(eto => neuCall(loadToken, eto)),
+      const myAssets = etosWithContract.filter(
+        eto =>
+          eto.contract &&
+          [EETOStateOnChain.Payout, EETOStateOnChain.Claim].includes(eto.contract.timedState),
       );
+      yield loadTokens(myAssets);
     }
     yield put(actions.eto.setEtos({ etos: etosByPreviewCode, companies }));
     yield put(actions.eto.setEtosDisplayOrder(order));
@@ -624,14 +620,14 @@ function* loadToken(
   yield put(actions.eto.setTokenData(eto.previewCode, tokenData));
 }
 
-function* loadTokensData(): any {
-  const myAssets = yield select(selectMyAssets);
-
-  if (!myAssets) {
+function* loadTokens(etos: TEtoWithCompanyAndContractReadonly[]): Generator<any, any, any> {
+  if (!etos) {
     return;
   }
 
-  yield all(myAssets.map((eto: TEtoWithCompanyAndContractReadonly) => neuCall(loadToken, eto)));
+  yield all(etos.map((eto: TEtoWithCompanyAndContractReadonly) => neuCall(loadToken, eto)));
+
+  yield put(actions.eto.setTokensLoadingDone());
 }
 
 function* updateEtoAndTokenData({ logger }: TGlobalDependencies): Generator<any, any, any> {
@@ -865,7 +861,6 @@ export function* etoSagas(): Generator<any, any, any> {
   yield fork(neuTakeEvery, actions.eto.loadEtoPreview, loadEtoPreview);
   yield fork(neuTakeEvery, actions.eto.loadEto, loadEto);
   yield fork(neuTakeEvery, actions.eto.loadEtos, loadEtos);
-  yield fork(neuTakeEvery, actions.eto.loadTokensData, loadTokensData);
   yield fork(neuTakeEvery, actions.eto.loadEtoAgreementsStatus, issuerFlowLoadAgreementsStatus);
   yield fork(neuTakeLatest, actions.eto.loadTokenTerms, loadEtoGeneralTokenDiscounts);
 

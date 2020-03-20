@@ -25,6 +25,7 @@ enum EButtonSize {
   SMALL = styles.buttonSmall,
   HUGE = styles.buttonHuge,
   DYNAMIC = styles.buttonDynamic,
+  EXTRA_SMALL = styles.buttonExtraSmall,
 }
 
 enum EButtonWidth {
