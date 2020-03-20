@@ -12,26 +12,23 @@ import { IValueProps, Value } from "./atoms/Value";
 import { ICommonFormatterProps } from "./types";
 import { formatCurrency } from "./utils";
 
-export const Eth: React.FunctionComponent<IValueProps & ICommonFormatterProps & TDataTestId> = ({
-  className,
-  value,
-  defaultValue,
-  "data-test-id": dataTestId,
-}) => {
+export const NeuFull: React.FunctionComponent<IValueProps &
+  ICommonFormatterProps &
+  TDataTestId> = ({ className, value, defaultValue, "data-test-id": dataTestId }) => {
   const formattedValue =
     value &&
     formatCurrency({
       value,
-      valueType: ECurrency.ETH,
+      valueType: ECurrency.NEU,
       inputFormat: ENumberInputFormat.ULPS,
-      outputFormat: ENumberOutputFormat.ONLY_NONZERO_DECIMALS,
+      outputFormat: ENumberOutputFormat.FULL,
       roundingMode: ERoundingMode.DOWN,
     });
 
   return (
     <span className={className} data-test-id={dataTestId}>
       <Value>{formattedValue || defaultValue || " "}</Value>
-      <Units show={!!formattedValue}>ETH</Units>
+      <Units show={!!formattedValue}>NEU</Units>
     </span>
   );
 };

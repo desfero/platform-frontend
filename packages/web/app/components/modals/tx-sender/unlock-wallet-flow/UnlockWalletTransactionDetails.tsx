@@ -1,6 +1,5 @@
-import { EthFull, Neu } from "@neufund/design-system";
+import { EthFull, NeuFull } from "@neufund/design-system";
 import {
-  ENumberOutputFormat,
   getCurrentUTCTimestamp,
   multiplyBigNumbers,
   PLATFORM_UNLOCK_FEE,
@@ -45,9 +44,7 @@ const UnlockWalletTransactionDetailsLayout: React.FunctionComponent<TTxPendingPr
     />
     <InfoRow
       caption={<FormattedMessage id="unlock-funds-flow.neumarks-due" />}
-      value={
-        <Neu value={additionalData.etherNeumarksDue} outputFormat={ENumberOutputFormat.FULL} />
-      }
+      value={<NeuFull value={additionalData.etherNeumarksDue} />}
     />
     <InfoRow
       caption={

@@ -1,5 +1,4 @@
-import { EthFull, Neu } from "@neufund/design-system";
-import { ENumberOutputFormat } from "@neufund/shared";
+import { EthFull, NeuFull } from "@neufund/design-system";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
@@ -28,7 +27,7 @@ const ClaimTransactionDetails: TransactionDetailsComponent<ETxSenderType.USER_CL
 
     <InfoRow
       caption={<FormattedMessage id="user-claim-flow.estimated-reward" />}
-      value={<Neu value={additionalData.neuRewardUlps} outputFormat={ENumberOutputFormat.FULL} />}
+      value={<NeuFull value={additionalData.neuRewardUlps} />}
     />
 
     <InfoRow

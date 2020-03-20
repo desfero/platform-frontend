@@ -1,4 +1,4 @@
-import { Eur, Neu, Table, TokenDetails } from "@neufund/design-system";
+import { Eur, NeuFull, Table, TokenDetails } from "@neufund/design-system";
 import {
   ENumberInputFormat,
   ENumberOutputFormat,
@@ -75,9 +75,8 @@ const prepareTableColumns = (
     Header: <FormattedMessage id="portfolio.section.reserved-assets.table.header.neu-reward" />,
     accessor: "reward",
     Footer: () => (
-      <Neu
+      <NeuFull
         value={pendingAssetsTotalReward}
-        outputFormat={ENumberOutputFormat.FULL}
         data-test-id="portfolio-reserved-assets-total-reward"
       />
     ),
@@ -128,9 +127,8 @@ const prepareTableRowData = (pendingAssets: TETOWithInvestorTicket[]) =>
         />
       ),
       reward: (
-        <Neu
+        <NeuFull
           value={investorTicket.rewardNmkUlps.toString()}
-          outputFormat={ENumberOutputFormat.FULL}
           data-test-id="portfolio-reserved-asset-neu-reward"
         />
       ),

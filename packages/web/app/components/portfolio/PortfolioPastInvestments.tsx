@@ -1,4 +1,4 @@
-import { Button, EButtonLayout, Eur, Neu, Table, TokenDetails } from "@neufund/design-system";
+import { Button, EButtonLayout, Eur, NeuFull, Table, TokenDetails } from "@neufund/design-system";
 import {
   ENumberInputFormat,
   ENumberOutputFormat,
@@ -112,9 +112,8 @@ const prepareTableRowData = (
           />
         ),
         reward: (
-          <Neu
+          <NeuFull
             value={investorTicket.rewardNmkUlps.toString()}
-            outputFormat={ENumberOutputFormat.FULL}
             data-test-id="past-investments-asset-neu-reward"
           />
         ),
