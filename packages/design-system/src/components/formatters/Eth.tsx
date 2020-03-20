@@ -9,16 +9,14 @@ import * as React from "react";
 
 import { Units } from "./atoms/Units";
 import { IValueProps, Value } from "./atoms/Value";
-import { ICommonMoneyProps } from "./types";
+import { ICommonFormatterProps } from "./types";
 import { formatCurrency } from "./utils";
 
-export const Eth: React.FunctionComponent<IValueProps & ICommonMoneyProps & TDataTestId> = ({
+export const Eth: React.FunctionComponent<IValueProps & ICommonFormatterProps & TDataTestId> = ({
   className,
   value,
   defaultValue,
-  roundingMode = ERoundingMode.DOWN,
   inputFormat = ENumberInputFormat.ULPS,
-  outputFormat = ENumberOutputFormat.ONLY_NONZERO_DECIMALS,
   "data-test-id": dataTestId,
 }) => {
   const formattedValue =
@@ -26,9 +24,9 @@ export const Eth: React.FunctionComponent<IValueProps & ICommonMoneyProps & TDat
     formatCurrency({
       value,
       valueType: ECurrency.ETH,
-      inputFormat: inputFormat,
-      outputFormat: outputFormat,
-      roundingMode: roundingMode,
+      inputFormat: ENumberInputFormat.ULPS,
+      outputFormat: ENumberOutputFormat.ONLY_NONZERO_DECIMALS,
+      roundingMode: ERoundingMode.DOWN,
     });
 
   return (
