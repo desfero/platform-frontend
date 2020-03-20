@@ -1,4 +1,4 @@
-import { Eth, Eur, Neu, TokenIcon } from "@neufund/design-system";
+import { Eth, Eur, Neu, TokenIcon, EthFull } from "@neufund/design-system";
 import {
   addBigNumbers,
   divideBigNumbers,
@@ -185,7 +185,7 @@ const InvestmentTransactionDetails: TransactionDetailsComponent<ETxSenderType.IN
       <InfoRow
         data-test-id="investment-flow.summary.transaction-cost"
         caption={<FormattedMessage id="investment-flow.summary.transaction-cost" />}
-        value={<Eth value={additionalData.gasCostEth} outputFormat={ENumberOutputFormat.FULL} />}
+        value={<EthFull value={additionalData.gasCostEth} />}
       />
       <InfoRow
         data-test-id="investment-flow.summary.equity-tokens"

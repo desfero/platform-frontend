@@ -1,5 +1,5 @@
-import { Eth } from "@neufund/design-system";
-import { ENumberOutputFormat, multiplyBigNumbers } from "@neufund/shared";
+import { EthFull } from "@neufund/design-system";
+import { multiplyBigNumbers } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
@@ -19,17 +19,12 @@ const UpgradeTransactionDetails: TransactionDetailsComponent<ETxSenderType.UPGRA
 
     <InfoRow
       caption={<FormattedMessage id="upgrade-flow.value" />}
-      value={<Eth value={txData!.value} outputFormat={ENumberOutputFormat.FULL} />}
+      value={<EthFull value={txData!.value} />}
     />
 
     <InfoRow
       caption={<FormattedMessage id="upgrade-flow.transaction-cost" />}
-      value={
-        <Eth
-          value={multiplyBigNumbers([txData!.gasPrice, txData!.gas])}
-          outputFormat={ENumberOutputFormat.FULL}
-        />
-      }
+      value={<EthFull value={multiplyBigNumbers([txData!.gasPrice, txData!.gas])} />}
     />
 
     {txTimestamp && <TimestampRow timestamp={txTimestamp} />}

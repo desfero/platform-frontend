@@ -1,5 +1,5 @@
-import { Eth, Eur, EurToken } from "@neufund/design-system";
-import { ENumberOutputFormat, isZero } from "@neufund/shared";
+import { Eth, EthFull, Eur, EurToken } from "@neufund/design-system";
+import { isZero } from "@neufund/shared";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
@@ -52,7 +52,7 @@ const RefundTransactionDetails: TransactionDetailsComponent<ETxSenderType.INVEST
           <>
             <Eur value={additionalData.costEurUlps} />
             {" ≈ "}
-            <Eth value={additionalData.costUlps} outputFormat={ENumberOutputFormat.FULL} />
+            <EthFull value={additionalData.costUlps} />
           </>
         }
       />

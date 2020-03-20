@@ -1,4 +1,4 @@
-import { Eth, Neu } from "@neufund/design-system";
+import { EthFull, Neu } from "@neufund/design-system";
 import {
   ENumberOutputFormat,
   getCurrentUTCTimestamp,
@@ -41,9 +41,7 @@ const UnlockWalletTransactionDetailsLayout: React.FunctionComponent<TTxPendingPr
   <InfoList className={className}>
     <InfoRow
       caption={<FormattedMessage id="unlock-funds-flow.eth-committed" />}
-      value={
-        <Eth value={additionalData.lockedEtherBalance} outputFormat={ENumberOutputFormat.FULL} />
-      }
+      value={<EthFull value={additionalData.lockedEtherBalance} />}
     />
     <InfoRow
       caption={<FormattedMessage id="unlock-funds-flow.neumarks-due" />}
@@ -64,16 +62,11 @@ const UnlockWalletTransactionDetailsLayout: React.FunctionComponent<TTxPendingPr
     />
     <InfoRow
       caption={<FormattedMessage id="unlock-funds-flow.amount-returned" />}
-      value={<Eth value={returnedEther} outputFormat={ENumberOutputFormat.FULL} />}
+      value={<EthFull value={returnedEther} />}
     />
     <InfoRow
       caption={<FormattedMessage id="unlock-funds-flow.transaction-cost" />}
-      value={
-        <Eth
-          value={multiplyBigNumbers([txData!.gasPrice, txData!.gas])}
-          outputFormat={ENumberOutputFormat.FULL}
-        />
-      }
+      value={<EthFull value={multiplyBigNumbers([txData!.gasPrice, txData!.gas])} />}
     />
 
     {txTimestamp && <TimestampRow timestamp={txTimestamp} />}

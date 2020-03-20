@@ -1,4 +1,12 @@
-import { Button, ButtonInline, EButtonLayout, Eth, Eur, Neu } from "@neufund/design-system";
+import {
+  Button,
+  ButtonInline,
+  EButtonLayout,
+  Eth,
+  EthFull,
+  Eur,
+  Neu,
+} from "@neufund/design-system";
 import {
   addBigNumbers,
   ECurrency,
@@ -379,16 +387,10 @@ export class InvestmentSelectionComponent extends React.Component<IProps, IState
                   )}
                   {investmentCurrency === EInvestmentCurrency.ETH && (
                     <>
-                      <Eth
-                        value={this.calculateTotalCostIfValid(gasCostEth, ethValue)}
-                        outputFormat={ENumberOutputFormat.FULL}
-                      />
+                      <EthFull value={this.calculateTotalCostIfValid(gasCostEth, ethValue)} />
                       <span className={styles.helpText}>
                         {" ≈ "}
-                        <Eth
-                          value={this.calculateTotalCostIfValid(gasCostEuro, euroValue)}
-                          outputFormat={ENumberOutputFormat.FULL}
-                        />
+                        <EthFull value={this.calculateTotalCostIfValid(gasCostEuro, euroValue)} />
                       </span>
                     </>
                   )}
