@@ -1,5 +1,4 @@
-import { Button, EButtonLayout, EurToken } from "@neufund/design-system";
-import { ENumberOutputFormat } from "@neufund/shared";
+import { Button, EButtonLayout, EurTokenFull } from "@neufund/design-system";
 import * as React from "react";
 import { FormattedPlural } from "react-intl";
 import { FormattedHTMLMessage, FormattedMessage } from "react-intl-phraseapp";
@@ -129,11 +128,7 @@ export const InvestmentPreview: React.FunctionComponent<IProps> = ({
               </div>
               <PercentageIndicatorBar percent={25} className="my-2" />
               <strong>
-                <EurToken
-                  className={styles.eurToken}
-                  value="123456000000000000000000"
-                  outputFormat={ENumberOutputFormat.FULL}
-                />
+                <EurTokenFull className={styles.eurToken} value="123456000000000000000000" />
               </strong>
             </div>
           </>

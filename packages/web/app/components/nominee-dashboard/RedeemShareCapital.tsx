@@ -1,5 +1,5 @@
-import { Button, EButtonLayout, EurToken } from "@neufund/design-system";
-import { DataUnavailableError, ENumberOutputFormat } from "@neufund/shared";
+import { Button, EButtonLayout, EurTokenFull } from "@neufund/design-system";
+import { DataUnavailableError } from "@neufund/shared";
 import * as React from "react";
 import { FormattedRelative } from "react-intl";
 import { FormattedMessage } from "react-intl-phraseapp";
@@ -52,11 +52,7 @@ const RedeemShareCapitalLayout: React.FunctionComponent<TComponentProps> = ({
           values={{
             companyName,
             amount: (
-              <EurToken
-                data-test-id="nominee-redeem-share-capital-amount"
-                value={amount}
-                outputFormat={ENumberOutputFormat.FULL}
-              />
+              <EurTokenFull data-test-id="nominee-redeem-share-capital-amount" value={amount} />
             ),
           }}
         />
