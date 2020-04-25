@@ -3,6 +3,7 @@ import * as yup from "yup";
 
 import { singleValue, tupleSchema } from "../../../utils/yupSchemas";
 import { walletEthModuleApi } from "../../eth/module";
+import { StorageSchema } from "../../storage";
 
 export const getJSONRPCSchema = <T extends string, U extends Tuple>(
   method: T,
@@ -60,4 +61,33 @@ export type TTransactionSchema = yup.InferType<typeof TransactionSchema>;
 export const WalletConnectEthSendTransactionJSONRPCSchema = getJSONRPCSchema(
   "eth_sendTransaction" as const,
   tupleSchema([TransactionSchema.required()]).required(),
+);
+
+const WalletClientMetaSchema = yup.object({
+  description: yup.string().notRequired(),
+  url: yup.string().required(),
+  icons: yup.array(yup.string().required()).required(),
+  name: yup.string().required(),
+});
+
+const WalletSessionSchema = yup.object({
+  connected: yup.boolean().required(),
+  accounts: yup.array(yup.string().required()).required(),
+  chainId: yup.number().required(),
+  bridge: yup.string().required(),
+  key: yup.string().required(),
+  clientId: yup.string().required(),
+  clientMeta: WalletClientMetaSchema.nullable(),
+  peerId: yup.string().required(),
+  peerMeta: WalletClientMetaSchema.nullable(),
+  handshakeId: yup.number().required(),
+  handshakeTopic: yup.string().required(),
+});
+
+export type TWalletSession = yup.InferType<typeof WalletSessionSchema>;
+
+export const WalletSessionStorageSchema = new StorageSchema<TWalletSession>(
+  1,
+  "WalletSessionSchema",
+  WalletSessionSchema,
 );

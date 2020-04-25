@@ -1,7 +1,5 @@
-import { coreModuleApi, ILogger, ISingleKeyStorage } from "@neufund/shared-modules";
-import { inject, injectable } from "inversify";
+import { ILogger, ISingleKeyStorage } from "@neufund/shared-modules";
 
-import { symbols } from "../symbols";
 import { IStorageItem } from "../types/IStorageItem";
 import { IStorageSchema } from "../types/IStorageSchema";
 import { AppStorage } from "./AppStorage";
@@ -10,15 +8,15 @@ import { AsyncStorageProvider } from "./AsyncStorageProvider";
 /**
  * A class representing a single key application storage
  * @class  AppStorage
+ * @todo Provide a factory to create single key storage so there is no need to manually provide logger and provider every time (allow to override provider)
  */
-@injectable()
 class AppSingleKeyStorage<DataType> implements ISingleKeyStorage<DataType> {
   protected storage: AppStorage<DataType>;
   protected key: string;
 
   constructor(
-    @inject(symbols.appStorageProvider) provider: AsyncStorageProvider,
-    @inject(coreModuleApi.symbols.logger) logger: ILogger,
+    provider: AsyncStorageProvider,
+    logger: ILogger,
     storageKey: string,
     schema: IStorageSchema<DataType>,
   ) {

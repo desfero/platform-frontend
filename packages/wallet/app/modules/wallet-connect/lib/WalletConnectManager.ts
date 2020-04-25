@@ -1,7 +1,7 @@
 import { coreModuleApi, ILogger } from "@neufund/shared-modules";
 import { EthereumAddress } from "@neufund/shared-utils";
 import WalletConnect from "@walletconnect/react-native";
-import { IClientMeta } from "@walletconnect/types";
+import { IClientMeta, IWalletConnectSession } from "@walletconnect/types";
 import { EventEmitter2 } from "eventemitter2";
 import { interfaces } from "inversify";
 
@@ -14,6 +14,7 @@ import {
   ETH_SEND_TRANSACTION_RPC_METHOD,
   ETH_SIGN_RPC_METHOD,
   SESSION_REQUEST_EVENT,
+  SESSION_UPDATE_EVENT,
   walletConnectClientMeta,
 } from "./constants";
 import {
@@ -24,7 +25,7 @@ import {
 import {
   EWalletConnectManagerEvents,
   ExtractWalletConnectManagerEmitData,
-  TWalletConnectUri,
+  IWalletConnectOptions,
 } from "./types";
 import { parseRPCPayload } from "./utils";
 
@@ -68,19 +69,24 @@ class WalletConnectManager extends EventEmitter2 {
 
   private readonly walletConnect: WalletConnect;
 
-  constructor(uri: TWalletConnectUri, logger: ILogger) {
+  constructor(options: IWalletConnectOptions, logger: ILogger) {
     super();
 
     this.logger = logger;
 
     this.walletConnect = new WalletConnect(
       {
-        uri,
+        uri: options.uri,
+        session: options.session,
       },
       {
         clientMeta: walletConnectClientMeta,
       },
     );
+
+    if (options.session) {
+      this.initializeListeners();
+    }
   }
 
   /**
@@ -157,6 +163,13 @@ class WalletConnectManager extends EventEmitter2 {
   }
 
   /**
+   * Get a current wallet connect session
+   */
+  getSession(): IWalletConnectSession {
+    return this.walletConnect.session;
+  }
+
+  /**
    * Disconnects currently active session
    */
   async disconnectSession() {
@@ -215,7 +228,14 @@ class WalletConnectManager extends EventEmitter2 {
       }
     });
 
-    this.walletConnect.on(DISCONNECT_EVENT, () => {
+    this.walletConnect.on(SESSION_UPDATE_EVENT, (...args) => {
+      console.log(args);
+      debugger;
+    });
+
+    this.walletConnect.on(DISCONNECT_EVENT, (...args) => {
+      console.log(args);
+      debugger;
       this.emit(EWalletConnectManagerEvents.DISCONNECT, undefined, undefined, undefined);
     });
   }
@@ -264,7 +284,7 @@ class WalletConnectManager extends EventEmitter2 {
 const walletConnectManagerFactory = (context: interfaces.Context) => {
   const logger = context.container.get<ILogger>(coreModuleApi.symbols.logger);
 
-  return (uri: TWalletConnectUri) => new WalletConnectManager(uri, logger);
+  return (options: IWalletConnectOptions) => new WalletConnectManager(options, logger);
 };
 
 export type TWalletConnectManagerFactoryType = ReturnType<typeof walletConnectManagerFactory>;

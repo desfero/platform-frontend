@@ -10,6 +10,7 @@ import {
   neuCall,
   cancelled,
   TActionFromCreator,
+  SagaGenerator,
 } from "@neufund/sagas";
 import { coreModuleApi, neuGetBindings } from "@neufund/shared-modules";
 import { assertNever } from "@neufund/shared-utils";
@@ -36,9 +37,14 @@ function* connectToURI(
     typeof walletConnectActions.connectToPeer
   >,
 ): Generator<unknown, void> {
-  const { walletConnectManagerFactory, logger } = yield* neuGetBindings({
+  const {
+    walletConnectManagerFactory,
+    walletConnectSessionStorage,
+    logger,
+  } = yield* neuGetBindings({
     walletConnectManagerFactory: privateSymbols.walletConnectManagerFactory,
     logger: coreModuleApi.symbols.logger,
+    walletConnectSessionStorage: privateSymbols.walletConnectSessionStorage,
   });
 
   const uri = action.payload.uri;
@@ -50,7 +56,7 @@ function* connectToURI(
 
     navigate(EAppRoutes.home);
 
-    const walletConnectManager = walletConnectManagerFactory(uri);
+    const walletConnectManager = walletConnectManagerFactory({ uri });
 
     const session = yield* call(() => walletConnectManager.createSession());
 
@@ -72,7 +78,12 @@ function* connectToURI(
 
     if (approved) {
       const { chainId, address } = approved.payload.data;
+
       session.approveSession(chainId, address);
+
+      const ss = walletConnectManager.getSession();
+      debugger;
+      yield* call(() => walletConnectSessionStorage.setSession(ss));
 
       yield neuCall(connectEvents, walletConnectManager);
     }
@@ -90,12 +101,78 @@ function* connectToURI(
   }
 }
 
+export function* tryToConnectExistingSession(_: TGlobalDependencies): SagaGenerator<void> {
+  const {
+    walletConnectManagerFactory,
+    logger,
+    walletConnectSessionStorage,
+  } = yield* neuGetBindings({
+    walletConnectManagerFactory: privateSymbols.walletConnectManagerFactory,
+    walletConnectSessionStorage: privateSymbols.walletConnectSessionStorage,
+    logger: coreModuleApi.symbols.logger,
+  });
+
+  try {
+    const session = yield* call(() => walletConnectSessionStorage.getSession());
+
+    debugger;
+
+    if (session) {
+      const walletConnectManager = walletConnectManagerFactory({ session });
+
+      if (true) {
+        // const { chainId, address } = approved.payload.data;
+        // session.approveSession(chainId, address);
+
+        yield* neuCall(connectEvents, walletConnectManager);
+      }
+    }
+
+    // const session = yield* call(() => walletConnectManager.createSession());
+
+    // yield put(
+    //   signerUIModuleApi.actions.sign({
+    //     type: ESignerType.WC_SESSION_REQUEST,
+    //     data: {
+    //       peerId: session.peer.id,
+    //       peerName: session.peer.meta.name,
+    //       peerUrl: session.peer.meta.url,
+    //     },
+    //   }),
+    // );
+    //
+    // const { approved, denied } = yield* race({
+    //   approved: take(signerUIModuleApi.actions.signed),
+    //   denied: take(signerUIModuleApi.actions.denied),
+    // });
+
+    // if (true) {
+    //   // const { chainId, address } = approved.payload.data;
+    //   // session.approveSession(chainId, address);
+    //
+    //   yield neuCall(connectEvents, walletConnectManager);
+    // }
+
+    // if (denied) {
+    //   session.rejectSession();
+    //
+    //   logger.info("Wallet connect session rejected");
+    // }
+  } catch (e) {
+    yield put(
+      notificationUIModuleApi.actions.showInfo("Failed to start session with wallet connect"),
+    );
+    logger.error("Wallet connect failed to connect to a new URI", e);
+  }
+}
+
 function* connectEvents(
   _: TGlobalDependencies,
   wcManager: WalletConnectManager,
 ): Generator<unknown, void> {
-  const { logger } = yield* neuGetBindings({
+  const { logger, walletConnectSessionStorage } = yield* neuGetBindings({
     logger: coreModuleApi.symbols.logger,
+    walletConnectSessionStorage: privateSymbols.walletConnectSessionStorage,
   });
 
   const peerId = wcManager.getPeerId();
@@ -117,6 +194,7 @@ function* connectEvents(
     if (yield cancelled()) {
       // in case of events saga gets cancelled stop session
       yield wcManager.disconnectSession();
+      yield walletConnectSessionStorage.removeSession();
 
       logger.info(`Events saga cancelled . Wallet connect session disconnected.`);
     }

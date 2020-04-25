@@ -1,8 +1,15 @@
-import { Opaque } from "@neufund/shared-utils";
+import { Opaque, XOR } from "@neufund/shared-utils";
 
-import { TTransactionSchema } from "./schemas";
+import { TTransactionSchema, TWalletSession } from "./schemas";
 
 export type TWalletConnectUri = Opaque<"WalletConnectUri", string>;
+
+export type IWalletConnectOptions = XOR<
+  {
+    uri: TWalletConnectUri;
+  },
+  { session: TWalletSession }
+>;
 
 export enum EWalletConnectManagerEvents {
   SIGN_MESSAGE = "sign_message",
