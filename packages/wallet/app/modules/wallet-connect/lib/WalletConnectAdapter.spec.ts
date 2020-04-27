@@ -7,8 +7,8 @@ import { EventEmitter } from "events";
 import {
   InvalidJSONRPCPayloadError,
   InvalidRPCMethodError,
-  WalletConnectManager,
-} from "./WalletConnectManager";
+  WalletConnectAdapter,
+} from "./WalletConnectAdapter";
 import { EWalletConnectManagerEvents, TWalletConnectManagerEmit } from "./types";
 import { toWalletConnectUri } from "./utils";
 
@@ -69,26 +69,29 @@ class RejectSessionMock extends CreateSessionMock {
 const approveSession = async <T extends ApproveSessionMock>(sessionMock: T) => {
   const mockInstance = mockWalletConnect(sessionMock);
 
-  const walletConnectManager = new WalletConnectManager(toWalletConnectUri("mock uri"), noopLogger);
+  const walletConnectManager = new WalletConnectAdapter(
+    { uri: toWalletConnectUri("mock uri") },
+    noopLogger,
+  );
 
   setTimeout(() => {
     mockInstance.emit("session_request", undefined, sessionRequestJsonRpcCall);
   }, 1);
 
-  const session = await walletConnectManager.createSession();
+  const session = await walletConnectManager.connect();
 
   session.approveSession(chainId, address);
 
   return { mockInstance, walletConnectManager, session };
 };
 
-describe("WalletConnectManager", () => {
+describe("WalletConnectAdapter", () => {
   describe("session creation flow", () => {
     it("should validate session json rpc payload", async () => {
       const mockInstance = mockWalletConnect(new CreateSessionMock());
 
-      const walletConnectManager = new WalletConnectManager(
-        toWalletConnectUri("mock uri"),
+      const walletConnectManager = new WalletConnectAdapter(
+        { uri: toWalletConnectUri("mock uri") },
         noopLogger,
       );
 
@@ -105,22 +108,20 @@ describe("WalletConnectManager", () => {
         });
       }, 1);
 
-      expect.assertions(2);
+      expect.assertions(1);
 
       try {
-        await walletConnectManager.createSession();
+        await walletConnectManager.connect();
       } catch (e) {
         expect(e).toBeInstanceOf(InvalidJSONRPCPayloadError);
       }
-
-      expect(mockInstance.createSession).toHaveBeenCalled();
     });
 
     it("should reject when there is an error", async () => {
       const mockInstance = mockWalletConnect(new CreateSessionMock());
 
-      const walletConnectManager = new WalletConnectManager(
-        toWalletConnectUri("mock uri"),
+      const walletConnectManager = new WalletConnectAdapter(
+        { uri: toWalletConnectUri("mock uri") },
         noopLogger,
       );
 
@@ -133,7 +134,7 @@ describe("WalletConnectManager", () => {
       expect.assertions(2);
 
       try {
-        await walletConnectManager.createSession();
+        await walletConnectManager.connect();
       } catch (e) {
         expect(e).toBe(error);
       }
@@ -144,7 +145,6 @@ describe("WalletConnectManager", () => {
     it("should properly start new session", async () => {
       const { mockInstance, session } = await approveSession(new ApproveSessionMock());
 
-      expect(mockInstance.createSession).toHaveBeenCalled();
       expect(session.peer).toEqual({
         id: peerData.peerId,
         meta: peerData.peerMeta,
@@ -155,8 +155,8 @@ describe("WalletConnectManager", () => {
     it("should reject on UI request", async () => {
       const mockInstance = mockWalletConnect(new RejectSessionMock());
 
-      const walletConnectManager = new WalletConnectManager(
-        toWalletConnectUri("mock uri"),
+      const walletConnectManager = new WalletConnectAdapter(
+        { uri: toWalletConnectUri("mock uri") },
         noopLogger,
       );
 
@@ -164,11 +164,10 @@ describe("WalletConnectManager", () => {
         mockInstance.emit("session_request", undefined, sessionRequestJsonRpcCall);
       }, 1);
 
-      const session = await walletConnectManager.createSession();
+      const session = await walletConnectManager.connect();
 
       session.rejectSession();
 
-      expect(mockInstance.createSession).toHaveBeenCalled();
       expect(session.peer).toEqual({
         id: peerData.peerId,
         meta: peerData.peerMeta,
@@ -407,7 +406,7 @@ describe("WalletConnectManager", () => {
 
       const result = await promisifyEvent(
         walletConnectManager,
-        EWalletConnectManagerEvents.DISCONNECT,
+        EWalletConnectManagerEvents.DISCONNECTED,
       );
 
       expect(result).toEqual({

@@ -1,14 +1,11 @@
 import {
-  neuTakeLatest,
   put,
-  fork,
+  takeLatest,
   take,
   race,
   cancel,
   call,
   neuTakeOnly,
-  neuCall,
-  cancelled,
   TActionFromCreator,
   SagaGenerator,
 } from "@neufund/sagas";
@@ -22,29 +19,20 @@ import { signerUIModuleApi } from "../signer-ui/module";
 import { ESignerType } from "../signer-ui/types";
 import { reduxify } from "../utils";
 import { walletConnectActions } from "./actions";
-import { WalletConnectManager } from "./lib/WalletConnectManager";
+import { WalletConnectAdapter } from "./lib/WalletConnectAdapter";
 import { privateSymbols } from "./lib/symbols";
 import { EWalletConnectManagerEvents, TWalletConnectManagerEmit } from "./lib/types";
 import { InvalidWalletConnectUriError, isValidWalletConnectUri } from "./lib/utils";
 
-// TODO: Remove when we get rid of saga `deps` in neu wrappers
-type TGlobalDependencies = unknown;
-
 function* connectToURI(
-  _: TGlobalDependencies,
   action: TActionFromCreator<
     typeof walletConnectActions,
     typeof walletConnectActions.connectToPeer
   >,
 ): Generator<unknown, void> {
-  const {
-    walletConnectManagerFactory,
-    walletConnectSessionStorage,
-    logger,
-  } = yield* neuGetBindings({
-    walletConnectManagerFactory: privateSymbols.walletConnectManagerFactory,
+  const { walletConnectManager, logger } = yield* neuGetBindings({
+    walletConnectManager: privateSymbols.walletConnectManager,
     logger: coreModuleApi.symbols.logger,
-    walletConnectSessionStorage: privateSymbols.walletConnectSessionStorage,
   });
 
   const uri = action.payload.uri;
@@ -56,9 +44,7 @@ function* connectToURI(
 
     navigate(EAppRoutes.home);
 
-    const walletConnectManager = walletConnectManagerFactory({ uri });
-
-    const session = yield* call(() => walletConnectManager.createSession());
+    const session = yield* call(() => walletConnectManager.createSession(uri));
 
     yield put(
       signerUIModuleApi.actions.sign({
@@ -79,13 +65,9 @@ function* connectToURI(
     if (approved) {
       const { chainId, address } = approved.payload.data;
 
-      session.approveSession(chainId, address);
+      const walletConnect = session.approveSession(chainId, address);
 
-      const ss = walletConnectManager.getSession();
-      debugger;
-      yield* call(() => walletConnectSessionStorage.setSession(ss));
-
-      yield neuCall(connectEvents, walletConnectManager);
+      yield* call(connectEvents, walletConnect);
     }
 
     if (denied) {
@@ -101,122 +83,67 @@ function* connectToURI(
   }
 }
 
-export function* tryToConnectExistingSession(_: TGlobalDependencies): SagaGenerator<void> {
-  const {
-    walletConnectManagerFactory,
-    logger,
-    walletConnectSessionStorage,
-  } = yield* neuGetBindings({
-    walletConnectManagerFactory: privateSymbols.walletConnectManagerFactory,
-    walletConnectSessionStorage: privateSymbols.walletConnectSessionStorage,
+export function* tryToConnectExistingSession(): SagaGenerator<void> {
+  const { walletConnectManager, logger } = yield* neuGetBindings({
+    walletConnectManager: privateSymbols.walletConnectManager,
     logger: coreModuleApi.symbols.logger,
   });
 
   try {
-    const session = yield* call(() => walletConnectSessionStorage.getSession());
+    const hasExistingSession = yield* call(() => walletConnectManager.hasExistingSession());
 
-    debugger;
+    logger.info(`Existing wallet connect session ${hasExistingSession ? "FOUND" : "NOT FOUND"}`);
 
-    if (session) {
-      const walletConnectManager = walletConnectManagerFactory({ session });
+    if (hasExistingSession) {
+      const wcAdapter = yield* call(() => walletConnectManager.useExistingSession());
 
-      if (true) {
-        // const { chainId, address } = approved.payload.data;
-        // session.approveSession(chainId, address);
-
-        yield* neuCall(connectEvents, walletConnectManager);
-      }
+      yield* call(connectEvents, wcAdapter);
     }
-
-    // const session = yield* call(() => walletConnectManager.createSession());
-
-    // yield put(
-    //   signerUIModuleApi.actions.sign({
-    //     type: ESignerType.WC_SESSION_REQUEST,
-    //     data: {
-    //       peerId: session.peer.id,
-    //       peerName: session.peer.meta.name,
-    //       peerUrl: session.peer.meta.url,
-    //     },
-    //   }),
-    // );
-    //
-    // const { approved, denied } = yield* race({
-    //   approved: take(signerUIModuleApi.actions.signed),
-    //   denied: take(signerUIModuleApi.actions.denied),
-    // });
-
-    // if (true) {
-    //   // const { chainId, address } = approved.payload.data;
-    //   // session.approveSession(chainId, address);
-    //
-    //   yield neuCall(connectEvents, walletConnectManager);
-    // }
-
-    // if (denied) {
-    //   session.rejectSession();
-    //
-    //   logger.info("Wallet connect session rejected");
-    // }
   } catch (e) {
-    yield put(
-      notificationUIModuleApi.actions.showInfo("Failed to start session with wallet connect"),
-    );
-    logger.error("Wallet connect failed to connect to a new URI", e);
+    logger.error("Wallet connect failed to use existing session", e);
   }
 }
 
-function* connectEvents(
-  _: TGlobalDependencies,
-  wcManager: WalletConnectManager,
-): Generator<unknown, void> {
-  const { logger, walletConnectSessionStorage } = yield* neuGetBindings({
+function* connectEvents(wcAdapter: WalletConnectAdapter): SagaGenerator<void> {
+  const { logger } = yield* neuGetBindings({
     logger: coreModuleApi.symbols.logger,
     walletConnectSessionStorage: privateSymbols.walletConnectSessionStorage,
   });
 
-  const peerId = wcManager.getPeerId();
+  const peerId = wcAdapter.getPeerId();
 
   try {
-    yield put(walletConnectActions.connectedToPeer({ id: peerId, meta: wcManager.getPeerMeta() }));
+    yield put(walletConnectActions.connectedToPeer({ id: peerId, meta: wcAdapter.getPeerMeta() }));
 
     // start watching for events from wallet connect and UI actions
-    yield race({
-      walletConnectEvents: call(connectWalletConnectEvents, wcManager),
-      walletActions: call(connectModuleActions, wcManager),
+    yield* race({
+      walletConnectEvents: call(connectWalletConnectEvents, wcAdapter),
+      walletActions: call(connectModuleActions, wcAdapter),
     });
   } catch (e) {
     // in case of unknown error stop session
-    yield wcManager.disconnectSession();
+    yield* call(() => wcAdapter.disconnectSession());
 
     logger.error("Wallet connect event watcher failed. Disconnected.", e);
   } finally {
-    if (yield cancelled()) {
-      // in case of events saga gets cancelled stop session
-      yield wcManager.disconnectSession();
-      yield walletConnectSessionStorage.removeSession();
-
-      logger.info(`Events saga cancelled . Wallet connect session disconnected.`);
-    }
-
     logger.info(`Wallet connect session with ${peerId} ended`);
 
     yield put(walletConnectActions.disconnectedFromPeer(peerId));
   }
 }
 
-function* connectModuleActions(wcManager: WalletConnectManager): Generator<unknown, void, unknown> {
+function* connectModuleActions(wcAdapter: WalletConnectAdapter): SagaGenerator<void> {
   while (true) {
     const moduleAction: ReturnType<typeof walletConnectActions.disconnectFromPeer> = yield* neuTakeOnly(
       walletConnectActions.disconnectFromPeer,
       {
-        peerId: wcManager.getPeerId(),
+        peerId: wcAdapter.getPeerId(),
       },
     );
 
     switch (moduleAction.type) {
       case walletConnectActions.disconnectFromPeer.getType(): {
-        yield wcManager.disconnectSession();
+        yield* call(() => wcAdapter.disconnectSession());
 
         // stop all watcher and disconnect
         yield cancel();
@@ -230,8 +157,8 @@ function* connectModuleActions(wcManager: WalletConnectManager): Generator<unkno
   }
 }
 
-function* connectWalletConnectEvents(wcManager: WalletConnectManager): Generator<unknown, void> {
-  const channel = reduxify<TWalletConnectManagerEmit>(wcManager);
+function* connectWalletConnectEvents(wcAdapter: WalletConnectAdapter): SagaGenerator<void> {
+  const channel = reduxify<TWalletConnectManagerEmit>(wcAdapter);
 
   while (true) {
     const managerEvent: TWalletConnectManagerEmit = yield* take(channel);
@@ -285,7 +212,12 @@ function* connectWalletConnectEvents(wcManager: WalletConnectManager): Generator
         break;
       }
 
-      case EWalletConnectManagerEvents.DISCONNECT: {
+      case EWalletConnectManagerEvents.CONNECTED: {
+        // Nothing to do on UI
+
+        break;
+      }
+      case EWalletConnectManagerEvents.DISCONNECTED: {
         yield put(notificationUIModuleApi.actions.showInfo("Wallet connect disconnected"));
 
         // stop all watcher and disconnect
@@ -299,6 +231,6 @@ function* connectWalletConnectEvents(wcManager: WalletConnectManager): Generator
   }
 }
 
-export function* walletConnectSaga(): Generator<unknown, void, unknown> {
-  yield fork(neuTakeLatest, walletConnectActions.connectToPeer, connectToURI);
+export function* walletConnectSaga(): SagaGenerator<void> {
+  yield takeLatest(walletConnectActions.connectToPeer, connectToURI);
 }

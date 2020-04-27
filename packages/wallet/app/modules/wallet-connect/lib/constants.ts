@@ -12,6 +12,7 @@ const SESSION_REQUEST_EVENT = "session_request";
 const SESSION_UPDATE_EVENT = "session_update";
 const CALL_REQUEST_EVENT = "call_request";
 const DISCONNECT_EVENT = "disconnect";
+const CONNECT_EVENT = "connect";
 
 const ETH_SIGN_RPC_METHOD = "eth_sign";
 const ETH_SEND_TRANSACTION_RPC_METHOD = "eth_sendTransaction";
@@ -26,6 +27,7 @@ export {
   CALL_REQUEST_EVENT,
   DISCONNECT_EVENT,
   ETH_SIGN_RPC_METHOD,
+  CONNECT_EVENT,
   ETH_SEND_TRANSACTION_RPC_METHOD,
   WALLET_CONNECT_SESSION_KEY,
 };

@@ -14,7 +14,8 @@ export type IWalletConnectOptions = XOR<
 export enum EWalletConnectManagerEvents {
   SIGN_MESSAGE = "sign_message",
   SEND_TRANSACTION = "send_transaction",
-  DISCONNECT = "disconnect",
+  DISCONNECTED = "disconnected",
+  CONNECTED = "connected",
 }
 
 export type TWalletConnectManagerEmit =
@@ -41,7 +42,13 @@ export type TWalletConnectManagerEmit =
       error: undefined;
     }
   | {
-      type: EWalletConnectManagerEvents.DISCONNECT;
+      type: EWalletConnectManagerEvents.DISCONNECTED;
+      payload: undefined;
+      meta: undefined;
+      error: undefined;
+    }
+  | {
+      type: EWalletConnectManagerEvents.CONNECTED;
       payload: undefined;
       meta: undefined;
       error: undefined;

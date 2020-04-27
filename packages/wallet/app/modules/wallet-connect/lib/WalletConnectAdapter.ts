@@ -1,20 +1,19 @@
-import { coreModuleApi, ILogger } from "@neufund/shared-modules";
+import { ILogger } from "@neufund/shared-modules";
 import { EthereumAddress } from "@neufund/shared-utils";
 import WalletConnect from "@walletconnect/react-native";
 import { IClientMeta, IWalletConnectSession } from "@walletconnect/types";
 import { EventEmitter2 } from "eventemitter2";
-import { interfaces } from "inversify";
 
 import { unwrapPromise } from "../../../utils/promiseUtils";
 import { WalletConnectModuleError } from "../errors";
 import { TWalletConnectPeer } from "../types";
 import {
   CALL_REQUEST_EVENT,
+  CONNECT_EVENT,
   DISCONNECT_EVENT,
   ETH_SEND_TRANSACTION_RPC_METHOD,
   ETH_SIGN_RPC_METHOD,
   SESSION_REQUEST_EVENT,
-  SESSION_UPDATE_EVENT,
   walletConnectClientMeta,
 } from "./constants";
 import {
@@ -53,9 +52,9 @@ class InvalidJSONRPCPayloadError extends WalletConnectManagerError {
   }
 }
 
-type TSessionDetails = {
+export type TSessionDetails = {
   peer: TWalletConnectPeer;
-  approveSession: (chainId: number, address: EthereumAddress) => void;
+  approveSession: (chainId: number, address: EthereumAddress) => WalletConnectAdapter;
   rejectSession: () => void;
 };
 
@@ -64,7 +63,7 @@ type TSessionDetails = {
  *
  * @internal EthWallet should only be used as a factory and never exposed to DI container
  */
-class WalletConnectManager extends EventEmitter2 {
+class WalletConnectAdapter extends EventEmitter2 {
   private readonly logger: ILogger;
 
   private readonly walletConnect: WalletConnect;
@@ -84,9 +83,7 @@ class WalletConnectManager extends EventEmitter2 {
       },
     );
 
-    if (options.session) {
-      this.initializeListeners();
-    }
+    this.initializeListeners();
   }
 
   /**
@@ -114,9 +111,7 @@ class WalletConnectManager extends EventEmitter2 {
    *
    * @returns A session details object with meta functions to approve or reject session request
    */
-  async createSession(): Promise<TSessionDetails> {
-    await this.walletConnect.createSession();
-
+  async connect(): Promise<TSessionDetails> {
     return new Promise((resolve, reject) => {
       this.walletConnect.on(SESSION_REQUEST_EVENT, async (error, payload) => {
         if (error) {
@@ -141,7 +136,7 @@ class WalletConnectManager extends EventEmitter2 {
               accounts: [address],
             });
 
-            this.initializeListeners();
+            return this;
           };
 
           const rejectSession = () => {
@@ -228,15 +223,12 @@ class WalletConnectManager extends EventEmitter2 {
       }
     });
 
-    this.walletConnect.on(SESSION_UPDATE_EVENT, (...args) => {
-      console.log(args);
-      debugger;
+    this.walletConnect.on(CONNECT_EVENT, () => {
+      this.emit(EWalletConnectManagerEvents.CONNECTED, undefined, undefined, undefined);
     });
 
-    this.walletConnect.on(DISCONNECT_EVENT, (...args) => {
-      console.log(args);
-      debugger;
-      this.emit(EWalletConnectManagerEvents.DISCONNECT, undefined, undefined, undefined);
+    this.walletConnect.on(DISCONNECT_EVENT, () => {
+      this.emit(EWalletConnectManagerEvents.DISCONNECTED, undefined, undefined, undefined);
     });
   }
 
@@ -251,9 +243,9 @@ class WalletConnectManager extends EventEmitter2 {
 
   private async handleCallSigningRequest<
     T extends
-      | EWalletConnectManagerEvents.SIGN_MESSAGE
+        | EWalletConnectManagerEvents.SIGN_MESSAGE
       | EWalletConnectManagerEvents.SEND_TRANSACTION
-  >(type: T, id: number, payload: ExtractWalletConnectManagerEmitData<T, "payload">) {
+    >(type: T, id: number, payload: ExtractWalletConnectManagerEmitData<T, "payload">) {
     const {
       promise: signRequest,
       resolve: approveRequest,
@@ -281,17 +273,8 @@ class WalletConnectManager extends EventEmitter2 {
   }
 }
 
-const walletConnectManagerFactory = (context: interfaces.Context) => {
-  const logger = context.container.get<ILogger>(coreModuleApi.symbols.logger);
-
-  return (options: IWalletConnectOptions) => new WalletConnectManager(options, logger);
-};
-
-export type TWalletConnectManagerFactoryType = ReturnType<typeof walletConnectManagerFactory>;
-
 export {
-  walletConnectManagerFactory,
-  WalletConnectManager,
+  WalletConnectAdapter,
   NoPeerMetaError,
   WalletConnectManagerError,
   InvalidRPCMethodError,
