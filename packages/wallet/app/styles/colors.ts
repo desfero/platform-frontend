@@ -16,4 +16,5 @@ export const darkBlueGray2 = "#162836";
 export const darkBlueGray1 = "#1F394C";
 export const baseIron = "#E1E1E2";
 export const bluish = "#2f8bbc";
+export const black = "#000";
 export const transparent = "transparent";

@@ -5,7 +5,7 @@ import Config from "react-native-config";
 import { EAppRoutes } from "./appRoutes";
 import { ImportAccountScreen } from "./components/import-account/ImportAccountScreen";
 import { LandingScreen } from "./components/landing/LandingScreen";
-import { ModalStackHeader } from "./components/shared/ModalStackHeader";
+import { ModalStackHeaderLevel2 } from "./components/shared/modal-header/ModalStackHeaderLevel2";
 import { SwitchAccountScreen } from "./components/switch-account/SwitchAccountScreen";
 import { UnlockAccountScreen } from "./components/unlock-account/UnlockAccountScreen";
 import { TAuthWalletMetadata } from "./modules/auth/module";
@@ -45,13 +45,13 @@ const AppNoAuthRouter: React.FunctionComponent<TExternalProps> = ({ authWallet }
       <NoAuthStack.Screen
         name={EAppRoutes.importAccount}
         component={ImportAccountScreen}
-        options={{ header: ModalStackHeader }}
+        options={{ header: ModalStackHeaderLevel2 }}
       />
       {Config.NF_CONTRACT_ARTIFACTS_VERSION === "localhost" && (
         <NoAuthStack.Screen
           name={EAppRoutes.switchAccount}
           component={SwitchAccountScreen}
-          options={{ header: ModalStackHeader, title: "Switch account" }}
+          options={{ header: ModalStackHeaderLevel2, title: "Switch account" }}
         />
       )}
     </NoAuthStack.Navigator>

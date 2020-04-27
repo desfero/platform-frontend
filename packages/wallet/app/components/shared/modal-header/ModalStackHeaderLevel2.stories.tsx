@@ -5,7 +5,7 @@ import cloneDeep from "lodash/cloneDeep";
 import set from "lodash/set";
 import * as React from "react";
 
-import { ModalStackHeader } from "./ModalStackHeader";
+import { ModalStackHeaderLevel2 } from "./ModalStackHeaderLevel2";
 
 const defaultProps: DeepPartial<StackHeaderProps> = {
   scene: {
@@ -26,8 +26,6 @@ const withTitleProps: DeepPartial<StackHeaderProps> = set(
   "Import Wallet",
 );
 
-storiesOf("Molecules|ModalStackHeader", module)
-  .add("without title", () => <ModalStackHeader {...(defaultProps as StackHeaderProps)} />)
-  .add("with title", () => {
-    return <ModalStackHeader {...(withTitleProps as StackHeaderProps)} />;
-  });
+storiesOf("Molecules|ModalStackHeaderLevel2", module)
+  .add("without title", () => <ModalStackHeaderLevel2 {...(defaultProps as StackHeaderProps)} />)
+  .add("with title", () => <ModalStackHeaderLevel2 {...(withTitleProps as StackHeaderProps)} />);

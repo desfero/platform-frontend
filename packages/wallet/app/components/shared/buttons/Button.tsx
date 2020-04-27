@@ -27,11 +27,13 @@ enum EButtonLayout {
 }
 
 type TTouchableProps = React.ComponentProps<typeof Touchable>;
+type TBodyBoldTextProps = React.ComponentProps<typeof BodyBoldText>;
 
-type TExternalProps = { layout: EButtonLayout; loading?: boolean } & Omit<
-  TTouchableProps,
-  "activeColor"
->;
+type TExternalProps = {
+  layout: EButtonLayout;
+  loading?: boolean;
+  contentStyle?: TBodyBoldTextProps["style"];
+} & Omit<TTouchableProps, "activeColor">;
 
 const getButtonStyle = (layout: EButtonLayout) => {
   switch (layout) {
@@ -57,7 +59,7 @@ const getButtonStyle = (layout: EButtonLayout) => {
  * A button that aligns with our design system.
  */
 const Button = React.forwardRef<TouchableHighlight, TExternalProps>(
-  ({ layout, children, style, loading, disabled, ...props }, ref) => {
+  ({ layout, children, style, loading, disabled, contentStyle, ...props }, ref) => {
     const buttonStyle = getButtonStyle(layout);
 
     const isDisabled = disabled || loading;
@@ -78,10 +80,12 @@ const Button = React.forwardRef<TouchableHighlight, TExternalProps>(
         {...props}
       >
         <BodyBoldText
-          style={st(styles.buttonCommonLabel, buttonStyle.label, [
-            isDisabled,
-            [styles.buttonCommonDisabledLabel, buttonStyle.labelDisabled],
-          ])}
+          style={st(
+            styles.buttonCommonLabel,
+            buttonStyle.label,
+            [isDisabled, [styles.buttonCommonDisabledLabel, buttonStyle.labelDisabled]],
+            contentStyle,
+          )}
         >
           {loading ? (
             <>

@@ -5,8 +5,10 @@ import Config from "react-native-config";
 import { AppAuthRouterTabs } from "./AppAuthRouterTabs";
 import { EAppRoutes } from "./appRoutes";
 import { QRCode } from "./components/QRCode";
-import { ModalStackHeader } from "./components/shared/ModalStackHeader";
+import { ModalStackHeaderLevel1 } from "./components/shared/modal-header/ModalStackHeaderLevel1";
+import { ModalStackHeaderLevel2 } from "./components/shared/modal-header/ModalStackHeaderLevel2";
 import { SwitchAccountScreen } from "./components/switch-account/SwitchAccountScreen";
+import { WalletConnectSessionScreen } from "./components/wallet-connect-session/WalletConnectSessionScreen";
 import { RootStackParamList } from "./routeUtils";
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -30,7 +32,6 @@ const AppAuthRouter: React.FunctionComponent = () => (
         name={EAppRoutes.home}
         component={AppAuthRouterTabs}
         options={{
-          title: "Back",
           headerShown: false,
         }}
       />
@@ -39,14 +40,22 @@ const AppAuthRouter: React.FunctionComponent = () => (
         component={QRCode}
         options={{
           title: "Scan QR code",
-          header: ModalStackHeader,
+          header: ModalStackHeaderLevel2,
+        }}
+      />
+      <Stack.Screen
+        name={EAppRoutes.walletConnectSession}
+        component={WalletConnectSessionScreen}
+        options={{
+          title: "Neufund Web",
+          header: ModalStackHeaderLevel1,
         }}
       />
       {Config.NF_CONTRACT_ARTIFACTS_VERSION === "localhost" && (
         <Stack.Screen
           name={EAppRoutes.switchAccount}
           component={SwitchAccountScreen}
-          options={{ header: ModalStackHeader, title: "Switch account" }}
+          options={{ header: ModalStackHeaderLevel2, title: "Switch account" }}
         />
       )}
     </Stack.Navigator>

@@ -3,13 +3,13 @@ import { StackHeaderProps } from "@react-navigation/stack";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
-import { baseWhite } from "../../styles/colors";
-import { spacingStyles } from "../../styles/spacings";
-import { getTopPadding } from "../../styles/utils";
-import { EIconType } from "./Icon";
-import { LineBreak } from "./LineBreak";
-import { ButtonIcon } from "./buttons/ButtonIcon";
-import { EHeadlineLevel, Headline } from "./typography/Headline";
+import { black } from "../../../styles/colors";
+import { spacingStyles } from "../../../styles/spacings";
+import { getTopPadding } from "../../../styles/utils";
+import { EIconType } from "../Icon";
+import { LineBreak } from "../LineBreak";
+import { ButtonIcon } from "../buttons/ButtonIcon";
+import { EHeadlineLevel, Headline } from "../typography/Headline";
 
 const Spacer: React.FunctionComponent = ({ ...props }) => (
   <View style={[styles.spacer]} {...props} />
@@ -18,7 +18,7 @@ const Spacer: React.FunctionComponent = ({ ...props }) => (
 /**
  * A modal stack header that aligns with our design system.
  */
-const ModalStackHeader: React.FunctionComponent<StackHeaderProps> = ({
+const ModalStackHeaderLevel2: React.FunctionComponent<StackHeaderProps> = ({
   scene,
   insets,
   previous,
@@ -72,13 +72,13 @@ const ModalStackHeader: React.FunctionComponent<StackHeaderProps> = ({
 const styles = StyleSheet.create({
   container: {
     ...spacingStyles.pt2,
-    backgroundColor: baseWhite,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-around",
   },
   header: {
     ...spacingStyles.ph2,
+    color: black,
     textAlign: "center",
     flex: 3,
   },
@@ -88,4 +88,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export { ModalStackHeader };
+export { ModalStackHeaderLevel2 };

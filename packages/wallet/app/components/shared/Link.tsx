@@ -1,12 +1,11 @@
 import { XOR } from "@neufund/shared-utils";
 import * as React from "react";
-import { GestureResponderEvent, Linking, StyleSheet, Text, TouchableHighlight } from "react-native";
+import { GestureResponderEvent, Linking, StyleSheet, Text } from "react-native";
 
-import { baseGray, grayLighter2 } from "../../styles/colors";
-import { typographyStyles } from "../../styles/typography";
 import { st } from "../utils";
 
-type TouchableHighlightProps = React.ComponentProps<typeof TouchableHighlight>;
+type TouchableHighlightProps = React.ComponentProps<typeof Text>;
+
 type TExternalProps = XOR<{ url: string }, { onPress: (event: GestureResponderEvent) => void }> &
   Omit<TouchableHighlightProps, "onPress">;
 
@@ -14,61 +13,36 @@ type TExternalProps = XOR<{ url: string }, { onPress: (event: GestureResponderEv
  * An `a` tag alternative for the react-native.
  * Supports either `url` or `onPress` props for handling user interactions.
  */
-const Link: React.FunctionComponent<TExternalProps> = React.forwardRef<
-  TouchableHighlight,
-  TExternalProps
->(({ url, onPress, children, ...props }, ref) => {
-  const [isActive, setIsActive] = React.useState(false);
+const Link: React.FunctionComponent<TExternalProps> = React.forwardRef<Text, TExternalProps>(
+  ({ url, onPress, children, ...props }, ref) => {
+    const onPressHandler = async (e: GestureResponderEvent) => {
+      if (url) {
+        await Linking.openURL(url);
+      }
 
-  const onPressHandler = async (e: GestureResponderEvent) => {
-    if (url) {
-      await Linking.openURL(url);
-    }
+      if (onPress) {
+        onPress(e);
+      }
+    };
 
-    if (onPress) {
-      onPress(e);
-    }
-  };
-
-  const onShowUnderlay = () => {
-    setIsActive(true);
-  };
-
-  const onHideUnderlay = () => {
-    setIsActive(false);
-  };
-
-  return (
-    <TouchableHighlight
-      ref={ref}
-      style={[styles.link]}
-      activeOpacity={1}
-      underlayColor="transparent"
-      accessibilityRole="link"
-      // double negate accessibilityState
-      // https://github.com/FormidableLabs/eslint-plugin-react-native-a11y/issues/84
-      accessibilityState={{ disabled: !!props.disabled }}
-      onPress={onPressHandler}
-      onShowUnderlay={onShowUnderlay}
-      onHideUnderlay={onHideUnderlay}
-      {...props}
-    >
-      <Text style={st(styles.linkText, [isActive, styles.linkActiveText])}>{children}</Text>
-    </TouchableHighlight>
-  );
-});
+    return (
+      <Text
+        ref={ref}
+        accessibilityComponentType="button"
+        accessibilityTraits="link"
+        onPress={onPressHandler}
+        style={st(styles.link)}
+        {...props}
+      >
+        {children}
+      </Text>
+    );
+  },
+);
 
 const styles = StyleSheet.create({
   link: {
-    alignSelf: "flex-start",
-  },
-  linkText: {
-    ...typographyStyles.text,
     textDecorationLine: "underline",
-    color: grayLighter2,
-  },
-  linkActiveText: {
-    color: baseGray,
   },
 });
 

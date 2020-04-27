@@ -4,6 +4,7 @@ enum EAppRoutes {
   importAccount = "ImportAccount",
   unlockAccount = "UnlockAccount",
   switchAccount = "SwitchAccount",
+  walletConnectSession = "WalletConnectSession",
 
   // authorized routes
   home = "Home",
