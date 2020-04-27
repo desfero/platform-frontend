@@ -61,7 +61,7 @@ export type TSessionDetails = {
 /**
  * Wraps wallet connect class to simplify interface and to provide type safety
  *
- * @internal EthWallet should only be used as a factory and never exposed to DI container
+ * @internal WalletConnectAdapter should only be used in WalletConnectManager and never exposed to DI container
  */
 class WalletConnectAdapter extends EventEmitter2 {
   private readonly logger: ILogger;
@@ -243,9 +243,9 @@ class WalletConnectAdapter extends EventEmitter2 {
 
   private async handleCallSigningRequest<
     T extends
-        | EWalletConnectManagerEvents.SIGN_MESSAGE
+      | EWalletConnectManagerEvents.SIGN_MESSAGE
       | EWalletConnectManagerEvents.SEND_TRANSACTION
-    >(type: T, id: number, payload: ExtractWalletConnectManagerEmitData<T, "payload">) {
+  >(type: T, id: number, payload: ExtractWalletConnectManagerEmitData<T, "payload">) {
     const {
       promise: signRequest,
       resolve: approveRequest,

@@ -63,13 +63,6 @@ export const WalletConnectEthSendTransactionJSONRPCSchema = getJSONRPCSchema(
   tupleSchema([TransactionSchema.required()]).required(),
 );
 
-const WalletClientMetaSchema = yup.object({
-  description: yup.string().notRequired(),
-  url: yup.string().required(),
-  icons: yup.array(yup.string().required()).required(),
-  name: yup.string().required(),
-});
-
 const WalletSessionSchema = yup.object({
   connected: yup.boolean().required(),
   accounts: yup.array(yup.string().required()).required(),
@@ -77,9 +70,9 @@ const WalletSessionSchema = yup.object({
   bridge: yup.string().required(),
   key: yup.string().required(),
   clientId: yup.string().required(),
-  clientMeta: WalletClientMetaSchema.nullable(),
+  clientMeta: SessionPeerMetaSchema.nullable(),
   peerId: yup.string().required(),
-  peerMeta: WalletClientMetaSchema.nullable(),
+  peerMeta: SessionPeerMetaSchema.nullable(),
   handshakeId: yup.number().required(),
   handshakeTopic: yup.string().required(),
 });

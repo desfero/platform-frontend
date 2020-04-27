@@ -63,7 +63,7 @@ const ProfileLayout: React.FunctionComponent<TStateProps & TDispatchProps> = ({
     }
 
     return defaultItems;
-  }, [authWallet, navigation, walletConnectPeer]);
+  }, [authWallet, navigation, walletConnectPeer, logout]);
 
   return (
     <SafeAreaScreen forceTopInset={true}>
