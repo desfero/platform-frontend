@@ -40,4 +40,29 @@ function createMock<T>(clazz: new (...args: any[]) => T, mockImpl: Partial<T>): 
   return mock;
 }
 
-export { createMock };
+const RealDate = global.Date;
+
+const mockDate = (mockedDate: Date) => {
+  global.Date = class extends Date {
+    constructor(value?: number | string | Date) {
+      if (value) {
+        super(value);
+
+        return this;
+      }
+
+      // eslint-disable-next-line no-constructor-return
+      return mockedDate;
+    }
+
+    static now = () => mockedDate.valueOf();
+  } as DateConstructor;
+
+  return {
+    reset: () => {
+      global.Date = RealDate;
+    },
+  };
+};
+
+export { createMock, mockDate };

@@ -3,17 +3,18 @@ import { toEthereumAddress } from "@neufund/shared-utils";
 import WalletConnectMock from "@walletconnect/react-native";
 import { EventEmitter2 } from "eventemitter2";
 import { EventEmitter } from "events";
+import { mockDate } from "../../../utils/testUtils.specUtils";
+import { EWalletConnectAdapterEvents, TWalletConnectAdapterEmit } from "./types";
+import { toWalletConnectUri } from "./utils";
 
 import {
   InvalidJSONRPCPayloadError,
   InvalidRPCMethodError,
   WalletConnectAdapter,
 } from "./WalletConnectAdapter";
-import { EWalletConnectManagerEvents, TWalletConnectManagerEmit } from "./types";
-import { toWalletConnectUri } from "./utils";
 
-const promisifyEvent = <T extends EWalletConnectManagerEvents>(emitter: EventEmitter2, type: T) => {
-  return new Promise<Extract<TWalletConnectManagerEmit, { type: T }>>(resolve => {
+const promisifyEvent = <T extends EWalletConnectAdapterEvents>(emitter: EventEmitter2, type: T) => {
+  return new Promise<Extract<TWalletConnectAdapterEmit, { type: T }>>(resolve => {
     emitter.once(type, (error, payload, meta) => {
       // given that we don't have a proper typings for connected keys
       // for tests purpose we can just force cast
@@ -23,7 +24,7 @@ const promisifyEvent = <T extends EWalletConnectManagerEvents>(emitter: EventEmi
         payload,
         meta,
         error,
-      } as Extract<TWalletConnectManagerEmit, { type: T }>);
+      } as Extract<TWalletConnectAdapterEmit, { type: T }>);
     });
   });
 };
@@ -69,20 +70,20 @@ class RejectSessionMock extends CreateSessionMock {
 const approveSession = async <T extends ApproveSessionMock>(sessionMock: T) => {
   const mockInstance = mockWalletConnect(sessionMock);
 
-  const walletConnectManager = new WalletConnectAdapter(
-    { uri: toWalletConnectUri("mock uri") },
-    noopLogger,
-  );
+  const wcAdapter = new WalletConnectAdapter({ uri: toWalletConnectUri("mock uri") }, noopLogger);
 
   setTimeout(() => {
     mockInstance.emit("session_request", undefined, sessionRequestJsonRpcCall);
   }, 1);
 
-  const session = await walletConnectManager.connect();
+  const session = await wcAdapter.connect();
 
   session.approveSession(chainId, address);
 
-  return { mockInstance, walletConnectManager, session };
+  // emit connect event to connect at date is calculated
+  mockInstance.emit("connect");
+
+  return { mockInstance, wcAdapter, session };
 };
 
 describe("WalletConnectAdapter", () => {
@@ -90,7 +91,7 @@ describe("WalletConnectAdapter", () => {
     it("should validate session json rpc payload", async () => {
       const mockInstance = mockWalletConnect(new CreateSessionMock());
 
-      const walletConnectManager = new WalletConnectAdapter(
+      const wcAdapter = new WalletConnectAdapter(
         { uri: toWalletConnectUri("mock uri") },
         noopLogger,
       );
@@ -111,7 +112,7 @@ describe("WalletConnectAdapter", () => {
       expect.assertions(1);
 
       try {
-        await walletConnectManager.connect();
+        await wcAdapter.connect();
       } catch (e) {
         expect(e).toBeInstanceOf(InvalidJSONRPCPayloadError);
       }
@@ -120,7 +121,7 @@ describe("WalletConnectAdapter", () => {
     it("should reject when there is an error", async () => {
       const mockInstance = mockWalletConnect(new CreateSessionMock());
 
-      const walletConnectManager = new WalletConnectAdapter(
+      const wcAdapter = new WalletConnectAdapter(
         { uri: toWalletConnectUri("mock uri") },
         noopLogger,
       );
@@ -134,26 +135,32 @@ describe("WalletConnectAdapter", () => {
       expect.assertions(1);
 
       try {
-        await walletConnectManager.connect();
+        await wcAdapter.connect();
       } catch (e) {
         expect(e).toBe(error);
       }
     });
 
     it("should properly start new session", async () => {
-      const { mockInstance, session } = await approveSession(new ApproveSessionMock());
+      const { reset } = mockDate(new Date("2019-04-22T10:20:30Z"));
+
+      const { mockInstance, session, wcAdapter } = await approveSession(new ApproveSessionMock());
 
       expect(session.peer).toEqual({
         id: peerData.peerId,
         meta: peerData.peerMeta,
       });
+
       expect(mockInstance.approveSession).toHaveBeenCalledWith({ chainId, accounts: [address] });
+      expect(wcAdapter.getConnectedAt()).toBe(Date.now());
+
+      reset();
     });
 
     it("should reject on UI request", async () => {
       const mockInstance = mockWalletConnect(new RejectSessionMock());
 
-      const walletConnectManager = new WalletConnectAdapter(
+      const wcAdapter = new WalletConnectAdapter(
         { uri: toWalletConnectUri("mock uri") },
         noopLogger,
       );
@@ -162,7 +169,7 @@ describe("WalletConnectAdapter", () => {
         mockInstance.emit("session_request", undefined, sessionRequestJsonRpcCall);
       }, 1);
 
-      const session = await walletConnectManager.connect();
+      const session = await wcAdapter.connect();
 
       session.rejectSession();
 
@@ -220,7 +227,7 @@ describe("WalletConnectAdapter", () => {
     });
 
     it("should approve eth_sign method", async done => {
-      const { mockInstance, walletConnectManager } = await approveSession(new ApproveRequestMock());
+      const { mockInstance, wcAdapter } = await approveSession(new ApproveRequestMock());
 
       const signingMessage = "message to sign";
       const signedMessage = "signed message";
@@ -237,8 +244,8 @@ describe("WalletConnectAdapter", () => {
       }, 1);
 
       const { payload, meta } = await promisifyEvent(
-        walletConnectManager,
-        EWalletConnectManagerEvents.SIGN_MESSAGE,
+        wcAdapter,
+        EWalletConnectAdapterEvents.SIGN_MESSAGE,
       );
 
       meta.approveRequest(signedMessage);
@@ -255,7 +262,7 @@ describe("WalletConnectAdapter", () => {
     });
 
     it("should reject eth_sign method", async done => {
-      const { mockInstance, walletConnectManager } = await approveSession(new RejectRequestMock());
+      const { mockInstance, wcAdapter } = await approveSession(new RejectRequestMock());
 
       const signingMessage = "message to sign";
 
@@ -271,8 +278,8 @@ describe("WalletConnectAdapter", () => {
       }, 1);
 
       const { payload, meta } = await promisifyEvent(
-        walletConnectManager,
-        EWalletConnectManagerEvents.SIGN_MESSAGE,
+        wcAdapter,
+        EWalletConnectAdapterEvents.SIGN_MESSAGE,
       );
 
       meta.rejectRequest();
@@ -307,7 +314,7 @@ describe("WalletConnectAdapter", () => {
     });
 
     it("should strip unknown properties and approve eth_sendTransaction method", async done => {
-      const { mockInstance, walletConnectManager } = await approveSession(new ApproveRequestMock());
+      const { mockInstance, wcAdapter } = await approveSession(new ApproveRequestMock());
 
       const transactionHash = "tx hash";
 
@@ -337,8 +344,8 @@ describe("WalletConnectAdapter", () => {
       }, 1);
 
       const { payload, meta } = await promisifyEvent(
-        walletConnectManager,
-        EWalletConnectManagerEvents.SEND_TRANSACTION,
+        wcAdapter,
+        EWalletConnectAdapterEvents.SEND_TRANSACTION,
       );
 
       meta.approveRequest(transactionHash);
@@ -355,7 +362,7 @@ describe("WalletConnectAdapter", () => {
     });
 
     it("should reject eth_sendTransaction method", async done => {
-      const { mockInstance, walletConnectManager } = await approveSession(new RejectRequestMock());
+      const { mockInstance, wcAdapter } = await approveSession(new RejectRequestMock());
 
       const transaction = {
         to: "0x7824e49353BD72E20B61717cf82a06a4EEE209e8",
@@ -376,8 +383,8 @@ describe("WalletConnectAdapter", () => {
       }, 1);
 
       const { payload, meta } = await promisifyEvent(
-        walletConnectManager,
-        EWalletConnectManagerEvents.SEND_TRANSACTION,
+        wcAdapter,
+        EWalletConnectAdapterEvents.SEND_TRANSACTION,
       );
 
       meta.rejectRequest();
@@ -396,16 +403,13 @@ describe("WalletConnectAdapter", () => {
 
   describe("disconnect flow", () => {
     it("should emit disconnected even on client request", async () => {
-      const { mockInstance, walletConnectManager } = await approveSession(new ApproveSessionMock());
+      const { mockInstance, wcAdapter } = await approveSession(new ApproveSessionMock());
 
       setTimeout(() => {
         mockInstance.emit("disconnect");
       }, 1);
 
-      const result = await promisifyEvent(
-        walletConnectManager,
-        EWalletConnectManagerEvents.DISCONNECTED,
-      );
+      const result = await promisifyEvent(wcAdapter, EWalletConnectAdapterEvents.DISCONNECTED);
 
       expect(result).toEqual({
         error: undefined,
@@ -420,9 +424,9 @@ describe("WalletConnectAdapter", () => {
         killSession = jest.fn();
       }
 
-      const { mockInstance, walletConnectManager } = await approveSession(new KillSessionMock());
+      const { mockInstance, wcAdapter } = await approveSession(new KillSessionMock());
 
-      await walletConnectManager.disconnectSession();
+      await wcAdapter.disconnectSession();
 
       expect(mockInstance.killSession).toHaveBeenCalled();
     });

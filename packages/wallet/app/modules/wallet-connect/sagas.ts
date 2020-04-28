@@ -21,7 +21,7 @@ import { reduxify } from "../utils";
 import { walletConnectActions } from "./actions";
 import { WalletConnectAdapter } from "./lib/WalletConnectAdapter";
 import { privateSymbols } from "./lib/symbols";
-import { EWalletConnectManagerEvents, TWalletConnectManagerEmit } from "./lib/types";
+import { EWalletConnectAdapterEvents, TWalletConnectAdapterEmit } from "./lib/types";
 import { InvalidWalletConnectUriError, isValidWalletConnectUri } from "./lib/utils";
 
 function* connectToURI(
@@ -164,13 +164,13 @@ function* connectModuleActions(wcAdapter: WalletConnectAdapter): SagaGenerator<v
 }
 
 function* connectWalletConnectEvents(wcAdapter: WalletConnectAdapter): SagaGenerator<void> {
-  const channel = reduxify<TWalletConnectManagerEmit>(wcAdapter);
+  const channel = reduxify<TWalletConnectAdapterEmit>(wcAdapter);
 
   while (true) {
-    const managerEvent: TWalletConnectManagerEmit = yield* take(channel);
+    const managerEvent: TWalletConnectAdapterEmit = yield* take(channel);
 
     switch (managerEvent.type) {
-      case EWalletConnectManagerEvents.SIGN_MESSAGE: {
+      case EWalletConnectAdapterEvents.SIGN_MESSAGE: {
         yield put(
           signerUIModuleApi.actions.sign({
             type: ESignerType.SIGN_MESSAGE,
@@ -194,7 +194,7 @@ function* connectWalletConnectEvents(wcAdapter: WalletConnectAdapter): SagaGener
         break;
       }
 
-      case EWalletConnectManagerEvents.SEND_TRANSACTION: {
+      case EWalletConnectAdapterEvents.SEND_TRANSACTION: {
         yield put(
           signerUIModuleApi.actions.sign({
             type: ESignerType.SEND_TRANSACTION,
@@ -218,12 +218,12 @@ function* connectWalletConnectEvents(wcAdapter: WalletConnectAdapter): SagaGener
         break;
       }
 
-      case EWalletConnectManagerEvents.CONNECTED: {
+      case EWalletConnectAdapterEvents.CONNECTED: {
         // Nothing to do on UI
 
         break;
       }
-      case EWalletConnectManagerEvents.DISCONNECTED: {
+      case EWalletConnectAdapterEvents.DISCONNECTED: {
         yield put(notificationUIModuleApi.actions.showInfo("Wallet connect disconnected"));
 
         // stop all watcher and disconnect

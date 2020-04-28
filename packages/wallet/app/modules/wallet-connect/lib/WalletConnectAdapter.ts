@@ -23,31 +23,31 @@ import {
   WalletConnectSessionJSONRPCSchema,
 } from "./schemas";
 import {
-  EWalletConnectManagerEvents,
-  ExtractWalletConnectManagerEmitData,
+  EWalletConnectAdapterEvents,
+  ExtractWalletConnectAdapterEmitData,
   IWalletConnectOptions,
 } from "./types";
 import { parseRPCPayload } from "./utils";
 
-class WalletConnectManagerError extends WalletConnectModuleError {
+class WalletConnectAdapterError extends WalletConnectModuleError {
   constructor(message: string) {
-    super(`WalletConnectManager: ${message}`);
+    super(`WalletConnectAdapter: ${message}`);
   }
 }
 
-class InvalidRPCMethodError extends WalletConnectManagerError {
+class InvalidRPCMethodError extends WalletConnectAdapterError {
   constructor(method: string) {
     super(`Invalid RPC method received (${method})`);
   }
 }
 
-class NoPeerMetaError extends WalletConnectManagerError {
+class NoPeerMetaError extends WalletConnectAdapterError {
   constructor() {
     super("No peer meta provided");
   }
 }
 
-class InvalidJSONRPCPayloadError extends WalletConnectManagerError {
+class InvalidJSONRPCPayloadError extends WalletConnectAdapterError {
   constructor(method: string) {
     super(`Invalid json rpc payload received for ${method}`);
   }
@@ -203,7 +203,7 @@ class WalletConnectAdapter extends EventEmitter2 {
             const parsedPayload = parseRPCPayload(WalletConnectEthSignJSONRPCSchema, payload);
 
             await this.handleCallSigningRequest(
-              EWalletConnectManagerEvents.SIGN_MESSAGE,
+              EWalletConnectAdapterEvents.SIGN_MESSAGE,
               parsedPayload.id,
               {
                 digest: parsedPayload.params[1],
@@ -222,7 +222,7 @@ class WalletConnectAdapter extends EventEmitter2 {
             );
 
             await this.handleCallSigningRequest(
-              EWalletConnectManagerEvents.SEND_TRANSACTION,
+              EWalletConnectAdapterEvents.SEND_TRANSACTION,
               parsedPayload.id,
               {
                 transaction: parsedPayload.params[0],
@@ -242,11 +242,11 @@ class WalletConnectAdapter extends EventEmitter2 {
     this.walletConnect.on(CONNECT_EVENT, () => {
       this.connectedAt = Date.now();
 
-      this.emit(EWalletConnectManagerEvents.CONNECTED, undefined, undefined, undefined);
+      this.emit(EWalletConnectAdapterEvents.CONNECTED, undefined, undefined, undefined);
     });
 
     this.walletConnect.on(DISCONNECT_EVENT, () => {
-      this.emit(EWalletConnectManagerEvents.DISCONNECTED, undefined, undefined, undefined);
+      this.emit(EWalletConnectAdapterEvents.DISCONNECTED, undefined, undefined, undefined);
     });
   }
 
@@ -261,9 +261,9 @@ class WalletConnectAdapter extends EventEmitter2 {
 
   private async handleCallSigningRequest<
     T extends
-      | EWalletConnectManagerEvents.SIGN_MESSAGE
-      | EWalletConnectManagerEvents.SEND_TRANSACTION
-  >(type: T, id: number, payload: ExtractWalletConnectManagerEmitData<T, "payload">) {
+      | EWalletConnectAdapterEvents.SIGN_MESSAGE
+      | EWalletConnectAdapterEvents.SEND_TRANSACTION
+  >(type: T, id: number, payload: ExtractWalletConnectAdapterEmitData<T, "payload">) {
     const {
       promise: signRequest,
       resolve: approveRequest,
@@ -294,7 +294,7 @@ class WalletConnectAdapter extends EventEmitter2 {
 export {
   WalletConnectAdapter,
   NoPeerMetaError,
-  WalletConnectManagerError,
+  WalletConnectAdapterError,
   InvalidRPCMethodError,
   InvalidJSONRPCPayloadError,
 };

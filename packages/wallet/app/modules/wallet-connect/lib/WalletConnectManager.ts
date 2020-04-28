@@ -6,7 +6,7 @@ import { TWalletSession } from "./schemas";
 
 import { TSessionDetails, WalletConnectAdapter } from "./WalletConnectAdapter";
 import { privateSymbols } from "./symbols";
-import { EWalletConnectManagerEvents, TWalletConnectUri } from "./types";
+import { EWalletConnectAdapterEvents, TWalletConnectUri } from "./types";
 
 /**
  * Controls the creation of wallet connect instances
@@ -67,11 +67,11 @@ class WalletConnectManager {
 
   // TODO: Make sure we don't have a memory leak and events are cleaned up when disconnected
   private subscribeToConnectionEvents(adapter: WalletConnectAdapter) {
-    adapter.on(EWalletConnectManagerEvents.CONNECTED, async () => {
+    adapter.on(EWalletConnectAdapterEvents.CONNECTED, async () => {
       await this.sessionStorage.set(adapter.getSession());
     });
 
-    adapter.on(EWalletConnectManagerEvents.DISCONNECTED, async () => {
+    adapter.on(EWalletConnectAdapterEvents.DISCONNECTED, async () => {
       await this.sessionStorage.clear();
     });
   }
