@@ -13,7 +13,7 @@ export function setupBindings(): ContainerModule {
       privateSymbols.walletConnectManager,
     )
       .to(WalletConnectManager)
-      .inSingletonScope();
+      .inTransientScope();
 
     bind<TLibSymbolType<typeof privateSymbols.walletConnectSessionStorage>>(
       privateSymbols.walletConnectSessionStorage,
