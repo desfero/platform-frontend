@@ -47,12 +47,10 @@ const mockDate = (mockedDate: Date) => {
     constructor(value?: number | string | Date) {
       if (value) {
         super(value);
-
-        return this;
+      } else {
+        // eslint-disable-next-line no-constructor-return
+        return mockedDate;
       }
-
-      // eslint-disable-next-line no-constructor-return
-      return mockedDate;
     }
 
     static now = () => mockedDate.valueOf();

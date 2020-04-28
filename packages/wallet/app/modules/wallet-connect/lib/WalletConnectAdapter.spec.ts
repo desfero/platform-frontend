@@ -4,14 +4,13 @@ import WalletConnectMock from "@walletconnect/react-native";
 import { EventEmitter2 } from "eventemitter2";
 
 import { mockDate } from "../../../utils/testUtils.specUtils";
-import { EWalletConnectAdapterEvents, TWalletConnectAdapterEmit } from "./types";
-import { toWalletConnectUri } from "./utils";
-
 import {
   InvalidJSONRPCPayloadError,
   InvalidRPCMethodError,
   WalletConnectAdapter,
 } from "./WalletConnectAdapter";
+import { EWalletConnectAdapterEvents, TWalletConnectAdapterEmit } from "./types";
+import { toWalletConnectUri } from "./utils";
 
 const promisifyEvent = <T extends EWalletConnectAdapterEvents>(emitter: EventEmitter2, type: T) => {
   return new Promise<Extract<TWalletConnectAdapterEmit, { type: T }>>(resolve => {

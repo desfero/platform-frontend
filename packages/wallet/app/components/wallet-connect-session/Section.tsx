@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
+
 import { blueyGray, grayLighter1 } from "../../styles/colors";
 import { BodyText } from "../shared/typography/BodyText";
 import { Text } from "../shared/typography/Text";

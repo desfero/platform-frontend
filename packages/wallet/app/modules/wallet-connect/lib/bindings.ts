@@ -1,10 +1,10 @@
 import { coreModuleApi, TLibSymbolType } from "@neufund/shared-modules";
 import { ContainerModule } from "inversify";
+
 import { AppSingleKeyStorage, storageModuleApi } from "../../storage";
+import { WalletConnectManager } from "./WalletConnectManager";
 import { WALLET_CONNECT_SESSION_KEY } from "./constants";
 import { WalletSessionStorageSchema } from "./schemas";
-
-import { WalletConnectManager } from "./WalletConnectManager";
 import { privateSymbols } from "./symbols";
 
 export function setupBindings(): ContainerModule {

@@ -1,10 +1,10 @@
 import { ILogger, coreModuleApi } from "@neufund/shared-modules";
 import { invariant } from "@neufund/shared-utils";
 import { inject, injectable } from "inversify";
-import { AppSingleKeyStorage } from "../../storage";
-import { TWalletSession } from "./schemas";
 
+import { AppSingleKeyStorage } from "../../storage";
 import { TSessionDetails, WalletConnectAdapter } from "./WalletConnectAdapter";
+import { TWalletSession } from "./schemas";
 import { privateSymbols } from "./symbols";
 import { EWalletConnectAdapterEvents, TWalletConnectUri } from "./types";
 

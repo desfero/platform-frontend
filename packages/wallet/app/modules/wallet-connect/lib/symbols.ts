@@ -1,8 +1,8 @@
 import { createLibSymbol } from "@neufund/shared-modules";
-import { AppSingleKeyStorage } from "../../storage";
-import { TWalletSession } from "./schemas";
 
+import { AppSingleKeyStorage } from "../../storage";
 import { WalletConnectManager } from "./WalletConnectManager";
+import { TWalletSession } from "./schemas";
 
 export const symbols = {};
 

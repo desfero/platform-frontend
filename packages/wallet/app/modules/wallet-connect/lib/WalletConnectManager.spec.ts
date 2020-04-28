@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports */
+
 import { noopLogger } from "@neufund/shared-modules";
 import { EventEmitter2 } from "eventemitter2";
 
-import { createMock, flushQueue } from "../../../utils/testUtils.specUtils";
+import { createMock } from "../../../utils/testUtils.specUtils";
 import { AppSingleKeyStorage } from "../../storage";
 import { IStorageItem } from "../../storage/types/IStorageItem";
 import { TWalletSession } from "./schemas";

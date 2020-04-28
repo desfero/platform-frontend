@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
-import { StyleSheet } from "react-native";
 import { FormattedDate } from "react-intl";
+import { StyleSheet } from "react-native";
 
 import { appRoutes } from "../../appRoutes";
 import { externalRoutes } from "../../config/externalRoutes";
