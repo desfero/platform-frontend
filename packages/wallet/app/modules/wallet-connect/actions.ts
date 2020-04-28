@@ -1,6 +1,6 @@
 import { createActionFactory } from "@neufund/shared-utils";
 
-import { TWalletConnectPeer } from "./types";
+import { TWalletConnectPeerWithConnectTimestamp } from "./types";
 
 export const walletConnectActions = {
   /**
@@ -9,9 +9,12 @@ export const walletConnectActions = {
   connectToPeer: createActionFactory("WC_CONNECT_TO_PEER", (uri: string) => ({
     uri,
   })),
-  connectedToPeer: createActionFactory("WC_CONNECTED_TO_PEER", (peer: TWalletConnectPeer) => ({
-    peer,
-  })),
+  connectedToPeer: createActionFactory(
+    "WC_CONNECTED_TO_PEER",
+    (peer: TWalletConnectPeerWithConnectTimestamp) => ({
+      peer,
+    }),
+  ),
   tryToConnectExistingSession: createActionFactory("WC_TRY_CONNECT_EXISTING"),
 
   /**

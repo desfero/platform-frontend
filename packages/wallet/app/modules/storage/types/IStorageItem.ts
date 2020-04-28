@@ -6,7 +6,7 @@ import { IStorageMetaData } from "./IStorageMetadata";
  */
 export interface IStorageItem<DataType> {
   /**
-   * @property {unknown} data - serializable data.
+   * @property {DataType} data - serializable data.
    */
   data: DataType;
 

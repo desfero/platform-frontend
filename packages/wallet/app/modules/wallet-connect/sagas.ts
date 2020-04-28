@@ -10,7 +10,7 @@ import {
   SagaGenerator,
 } from "@neufund/sagas";
 import { coreModuleApi, neuGetBindings } from "@neufund/shared-modules";
-import { assertNever } from "@neufund/shared-utils";
+import { assertNever, nonNullable } from "@neufund/shared-utils";
 
 import { EAppRoutes } from "../../appRoutes";
 import { navigate } from "../../routeUtils";
@@ -113,7 +113,13 @@ function* connectEvents(wcAdapter: WalletConnectAdapter): SagaGenerator<void> {
   const peerId = wcAdapter.getPeerId();
 
   try {
-    yield put(walletConnectActions.connectedToPeer({ id: peerId, meta: wcAdapter.getPeerMeta() }));
+    yield put(
+      walletConnectActions.connectedToPeer({
+        id: peerId,
+        meta: wcAdapter.getPeerMeta(),
+        connectedAt: nonNullable(wcAdapter.getConnectedAt()),
+      }),
+    );
 
     // start watching for events from wallet connect and UI actions
     yield* race({

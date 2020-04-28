@@ -1,7 +1,7 @@
 import { ILogger } from "@neufund/shared-modules";
 import { EthereumAddress } from "@neufund/shared-utils";
 import WalletConnect from "@walletconnect/react-native";
-import { IClientMeta, IWalletConnectSession } from "@walletconnect/types";
+import { IWalletConnectSession } from "@walletconnect/types";
 import { EventEmitter2 } from "eventemitter2";
 
 import { unwrapPromise } from "../../../utils/promiseUtils";
@@ -17,6 +17,7 @@ import {
   walletConnectClientMeta,
 } from "./constants";
 import {
+  TPeerMeta,
   WalletConnectEthSendTransactionJSONRPCSchema,
   WalletConnectEthSignJSONRPCSchema,
   WalletConnectSessionJSONRPCSchema,
@@ -68,6 +69,8 @@ class WalletConnectAdapter extends EventEmitter2 {
 
   private readonly walletConnect: WalletConnect;
 
+  private connectedAt: number | undefined = undefined;
+
   constructor(options: IWalletConnectOptions, logger: ILogger) {
     super();
 
@@ -82,6 +85,12 @@ class WalletConnectAdapter extends EventEmitter2 {
         clientMeta: walletConnectClientMeta,
       },
     );
+
+    // if we instantiate connection from the session we know the session creation date
+    // otherwise set the connected timestamp after connection is established and session approved
+    if (options.session) {
+      this.connectedAt = options.connectedAt;
+    }
 
     this.initializeListeners();
   }
@@ -98,12 +107,19 @@ class WalletConnectAdapter extends EventEmitter2 {
    *
    * @throws NoPeerMetaError - When no metadata found
    */
-  getPeerMeta(): IClientMeta {
+  getPeerMeta(): TPeerMeta {
     if (!this.walletConnect.peerMeta) {
       throw new NoPeerMetaError();
     }
 
     return this.walletConnect.peerMeta;
+  }
+
+  /**
+   * Get connected timestamp
+   **/
+  getConnectedAt(): number | undefined {
+    return this.connectedAt;
   }
 
   /**
@@ -224,6 +240,8 @@ class WalletConnectAdapter extends EventEmitter2 {
     });
 
     this.walletConnect.on(CONNECT_EVENT, () => {
+      this.connectedAt = Date.now();
+
       this.emit(EWalletConnectManagerEvents.CONNECTED, undefined, undefined, undefined);
     });
 

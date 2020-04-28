@@ -8,7 +8,7 @@ export type IWalletConnectOptions = XOR<
   {
     uri: TWalletConnectUri;
   },
-  { session: TWalletSession }
+  { session: TWalletSession; connectedAt: number }
 >;
 
 export enum EWalletConnectManagerEvents {

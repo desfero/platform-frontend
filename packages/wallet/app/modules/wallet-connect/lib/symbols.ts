@@ -1,13 +1,14 @@
 import { createLibSymbol } from "@neufund/shared-modules";
+import { AppSingleKeyStorage } from "../../storage";
+import { TWalletSession } from "./schemas";
 
-import { SessionStorageAdapter } from "./SessionStorageAdapter";
 import { WalletConnectManager } from "./WalletConnectManager";
 
 export const symbols = {};
 
 export const privateSymbols = {
   walletConnectManager: createLibSymbol<WalletConnectManager>("walletConnectManager"),
-  walletConnectSessionStorage: createLibSymbol<SessionStorageAdapter>(
+  walletConnectSessionStorage: createLibSymbol<AppSingleKeyStorage<TWalletSession>>(
     "walletConnectSessionStorage",
   ),
 };

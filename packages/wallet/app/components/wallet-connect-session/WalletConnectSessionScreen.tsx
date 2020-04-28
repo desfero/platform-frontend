@@ -1,6 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet } from "react-native";
+import { FormattedDate } from "react-intl";
 
 import { appRoutes } from "../../appRoutes";
 import { walletConnectModuleApi } from "../../modules/wallet-connect/module";
@@ -11,6 +12,7 @@ import { Link } from "../shared/Link";
 import { SafeAreaScreen } from "../shared/Screen";
 import { Button, EButtonLayout } from "../shared/buttons/Button";
 import { BodyText } from "../shared/typography/BodyText";
+import { Section } from "./Section";
 
 type TStateProps = {
   walletConnectPeer: ReturnType<typeof walletConnectModuleApi.selectors.selectWalletConnectPeer>;
@@ -30,14 +32,27 @@ const WalletConnectLayout: React.FunctionComponent<TStateProps & TDispatchProps>
     <SafeAreaScreen contentContainerStyle={styles.content}>
       {walletConnectPeer ? (
         <>
-          {/* eslint-disable-next-line @typescript-eslint/no-magic-numbers */}
-          <Text>{JSON.stringify(walletConnectPeer, undefined, 2)}</Text>
+          <Section
+            label="Session active since"
+            value={
+              <FormattedDate
+                value={walletConnectPeer.connectedAt}
+                year="numeric"
+                month="numeric"
+                day="numeric"
+                hour="numeric"
+                minute="numeric"
+              />
+            }
+          />
+
           <Button
-            contentStyle={styles.disconnectButton}
+            style={styles.disconnectButton}
+            contentStyle={styles.disconnectButtonContent}
             layout={EButtonLayout.SECONDARY}
             onPress={() => walletConnectDisconnect(walletConnectPeer.id)}
           >
-            Disconnect
+            Cancel session
           </Button>
         </>
       ) : (
@@ -65,12 +80,15 @@ const styles = StyleSheet.create({
   content: {
     ...spacingStyles.p4,
   },
+  disconnectButton: {
+    ...spacingStyles.mt5,
+  },
+  disconnectButtonContent: {
+    color: baseRed,
+  },
   noSessionTex: {
     ...spacingStyles.mb5,
     color: grayLighter2,
-  },
-  disconnectButton: {
-    color: baseRed,
   },
 });
 

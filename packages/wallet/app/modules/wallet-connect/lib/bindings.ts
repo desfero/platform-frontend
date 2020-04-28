@@ -1,7 +1,9 @@
-import { TLibSymbolType } from "@neufund/shared-modules";
+import { coreModuleApi, TLibSymbolType } from "@neufund/shared-modules";
 import { ContainerModule } from "inversify";
+import { AppSingleKeyStorage, storageModuleApi } from "../../storage";
+import { WALLET_CONNECT_SESSION_KEY } from "./constants";
+import { WalletSessionStorageSchema } from "./schemas";
 
-import { SessionStorageAdapter } from "./SessionStorageAdapter";
 import { WalletConnectManager } from "./WalletConnectManager";
 import { privateSymbols } from "./symbols";
 
@@ -16,7 +18,15 @@ export function setupBindings(): ContainerModule {
     bind<TLibSymbolType<typeof privateSymbols.walletConnectSessionStorage>>(
       privateSymbols.walletConnectSessionStorage,
     )
-      .to(SessionStorageAdapter)
+      .toDynamicValue(
+        ctx =>
+          new AppSingleKeyStorage(
+            ctx.container.get(storageModuleApi.symbols.appStorageProvider),
+            ctx.container.get(coreModuleApi.symbols.logger),
+            WALLET_CONNECT_SESSION_KEY,
+            WalletSessionStorageSchema,
+          ),
+      )
       .inSingletonScope();
   });
 }

@@ -35,6 +35,8 @@ const SessionPeerSchema = yup.object({
   peerMeta: SessionPeerMetaSchema.required(),
 });
 
+export type TPeerMeta = yup.InferType<typeof SessionPeerMetaSchema>;
+
 export const WalletConnectSessionJSONRPCSchema = getJSONRPCSchema(
   "session_request" as const,
   tupleSchema([SessionPeerSchema.required()]).required(),
