@@ -4,6 +4,7 @@ import { StyleSheet } from "react-native";
 import { FormattedDate } from "react-intl";
 
 import { appRoutes } from "../../appRoutes";
+import { externalRoutes } from "../../config/externalRoutes";
 import { walletConnectModuleApi } from "../../modules/wallet-connect/module";
 import { appConnect } from "../../store/utils";
 import { baseRed, grayLighter2 } from "../../styles/colors";
@@ -59,8 +60,10 @@ const WalletConnectLayout: React.FunctionComponent<TStateProps & TDispatchProps>
         <>
           <BodyText style={styles.noSessionTex}>
             Browse to{" "}
-            <Link url="https://platform.neufund.org/connect">platform.neufund.org/connect</Link> on
-            your desktop or tablet and scan the QR code to use Neufund Web with your account.
+            <Link url={externalRoutes.platformWalletConnect}>
+              {externalRoutes.platformWalletConnect}
+            </Link>{" "}
+            on your desktop or tablet and scan the QR code to use Neufund Web with your account.
           </BodyText>
 
           <Button

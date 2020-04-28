@@ -131,15 +131,13 @@ describe("WalletConnectAdapter", () => {
         mockInstance.emit("session_request", error);
       }, 1);
 
-      expect.assertions(2);
+      expect.assertions(1);
 
       try {
         await walletConnectManager.connect();
       } catch (e) {
         expect(e).toBe(error);
       }
-
-      expect(mockInstance.createSession).toHaveBeenCalled();
     });
 
     it("should properly start new session", async () => {
@@ -397,7 +395,7 @@ describe("WalletConnectAdapter", () => {
   });
 
   describe("disconnect flow", () => {
-    it("should emit disconnect even on client request", async () => {
+    it("should emit disconnected even on client request", async () => {
       const { mockInstance, walletConnectManager } = await approveSession(new ApproveSessionMock());
 
       setTimeout(() => {
@@ -413,7 +411,7 @@ describe("WalletConnectAdapter", () => {
         error: undefined,
         meta: undefined,
         payload: undefined,
-        type: "disconnect",
+        type: "disconnected",
       });
     });
 

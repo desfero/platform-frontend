@@ -4,10 +4,10 @@ import { GestureResponderEvent, Linking, StyleSheet, Text } from "react-native";
 
 import { st } from "../utils";
 
-type TouchableHighlightProps = React.ComponentProps<typeof Text>;
+type TextProps = React.ComponentProps<typeof Text>;
 
 type TExternalProps = XOR<{ url: string }, { onPress: (event: GestureResponderEvent) => void }> &
-  Omit<TouchableHighlightProps, "onPress">;
+  Omit<TextProps, "onPress">;
 
 /**
  * An `a` tag alternative for the react-native.
