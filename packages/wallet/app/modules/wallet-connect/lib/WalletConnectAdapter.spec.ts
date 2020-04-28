@@ -2,7 +2,7 @@ import { noopLogger } from "@neufund/shared-modules";
 import { toEthereumAddress } from "@neufund/shared-utils";
 import WalletConnectMock from "@walletconnect/react-native";
 import { EventEmitter2 } from "eventemitter2";
-import { EventEmitter } from "events";
+
 import { mockDate } from "../../../utils/testUtils.specUtils";
 import { EWalletConnectAdapterEvents, TWalletConnectAdapterEmit } from "./types";
 import { toWalletConnectUri } from "./utils";
@@ -29,7 +29,7 @@ const promisifyEvent = <T extends EWalletConnectAdapterEvents>(emitter: EventEmi
   });
 };
 
-const mockWalletConnect = <T extends EventEmitter>(walletConnectInstance: T): T => {
+const mockWalletConnect = <T extends EventEmitter2>(walletConnectInstance: T): T => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (WalletConnectMock as any).mockReturnValue(walletConnectInstance);
 
@@ -55,7 +55,7 @@ const sessionRequestJsonRpcCall = {
   params: [peerData],
 };
 
-class CreateSessionMock extends EventEmitter {
+class CreateSessionMock extends EventEmitter2 {
   createSession = jest.fn();
 }
 
