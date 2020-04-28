@@ -8,6 +8,7 @@ import {
   neuTakeOnly,
   TActionFromCreator,
   SagaGenerator,
+  cancelled,
 } from "@neufund/sagas";
 import { coreModuleApi, neuGetBindings } from "@neufund/shared-modules";
 import { assertNever, nonNullable } from "@neufund/shared-utils";
@@ -132,6 +133,13 @@ function* connectEvents(wcAdapter: WalletConnectAdapter): SagaGenerator<void> {
 
     logger.error("Wallet connect event watcher failed. Disconnected.", e);
   } finally {
+    if (yield cancelled()) {
+      // in case of events saga gets cancelled stop session
+      yield* call(() => wcAdapter.disconnectSession());
+
+      logger.info(`Events saga cancelled. Wallet connect session disconnected.`);
+    }
+
     logger.info(`Wallet connect session with ${peerId} ended`);
 
     yield put(walletConnectActions.disconnectedFromPeer(peerId));
