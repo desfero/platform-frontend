@@ -7,6 +7,7 @@ import { EAppRoutes } from "../../appRoutes";
 import { authModuleAPI } from "../../modules/auth/module";
 import { walletConnectModuleApi } from "../../modules/wallet-connect/module";
 import { appConnect } from "../../store/utils";
+import { baseRed } from "../../styles/colors";
 import { EIconType } from "../shared/Icon";
 import { SafeAreaScreen } from "../shared/Screen";
 import { Menu, EMenuItemType } from "../shared/menu/Menu";
@@ -34,7 +35,7 @@ const ProfileLayout: React.FunctionComponent<TStateProps & TDispatchProps> = ({
     const defaultItems: TMenuProps["items"] = [
       {
         id: "wallet-connect-session",
-        type: EMenuItemType.BUTTON,
+        type: EMenuItemType.NAVIGATION,
         heading: "Neufund Web",
         helperText: walletConnectPeer ? "Connected" : "Not connected",
         icon: EIconType.DEVICE,
@@ -42,11 +43,12 @@ const ProfileLayout: React.FunctionComponent<TStateProps & TDispatchProps> = ({
       },
     ];
 
+    // Switch account and logout are only useful with localhost artifacts
     if (Config.NF_CONTRACT_ARTIFACTS_VERSION === "localhost") {
       return defaultItems.concat([
         {
           id: "switch-account",
-          type: EMenuItemType.BUTTON,
+          type: EMenuItemType.NAVIGATION,
           heading: "Switch account",
           helperText: authWallet.name,
           icon: EIconType.WALLET,
@@ -56,8 +58,9 @@ const ProfileLayout: React.FunctionComponent<TStateProps & TDispatchProps> = ({
           id: "logout-account",
           type: EMenuItemType.BUTTON,
           heading: "Logout",
-          icon: EIconType.PLACEHOLDER,
+          icon: EIconType.LOGOUT,
           onPress: logout,
+          color: baseRed,
         },
       ]);
     }

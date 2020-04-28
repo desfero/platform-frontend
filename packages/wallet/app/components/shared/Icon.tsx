@@ -8,6 +8,7 @@ import Close from "../../assets/close.svg";
 import Device from "../../assets/device.svg";
 import Home from "../../assets/home.svg";
 import Investments from "../../assets/investments.svg";
+import Logout from "../../assets/logout.svg";
 import Placeholder from "../../assets/placeholder.svg";
 import Profile from "../../assets/profile.svg";
 import QrCode from "../../assets/qr-code.svg";
@@ -32,6 +33,7 @@ enum EIconType {
   ETH = "eth",
   QR_CODE = "qr-code",
   DEVICE = "device",
+  LOGOUT = "logout",
 }
 
 const pickByIdentity = pickBy(identity);
@@ -42,6 +44,7 @@ const icons = {
   [EIconType.ETH]: Eth,
   [EIconType.HOME]: Home,
   [EIconType.PORTFOLIO]: Investments,
+  [EIconType.LOGOUT]: Logout,
   [EIconType.N_EUR]: NEur,
   [EIconType.PLACEHOLDER]: Placeholder,
   [EIconType.PROFILE]: Profile,
