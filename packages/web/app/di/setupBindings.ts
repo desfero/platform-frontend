@@ -7,7 +7,6 @@ import {
 import { Container, ContainerModule } from "inversify";
 
 import { IBackendRoot, IConfig } from "../config/getConfig";
-import { AnalyticsApi } from "../lib/api/analytics-api/AnalyticsApi";
 import { EtoApi } from "../lib/api/eto/EtoApi";
 import { EtoFileApi } from "../lib/api/eto/EtoFileApi";
 import { EtoNomineeApi } from "../lib/api/eto/EtoNomineeApi";
@@ -52,6 +51,7 @@ import {
   Web3FactoryType,
 } from "../lib/web3/Web3Batch/Web3Batch";
 import { Web3Manager } from "../lib/web3/Web3Manager/Web3Manager";
+import { AnalyticsApi } from "../modules/tx-history/lib/http/analytics-api/AnalyticsApi";
 import {
   AsyncIntervalSchedulerFactory,
   AsyncIntervalSchedulerFactoryType,

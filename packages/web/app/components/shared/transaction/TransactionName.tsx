@@ -2,8 +2,11 @@ import { assertNever } from "@neufund/shared-utils";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
-import { ETransactionDirection, ETransactionType } from "../../../lib/api/analytics-api/interfaces";
-import { TTxHistory } from "../../../modules/tx-history/types";
+import {
+  ETransactionDirection,
+  ETransactionType,
+  TTxHistory,
+} from "../../../modules/tx-history/types";
 import { selectUnits } from "../formatters/utils";
 
 type TExternalProps = { transaction: TTxHistory };

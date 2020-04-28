@@ -8,3 +8,5 @@ export * from "./modules/token-price/module";
 export * from "./types";
 export * from "./extensions";
 export * from "./utils";
+
+export * from "./lib/yup-ts.unsafe";

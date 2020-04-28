@@ -1,8 +1,7 @@
 import { assertNever } from "@neufund/shared-utils";
 import * as React from "react";
 
-import { ETransactionType } from "../../../lib/api/analytics-api/interfaces";
-import { TTxHistory } from "../../../modules/tx-history/types";
+import { ETransactionType, TTxHistory } from "../../../modules/tx-history/types";
 import { CommonHtmlProps, TTranslatedString } from "../../../types";
 import { EHeadingSize, Heading } from "../../shared/Heading";
 import { EtherscanTxLink } from "../../shared/links/EtherscanLink";

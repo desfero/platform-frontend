@@ -4,10 +4,8 @@ import { FormattedMessage } from "react-intl-phraseapp";
 
 import {
   ETransactionDirection,
-  ETransactionType,
-} from "../../../../lib/api/analytics-api/interfaces";
-import {
   ETransactionSubType,
+  ETransactionType,
   TExtractTxHistoryFromType,
 } from "../../../../modules/tx-history/types";
 import { etoPublicViewByIdLinkLegacy } from "../../../appRouteUtils";

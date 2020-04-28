@@ -4,11 +4,11 @@ import { addHexPrefix } from "ethereumjs-util";
 import { TxData } from "web3";
 
 import { ECurrency } from "../../components/shared/formatters/utils";
-import { ETransactionDirection, ETransactionType } from "../../lib/api/analytics-api/interfaces";
 import { TxPendingWithMetadata } from "../../lib/api/users-tx/interfaces";
 import { TBigNumberVariants } from "../../lib/web3/types";
 import { EInvestmentType } from "../investment-flow/reducer";
 import { ITokenDisbursal } from "../investor-portfolio/types";
+import { ETransactionDirection, ETransactionType } from "../tx-history/types";
 import { ETxSenderState } from "./sender/reducer";
 import { ETxSenderType, TPendingTransactionType } from "./types";
 

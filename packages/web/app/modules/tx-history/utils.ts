@@ -2,7 +2,7 @@ import { ECurrency, ENumberInputFormat } from "../../components/shared/formatter
 import {
   TAnalyticsTransaction,
   TAnalyticsTransactionTokenMetadata,
-} from "../../lib/api/analytics-api/interfaces";
+} from "./lib/http/analytics-api/interfaces";
 
 // TODO: Try to sync backend currency format with frontend, as currently we use `eur_t` for nEur
 const getCurrencyFromTokenSymbol = (

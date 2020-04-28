@@ -7,8 +7,12 @@ import { action } from "@storybook/addon-actions";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { ETransactionDirection, ETransactionType } from "../../../lib/api/analytics-api/interfaces";
-import { ETransactionStatus, ETransactionSubType } from "../../../modules/tx-history/types";
+import {
+  ETransactionDirection,
+  ETransactionStatus,
+  ETransactionSubType,
+  ETransactionType,
+} from "../../../modules/tx-history/types";
 import { withModalBody } from "../../../utils/react-connected-components/storybookHelpers.unsafe";
 import { ECurrency, ENumberInputFormat } from "../../shared/formatters/utils";
 import { TransactionDetailsModal } from "./TransactionDetailsModal";

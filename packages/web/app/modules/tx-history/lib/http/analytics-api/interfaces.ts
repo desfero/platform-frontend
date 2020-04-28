@@ -1,6 +1,6 @@
 import { EquityToken, EthereumAddressWithChecksum, EthereumTxHash } from "@neufund/shared-utils";
 
-import * as YupTS from "../../yup-ts.unsafe";
+import * as YupTS from "../../../../../lib/yup-ts.unsafe";
 
 export enum ETransactionDirection {
   IN = "in",

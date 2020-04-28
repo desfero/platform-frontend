@@ -1,8 +1,8 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { ETransactionDirection, ETransactionType } from "../../../lib/api/analytics-api/interfaces";
 import { TxPendingWithMetadata } from "../../../lib/api/users-tx/interfaces";
+import { ETransactionDirection, ETransactionType } from "../../../modules/tx-history/types";
 import { generalPendingTxFixture } from "../../../modules/tx/utils";
 import { PendingTransactionImage } from "../../layouts/header/PendingTransactionStatus";
 import { ECurrency } from "../formatters/utils";

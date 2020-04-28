@@ -8,7 +8,7 @@ import {
   ETransactionDirection,
   ETransactionType,
   TAnalyticsTransaction,
-} from "../../lib/api/analytics-api/interfaces";
+} from "./lib/http/analytics-api/interfaces";
 import { mapAnalyticsApiTransactionResponse } from "./sagas";
 import { ETransactionStatus } from "./types";
 

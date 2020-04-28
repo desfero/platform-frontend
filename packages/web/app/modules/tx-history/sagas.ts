@@ -6,11 +6,6 @@ import { ETxHistoryMessage } from "../../components/translatedMessages/messages"
 import { createNotificationMessage } from "../../components/translatedMessages/utils";
 import { TransactionDetailsModal } from "../../components/wallet/transactions-history/TransactionDetailsModal";
 import { TGlobalDependencies } from "../../di/setupBindings";
-import {
-  ETransactionType,
-  TAnalyticsTransaction,
-  TAnalyticsTransactionsResponse,
-} from "../../lib/api/analytics-api/interfaces";
 import { TAppGlobalState } from "../../store";
 import { actions, TActionFromCreator } from "../actions";
 import { webNotificationUIModuleApi } from "../notification-ui/module";
@@ -18,6 +13,11 @@ import { neuCall, neuTakeLatest, neuTakeUntil } from "../sagasUtils";
 import { selectEurEquivalent } from "../shared/tokenPrice/selectors";
 import { selectEthereumAddress } from "../web3/selectors";
 import { TX_LIMIT } from "./constants";
+import {
+  ETransactionType,
+  TAnalyticsTransaction,
+  TAnalyticsTransactionsResponse,
+} from "./lib/http/analytics-api/interfaces";
 import { selectLastTransactionId, selectTimestampOfLastChange, selectTXById } from "./selectors";
 import { ETransactionStatus, ETransactionSubType, TTxHistory, TTxHistoryCommon } from "./types";
 import { getCurrencyFromTokenSymbol, getDecimalsFormat, getTxUniqueId } from "./utils";

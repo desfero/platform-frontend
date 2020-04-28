@@ -5,9 +5,9 @@ import { FormattedDate } from "react-intl";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { branch, compose, renderComponent } from "recompose";
 
-import { ETransactionDirection } from "../../../lib/api/analytics-api/interfaces";
 import { actions } from "../../../modules/actions";
 import { selectTxHistoryPaginated } from "../../../modules/tx-history/selectors";
+import { ETransactionDirection } from "../../../modules/tx-history/types";
 import { selectPlatformMiningTransaction } from "../../../modules/tx/monitor/selectors";
 import { appConnect } from "../../../store";
 import { onEnterAction } from "../../../utils/react-connected-components/OnEnterAction";
