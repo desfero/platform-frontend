@@ -6,6 +6,7 @@
  */
 
 import AsyncStorage from "@react-native-community/async-storage";
+import { YellowBox } from "react-native";
 
 /**
  * Clears the AsyncStorage
@@ -17,3 +18,6 @@ import AsyncStorage from "@react-native-community/async-storage";
     // catch the error and forward to warning to not break the app completely
     .catch(e => console.warn(e));
 };
+
+// List of annoying warnings that we're ignoring
+YellowBox.ignoreWarnings(["Remote debugger is in a background tab"]);
