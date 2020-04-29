@@ -1,25 +1,27 @@
-import { all, fork, put, select, take } from "@neufund/sagas";
-import { ECurrency, EthereumAddressWithChecksum, subtractBigNumbers } from "@neufund/shared-utils";
-import { neuCall, neuTakeLatest, neuTakeUntil } from "@neufund/sagas";
+import { all, fork, neuCall, neuTakeLatest, neuTakeUntil, put, SagaGenerator, select, take } from "@neufund/sagas";
+import { ECurrency, EthereumAddressWithChecksum, StringableActionCreator, subtractBigNumbers } from "@neufund/shared-utils";
 
 import { ETxHistoryMessage } from "../../components/translatedMessages/messages";
 import { createNotificationMessage } from "../../components/translatedMessages/utils";
-import { TransactionDetailsModal } from "../../components/wallet/transactions-history/TransactionDetailsModal";
-import { TGlobalDependencies } from "../../di/setupBindings";
-import { TAppGlobalState } from "../../store";
-import { actions, TActionFromCreator } from "../actions";
-import { webNotificationUIModuleApi } from "../notification-ui/module";
-import { selectEurEquivalent } from "../shared/tokenPrice/selectors";
-import { selectEthereumAddress } from "../web3/selectors";
+import { neuGetBindings } from "../../utils";
+import { authModuleAPI } from "../auth/module";
+import { coreModuleApi } from "../core/module";
+import { notificationUIModuleApi } from "../notification-ui/module";
+import { selectEurEquivalent } from "../token-price/selectors";
+import { txHistoryActions } from "./actions";
 import { TX_LIMIT } from "./constants";
 import {
   ETransactionType,
   TAnalyticsTransaction,
   TAnalyticsTransactionsResponse,
 } from "./lib/http/analytics-api/interfaces";
-import { selectLastTransactionId, selectTimestampOfLastChange, selectTXById } from "./selectors";
+import { TTXHistoryModuleState } from "./module";
+import { selectLastTransactionId, selectTimestampOfLastChange } from "./selectors";
+import {symbols} from "./symbols";
 import { ETransactionStatus, ETransactionSubType, TTxHistory, TTxHistoryCommon } from "./types";
 import { getCurrencyFromTokenSymbol, getDecimalsFormat, getTxUniqueId } from "./utils";
+
+type TGlobalDependencies = unknown;
 
 function getTransactionCommon(transaction: TAnalyticsTransaction): TTxHistoryCommon {
   return {
@@ -36,11 +38,15 @@ function getTransactionCommon(transaction: TAnalyticsTransaction): TTxHistoryCom
 }
 
 export function* mapAnalyticsApiTransactionResponse(
-  { logger }: TGlobalDependencies,
+  _: TGlobalDependencies,
   transaction: TAnalyticsTransaction,
 ): Generator<any, any, any> {
   // we can return tx in each case but then we will loose type safety
   let tx: TTxHistory | undefined = undefined;
+  const { logger, ethManager } = yield* neuGetBindings({
+    logger: coreModuleApi.symbols.logger,
+    ethManager: authModuleAPI.symbols.ethManager
+  });
 
   switch (transaction.type) {
     case ETransactionType.ETO_INVESTMENT: {
@@ -49,11 +55,11 @@ export function* mapAnalyticsApiTransactionResponse(
       }
 
       const neuReward = transaction.extraData.neumarkReward!.toString();
-      const neuRewardEur: string = yield select((state: TAppGlobalState) =>
+      const neuRewardEur: string = yield select((state: TTXHistoryModuleState) =>
         selectEurEquivalent(state, neuReward, ECurrency.NEU),
       );
 
-      const address: EthereumAddressWithChecksum = yield select(selectEthereumAddress);
+      const address: EthereumAddressWithChecksum = yield ethManager.getWalletAddress();
 
       // if funds from ICBM were used then wallet_address != address
       const isICBMInvestment = transaction.extraData.walletAddress !== address;
@@ -90,11 +96,11 @@ export function* mapAnalyticsApiTransactionResponse(
 
       const currency = getCurrencyFromTokenSymbol(transaction.extraData.tokenMetadata);
 
-      const amountEur: string = yield select((state: TAppGlobalState) =>
+      const amountEur: string = yield select((state: TTXHistoryModuleState) =>
         selectEurEquivalent(state, common.amount, currency),
       );
-
-      const toAddress: EthereumAddressWithChecksum = yield select(selectEthereumAddress);
+      
+      const toAddress: EthereumAddressWithChecksum = yield ethManager.getWalletAddress();
 
       tx = {
         ...common,
@@ -126,7 +132,7 @@ export function* mapAnalyticsApiTransactionResponse(
 
         const currency = getCurrencyFromTokenSymbol(transaction.extraData.tokenMetadata);
 
-        const amountEur: string = yield select((state: TAppGlobalState) =>
+        const amountEur: string = yield select((state: TTXHistoryModuleState) =>
           selectEurEquivalent(state, common.amount, currency),
         );
 
@@ -198,7 +204,7 @@ export function* mapAnalyticsApiTransactionResponse(
 
         const neuReward = transaction.extraData.neumarkReward!.toString();
 
-        const neuRewardEur: string = yield select((state: TAppGlobalState) =>
+        const neuRewardEur: string = yield select((state: TTXHistoryModuleState) =>
           selectEurEquivalent(state, neuReward, ECurrency.NEU),
         );
 
@@ -225,11 +231,11 @@ export function* mapAnalyticsApiTransactionResponse(
 
       const currency = getCurrencyFromTokenSymbol(transaction.extraData.tokenMetadata);
 
-      const amountEur: string = yield select((state: TAppGlobalState) =>
+      const amountEur: string = yield select((state: TTXHistoryModuleState) =>
         selectEurEquivalent(state, common.amount, currency),
       );
 
-      const toAddress: EthereumAddressWithChecksum = yield select(selectEthereumAddress);
+      const toAddress: EthereumAddressWithChecksum = yield ethManager.getWalletAddress();
 
       tx = {
         ...common,
@@ -249,7 +255,7 @@ export function* mapAnalyticsApiTransactionResponse(
 
       const currency = getCurrencyFromTokenSymbol(transaction.extraData.tokenMetadata);
 
-      const amountEur: string = yield select((state: TAppGlobalState) =>
+      const amountEur: string = yield select((state: TTXHistoryModuleState) =>
         selectEurEquivalent(state, common.amount, currency),
       );
 
@@ -294,10 +300,13 @@ export function* mapAnalyticsApiTransactionsResponse(
   return txHistoryTransactions.filter(Boolean);
 }
 
-export function* loadTransactionsHistoryNext({
-  logger,
-  analyticsApi,
-}: TGlobalDependencies): Generator<any, any, any> {
+export function* loadTransactionsHistoryNext(_: TGlobalDependencies): Generator<any, any, any> {
+
+  const { logger, analyticsApi } = yield* neuGetBindings({
+    logger: coreModuleApi.symbols.logger,
+    analyticsApi: symbols.analyticsApi
+  });
+
   try {
     const lastTransactionId: string | undefined = yield select(selectLastTransactionId);
 
@@ -314,10 +323,10 @@ export function* loadTransactionsHistoryNext({
       transactions,
     );
 
-    yield put(actions.txHistory.appendTransactions(processedTransactions, newLastTransactionId));
+    yield put(txHistoryActions.appendTransactions(processedTransactions, newLastTransactionId));
   } catch (e) {
     yield put(
-      webNotificationUIModuleApi.actions.showError(
+      notificationUIModuleApi.actions.showError(
         createNotificationMessage(ETxHistoryMessage.TX_HISTORY_FAILED_TO_LOAD_NEXT),
       ),
     );
@@ -326,10 +335,12 @@ export function* loadTransactionsHistoryNext({
   }
 }
 
-export function* loadTransactionsHistory({
-  logger,
-  analyticsApi,
-}: TGlobalDependencies): Generator<any, any, any> {
+export function* loadTransactionsHistory(_: TGlobalDependencies): Generator<any, any, any> {
+  const { logger, analyticsApi } = yield* neuGetBindings({
+    logger: coreModuleApi.symbols.logger,
+    analyticsApi: symbols.analyticsApi
+  });
+
   try {
     const {
       transactions,
@@ -340,31 +351,34 @@ export function* loadTransactionsHistory({
     const processedTransactions = yield neuCall(mapAnalyticsApiTransactionsResponse, transactions);
 
     yield put(
-      actions.txHistory.setTransactions(
+      txHistoryActions.setTransactions(
         processedTransactions,
         lastTransactionId,
         newTimestampOfLastChange,
       ),
     );
 
-    yield put(actions.txHistory.startWatchingForNewTransactions());
+    yield put(txHistoryActions.startWatchingForNewTransactions());
   } catch (e) {
     yield put(
-      webNotificationUIModuleApi.actions.showError(
+      notificationUIModuleApi.actions.showError(
         createNotificationMessage(ETxHistoryMessage.TX_HISTORY_FAILED_TO_LOAD),
       ),
     );
 
     logger.error("Error while loading transaction history", e);
 
-    yield put(actions.txHistory.setTransactions([], undefined, undefined));
+    yield put(txHistoryActions.setTransactions([], undefined, undefined));
   }
 }
 
-export function* watchTransactions({
-  analyticsApi,
-  logger,
-}: TGlobalDependencies): Generator<any, any, any> {
+export function* watchTransactions(_: TGlobalDependencies): Generator<any, any, any> {
+
+  const { logger, analyticsApi } = yield* neuGetBindings({
+    logger: coreModuleApi.symbols.logger,
+    analyticsApi: symbols.analyticsApi
+  });
+
   while (true) {
     try {
       yield take(actions.web3.newBlockArrived.getType());
@@ -398,7 +412,7 @@ export function* watchTransactions({
         );
 
         yield put(
-          actions.txHistory.updateTransactions(
+          txHistoryActions.updateTransactions(
             processedTransactions,
             lastTransactionId,
             newTimestampOfLastChange,
@@ -412,33 +426,40 @@ export function* watchTransactions({
   }
 }
 
-function* showTransactionDetails(
-  _: TGlobalDependencies,
-  action: TActionFromCreator<typeof actions.txHistory.showTransactionDetails>,
-): Generator<any, any, any> {
-  const transaction = yield select((state: TAppGlobalState) =>
-    selectTXById(action.payload.id, state),
-  );
+// TODO: Move
+// function* showTransactionDetails(
+//   _: TGlobalDependencies,
+//   action: TActionFromCreator<typeof txHistoryActions.showTransactionDetails>,
+// ): Generator<any, any, any> {
+//   const transaction = yield select((state: TTXHistoryModuleState) => selectTXById(action.payload.id, state));
 
-  if (!transaction) {
-    throw new Error(`Transaction should be defined for ${action.payload.id}`);
+//   if (!transaction) {
+//     throw new Error(`Transaction should be defined for ${action.payload.id}`);
+//   }
+
+//   yield put(
+//     actions.genericModal.showModal(TransactionDetailsModal, {
+//       transaction,
+//     }),
+//   );
+// }
+
+
+type TSetupSagasConfig = {
+  refreshOnAction: StringableActionCreator<any, any, any> | undefined;
+};
+
+
+export function setupTXHistorySagas(_: TSetupSagasConfig): () => SagaGenerator<void> {
+  return function* txHistorySaga(): SagaGenerator<any, any> {
+    yield fork(neuTakeLatest, txHistoryActions.loadTransactions, loadTransactionsHistory);
+    yield fork(neuTakeLatest, txHistoryActions.loadNextTransactions, loadTransactionsHistoryNext);
+    // yield fork(neuTakeLatest, txHistoryActions.showTransactionDetails, showTransactionDetails);
+    yield fork(
+      neuTakeUntil,
+      txHistoryActions.startWatchingForNewTransactions,
+      txHistoryActions.stopWatchingForNewTransactions,
+      watchTransactions,
+    );
   }
-
-  yield put(
-    actions.genericModal.showModal(TransactionDetailsModal, {
-      transaction,
-    }),
-  );
-}
-
-export function* txHistorySaga(): Generator<any, any, any> {
-  yield fork(neuTakeLatest, actions.txHistory.loadTransactions, loadTransactionsHistory);
-  yield fork(neuTakeLatest, actions.txHistory.loadNextTransactions, loadTransactionsHistoryNext);
-  yield fork(neuTakeLatest, actions.txHistory.showTransactionDetails, showTransactionDetails);
-  yield fork(
-    neuTakeUntil,
-    actions.txHistory.startWatchingForNewTransactions,
-    actions.txHistory.stopWatchingForNewTransactions,
-    watchTransactions,
-  );
 }

@@ -1,4 +1,5 @@
 import { ECurrency, ENumberInputFormat } from "@neufund/shared-utils";
+
 import {
   TAnalyticsTransaction,
   TAnalyticsTransactionTokenMetadata,
