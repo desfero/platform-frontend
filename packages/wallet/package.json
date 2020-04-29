@@ -57,7 +57,7 @@
     "@react-navigation/bottom-tabs": "^5.2.7",
     "@react-navigation/native": "^5.1.6",
     "@react-navigation/stack": "^5.2.11",
-    "@walletconnect/react-native": "^1.0.0-beta.47",
+    "@walletconnect/react-native": "^1.0.0-beta.87",
     "bignumber.js": "^5.0.0",
     "ethers": "^4.0.45",
     "eventemitter2": "^6.0.0",
