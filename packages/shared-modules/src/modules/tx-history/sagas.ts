@@ -1,23 +1,39 @@
-import { all, fork, neuCall, neuTakeLatest, neuTakeUntil, put, SagaGenerator, select, take } from "@neufund/sagas";
-import { ECurrency, EthereumAddressWithChecksum, StringableActionCreator, subtractBigNumbers } from "@neufund/shared-utils";
+import {
+  all,
+  delay,
+  fork,
+  neuCall,
+  neuTakeLatest,
+  neuTakeUntil,
+  put,
+  SagaGenerator,
+  select,
+  take,
+} from "@neufund/sagas";
+import {
+  ECurrency,
+  EthereumAddressWithChecksum,
+  StringableActionCreator,
+  subtractBigNumbers,
+} from "@neufund/shared-utils";
 
-import { ETxHistoryMessage } from "../../components/translatedMessages/messages";
-import { createNotificationMessage } from "../../components/translatedMessages/utils";
+import { createMessage } from "../../messages";
 import { neuGetBindings } from "../../utils";
-import { authModuleAPI } from "../auth/module";
+import { authModuleAPI } from "../auth/module";
 import { coreModuleApi } from "../core/module";
 import { notificationUIModuleApi } from "../notification-ui/module";
 import { selectEurEquivalent } from "../token-price/selectors";
 import { txHistoryActions } from "./actions";
-import { TX_LIMIT } from "./constants";
+import { TX_LIMIT, TX_REFRESH_DELAY } from "./constants";
 import {
   ETransactionType,
   TAnalyticsTransaction,
   TAnalyticsTransactionsResponse,
 } from "./lib/http/analytics-api/interfaces";
+import { ETxHistoryMessage } from "./messages";
 import { TTXHistoryModuleState } from "./module";
 import { selectLastTransactionId, selectTimestampOfLastChange } from "./selectors";
-import {symbols} from "./symbols";
+import { symbols } from "./symbols";
 import { ETransactionStatus, ETransactionSubType, TTxHistory, TTxHistoryCommon } from "./types";
 import { getCurrencyFromTokenSymbol, getDecimalsFormat, getTxUniqueId } from "./utils";
 
@@ -45,7 +61,7 @@ export function* mapAnalyticsApiTransactionResponse(
   let tx: TTxHistory | undefined = undefined;
   const { logger, ethManager } = yield* neuGetBindings({
     logger: coreModuleApi.symbols.logger,
-    ethManager: authModuleAPI.symbols.ethManager
+    ethManager: authModuleAPI.symbols.ethManager,
   });
 
   switch (transaction.type) {
@@ -99,7 +115,7 @@ export function* mapAnalyticsApiTransactionResponse(
       const amountEur: string = yield select((state: TTXHistoryModuleState) =>
         selectEurEquivalent(state, common.amount, currency),
       );
-      
+
       const toAddress: EthereumAddressWithChecksum = yield ethManager.getWalletAddress();
 
       tx = {
@@ -301,10 +317,9 @@ export function* mapAnalyticsApiTransactionsResponse(
 }
 
 export function* loadTransactionsHistoryNext(_: TGlobalDependencies): Generator<any, any, any> {
-
   const { logger, analyticsApi } = yield* neuGetBindings({
     logger: coreModuleApi.symbols.logger,
-    analyticsApi: symbols.analyticsApi
+    analyticsApi: symbols.analyticsApi,
   });
 
   try {
@@ -327,7 +342,7 @@ export function* loadTransactionsHistoryNext(_: TGlobalDependencies): Generator<
   } catch (e) {
     yield put(
       notificationUIModuleApi.actions.showError(
-        createNotificationMessage(ETxHistoryMessage.TX_HISTORY_FAILED_TO_LOAD_NEXT),
+        createMessage(ETxHistoryMessage.TX_HISTORY_FAILED_TO_LOAD_NEXT),
       ),
     );
 
@@ -338,7 +353,7 @@ export function* loadTransactionsHistoryNext(_: TGlobalDependencies): Generator<
 export function* loadTransactionsHistory(_: TGlobalDependencies): Generator<any, any, any> {
   const { logger, analyticsApi } = yield* neuGetBindings({
     logger: coreModuleApi.symbols.logger,
-    analyticsApi: symbols.analyticsApi
+    analyticsApi: symbols.analyticsApi,
   });
 
   try {
@@ -362,7 +377,7 @@ export function* loadTransactionsHistory(_: TGlobalDependencies): Generator<any,
   } catch (e) {
     yield put(
       notificationUIModuleApi.actions.showError(
-        createNotificationMessage(ETxHistoryMessage.TX_HISTORY_FAILED_TO_LOAD),
+        createMessage(ETxHistoryMessage.TX_HISTORY_FAILED_TO_LOAD),
       ),
     );
 
@@ -372,16 +387,22 @@ export function* loadTransactionsHistory(_: TGlobalDependencies): Generator<any,
   }
 }
 
-export function* watchTransactions(_: TGlobalDependencies): Generator<any, any, any> {
-
+export function* watchTransactions(
+  _: TGlobalDependencies,
+  refreshOnAction: StringableActionCreator<any, any, any> | undefined,
+): Generator<any, any, any> {
   const { logger, analyticsApi } = yield* neuGetBindings({
     logger: coreModuleApi.symbols.logger,
-    analyticsApi: symbols.analyticsApi
+    analyticsApi: symbols.analyticsApi,
   });
 
   while (true) {
     try {
-      yield take(actions.web3.newBlockArrived.getType());
+      if (refreshOnAction) {
+        yield* take(refreshOnAction);
+      } else {
+        yield delay(TX_REFRESH_DELAY);
+      }
 
       const timestampOfLastChange: number | undefined = yield select(selectTimestampOfLastChange);
 
@@ -444,11 +465,9 @@ export function* watchTransactions(_: TGlobalDependencies): Generator<any, any, 
 //   );
 // }
 
-
 type TSetupSagasConfig = {
   refreshOnAction: StringableActionCreator<any, any, any> | undefined;
 };
-
 
 export function setupTXHistorySagas(_: TSetupSagasConfig): () => SagaGenerator<void> {
   return function* txHistorySaga(): SagaGenerator<any, any> {
@@ -460,6 +479,7 @@ export function setupTXHistorySagas(_: TSetupSagasConfig): () => SagaGenerator<v
       txHistoryActions.startWatchingForNewTransactions,
       txHistoryActions.stopWatchingForNewTransactions,
       watchTransactions,
+      // config.refreshOnAction, // TODO: this should be commented in, but types don't work
     );
-  }
+  };
 }

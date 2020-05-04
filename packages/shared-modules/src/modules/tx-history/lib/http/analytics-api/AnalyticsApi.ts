@@ -1,6 +1,7 @@
-import { authModuleAPI, IHttpClient } from "@neufund/shared-modules";
 import { inject, injectable } from "inversify";
 
+import { authModuleAPI } from "../../../../auth/module";
+import { IHttpClient } from "../../../../core/module";
 import { TAnalyticsTransactionsResponse } from "./interfaces";
 
 const ANALYTICS_API_ROOT = "/api/analytics-api";

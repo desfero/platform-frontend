@@ -87,16 +87,22 @@ export function* neuCall<
 /**
  * Starts saga on `startAction`, cancels on `stopAction`, loops...
  */
-export function* neuTakeUntil(
+export function* neuTakeUntil<
+  P extends ActionPattern,
+  Fn extends (action: ActionMatchingPattern<P>, ...args: any[]) => any
+>(
   startAction: ActionPattern,
   stopAction: ActionPattern,
   saga: TSagaWithDeps,
+  ...args: Tail<Parameters<Fn>>
 ): any {
   while (true) {
     const action = yield take(startAction);
+    // We need to help compiler by manually joining types
+    const sagaArgsTyped = [action, ...args] as Parameters<Fn>;
     // No direct concurrent requests like `fork` or `spawn` should be in the loop
     yield race({
-      task: neuCall(saga, action),
+      task: neuCall(saga, ...sagaArgsTyped),
       cancel: take(stopAction),
     });
   }

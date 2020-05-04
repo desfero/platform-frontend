@@ -1,8 +1,12 @@
 import { expectSaga } from "@neufund/sagas/tests";
-import { noopLogger } from "@neufund/shared-modules";
-import { ECurrency, ENumberInputFormat, EthereumAddressWithChecksum, EthereumTxHash } from "@neufund/shared-utils";
+import {
+  ECurrency,
+  ENumberInputFormat,
+  EthereumAddressWithChecksum,
+  EthereumTxHash,
+} from "@neufund/shared-utils";
 
-import { TGlobalDependencies } from "../../di/setupBindings";
+import { noopLogger } from "../core/lib/logger";
 import {
   ETransactionDirection,
   ETransactionType,
@@ -47,7 +51,7 @@ describe("Tx History sagas", () => {
         mapAnalyticsApiTransactionResponse,
         {
           logger: noopLogger,
-        } as TGlobalDependencies,
+        },
         transaction,
       )
         .returns({

@@ -1,6 +1,5 @@
+import { TypeOfYTS, YupTS } from "@neufund/shared-modules";
 import { EquityToken, EthereumAddressWithChecksum, EthereumTxHash } from "@neufund/shared-utils";
-
-import { YupTS, TypeOfYTS } from "@neufund/shared-modules";
 
 export enum ETransactionDirection {
   IN = "in",
@@ -80,6 +79,4 @@ export const AnalyticsTransactionsResponseSchema = YupTS.object({
   version: YupTS.number().optional(),
   transactions: YupTS.array(AnalyticsTransactionSchema),
 });
-export type TAnalyticsTransactionsResponse = TypeOfYTS<
-  typeof AnalyticsTransactionsResponseSchema
->;
+export type TAnalyticsTransactionsResponse = TypeOfYTS<typeof AnalyticsTransactionsResponseSchema>;

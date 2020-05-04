@@ -53,7 +53,7 @@ export class YTS<T> {
   }
 }
 
-class ObjectYTS<T> extends YTS<TypeOfProps<T>> {
+export class ObjectYTS<T> extends YTS<TypeOfProps<T>> {
   shape: T;
   constructor(shape: T) {
     const validator = Yup.object(mapValues(shape as any, s => s.toYup()));
@@ -62,13 +62,13 @@ class ObjectYTS<T> extends YTS<TypeOfProps<T>> {
   }
 }
 
-class StringYTS<T extends string = string> extends YTS<T> {
+export class StringYTS<T extends string = string> extends YTS<T> {
   constructor() {
     super(Yup.string());
   }
 }
 
-class NumberYTS extends YTS<number> {
+export class NumberYTS extends YTS<number> {
   constructor() {
     super(Yup.number());
   }
@@ -80,7 +80,7 @@ export class BooleanYTS extends YTS<boolean> {
   }
 }
 
-class ArrayYTS<T extends YTS<any>> extends YTS<Array<TypeOfYTS<T>>> {
+export class ArrayYTS<T extends YTS<any>> extends YTS<Array<TypeOfYTS<T>>> {
   shape: T;
   constructor(shape: T) {
     const validator = Yup.array().of(shape.toYup());

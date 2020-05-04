@@ -1,8 +1,7 @@
-import { all, fork, put, select, take } from "@neufund/sagas";
+import { all, fork, neuCall, neuTakeLatest, neuTakeUntil, put, select, take } from "@neufund/sagas";
+import { ETxHistoryMessage } from "@neufund/shared-modules";
 import { ECurrency, EthereumAddressWithChecksum, subtractBigNumbers } from "@neufund/shared-utils";
-import { neuCall, neuTakeLatest, neuTakeUntil } from "@neufund/sagas";
 
-import { ETxHistoryMessage } from "../../components/translatedMessages/messages";
 import { createNotificationMessage } from "../../components/translatedMessages/utils";
 import { TransactionDetailsModal } from "../../components/wallet/transactions-history/TransactionDetailsModal";
 import { TGlobalDependencies } from "../../di/setupBindings";
