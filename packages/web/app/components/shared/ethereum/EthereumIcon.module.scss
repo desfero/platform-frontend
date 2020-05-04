@@ -61,14 +61,14 @@ $slice-size: 1em;
   &.theme-silver {
     .eth {
       .top, .bottom {
-        background: rgba($neu-white, .4);
+        background: rgba($neu-very-light-grey, .4);
 
         .left, .right {
-          border-bottom-color: rgba($neu-white, .6);
+          border-bottom-color: rgba($neu-very-light-grey, .6);
         }
 
         .up, .down {
-          border-right-color: rgba($neu-white, .8);
+          border-right-color: rgba($neu-very-light-grey, .8);
         }
       }
     }

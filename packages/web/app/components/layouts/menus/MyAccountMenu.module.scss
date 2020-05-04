@@ -33,7 +33,7 @@ $arrow-half-size: 10px;
   flex-flow: column;
   padding-top: px-to-rem(8px);
   padding-bottom: px-to-rem(8px);
-  background-color: $neu-white-two;
+  background-color: $neu-white;
   border-radius: 6px;
   box-shadow: 0 5px 20px 0 $shadow, 0 -2px 20px 0 $shadow;
 }
@@ -44,7 +44,7 @@ $arrow-half-size: 10px;
   height: 0;
   border-left: $arrow-half-size solid transparent;
   border-right: $arrow-half-size solid transparent;
-  border-bottom: $arrow-half-size solid $neu-white-two;
+  border-bottom: $arrow-half-size solid $neu-white;
   margin-right: $arrow-margin-right;
   margin-left: auto;
 }

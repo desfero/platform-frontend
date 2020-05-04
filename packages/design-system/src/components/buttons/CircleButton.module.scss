@@ -33,11 +33,11 @@
   &--danger {
     border: px-to-rem(1px) solid $neu-flamingo-red;
     background: $neu-flamingo-red;
-    color: $neu-white;
+    color: $neu-very-light-grey;
 
     &:not(:disabled) {
       &:hover {
-        color: $neu-white;
+        color: $neu-very-light-grey;
 
         &:not(#{$button}--only-icon) {
           text-decoration: underline;

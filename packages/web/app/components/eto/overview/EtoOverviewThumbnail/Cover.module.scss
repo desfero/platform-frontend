@@ -6,7 +6,7 @@ $cover-padding: px-to-rem(8px);
   .jurisdiction {
     @include font-label;
 
-    background: $neu-white-two;
+    background: $neu-white;
     opacity: .7;
     position: absolute;
     width: auto;

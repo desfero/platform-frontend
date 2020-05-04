@@ -54,7 +54,7 @@ $track-width: 48px;
 .indicator {
   @include circle($indicator-size);
 
-  background-color: $neu-white-two;
+  background-color: $neu-white;
   box-shadow: $shadow1;
   transition: 200ms $ease-out-expo transform;
   will-change: transform;

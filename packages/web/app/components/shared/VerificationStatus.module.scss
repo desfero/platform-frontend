@@ -39,12 +39,12 @@
   color: $neu-piss-yellow;
   height: px-to-rem(20px);
   width: px-to-rem(20px);
-  background-color: $neu-white-two;
+  background-color: $neu-white;
   padding: 0;
 
   &:global(.is-checked) {
     background-color: $neu-piss-yellow;
-    color: $neu-white;
+    color: $neu-very-light-grey;
   }
 
   :global(.inline-icon) {

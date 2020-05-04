@@ -4,7 +4,7 @@
   }
 
   background-color: $neu-charcoal-grey;
-  color: $neu-white;
+  color: $neu-very-light-grey;
   width: 100%;
   padding-bottom: px-to-rem(8px);
   padding-top: px-to-rem(8px);
@@ -34,7 +34,7 @@
 
   &:global {
     &.inline-icon {
-      color: $neu-white;
+      color: $neu-very-light-grey;
     }
   }
 }
