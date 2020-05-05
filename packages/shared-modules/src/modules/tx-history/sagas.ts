@@ -398,11 +398,14 @@ export function* watchTransactions(
 
   while (true) {
     try {
-      // if (refreshOnAction) {
-      //   yield* take(refreshOnAction);
-      // } else {
-      //   yield delay(TX_REFRESH_DELAY);
-      // }
+      /*
+      TODO: comment back in as soon as the typing is figured out
+      if (refreshOnAction) {
+        yield* take(refreshOnAction);
+      } else {
+        yield delay(TX_REFRESH_DELAY);
+      }
+      */
       yield delay(TX_REFRESH_DELAY);
 
       const timestampOfLastChange: number | undefined = yield select(selectTimestampOfLastChange);
@@ -448,26 +451,6 @@ export function* watchTransactions(
   }
 }
 
-// TODO: Move
-/*
-function* showTransactionDetails(
-  _: TGlobalDependencies,
-  action: TActionFromCreator<typeof txHistoryActions.showTransactionDetails>,
-): Generator<any, any, any> {
-  const transaction = yield select((state: TTXHistoryModuleState) => selectTXById(action.payload.id, state));
-
-  if (!transaction) {
-    throw new Error(`Transaction should be defined for ${action.payload.id}`);
-  }
-
-  yield put(
-    actions.genericModal.showModal(TransactionDetailsModal, {
-      transaction,
-    }),
-  );
-}
-*/
-
 type TSetupSagasConfig = {
   refreshOnAction: StringableActionCreator<any, any, any> | undefined;
 };
@@ -476,7 +459,6 @@ export function setupTXHistorySagas(_: TSetupSagasConfig): () => SagaGenerator<v
   return function* txHistorySaga(): SagaGenerator<any, any> {
     yield fork(neuTakeLatest, txHistoryActions.loadTransactions, loadTransactionsHistory);
     yield fork(neuTakeLatest, txHistoryActions.loadNextTransactions, loadTransactionsHistoryNext);
-    // yield fork(neuTakeLatest, txHistoryActions.showTransactionDetails, showTransactionDetails);
     yield fork(
       neuTakeUntil,
       txHistoryActions.startWatchingForNewTransactions,

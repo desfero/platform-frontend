@@ -205,12 +205,6 @@ function* allSagas(): Generator<any, any, any> {
       neuTakeUntil,
       [actions.init.startServices, actions.init.restartServices],
       actions.init.stopServices,
-      txHistorySaga,
-    ),
-    fork(
-      neuTakeUntil,
-      [actions.init.startServices, actions.init.restartServices],
-      actions.init.stopServices,
       nomineeFlowSagas,
     ),
     fork(

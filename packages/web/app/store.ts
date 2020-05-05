@@ -4,7 +4,6 @@ import {
   setupContractsModule,
   setupCoreModule,
   setupTokenPriceModule,
-  setupTxHistoryModule,
   TAppConnectOptions,
   TModuleSetup,
   TModuleState,
@@ -31,6 +30,7 @@ import { setupWebNotificationUIModule } from "./modules/notification-ui/module";
 import { appReducers } from "./modules/reducer";
 import { rootSaga } from "./modules/sagas";
 import { IDisconnectedWeb3State, web3InitialState } from "./modules/web3/reducer";
+import { setupWebTxHistoryModule } from "./modules/tx-history/module";
 
 // add new external actions here
 export type AppActionTypes = DeepReadonly<TAction | LocationChangeAction>;
@@ -73,7 +73,7 @@ export const setupAppModule = ({ history, config, container }: TAppModuleConfig)
     setupTokenPriceModule({
       refreshOnAction: actions.web3.newBlockArrived,
     }),
-    ...setupTxHistoryModule({
+    ...setupWebTxHistoryModule({
       refreshOnAction: actions.web3.newBlockArrived,
     }),
     setupWebNotificationUIModule(),

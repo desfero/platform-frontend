@@ -78,10 +78,6 @@ export function setupBindings(config: IConfig): ContainerModule {
       .to(VaultApi)
       .inSingletonScope();
 
-    bind<AnalyticsApi>(symbols.analyticsApi)
-      .to(AnalyticsApi)
-      .inSingletonScope();
-
     bind<UsersTxApi>(symbols.usersTxApi)
       .to(UsersTxApi)
       .inSingletonScope();
