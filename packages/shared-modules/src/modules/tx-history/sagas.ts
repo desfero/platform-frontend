@@ -10,16 +10,11 @@ import {
   select,
   // take,
 } from "@neufund/sagas";
-import {
-  ECurrency,
-  EthereumAddressWithChecksum,
-  StringableActionCreator,
-  subtractBigNumbers,
-} from "@neufund/shared-utils";
+import { ECurrency, StringableActionCreator, subtractBigNumbers } from "@neufund/shared-utils";
 
 import { createMessage } from "../../messages";
 import { neuGetBindings } from "../../utils";
-import { authModuleAPI } from "../auth/module";
+import { authModuleAPI, IUser, TAuthModuleState } from "../auth/module";
 import { coreModuleApi } from "../core/module";
 import { notificationUIModuleApi } from "../notification-ui/module";
 import { selectEurEquivalent } from "../token-price/selectors";
@@ -31,7 +26,7 @@ import {
   TAnalyticsTransactionsResponse,
 } from "./lib/http/analytics-api/interfaces";
 import { ETxHistoryMessage } from "./messages";
-import { TTXHistoryModuleState } from "./module";
+import { TTxHistoryModuleState } from "./module";
 import { selectLastTransactionId, selectTimestampOfLastChange } from "./selectors";
 import { symbols } from "./symbols";
 import { ETransactionStatus, ETransactionSubType, TTxHistory, TTxHistoryCommon } from "./types";
@@ -59,9 +54,8 @@ export function* mapAnalyticsApiTransactionResponse(
 ): Generator<any, any, any> {
   // we can return tx in each case but then we will loose type safety
   let tx: TTxHistory | undefined = undefined;
-  const { logger, ethManager } = yield* neuGetBindings({
+  const { logger } = yield* neuGetBindings({
     logger: coreModuleApi.symbols.logger,
-    ethManager: authModuleAPI.symbols.ethManager,
   });
 
   switch (transaction.type) {
@@ -71,11 +65,14 @@ export function* mapAnalyticsApiTransactionResponse(
       }
 
       const neuReward = transaction.extraData.neumarkReward!.toString();
-      const neuRewardEur: string = yield select((state: TTXHistoryModuleState) =>
+      const neuRewardEur: string = yield select((state: TTxHistoryModuleState) =>
         selectEurEquivalent(state, neuReward, ECurrency.NEU),
       );
 
-      const address: EthereumAddressWithChecksum = yield ethManager.getWalletAddress();
+      const user: IUser = yield select((state: TAuthModuleState) =>
+        authModuleAPI.selectors.selectUser(state),
+      );
+      const address = user.userId;
 
       // if funds from ICBM were used then wallet_address != address
       const isICBMInvestment = transaction.extraData.walletAddress !== address;
@@ -112,11 +109,14 @@ export function* mapAnalyticsApiTransactionResponse(
 
       const currency = getCurrencyFromTokenSymbol(transaction.extraData.tokenMetadata);
 
-      const amountEur: string = yield select((state: TTXHistoryModuleState) =>
+      const amountEur: string = yield select((state: TTxHistoryModuleState) =>
         selectEurEquivalent(state, common.amount, currency),
       );
 
-      const toAddress: EthereumAddressWithChecksum = yield ethManager.getWalletAddress();
+      const user: IUser = yield select((state: TAuthModuleState) =>
+        authModuleAPI.selectors.selectUser(state),
+      );
+      const toAddress = user.userId;
 
       tx = {
         ...common,
@@ -148,7 +148,7 @@ export function* mapAnalyticsApiTransactionResponse(
 
         const currency = getCurrencyFromTokenSymbol(transaction.extraData.tokenMetadata);
 
-        const amountEur: string = yield select((state: TTXHistoryModuleState) =>
+        const amountEur: string = yield select((state: TTxHistoryModuleState) =>
           selectEurEquivalent(state, common.amount, currency),
         );
 
@@ -220,7 +220,7 @@ export function* mapAnalyticsApiTransactionResponse(
 
         const neuReward = transaction.extraData.neumarkReward!.toString();
 
-        const neuRewardEur: string = yield select((state: TTXHistoryModuleState) =>
+        const neuRewardEur: string = yield select((state: TTxHistoryModuleState) =>
           selectEurEquivalent(state, neuReward, ECurrency.NEU),
         );
 
@@ -247,11 +247,14 @@ export function* mapAnalyticsApiTransactionResponse(
 
       const currency = getCurrencyFromTokenSymbol(transaction.extraData.tokenMetadata);
 
-      const amountEur: string = yield select((state: TTXHistoryModuleState) =>
+      const amountEur: string = yield select((state: TTxHistoryModuleState) =>
         selectEurEquivalent(state, common.amount, currency),
       );
 
-      const toAddress: EthereumAddressWithChecksum = yield ethManager.getWalletAddress();
+      const user: IUser = yield select((state: TAuthModuleState) =>
+        authModuleAPI.selectors.selectUser(state),
+      );
+      const toAddress = user.userId;
 
       tx = {
         ...common,
@@ -271,7 +274,7 @@ export function* mapAnalyticsApiTransactionResponse(
 
       const currency = getCurrencyFromTokenSymbol(transaction.extraData.tokenMetadata);
 
-      const amountEur: string = yield select((state: TTXHistoryModuleState) =>
+      const amountEur: string = yield select((state: TTxHistoryModuleState) =>
         selectEurEquivalent(state, common.amount, currency),
       );
 

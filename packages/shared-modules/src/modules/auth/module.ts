@@ -1,3 +1,4 @@
+import { TModuleState } from "../../types";
 import { generateSharedModuleId } from "../../utils";
 import { jwtActions } from "./jwt/actions";
 import { jwtReducerMap } from "./jwt/reducer";
@@ -72,6 +73,8 @@ const authModuleAPI = {
     EmailActivationCodeMismatch,
   },
 };
+
+export type TAuthModuleState = TModuleState<typeof setupAuthModule>;
 
 export {
   setupAuthModule,

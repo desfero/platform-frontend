@@ -51,4 +51,4 @@ const txHistoryApi = {
 
 export { setupTxHistoryModule, txHistoryApi };
 
-export type TTXHistoryModuleState = TModuleState<typeof setupTxHistoryModule>;
+export type TTxHistoryModuleState = TModuleState<typeof setupTxHistoryModule>;
