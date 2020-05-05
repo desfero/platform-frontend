@@ -1,8 +1,8 @@
+import { ETransactionType, TExtractTxHistoryFromType } from "@neufund/shared-modules";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { externalRoutes } from "../../../../config/externalRoutes";
-import { ETransactionType, TExtractTxHistoryFromType } from "../../../../modules/tx-history/types";
 import { DataRow, DataRowSeparator } from "../../../shared/DataRow";
 import { ECurrency } from "../../../shared/formatters/utils";
 import { getIconForCurrency } from "../../../shared/icons/CurrencyIcon";

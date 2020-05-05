@@ -4,6 +4,7 @@ import {
   setupContractsModule,
   setupCoreModule,
   setupTokenPriceModule,
+  setupTxHistoryModule,
   TAppConnectOptions,
   TModuleSetup,
   TModuleState,
@@ -70,6 +71,9 @@ export const setupAppModule = ({ history, config, container }: TAppModuleConfig)
       contractsServiceSymbol: symbols.contractsService,
     }),
     setupTokenPriceModule({
+      refreshOnAction: actions.web3.newBlockArrived,
+    }),
+    ...setupTxHistoryModule({
       refreshOnAction: actions.web3.newBlockArrived,
     }),
     setupWebNotificationUIModule(),

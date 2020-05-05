@@ -1,13 +1,13 @@
-import { assertNever } from "@neufund/shared-utils";
-import * as React from "react";
-import { FormattedMessage } from "react-intl-phraseapp";
-
 import {
   ETransactionDirection,
   ETransactionSubType,
   ETransactionType,
   TExtractTxHistoryFromType,
-} from "../../../../modules/tx-history/types";
+} from "@neufund/shared-modules";
+import { assertNever } from "@neufund/shared-utils";
+import * as React from "react";
+import { FormattedMessage } from "react-intl-phraseapp";
+
 import { etoPublicViewByIdLinkLegacy } from "../../../appRouteUtils";
 import { DataRow, DataRowSeparator } from "../../../shared/DataRow";
 import { ECurrency } from "../../../shared/formatters/utils";

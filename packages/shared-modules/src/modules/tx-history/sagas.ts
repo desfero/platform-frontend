@@ -8,7 +8,7 @@ import {
   put,
   SagaGenerator,
   select,
-  take,
+  // take,
 } from "@neufund/sagas";
 import {
   ECurrency,
@@ -389,7 +389,7 @@ export function* loadTransactionsHistory(_: TGlobalDependencies): Generator<any,
 
 export function* watchTransactions(
   _: TGlobalDependencies,
-  refreshOnAction: StringableActionCreator<any, any, any> | undefined,
+  __: StringableActionCreator<any, any, any> | undefined,
 ): Generator<any, any, any> {
   const { logger, analyticsApi } = yield* neuGetBindings({
     logger: coreModuleApi.symbols.logger,
@@ -398,11 +398,12 @@ export function* watchTransactions(
 
   while (true) {
     try {
-      if (refreshOnAction) {
-        yield* take(refreshOnAction);
-      } else {
-        yield delay(TX_REFRESH_DELAY);
-      }
+      // if (refreshOnAction) {
+      //   yield* take(refreshOnAction);
+      // } else {
+      //   yield delay(TX_REFRESH_DELAY);
+      // }
+      yield delay(TX_REFRESH_DELAY);
 
       const timestampOfLastChange: number | undefined = yield select(selectTimestampOfLastChange);
 
@@ -448,22 +449,24 @@ export function* watchTransactions(
 }
 
 // TODO: Move
-// function* showTransactionDetails(
-//   _: TGlobalDependencies,
-//   action: TActionFromCreator<typeof txHistoryActions.showTransactionDetails>,
-// ): Generator<any, any, any> {
-//   const transaction = yield select((state: TTXHistoryModuleState) => selectTXById(action.payload.id, state));
+/*
+function* showTransactionDetails(
+  _: TGlobalDependencies,
+  action: TActionFromCreator<typeof txHistoryActions.showTransactionDetails>,
+): Generator<any, any, any> {
+  const transaction = yield select((state: TTXHistoryModuleState) => selectTXById(action.payload.id, state));
 
-//   if (!transaction) {
-//     throw new Error(`Transaction should be defined for ${action.payload.id}`);
-//   }
+  if (!transaction) {
+    throw new Error(`Transaction should be defined for ${action.payload.id}`);
+  }
 
-//   yield put(
-//     actions.genericModal.showModal(TransactionDetailsModal, {
-//       transaction,
-//     }),
-//   );
-// }
+  yield put(
+    actions.genericModal.showModal(TransactionDetailsModal, {
+      transaction,
+    }),
+  );
+}
+*/
 
 type TSetupSagasConfig = {
   refreshOnAction: StringableActionCreator<any, any, any> | undefined;

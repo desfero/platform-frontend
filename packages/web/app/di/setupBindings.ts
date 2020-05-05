@@ -51,7 +51,6 @@ import {
   Web3FactoryType,
 } from "../lib/web3/Web3Batch/Web3Batch";
 import { Web3Manager } from "../lib/web3/Web3Manager/Web3Manager";
-import { AnalyticsApi } from "../modules/tx-history/lib/http/analytics-api/AnalyticsApi";
 import {
   AsyncIntervalSchedulerFactory,
   AsyncIntervalSchedulerFactoryType,
@@ -268,7 +267,6 @@ export const createGlobalDependencies = (container: Container) => ({
   apiEtoNomineeService: container.get<EtoNomineeApi>(symbols.apiEtoNomineeService),
   apiUserTxService: container.get<UsersTxApi>(symbols.usersTxApi),
   vaultApi: container.get<VaultApi>(symbols.vaultApi),
-  analyticsApi: container.get<AnalyticsApi>(symbols.analyticsApi),
   fileStorageApi: container.get<FileStorageApi>(symbols.fileStorageService),
   gasApi: container.get<GasApi>(symbols.gasApi),
   apiImmutableStorage: container.get<ImmutableStorageApi>(symbols.apiImmutableStorage),

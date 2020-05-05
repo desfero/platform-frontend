@@ -1,12 +1,12 @@
-import * as React from "react";
-import { FormattedMessage } from "react-intl-phraseapp";
-
-import { externalRoutes } from "../../../../config/externalRoutes";
 import {
   ETransactionStatus,
   ETransactionType,
   TExtractTxHistoryFromType,
-} from "../../../../modules/tx-history/types";
+} from "@neufund/shared-modules";
+import * as React from "react";
+import { FormattedMessage } from "react-intl-phraseapp";
+
+import { externalRoutes } from "../../../../config/externalRoutes";
 import { DataRow, DataRowSeparator } from "../../../shared/DataRow";
 import { Money } from "../../../shared/formatters/Money";
 import { ECurrency, ENumberOutputFormat } from "../../../shared/formatters/utils";

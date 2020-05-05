@@ -1,3 +1,4 @@
+import { ETransactionDirection, ETransactionType } from "@neufund/shared-modules";
 import { EquityToken, ETH_DECIMALS, multiplyBigNumbers } from "@neufund/shared-utils";
 import BigNumber from "bignumber.js";
 import { addHexPrefix } from "ethereumjs-util";
@@ -8,7 +9,6 @@ import { TxPendingWithMetadata } from "../../lib/api/users-tx/interfaces";
 import { TBigNumberVariants } from "../../lib/web3/types";
 import { EInvestmentType } from "../investment-flow/reducer";
 import { ITokenDisbursal } from "../investor-portfolio/types";
-import { ETransactionDirection, ETransactionType } from "../tx-history/types";
 import { ETxSenderState } from "./sender/reducer";
 import { ETxSenderType, TPendingTransactionType } from "./types";
 

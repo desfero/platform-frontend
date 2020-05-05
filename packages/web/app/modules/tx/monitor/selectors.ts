@@ -1,9 +1,9 @@
+import { ETransactionDirection, ETransactionStatus } from "@neufund/shared-modules";
 import { createSelector } from "reselect";
 
 import { ENumberInputFormat } from "../../../components/shared/formatters/utils";
 import { TxPendingWithMetadata, TxWithMetadata } from "../../../lib/api/users-tx/interfaces";
 import { TAppGlobalState } from "../../../store";
-import { ETransactionDirection, ETransactionStatus } from "../../tx-history/types";
 import { ETxSenderState } from "../sender/reducer";
 import { ETxSenderType } from "../types";
 import {

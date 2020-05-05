@@ -1,4 +1,5 @@
-import { ETransactionType } from "../tx-history/types";
+import { ETransactionType } from "@neufund/shared-modules";
+
 import { TClaimAdditionalData } from "./transactions/claim/types";
 import { TEtoSetDateAdditionalData } from "./transactions/eto-flow/types";
 import { TInvestmentAdditionalData } from "./transactions/investment/types";

@@ -1,12 +1,8 @@
+import { ETransactionDirection, ETransactionType, TTxHistory } from "@neufund/shared-modules";
 import { assertNever } from "@neufund/shared-utils";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
-import {
-  ETransactionDirection,
-  ETransactionType,
-  TTxHistory,
-} from "../../../modules/tx-history/types";
 import { selectUnits } from "../formatters/utils";
 
 type TExternalProps = { transaction: TTxHistory };
