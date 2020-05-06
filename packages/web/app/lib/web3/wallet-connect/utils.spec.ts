@@ -46,7 +46,7 @@ describe("peerMeta to walletMeta", () => {
 
     const expectedWalletMeta = {
       walletSubType: EWalletSubType.NEUFUND,
-      sendTransactionMethod: ESignTransactionMethod.ETH_SEND_TRANSACTION,
+      sendTransactionMethod: ESignTransactionMethod.ETH_SEND_TYPED_TRANSACTION,
       signerType: ESignerType.ETH_SIGN,
       signingTimeout: 120000,
       sessionRequestTimeout: WC_DEFAULT_SESSION_REQUEST_TIMEOUT,

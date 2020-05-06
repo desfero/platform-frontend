@@ -52,6 +52,7 @@ export const generateWalletMetaFormPeerMeta = (clientMeta: IClientMeta | null): 
     } else if (name.includes("neufund")) {
       walletMeta.walletSubType = EWalletSubType.NEUFUND;
       walletMeta.signerType = ESignerType.ETH_SIGN;
+      walletMeta.sendTransactionMethod = ESignTransactionMethod.ETH_SEND_TYPED_TRANSACTION;
       walletMeta.signingTimeout = minutesToMs(2);
       walletMeta.expectsEthSignDigest = false;
       walletMeta.supportsExplicitTimeouts = true;
