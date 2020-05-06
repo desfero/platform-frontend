@@ -7,7 +7,7 @@ import {
   selectTxSenderModalOpened,
   selectTxTimestamp,
 } from "../../../../modules/tx/sender/selectors";
-import { ETxSenderType } from "../../../../modules/tx/types";
+import { ETxType } from "../../../../modules/tx/types";
 import { appConnect } from "../../../../store";
 import { QuintessenceModal } from "../../bank-transfer-flow/QuintessenceModal";
 import { Modal } from "../../Modal";
@@ -15,11 +15,11 @@ import { TxSenderBody } from "./TxSenderBody";
 import { ITxSenderDispatchProps, ITxSenderStateProps, TxSenderProps } from "./types";
 
 function isBigModal(props: TxSenderProps): boolean {
-  return props.state === ETxSenderState.INIT && props.type === ETxSenderType.INVEST;
+  return props.state === ETxSenderState.INIT && props.type === ETxType.INVEST;
 }
 
 const TxSenderModalSelect: React.FunctionComponent<TxSenderProps> = props => {
-  if (props.type !== ETxSenderType.NEUR_REDEEM) {
+  if (props.type !== ETxType.NEUR_REDEEM) {
     return <TxSenderModalOuter {...props}>{props.children}</TxSenderModalOuter>;
   }
 

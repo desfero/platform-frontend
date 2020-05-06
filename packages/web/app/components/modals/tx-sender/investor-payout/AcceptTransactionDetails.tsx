@@ -1,7 +1,7 @@
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
-import { ETxSenderType } from "../../../../modules/tx/types";
+import { ETxType } from "../../../../modules/tx/types";
 import { Money } from "../../../shared/formatters/Money";
 import {
   ENumberInputFormat,
@@ -13,7 +13,7 @@ import { InfoRow } from "../shared/InfoRow";
 import { TimestampRow } from "../shared/TimestampRow";
 import { TransactionDetailsComponent } from "../types";
 
-const AcceptTransactionDetails: TransactionDetailsComponent<ETxSenderType.INVESTOR_ACCEPT_PAYOUT> = ({
+const AcceptTransactionDetails: TransactionDetailsComponent<ETxType.INVESTOR_ACCEPT_PAYOUT> = ({
   additionalData,
   className,
   txTimestamp,

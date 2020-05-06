@@ -7,7 +7,7 @@ import { Container } from "reactstrap";
 import { actions } from "../../../../modules/actions";
 import { selectTxAdditionalData } from "../../../../modules/tx/sender/selectors";
 import { TAcceptPayoutAdditionalData } from "../../../../modules/tx/transactions/payout/accept/types";
-import { ETxSenderType } from "../../../../modules/tx/types";
+import { ETxType } from "../../../../modules/tx/types";
 import { selectEthereumAddress } from "../../../../modules/web3/selectors";
 import { appConnect } from "../../../../store";
 import { commitmentStatusLink } from "../../../appRouteUtils";
@@ -67,7 +67,7 @@ const InvestorAcceptPayoutSummaryLayout: React.FunctionComponent<TComponentProps
 const InvestorAcceptPayoutSummary = appConnect<IStateProps, IDispatchProps, {}>({
   stateToProps: state => ({
     walletAddress: selectEthereumAddress(state),
-    additionalData: selectTxAdditionalData<ETxSenderType.INVESTOR_ACCEPT_PAYOUT>(state)!,
+    additionalData: selectTxAdditionalData<ETxType.INVESTOR_ACCEPT_PAYOUT>(state)!,
   }),
   dispatchToProps: d => ({
     onAccept: () => d(actions.txSender.txSenderAccept()),

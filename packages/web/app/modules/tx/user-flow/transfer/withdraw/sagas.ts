@@ -9,7 +9,7 @@ import { neuCall, neuDebounce } from "../../../../sagasUtils";
 import { selectLiquidEtherBalance } from "../../../../wallet/selectors";
 import { generateRandomEthereumAddress, isAddressValid } from "../../../../web3/utils";
 import { generateEthWithdrawTransaction } from "../../../transactions/withdraw/sagas";
-import { ETxSenderType } from "../../../types";
+import { ETxType } from "../../../types";
 import { SmartContractDoesNotAcceptEtherError } from "../../../validator/transfer/withdraw/errors";
 import { isAddressValidAcceptsEther } from "../../../validator/transfer/withdraw/sagas";
 import { toFormValue } from "../utils";
@@ -55,7 +55,7 @@ export function* detectMaxWithdraw(
     }
   }
   yield put(
-    actions.txValidator.validateDraft({ to, value: modifiedValue, type: ETxSenderType.WITHDRAW }),
+    actions.txValidator.validateDraft({ to, value: modifiedValue, type: ETxType.WITHDRAW }),
   );
   yield put(
     actions.txUserFlowTransfer.setTxUserFlowInputData({

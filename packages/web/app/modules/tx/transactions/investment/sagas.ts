@@ -28,7 +28,7 @@ import { selectEtherTokenBalance } from "../../../wallet/selectors";
 import { selectEthereumAddress } from "../../../web3/selectors";
 import { txSendSaga } from "../../sender/sagas";
 import { selectTxGasCostEthUlps } from "../../sender/selectors";
-import { ETxSenderType, TAdditionalDataByType } from "../../types";
+import { ETxType, TAdditionalDataByType } from "../../types";
 
 export const INVESTMENT_GAS_AMOUNT = "600000";
 
@@ -151,7 +151,7 @@ function* investmentFlowGenerator({ logger }: TGlobalDependencies): Generator<an
     throw new Error("ETO investment calculated values are empty");
   }
 
-  const additionalData: TAdditionalDataByType<ETxSenderType.INVEST> = {
+  const additionalData: TAdditionalDataByType<ETxType.INVEST> = {
     eto: {
       etoId,
       companyName: eto.company.name,
@@ -183,7 +183,7 @@ function* investSaga(
 ): Generator<any, any, any> {
   try {
     yield txSendSaga({
-      type: ETxSenderType.INVEST,
+      type: ETxType.INVEST,
       transactionFlowGenerator: investmentFlowGenerator,
     });
     logger.info("Investment successful");

@@ -2,7 +2,7 @@ import { assertNever } from "@neufund/shared-utils";
 import * as React from "react";
 
 import { ITxData } from "../../../lib/web3/types";
-import { ETxSenderType, TSpecificTransactionState } from "../../../modules/tx/types";
+import { ETxType, TSpecificTransactionState } from "../../../modules/tx/types";
 import { CommonHtmlProps } from "../../../types";
 import { SetDateDetails } from "./eto-flow/SetDateDetails";
 import { InvestmentTransactionDetails } from "./investment-flow/InvestmentTransactionDetails";
@@ -32,32 +32,32 @@ const TxDetails: React.FunctionComponent<IProps & CommonHtmlProps> = props => {
 
   const type = props.type;
   switch (type) {
-    case ETxSenderType.WITHDRAW:
-    case ETxSenderType.TRANSFER_TOKENS:
+    case ETxType.WITHDRAW:
+    case ETxType.TRANSFER_TOKENS:
       return null;
-    case ETxSenderType.INVESTOR_ACCEPT_PAYOUT:
+    case ETxType.INVESTOR_ACCEPT_PAYOUT:
       return <AcceptTransactionDetails {...propsAsAny} />;
-    case ETxSenderType.USER_CLAIM:
+    case ETxType.USER_CLAIM:
       return <ClaimTransactionDetails {...propsAsAny} />;
-    case ETxSenderType.UPGRADE:
+    case ETxType.UPGRADE:
       return <UpgradeTransactionDetails {...propsAsAny} />;
-    case ETxSenderType.UNLOCK_FUNDS:
+    case ETxType.UNLOCK_FUNDS:
       return <UnlockWalletTransactionDetails {...propsAsAny} />;
-    case ETxSenderType.INVESTOR_REDISTRIBUTE_PAYOUT:
+    case ETxType.INVESTOR_REDISTRIBUTE_PAYOUT:
       return <RedistributeTransactionDetails {...propsAsAny} />;
-    case ETxSenderType.ETO_SET_DATE:
+    case ETxType.ETO_SET_DATE:
       return <SetDateDetails {...propsAsAny} />;
-    case ETxSenderType.INVEST:
+    case ETxType.INVEST:
       return <InvestmentTransactionDetails {...propsAsAny} />;
-    case ETxSenderType.NEUR_REDEEM:
+    case ETxType.NEUR_REDEEM:
       return <BankTransferRedeemDetails {...propsAsAny} />;
-    case ETxSenderType.SIGN_INVESTMENT_AGREEMENT:
+    case ETxType.SIGN_INVESTMENT_AGREEMENT:
       return null;
-    case ETxSenderType.INVESTOR_REFUND:
+    case ETxType.INVESTOR_REFUND:
       return <RefundTransactionDetails {...propsAsAny} />;
-    case ETxSenderType.NOMINEE_THA_SIGN:
-    case ETxSenderType.NOMINEE_RAAA_SIGN:
-    case ETxSenderType.NOMINEE_ISHA_SIGN:
+    case ETxType.NOMINEE_THA_SIGN:
+    case ETxType.NOMINEE_RAAA_SIGN:
+    case ETxType.NOMINEE_ISHA_SIGN:
       return null;
     default:
       return assertNever(type);

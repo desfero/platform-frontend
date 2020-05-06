@@ -4,11 +4,11 @@ import { FormattedMessage } from "react-intl-phraseapp";
 import { compose } from "recompose";
 
 import { actions } from "../../../../modules/actions";
-import { ETxSenderType } from "../../../../modules/tx/types";
+import { ETxType } from "../../../../modules/tx/types";
 import { appConnect } from "../../../../store";
 
 interface IExternalProps {
-  type: ETxSenderType;
+  type: ETxType;
 }
 
 interface IDispatchProps {
@@ -19,7 +19,7 @@ type TComponentProps = IExternalProps & IDispatchProps;
 
 const TxGoToActionLayout: React.FunctionComponent<TComponentProps> = ({ type, goToWallet }) => {
   switch (type) {
-    case ETxSenderType.INVESTOR_REFUND:
+    case ETxType.INVESTOR_REFUND:
       return (
         <ButtonArrowRight
           onClick={goToWallet}

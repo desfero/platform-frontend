@@ -1,5 +1,5 @@
 import { Schema } from "../../../lib/yup-ts.unsafe";
-import { ETxSenderType } from "../types";
+import { ETxType } from "../types";
 import { TUserClaimAdditionalData, UserClaimAdditionalDataSchema } from "./claim/types";
 import { EtoSetDateAdditionalDataSchema, TEtoSetDateAdditionalDataSchema } from "./eto-flow/types";
 import {
@@ -23,22 +23,22 @@ import { TUnlockAdditionalDataYTS, UnlockAdditionalDataSchema } from "./unlock/t
 import { TUpgradeAdditionalDataYTS, UpgradeAdditionalDataSchema } from "./upgrade/types";
 import { TWithdrawAdditionalData, WithdrawAdditionalDataSchema } from "./withdraw/types";
 
-export const typeToSchema: Record<ETxSenderType, Schema<unknown>> = {
-  [ETxSenderType.INVEST]: InvestmentAdditionalDataSchema,
-  [ETxSenderType.USER_CLAIM]: UserClaimAdditionalDataSchema,
-  [ETxSenderType.INVESTOR_REDISTRIBUTE_PAYOUT]: InvestorAcceptPayoutAdditionalDataSchema,
-  [ETxSenderType.INVESTOR_ACCEPT_PAYOUT]: InvestorAcceptPayoutAdditionalDataSchema,
-  [ETxSenderType.NEUR_REDEEM]: NeurRedeemAdditionalDataSchema,
-  [ETxSenderType.INVESTOR_REFUND]: InvestorRefundAdditionalSchema,
-  [ETxSenderType.WITHDRAW]: WithdrawAdditionalDataSchema,
-  [ETxSenderType.TRANSFER_TOKENS]: TokenTransferAdditionalDataSchema,
-  [ETxSenderType.UNLOCK_FUNDS]: UnlockAdditionalDataSchema,
-  [ETxSenderType.UPGRADE]: UpgradeAdditionalDataSchema,
-  [ETxSenderType.ETO_SET_DATE]: EtoSetDateAdditionalDataSchema,
-  [ETxSenderType.SIGN_INVESTMENT_AGREEMENT]: InvestorSignAgreementSchema,
-  [ETxSenderType.NOMINEE_ISHA_SIGN]: TokenAgreementContractSchema,
-  [ETxSenderType.NOMINEE_RAAA_SIGN]: TokenAgreementContractSchema,
-  [ETxSenderType.NOMINEE_THA_SIGN]: TokenAgreementContractSchema,
+export const typeToSchema: Record<ETxType, Schema<unknown>> = {
+  [ETxType.INVEST]: InvestmentAdditionalDataSchema,
+  [ETxType.USER_CLAIM]: UserClaimAdditionalDataSchema,
+  [ETxType.INVESTOR_REDISTRIBUTE_PAYOUT]: InvestorAcceptPayoutAdditionalDataSchema,
+  [ETxType.INVESTOR_ACCEPT_PAYOUT]: InvestorAcceptPayoutAdditionalDataSchema,
+  [ETxType.NEUR_REDEEM]: NeurRedeemAdditionalDataSchema,
+  [ETxType.INVESTOR_REFUND]: InvestorRefundAdditionalSchema,
+  [ETxType.WITHDRAW]: WithdrawAdditionalDataSchema,
+  [ETxType.TRANSFER_TOKENS]: TokenTransferAdditionalDataSchema,
+  [ETxType.UNLOCK_FUNDS]: UnlockAdditionalDataSchema,
+  [ETxType.UPGRADE]: UpgradeAdditionalDataSchema,
+  [ETxType.ETO_SET_DATE]: EtoSetDateAdditionalDataSchema,
+  [ETxType.SIGN_INVESTMENT_AGREEMENT]: InvestorSignAgreementSchema,
+  [ETxType.NOMINEE_ISHA_SIGN]: TokenAgreementContractSchema,
+  [ETxType.NOMINEE_RAAA_SIGN]: TokenAgreementContractSchema,
+  [ETxType.NOMINEE_THA_SIGN]: TokenAgreementContractSchema,
 };
 export type TTransactionAdditionalData =
   | TInvestmentAdditionalDataYTS

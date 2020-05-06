@@ -12,7 +12,7 @@ import { ITokenDisbursal } from "../../../../investor-portfolio/types";
 import { neuCall } from "../../../../sagasUtils";
 import { getTokenAddress } from "../../../../shared/sagas";
 import { selectEthereumAddress } from "../../../../web3/selectors";
-import { ETxSenderType } from "../../../types";
+import { ETxType } from "../../../types";
 
 // Use highest possible solidity uint256 to redistribute all disbursals for token
 // see https://github.com/Neufund/platform-contracts/blob/59e88f6881bf5adbced8462f1925496467ea4c18/contracts/FeeDisbursal/FeeDisbursal.sol#L164
@@ -71,7 +71,7 @@ export function* startInvestorPayoutRedistributionGenerator(
   );
   yield put(actions.txSender.setTransactionData(generatedTxDetails));
   yield put(
-    actions.txSender.txSenderContinueToSummary<ETxSenderType.INVESTOR_REDISTRIBUTE_PAYOUT>({
+    actions.txSender.txSenderContinueToSummary<ETxType.INVESTOR_REDISTRIBUTE_PAYOUT>({
       tokenDisbursals,
     }),
   );

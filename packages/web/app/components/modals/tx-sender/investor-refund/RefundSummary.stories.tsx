@@ -4,7 +4,7 @@ import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
 import { ITxData } from "../../../../lib/web3/types";
-import { ETxSenderType, TAdditionalDataByType } from "../../../../modules/tx/types";
+import { ETxType, TAdditionalDataByType } from "../../../../modules/tx/types";
 import { withModalBody } from "../../../../utils/react-connected-components/storybookHelpers.unsafe";
 import { RefundSummaryLayout } from "./RefundSummary";
 
@@ -16,7 +16,7 @@ const txData: ITxData = {
   from: "0x8e75544b848f0a32a1ab119e3916ec7138f3bed2",
 };
 
-const additionalData: TAdditionalDataByType<typeof ETxSenderType.INVESTOR_REFUND> = {
+const additionalData: TAdditionalDataByType<typeof ETxType.INVESTOR_REFUND> = {
   etoId: "0xfaDa8f267C054f469b52Ccbeb08250ACAAeE65dc",
   costUlps: Q18.mul("0.04").toString(),
   costEurUlps: Q18.mul("0.34").toString(),
@@ -28,13 +28,13 @@ const additionalData: TAdditionalDataByType<typeof ETxSenderType.INVESTOR_REFUND
   companyName: "Storybook Ltd.",
 };
 
-const additionalDataNEur: TAdditionalDataByType<typeof ETxSenderType.INVESTOR_REFUND> = {
+const additionalDataNEur: TAdditionalDataByType<typeof ETxType.INVESTOR_REFUND> = {
   ...additionalData,
   amountEth: "0",
   amountEurUlps: Q18.mul("150").toString(),
 };
 
-const additionalDataNEurAndETH: TAdditionalDataByType<typeof ETxSenderType.INVESTOR_REFUND> = {
+const additionalDataNEurAndETH: TAdditionalDataByType<typeof ETxType.INVESTOR_REFUND> = {
   ...additionalData,
   amountEurUlps: Q18.mul("150").toString(),
 };

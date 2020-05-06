@@ -10,7 +10,7 @@ import { actions } from "../../../../modules/actions";
 import { selectIsRestrictedInvestor } from "../../../../modules/auth/selectors";
 import { selectTxAdditionalData } from "../../../../modules/tx/sender/selectors";
 import { TInvestmentAdditionalData } from "../../../../modules/tx/transactions/investment/types";
-import { ETxSenderType } from "../../../../modules/tx/types";
+import { ETxType } from "../../../../modules/tx/types";
 import { appConnect } from "../../../../store";
 import { ErrorAlert } from "../../../shared/Alerts";
 import { DocumentButton } from "../../../shared/DocumentLink";
@@ -89,7 +89,7 @@ const InvestmentSummary = compose<IProps, {}>(
   setDisplayName("InvestmentSummary"),
   appConnect<IStateProps, IDispatchProps>({
     stateToProps: state => ({
-      additionalData: nonNullable(selectTxAdditionalData<ETxSenderType.INVEST>(state)),
+      additionalData: nonNullable(selectTxAdditionalData<ETxType.INVEST>(state)),
       isRestrictedCountryInvestor: selectIsRestrictedInvestor(state),
     }),
     dispatchToProps: d => ({

@@ -4,7 +4,7 @@ import * as React from "react";
 
 import { EInvestmentType } from "../../../../modules/investment-flow/reducer";
 import { ETransactionErrorType } from "../../../../modules/tx/sender/reducer";
-import { ETxSenderType } from "../../../../modules/tx/types";
+import { ETxType } from "../../../../modules/tx/types";
 import { withStore } from "../../../../utils/react-connected-components/storeDecorator.unsafe";
 import { withModalBody } from "../../../../utils/react-connected-components/storybookHelpers.unsafe";
 import { TxErrorLayout } from "./TxError";
@@ -34,7 +34,7 @@ const baseTxData = {
 };
 
 const txData: React.ComponentProps<typeof TxErrorLayout> = {
-  type: ETxSenderType.WITHDRAW,
+  type: ETxType.WITHDRAW,
   additionalData: {
     to: "0xfb6916095ca1df60bb79ce92ce3ea74c37c5d359",
     amount: "5500000000000000000",
@@ -49,7 +49,7 @@ const txData: React.ComponentProps<typeof TxErrorLayout> = {
 };
 
 const investTxData: React.ComponentProps<typeof TxErrorLayout> = {
-  type: ETxSenderType.INVEST,
+  type: ETxType.INVEST,
   additionalData: {
     eto: {
       etoId: "123",

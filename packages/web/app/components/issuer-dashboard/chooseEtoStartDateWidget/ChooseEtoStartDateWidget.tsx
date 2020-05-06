@@ -18,7 +18,7 @@ import {
 import { isValidEtoStartDate } from "../../../modules/eto-flow/utils";
 import { selectPlatformPendingTransaction } from "../../../modules/tx/monitor/selectors";
 import { ETxSenderState } from "../../../modules/tx/sender/reducer";
-import { ETxSenderType } from "../../../modules/tx/types";
+import { ETxType } from "../../../modules/tx/types";
 import { appConnect } from "../../../store";
 import { EColumnSpan } from "../../layouts/Container";
 import {
@@ -354,7 +354,7 @@ const ChooseEtoStartDateWidget = compose<
       const pendingTransaction = selectPlatformPendingTransaction(state);
       const transactionMining =
         !!pendingTransaction &&
-        pendingTransaction.transactionType === ETxSenderType.ETO_SET_DATE &&
+        pendingTransaction.transactionType === ETxType.ETO_SET_DATE &&
         pendingTransaction.transactionStatus === ETxSenderState.MINING;
 
       return {

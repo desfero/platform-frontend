@@ -1,12 +1,12 @@
 import { ITxData } from "../../../../lib/web3/types";
 import { ETransactionErrorType, ETxSenderState } from "../../../../modules/tx/sender/reducer";
-import { ETxSenderType } from "../../../../modules/tx/types";
+import { ETxType } from "../../../../modules/tx/types";
 
 export interface ITxSenderStateProps {
   isOpen: boolean;
   txTimestamp?: number;
   state: ETxSenderState;
-  type?: ETxSenderType;
+  type?: ETxType;
   details?: ITxData;
   blockId?: number;
   txHash?: string;

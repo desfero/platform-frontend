@@ -6,7 +6,7 @@ import * as Web3 from "web3";
 
 import { TGlobalDependencies } from "../../../di/setupBindings";
 import { TPendingTxs, TxPendingWithMetadata } from "../../../lib/api/users/interfaces";
-import { ITxData } from "../../../lib/web3/types";
+import { ITxData, ITxMetadata } from "../../../lib/web3/types";
 import { OutOfGasError, RevertedTransactionError } from "../../../lib/web3/Web3Adapter";
 import { actions } from "../../actions";
 import { neuCall, neuTakeLatest, neuTakeUntil } from "../../sagasUtils";
@@ -15,7 +15,7 @@ import { getTransactionOrThrow } from "../event-channel/sagas";
 import { ETransactionErrorType, ETxSenderState } from "../sender/reducer";
 import { txMonitorSaga } from "../sender/sagas";
 import { typeToSchema } from "../transactions/types";
-import { ETxSenderType, TSpecificTransactionState } from "../types";
+import { ETxType, TSpecificTransactionState } from "../types";
 import { SchemaMismatchError } from "./errors";
 import { selectPlatformPendingTransaction } from "./selectors";
 
@@ -39,19 +39,21 @@ export function* deletePendingTransaction({
   yield put(actions.txMonitor.setPendingTxs({ pendingTransaction: undefined }));
 }
 
+export function createTxMetadata(
+  type: ETxType,
+  txAdditionalData?: TSpecificTransactionState["additionalData"],
+): ITxMetadata {
+  return {
+    transactionType: type,
+    transactionAdditionalData: txAdditionalData,
+  };
+}
+
 export function* markTransactionAsPending(
   { apiUserService }: TGlobalDependencies,
-  {
-    txHash,
-    type,
-    txData,
-    txAdditionalData,
-  }: {
-    txHash: string;
-    type: ETxSenderType;
-    txData: ITxData;
-    txAdditionalData?: TSpecificTransactionState["additionalData"];
-  },
+  txHash: string,
+  txData: ITxData,
+  transactionMetadata: ITxMetadata,
 ): any {
   const currentPending: TxPendingWithMetadata | undefined = yield select(
     selectPlatformPendingTransaction,
@@ -65,15 +67,14 @@ export function* markTransactionAsPending(
 
     yield apiUserService.deletePendingTx(currentPending.transaction.hash);
   }
-
   const transactionTimestamp = Date.now();
 
   const pendingTransaction: TxPendingWithMetadata = {
     transaction: {
+      hash: addHexPrefix(txHash),
       from: addHexPrefix(txData.from),
       gas: addHexPrefix(new BigNumber(txData.gas).toString(16)),
       gasPrice: addHexPrefix(new BigNumber(txData.gasPrice).toString(16)),
-      hash: addHexPrefix(txHash),
       input: addHexPrefix(txData.data || "0x0"),
       nonce: addHexPrefix("0"),
       to: addHexPrefix(txData.to),
@@ -85,15 +86,14 @@ export function* markTransactionAsPending(
       transactionIndex: undefined,
       failedRpcError: undefined,
     },
-    transactionType: type,
-    transactionAdditionalData: txAdditionalData,
+    transactionType: transactionMetadata.transactionType,
+    transactionAdditionalData: transactionMetadata.transactionAdditionalData,
     transactionStatus: ETxSenderState.MINING,
     transactionError: undefined,
     transactionTimestamp,
   };
 
   yield apiUserService.addPendingTx(pendingTransaction);
-
   yield put(actions.txMonitor.setPendingTxs({ pendingTransaction }));
 
   return transactionTimestamp;

@@ -33,7 +33,7 @@ import { neuCall } from "../sagasUtils";
 import { selectEtherPriceEur, selectEurPriceEther } from "../shared/tokenPrice/selectors";
 import { selectTxGasCostEthUlps, selectTxSenderModalOpened } from "../tx/sender/selectors";
 import { INVESTMENT_GAS_AMOUNT } from "../tx/transactions/investment/sagas";
-import { ETxSenderType } from "../tx/types";
+import { ETxType } from "../tx/types";
 import { txValidateSaga } from "../tx/validator/sagas";
 import {
   selectICBMLockedEtherBalance,
@@ -236,7 +236,7 @@ function* validateAndCalculateInputs({ contractsService }: TGlobalDependencies):
 
       const txData: ITxData = yield neuCall(
         txValidateSaga,
-        actions.txValidator.validateDraft({ type: ETxSenderType.INVEST }),
+        actions.txValidator.validateDraft({ type: ETxType.INVEST }),
       );
       yield put(actions.txSender.setTransactionData(txData));
 

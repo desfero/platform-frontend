@@ -23,7 +23,7 @@ import { InvalidETOStateError } from "../../../../modules/eto/errors";
 import { isOnChain } from "../../../../modules/eto/utils";
 import { selectTxAdditionalData } from "../../../../modules/tx/sender/selectors";
 import { TEtoSetDateAdditionalData } from "../../../../modules/tx/transactions/eto-flow/types";
-import { ETxSenderType } from "../../../../modules/tx/types";
+import { ETxType } from "../../../../modules/tx/types";
 import { appConnect } from "../../../../store";
 import { EHeadingSize, Heading } from "../../../shared/Heading";
 import { EtherscanAddressLink, ExternalLink } from "../../../shared/links";
@@ -134,7 +134,7 @@ const SetEtoDateSummary = compose<IProps, {}>(
   setDisplayName("SetEtoDateSummary"),
   appConnect<IStateProps, IDispatchProps>({
     stateToProps: state => {
-      const additionalData = nonNullable(selectTxAdditionalData<ETxSenderType.ETO_SET_DATE>(state));
+      const additionalData = nonNullable(selectTxAdditionalData<ETxType.ETO_SET_DATE>(state));
 
       const minDuration = selectIssuerEtoDateToWhitelistMinDuration(state);
       const changeableTill = moment(additionalData.newStartDate).subtract(minDuration, "seconds");

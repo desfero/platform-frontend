@@ -9,7 +9,7 @@ import {
 } from "../../../../../modules/tx/sender/selectors";
 import { TTokenTransferAdditionalData } from "../../../../../modules/tx/transactions/token-transfer/types";
 import { TWithdrawAdditionalData } from "../../../../../modules/tx/transactions/withdraw/types";
-import { ETxSenderType } from "../../../../../modules/tx/types";
+import { ETxType } from "../../../../../modules/tx/types";
 import { selectEthereumAddress } from "../../../../../modules/web3/selectors";
 import { appConnect } from "../../../../../store";
 import { ETxStatus } from "../../types";
@@ -49,9 +49,7 @@ export const transferTransaction = () =>
   compose<TTransferTransactionProps, ITransferTransactionExternalProps>(
     appConnect<IStateProps, IDispatchProps>({
       stateToProps: state => ({
-        additionalData: selectTxAdditionalData<
-          ETxSenderType.WITHDRAW | ETxSenderType.TRANSFER_TOKENS
-        >(state),
+        additionalData: selectTxAdditionalData<ETxType.WITHDRAW | ETxType.TRANSFER_TOKENS>(state),
         walletAddress: selectEthereumAddress(state),
         gasCost: selectTxGasCostEthUlps(state),
         gasCostEur: selectTxGasCostEthUlps(state),

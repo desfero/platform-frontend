@@ -4,7 +4,7 @@ import { TGlobalDependencies } from "../../../../di/setupBindings";
 import { actions, TActionFromCreator } from "../../../actions";
 import { neuTakeLatest } from "../../../sagasUtils";
 import { txSendSaga } from "../../sender/sagas";
-import { ETxSenderType } from "../../types";
+import { ETxType } from "../../types";
 import { startInvestorPayoutAcceptGenerator } from "../payout/accept/saga";
 import { startInvestorPayoutRedistributionGenerator } from "../payout/redistribute/saga";
 
@@ -16,7 +16,7 @@ function* investorPayoutRedistributeSaga(
 
   try {
     yield txSendSaga({
-      type: ETxSenderType.INVESTOR_REDISTRIBUTE_PAYOUT,
+      type: ETxType.INVESTOR_REDISTRIBUTE_PAYOUT,
       transactionFlowGenerator: startInvestorPayoutRedistributionGenerator,
       extraParam: tokenDisbursals,
     });
@@ -37,7 +37,7 @@ function* investorPayoutAcceptSaga(
 
   try {
     yield txSendSaga({
-      type: ETxSenderType.INVESTOR_ACCEPT_PAYOUT,
+      type: ETxType.INVESTOR_ACCEPT_PAYOUT,
       transactionFlowGenerator: startInvestorPayoutAcceptGenerator,
       extraParam: tokensDisbursals,
     });

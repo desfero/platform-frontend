@@ -10,7 +10,7 @@ import { TBigNumberVariants } from "../../lib/web3/types";
 import { EInvestmentType } from "../investment-flow/reducer";
 import { ITokenDisbursal } from "../investor-portfolio/types";
 import { ETxSenderState } from "./sender/reducer";
-import { ETxSenderType, TPendingTransactionType } from "./types";
+import { ETxType, TPendingTransactionType } from "./types";
 
 export const GAS_PRICE_MULTIPLIER = 1 + parseFloat(process.env.NF_GAS_PRICE_OVERHEAD || "0");
 
@@ -60,7 +60,7 @@ export const getPendingTransactionAmount = (transaction: TxPendingWithMetadata):
     }
 
     switch (transaction.transactionType) {
-      case ETxSenderType.INVESTOR_REFUND:
+      case ETxType.INVESTOR_REFUND:
         amount = transaction.transactionAdditionalData.amountEurUlps;
         break;
     }
@@ -117,7 +117,7 @@ export const generalPendingTxFixture = (
   },
   transactionStatus,
   transactionTimestamp: 1553762875525,
-  transactionType: ETxSenderType.WITHDRAW,
+  transactionType: ETxType.WITHDRAW,
   transactionError: undefined,
 });
 
@@ -125,16 +125,16 @@ export const getPendingTransactionCurrency = (transaction: TxPendingWithMetadata
   let currency;
 
   switch (transaction.transactionType) {
-    case ETxSenderType.NEUR_REDEEM:
+    case ETxType.NEUR_REDEEM:
       currency = ECurrency.EUR_TOKEN;
       break;
-    case ETxSenderType.USER_CLAIM:
+    case ETxType.USER_CLAIM:
       currency = transaction.transactionAdditionalData.tokenName;
       break;
-    case ETxSenderType.INVESTOR_REFUND:
+    case ETxType.INVESTOR_REFUND:
       currency = ECurrency.EUR;
       break;
-    case ETxSenderType.INVESTOR_ACCEPT_PAYOUT:
+    case ETxType.INVESTOR_ACCEPT_PAYOUT:
       const latestTokensDisbursal: ITokenDisbursal = getLatestTokensDisbursal(transaction);
       currency = latestTokensDisbursal.token;
       break;
@@ -163,20 +163,20 @@ export const getPendingTransactionType = (
   transaction: TxPendingWithMetadata,
 ): TPendingTransactionType => {
   switch (transaction.transactionType) {
-    case ETxSenderType.INVEST:
+    case ETxType.INVEST:
       return ETransactionType.ETO_INVESTMENT;
-    case ETxSenderType.NEUR_REDEEM:
+    case ETxType.NEUR_REDEEM:
       return ETransactionType.NEUR_REDEEM;
-    case ETxSenderType.USER_CLAIM:
+    case ETxType.USER_CLAIM:
       return ETransactionType.ETO_TOKENS_CLAIM;
-    case ETxSenderType.INVESTOR_ACCEPT_PAYOUT:
+    case ETxType.INVESTOR_ACCEPT_PAYOUT:
       return ETransactionType.PAYOUT;
-    case ETxSenderType.INVESTOR_REFUND:
+    case ETxType.INVESTOR_REFUND:
       return ETransactionType.ETO_REFUND;
-    case ETxSenderType.INVESTOR_REDISTRIBUTE_PAYOUT:
+    case ETxType.INVESTOR_REDISTRIBUTE_PAYOUT:
       return ETransactionType.REDISTRIBUTE_PAYOUT;
-    case ETxSenderType.NOMINEE_THA_SIGN:
-    case ETxSenderType.SIGN_INVESTMENT_AGREEMENT:
+    case ETxType.NOMINEE_THA_SIGN:
+    case ETxType.SIGN_INVESTMENT_AGREEMENT:
       return ETransactionType.NOMINEE_CONFIRMED_AGREEMENT;
     default:
       return ETransactionType.TRANSFER;

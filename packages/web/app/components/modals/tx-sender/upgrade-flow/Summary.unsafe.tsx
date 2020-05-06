@@ -7,7 +7,7 @@ import { ITxData } from "../../../../lib/web3/types";
 import { actions } from "../../../../modules/actions";
 import { selectTxAdditionalData, selectTxDetails } from "../../../../modules/tx/sender/selectors";
 import { TUpgradeAdditionalData } from "../../../../modules/tx/transactions/upgrade/types";
-import { ETokenType, ETxSenderType } from "../../../../modules/tx/types";
+import { ETokenType, ETxType } from "../../../../modules/tx/types";
 import { appConnect } from "../../../../store";
 import { DocumentButton } from "../../../shared/DocumentLink";
 import { EHeadingSize, Heading } from "../../../shared/Heading";
@@ -65,7 +65,7 @@ export const UpgradeSummaryComponent: React.FunctionComponent<TComponentProps> =
 export const UpgradeSummary = appConnect<IStateProps, IDispatchProps>({
   stateToProps: state => ({
     txData: selectTxDetails(state)!,
-    additionalData: selectTxAdditionalData<ETxSenderType.UPGRADE>(state)!,
+    additionalData: selectTxAdditionalData<ETxType.UPGRADE>(state)!,
   }),
   dispatchToProps: d => ({
     onAccept: () => d(actions.txSender.txSenderAccept()),

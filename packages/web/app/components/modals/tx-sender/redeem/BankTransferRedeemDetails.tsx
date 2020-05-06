@@ -1,7 +1,7 @@
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
-import { ETxSenderType } from "../../../../modules/tx/types";
+import { ETxType } from "../../../../modules/tx/types";
 import { Money } from "../../../shared/formatters/Money";
 import {
   ECurrency,
@@ -16,7 +16,7 @@ import { TransactionDetailsComponent } from "../types";
 import { CalculatedFee } from "./CalculatedFee";
 import { TotalRedeemed } from "./TotalRedeemed";
 
-const BankTransferRedeemDetails: TransactionDetailsComponent<ETxSenderType.NEUR_REDEEM> = ({
+const BankTransferRedeemDetails: TransactionDetailsComponent<ETxType.NEUR_REDEEM> = ({
   additionalData,
   className,
   txTimestamp,

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
-import { ETxSenderType } from "../../../../modules/tx/types";
+import { ETxType } from "../../../../modules/tx/types";
 import { Money } from "../../../shared/formatters/Money";
 import {
   ECurrency,
@@ -13,7 +13,7 @@ import { InfoRow } from "../shared/InfoRow";
 import { TimestampRow } from "../shared/TimestampRow";
 import { TransactionDetailsComponent } from "../types";
 
-const ClaimTransactionDetails: TransactionDetailsComponent<ETxSenderType.USER_CLAIM> = ({
+const ClaimTransactionDetails: TransactionDetailsComponent<ETxType.USER_CLAIM> = ({
   txTimestamp,
   additionalData,
   className,

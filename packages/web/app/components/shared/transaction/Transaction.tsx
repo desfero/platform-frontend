@@ -4,7 +4,7 @@ import { FormattedDate } from "react-intl";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { TxPendingWithMetadata } from "../../../lib/api/users/interfaces";
-import { ETxSenderType } from "../../../modules/tx/types";
+import { ETxType } from "../../../modules/tx/types";
 import { TDataTestId } from "../../../types";
 import { Money } from "../formatters/Money";
 import { ENumberOutputFormat } from "../formatters/utils";
@@ -24,7 +24,7 @@ const Transaction: React.FunctionComponent<ITransactionWithStatusProps & TDataTe
   icon,
 }) => {
   switch (transaction.transactionType) {
-    case ETxSenderType.NOMINEE_THA_SIGN:
+    case ETxType.NOMINEE_THA_SIGN:
       return (
         <section className={styles.wrapper} data-test-id={dataTestId}>
           <div className={styles.info}>

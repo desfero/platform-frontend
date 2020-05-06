@@ -2,7 +2,7 @@ import { multiplyBigNumbers } from "@neufund/shared-utils";
 
 import { TAppGlobalState } from "../../../store";
 import { selectEtherPriceEur } from "../../shared/tokenPrice/selectors";
-import { ETxSenderType, TAdditionalDataByType } from "../types";
+import { ETxType, TAdditionalDataByType } from "../types";
 import { ETxSenderState } from "./reducer";
 
 export const selectTxSenderModalOpened = (state: TAppGlobalState) =>
@@ -12,7 +12,7 @@ export const selectTxDetails = (state: TAppGlobalState) => state.txSender.txDeta
 
 export const selectTxType = (state: TAppGlobalState) => state.txSender.type;
 
-export const selectTxAdditionalData = <T extends ETxSenderType>(
+export const selectTxAdditionalData = <T extends ETxType>(
   state: TAppGlobalState,
 ): TAdditionalDataByType<T> | undefined => state.txSender.additionalData;
 

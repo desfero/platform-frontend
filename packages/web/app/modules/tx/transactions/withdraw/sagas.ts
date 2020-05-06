@@ -17,7 +17,7 @@ import {
 import { selectEthereumAddress } from "../../../web3/selectors";
 import { isAddressValid } from "../../../web3/utils";
 import { txSendSaga } from "../../sender/sagas";
-import { ETxSenderType } from "../../types";
+import { ETxType } from "../../types";
 import {
   selectUserFlowTokenData,
   selectUserFlowTxDetails,
@@ -129,7 +129,7 @@ function* ethWithdrawFlow(_: TGlobalDependencies): Generator<any, any, any> {
     tokenDecimals: tokenData.tokenDecimals,
   };
 
-  yield put(actions.txSender.txSenderContinueToSummary<ETxSenderType.WITHDRAW>(additionalData));
+  yield put(actions.txSender.txSenderContinueToSummary<ETxType.WITHDRAW>(additionalData));
 }
 
 function* withdrawSaga({
@@ -150,7 +150,7 @@ function* withdrawSaga({
       }),
     );
     yield txSendSaga({
-      type: ETxSenderType.WITHDRAW,
+      type: ETxType.WITHDRAW,
       transactionFlowGenerator: ethWithdrawFlow,
     });
 

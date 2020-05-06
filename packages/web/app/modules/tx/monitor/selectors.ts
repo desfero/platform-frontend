@@ -2,11 +2,11 @@ import { createSelector } from "reselect";
 
 import { ENumberInputFormat } from "../../../components/shared/formatters/utils";
 import { ETransactionDirection } from "../../../lib/api/analytics-api/interfaces";
-import { TxPendingWithMetadata, TxWithMetadata } from "../../../lib/api/users/interfaces";
+import { TxPendingExternal, TxPendingWithMetadata } from "../../../lib/api/users/interfaces";
 import { TAppGlobalState } from "../../../store";
 import { ETransactionStatus } from "../../tx-history/types";
 import { ETxSenderState } from "../sender/reducer";
-import { ETxSenderType } from "../types";
+import { ETxType } from "../types";
 import {
   getPendingTransactionAmount,
   getPendingTransactionCurrency,
@@ -25,7 +25,7 @@ export const selectPlatformPendingTransaction = (
 
 export const selectExternalPendingTransaction = (
   state: TAppGlobalState,
-): TxWithMetadata | undefined => state.txMonitor.txs.oooTransactions[0];
+): TxPendingExternal | undefined => state.txMonitor.txs.oooTransactions[0];
 
 export const selectAreTherePendingTxs = createSelector(
   selectAreTherePlatformPendingTxs,
@@ -55,8 +55,8 @@ export const selectPlatformMiningTransaction = (
             pending.transactionAdditionalData.eto.equityTokenSymbol,
           subType: ETransactionStatus.PENDING,
           transactionDirection:
-            pending.transactionType === ETxSenderType.WITHDRAW ||
-            pending.transactionType === ETxSenderType.TRANSFER_TOKENS
+            pending.transactionType === ETxType.WITHDRAW ||
+            pending.transactionType === ETxType.TRANSFER_TOKENS
               ? ETransactionDirection.OUT
               : ETransactionDirection.IN,
           amountFormat: ENumberInputFormat.ULPS,

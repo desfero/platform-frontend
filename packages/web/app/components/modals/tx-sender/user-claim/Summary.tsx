@@ -16,7 +16,7 @@ import { selectMyInvestorTicketByEtoId } from "../../../../modules/investor-port
 import { TETOWithInvestorTicket } from "../../../../modules/investor-portfolio/types";
 import { selectTxAdditionalData } from "../../../../modules/tx/sender/selectors";
 import { TClaimAdditionalData } from "../../../../modules/tx/transactions/claim/types";
-import { ETxSenderType } from "../../../../modules/tx/types";
+import { ETxType } from "../../../../modules/tx/types";
 import { appConnect } from "../../../../store";
 import { getInvestorDocumentTitles } from "../../../documents/utils";
 import { DocumentLabel } from "../../../shared/DocumentLink";
@@ -149,7 +149,7 @@ export const UserClaimSummaryComponent: React.FunctionComponent<TComponentProps>
 
 export const UserClaimSummary = appConnect<IStateProps, IDispatchProps, {}>({
   stateToProps: state => {
-    const additionalData = selectTxAdditionalData<ETxSenderType.USER_CLAIM>(state)!;
+    const additionalData = selectTxAdditionalData<ETxType.USER_CLAIM>(state)!;
 
     return {
       additionalData,

@@ -21,7 +21,7 @@ import { selectEtherBalance } from "../../wallet/selectors";
 import { selectWalletType } from "../../web3/selectors";
 import { generateInvestmentTransaction } from "../transactions/investment/sagas";
 import { selectMaximumInvestment } from "../transactions/investment/selectors";
-import { ETxSenderType } from "../types";
+import { ETxType } from "../types";
 import { EValidationState } from "./reducer";
 import { selectInvestmentFLow } from "./selectors";
 import { txValidateTokenTransfer } from "./transfer/token-transfer/sagas";
@@ -59,13 +59,13 @@ export function* txValidateSaga(
   try {
     let validationGenerator: any;
     switch (action.payload.type) {
-      case ETxSenderType.WITHDRAW:
+      case ETxType.WITHDRAW:
         validationGenerator = txValidateWithdraw(action.payload);
         break;
-      case ETxSenderType.TRANSFER_TOKENS:
+      case ETxType.TRANSFER_TOKENS:
         validationGenerator = txValidateTokenTransfer(action.payload);
         break;
-      case ETxSenderType.INVEST:
+      case ETxType.INVEST:
         validationGenerator = txValidateInvestment();
         break;
     }

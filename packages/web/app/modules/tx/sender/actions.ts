@@ -2,7 +2,7 @@ import { createActionFactory } from "@neufund/shared-utils";
 
 import { ITxData } from "../../../lib/web3/types";
 import { createAction, createSimpleAction } from "../../actionsUtils";
-import { ETxSenderType, TAdditionalDataByType, TSpecificTransactionState } from "../types";
+import { ETxType, TAdditionalDataByType, TSpecificTransactionState } from "../types";
 import { ETransactionErrorType, ITxSenderState } from "./reducer";
 
 export const txSenderActions = {
@@ -20,7 +20,7 @@ export const txSenderActions = {
   txSenderAccept: () => createSimpleAction("TX_SENDER_ACCEPT"),
   txSenderChange: () => createSimpleAction("TX_SENDER_CHANGE"),
   // Signer actions
-  txSenderSigned: (txHash: string, type: ETxSenderType, txTimestamp: number) =>
+  txSenderSigned: (txHash: string, type: ETxType, txTimestamp: number) =>
     createAction("TX_SENDER_SIGNED", { txHash, type, txTimestamp }),
   txSenderWalletSigning: () => createSimpleAction("TX_SENDER_WALLET_SIGNING"),
   txSenderLoading: () => createSimpleAction("TX_SENDER_LOADING"),
@@ -33,7 +33,7 @@ export const txSenderActions = {
   // Error Actions
   txSenderError: (error: ETransactionErrorType) => createAction("TX_SENDER_ERROR", { error }),
   // Flow Actions
-  txSenderContinueToSummary: <T extends ETxSenderType>(additionalData: TAdditionalDataByType<T>) =>
+  txSenderContinueToSummary: <T extends ETxType>(additionalData: TAdditionalDataByType<T>) =>
     createAction<
       "TX_SENDER_CONTINUE_TO_SUMMARY_WITH_DATA",
       Pick<TSpecificTransactionState, "additionalData">

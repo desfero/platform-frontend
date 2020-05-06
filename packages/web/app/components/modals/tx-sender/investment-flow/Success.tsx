@@ -5,7 +5,7 @@ import { FormattedMessage } from "react-intl-phraseapp";
 import { actions } from "../../../../modules/actions";
 import { selectTxAdditionalData } from "../../../../modules/tx/sender/selectors";
 import { TInvestmentAdditionalData } from "../../../../modules/tx/transactions/investment/types";
-import { ETxSenderType } from "../../../../modules/tx/types";
+import { ETxType } from "../../../../modules/tx/types";
 import { appConnect } from "../../../../store";
 import { appRoutes } from "../../../appRoutes";
 import { ConfettiEthereum } from "../../../shared/ethereum";
@@ -64,7 +64,7 @@ const InvestmentSuccessComponent: React.FunctionComponent<IProps &
 
 const InvestmentSuccess = appConnect<IStateProps, IDispatchProps>({
   stateToProps: state => ({
-    additionalData: selectTxAdditionalData<ETxSenderType.INVEST>(state)!,
+    additionalData: selectTxAdditionalData<ETxType.INVEST>(state)!,
   }),
   dispatchToProps: dispatch => ({
     goToPortfolio: () => {

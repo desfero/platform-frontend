@@ -3,8 +3,8 @@ import { call, Channel, put, race, select, take, takeLatest } from "@neufund/sag
 import { TGlobalDependencies } from "../../../di/setupBindings";
 import {
   TPendingTxs,
+  TxPendingExternal,
   TxPendingWithMetadata,
-  TxWithMetadata,
 } from "../../../lib/api/users/interfaces";
 import { BrowserWalletError } from "../../../lib/web3/browser-wallet/BrowserWallet";
 import { LedgerError } from "../../../lib/web3/ledger-wallet/errors";
@@ -29,6 +29,7 @@ import { EWalletType } from "../../web3/types";
 import { createWatchTxChannel } from "../event-channel/sagas";
 import { EEventEmitterChannelEvents, TEventEmitterChannelEvents } from "../event-channel/types";
 import {
+  createTxMetadata,
   deletePendingTransaction,
   markTransactionAsPending,
   updatePendingTxs,
@@ -38,14 +39,14 @@ import {
   selectAreTherePlatformPendingTxs,
   selectExternalPendingTransaction,
 } from "../monitor/selectors";
-import { ETxSenderType, TAdditionalDataByType } from "../types";
+import { ETxType, TAdditionalDataByType } from "../types";
 import { validateGas } from "../validator/sagas";
 import { ETransactionErrorType, ETxSenderState } from "./reducer";
 import { selectTxAdditionalData, selectTxDetails, selectTxType } from "./selectors";
 import { getTxSenderErrorType } from "./utils";
 
 export interface ITxSendParams {
-  type: ETxSenderType;
+  type: ETxType;
   transactionFlowGenerator: any;
   extraParam?: any;
   // Design extraParam to be a tuple that handles any number of params
@@ -119,7 +120,7 @@ export function* txSendSaga({ type, transactionFlowGenerator, extraParam }: ITxS
 
 function* txSendProcess(
   { logger }: TGlobalDependencies,
-  transactionType: ETxSenderType,
+  transactionType: ETxType,
   transactionFlowGenerator: any,
   extraParam?: any,
 ): any {
@@ -181,7 +182,7 @@ function* ensureNoPendingTx({ logger }: TGlobalDependencies): any {
       throw new Error("There is already a pending transaction on the platform");
     }
 
-    const externalPendingTransaction: TxWithMetadata | undefined = yield select(
+    const externalPendingTransaction: TxPendingExternal | undefined = yield select(
       selectExternalPendingTransaction,
     );
     if (externalPendingTransaction) {
@@ -205,16 +206,12 @@ function* sendTxSubSaga({ web3Manager }: TGlobalDependencies): any {
   const txAdditionalData: TAdditionalDataByType<typeof type> = yield select(
     (state: TAppGlobalState) => selectTxAdditionalData<typeof type>(state),
   );
+  const txMetadata = createTxMetadata(type, txAdditionalData);
 
   try {
-    const txHash: string = yield web3Manager.sendTransaction(txData);
+    const txHash: string = yield web3Manager.sendTransaction(txData, txMetadata);
 
-    const txTimestamp = yield neuCall(markTransactionAsPending, {
-      txHash,
-      type,
-      txData,
-      txAdditionalData,
-    });
+    const txTimestamp = yield neuCall(markTransactionAsPending, txHash, txData, txMetadata);
 
     yield put(actions.txSender.txSenderSigned(txHash, type, txTimestamp));
 

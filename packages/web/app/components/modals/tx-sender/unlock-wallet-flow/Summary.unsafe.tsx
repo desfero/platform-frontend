@@ -8,7 +8,7 @@ import { ITxData } from "../../../../lib/web3/types";
 import { actions } from "../../../../modules/actions";
 import { selectTxAdditionalData, selectTxDetails } from "../../../../modules/tx/sender/selectors";
 import { TUnlockAdditionalData } from "../../../../modules/tx/transactions/unlock/types";
-import { ETxSenderType } from "../../../../modules/tx/types";
+import { ETxType } from "../../../../modules/tx/types";
 import { appConnect } from "../../../../store";
 import { EHeadingSize, Heading } from "../../../shared/Heading";
 import { UnlockWalletTransactionDetails } from "./UnlockWalletTransactionDetails";
@@ -57,7 +57,7 @@ export const UnlockWalletSummary = compose<TComponentProps, any>(
   appConnect<IStateProps, IDispatchProps>({
     stateToProps: state => ({
       txData: selectTxDetails(state)!,
-      additionalData: selectTxAdditionalData<ETxSenderType.UNLOCK_FUNDS>(state)!,
+      additionalData: selectTxAdditionalData<ETxType.UNLOCK_FUNDS>(state)!,
     }),
     dispatchToProps: d => ({
       onAccept: () => d(actions.txSender.txSenderAccept()),

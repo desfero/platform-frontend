@@ -21,7 +21,7 @@ import { neuCall, neuTakeLatest } from "../../../../sagasUtils";
 import { selectEthereumAddress } from "../../../../web3/selectors";
 import { txSendSaga } from "../../../sender/sagas";
 import { selectTxType } from "../../../sender/selectors";
-import { ETxSenderType } from "../../../types";
+import { ETxType } from "../../../types";
 import { EAgreementType, IAgreementContractAndHash } from "./types";
 
 export function* getAgreementContractAndHash(
@@ -63,10 +63,10 @@ export function* getAgreementContractAndHash(
 
 function* generateNomineeSignAgreementTx(
   { web3Manager }: TGlobalDependencies,
-  transactionType: ETxSenderType.NOMINEE_RAAA_SIGN | ETxSenderType.NOMINEE_THA_SIGN,
+  transactionType: ETxType.NOMINEE_RAAA_SIGN | ETxType.NOMINEE_THA_SIGN,
 ): Generator<any, any, any> {
   const agreementType =
-    transactionType === ETxSenderType.NOMINEE_RAAA_SIGN ? EAgreementType.RAAA : EAgreementType.THA;
+    transactionType === ETxType.NOMINEE_RAAA_SIGN ? EAgreementType.RAAA : EAgreementType.THA;
   const nomineeEto: TEtoWithCompanyAndContractReadonly = yield select(selectActiveNomineeEto);
 
   const { contract, currentAgreementHash }: IAgreementContractAndHash = yield neuCall(
@@ -106,8 +106,8 @@ function* startNomineeAgreementSign(_: TGlobalDependencies): Generator<any, any,
   const transactionType: ReturnType<typeof selectTxType> = yield select(selectTxType);
 
   if (
-    transactionType !== ETxSenderType.NOMINEE_THA_SIGN &&
-    transactionType !== ETxSenderType.NOMINEE_RAAA_SIGN
+    transactionType !== ETxType.NOMINEE_THA_SIGN &&
+    transactionType !== ETxType.NOMINEE_RAAA_SIGN
   ) {
     throw new Error("Invalid transaction type for nominee agreements signing");
   }
@@ -117,7 +117,7 @@ function* startNomineeAgreementSign(_: TGlobalDependencies): Generator<any, any,
 
   yield put(
     actions.txSender.txSenderContinueToSummary<
-      ETxSenderType.NOMINEE_RAAA_SIGN | ETxSenderType.NOMINEE_THA_SIGN
+      ETxType.NOMINEE_RAAA_SIGN | ETxType.NOMINEE_THA_SIGN
     >(undefined),
   );
 }
@@ -178,13 +178,13 @@ function* nomineeSignInvestmentAgreementGenerator(
   const generatedTxDetails = yield neuCall(generateSignNomineeInvestmentAgreementTx);
   yield put(actions.txSender.setTransactionData(generatedTxDetails));
 
-  yield put(actions.txSender.txSenderContinueToSummary<ETxSenderType.NOMINEE_ISHA_SIGN>(undefined));
+  yield put(actions.txSender.txSenderContinueToSummary<ETxType.NOMINEE_ISHA_SIGN>(undefined));
 }
 
 function* startNomineeTHASignSaga({ logger }: TGlobalDependencies): Generator<any, any, any> {
   try {
     yield txSendSaga({
-      type: ETxSenderType.NOMINEE_THA_SIGN,
+      type: ETxType.NOMINEE_THA_SIGN,
       transactionFlowGenerator: startNomineeAgreementSign,
     });
     logger.info("THA sign successful");
@@ -198,7 +198,7 @@ function* startNomineeTHASignSaga({ logger }: TGlobalDependencies): Generator<an
 function* startNomineeRAAASignSaga({ logger }: TGlobalDependencies): Generator<any, any, any> {
   try {
     yield txSendSaga({
-      type: ETxSenderType.NOMINEE_RAAA_SIGN,
+      type: ETxType.NOMINEE_RAAA_SIGN,
       transactionFlowGenerator: startNomineeAgreementSign,
     });
     logger.info("RAAA sign successful");
@@ -212,7 +212,7 @@ function* startNomineeRAAASignSaga({ logger }: TGlobalDependencies): Generator<a
 function* startNomineeISHASignSaga({ logger }: TGlobalDependencies): Generator<any, any, any> {
   try {
     yield txSendSaga({
-      type: ETxSenderType.NOMINEE_ISHA_SIGN,
+      type: ETxType.NOMINEE_ISHA_SIGN,
       transactionFlowGenerator: nomineeSignInvestmentAgreementGenerator,
     });
     logger.info("ISHA sign successful");

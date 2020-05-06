@@ -12,7 +12,7 @@ import {
   selectTxDetails,
   selectTxTimestamp,
 } from "../../../../modules/tx/sender/selectors";
-import { ETxSenderType, TSpecificTransactionState } from "../../../../modules/tx/types";
+import { ETxType, TSpecificTransactionState } from "../../../../modules/tx/types";
 import { appConnect } from "../../../../store";
 import { ExternalLink } from "../../../shared/links/ExternalLink";
 import { Message } from "../../message/Message";
@@ -31,7 +31,7 @@ export interface IStateProps {
 }
 
 interface IProps {
-  type: ETxSenderType;
+  type: ETxType;
   error?: ETransactionErrorType;
   blockId?: number;
   txHash: string;
@@ -85,7 +85,7 @@ const getErrorMessageByType = (type?: ETransactionErrorType) => {
   }
 };
 
-const getErrorTitleByType = (type: ETxSenderType, error?: ETransactionErrorType) => {
+const getErrorTitleByType = (type: ETxType, error?: ETransactionErrorType) => {
   switch (error) {
     case ETransactionErrorType.NOT_ENOUGH_NEUMARKS_TO_UNLOCK:
       return (
@@ -125,7 +125,7 @@ const TxErrorDefaultLayout: React.FunctionComponent<TTxErrorLayoutProps> = props
 
 const TxErrorLayout: React.FunctionComponent<TTxErrorLayoutProps> = props => {
   switch (props.type) {
-    case ETxSenderType.WITHDRAW:
+    case ETxType.WITHDRAW:
       return (
         <TransferError txHash={props.txHash} txTimestamp={props.txTimestamp} error={props.error} />
       );

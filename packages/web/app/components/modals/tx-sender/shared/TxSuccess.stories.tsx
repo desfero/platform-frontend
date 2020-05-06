@@ -3,14 +3,14 @@ import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
 import { EInvestmentType } from "../../../../modules/investment-flow/reducer";
-import { ETxSenderType } from "../../../../modules/tx/types";
+import { ETxType } from "../../../../modules/tx/types";
 import { withModalBody } from "../../../../utils/react-connected-components/storybookHelpers.unsafe";
 import { TxSuccessLayout } from "./TxSuccess";
 
 import tokenIcon from "../../../../assets/img/token_icon.svg";
 
 const txData: React.ComponentProps<typeof TxSuccessLayout> = {
-  type: ETxSenderType.INVEST,
+  type: ETxType.INVEST,
   additionalData: {
     eto: {
       etoId: "123",

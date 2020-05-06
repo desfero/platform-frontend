@@ -9,7 +9,7 @@ import { ITxData } from "../../../../lib/web3/types";
 import { actions } from "../../../../modules/actions";
 import { selectTxAdditionalData, selectTxDetails } from "../../../../modules/tx/sender/selectors";
 import { TRefundAdditionalData } from "../../../../modules/tx/transactions/refund/types";
-import { ETxSenderType } from "../../../../modules/tx/types";
+import { ETxType } from "../../../../modules/tx/types";
 import { appConnect } from "../../../../store";
 import { EHeadingSize, Heading } from "../../../shared/Heading";
 import { RefundTransactionDetails } from "./RefundDetails";
@@ -63,7 +63,7 @@ export const RefundSummary = compose<TComponentProps, {}>(
   appConnect<IStateProps, IDispatchProps>({
     stateToProps: state => ({
       txData: selectTxDetails(state)!,
-      additionalData: selectTxAdditionalData<ETxSenderType.INVESTOR_REFUND>(state),
+      additionalData: selectTxAdditionalData<ETxType.INVESTOR_REFUND>(state),
     }),
     dispatchToProps: dispatch => ({
       onAccept: () => dispatch(actions.txSender.txSenderAccept()),

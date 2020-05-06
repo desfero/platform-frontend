@@ -1,7 +1,7 @@
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
-import { ETxSenderType } from "../../../../modules/tx/types";
+import { ETxType } from "../../../../modules/tx/types";
 import { TimeLeft } from "../../../shared/TimeLeft.unsafe";
 import { localTime, timeZone, utcTime, weekdayLocal, weekdayUTC } from "../../../shared/utils";
 import { InfoList } from "../shared/InfoList";
@@ -9,7 +9,7 @@ import { InfoRow } from "../shared/InfoRow";
 import { TimestampRow } from "../shared/TimestampRow";
 import { TransactionDetailsComponent } from "../types";
 
-const SetDateDetails: TransactionDetailsComponent<ETxSenderType.ETO_SET_DATE> = ({
+const SetDateDetails: TransactionDetailsComponent<ETxType.ETO_SET_DATE> = ({
   additionalData,
   className,
   txTimestamp,

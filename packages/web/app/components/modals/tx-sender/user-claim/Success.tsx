@@ -5,7 +5,7 @@ import { FormattedMessage } from "react-intl-phraseapp";
 import { actions } from "../../../../modules/actions";
 import { selectTxAdditionalData } from "../../../../modules/tx/sender/selectors";
 import { TClaimAdditionalData } from "../../../../modules/tx/transactions/claim/types";
-import { ETxSenderType } from "../../../../modules/tx/types";
+import { ETxType } from "../../../../modules/tx/types";
 import { appConnect } from "../../../../store";
 import { ConfettiEthereum } from "../../../shared/ethereum";
 import { Message } from "../../message/Message";
@@ -60,7 +60,7 @@ export const UserClaimSuccessComponent: React.FunctionComponent<IProps> = ({
 
 export const UserClaimSuccess = appConnect<IStateProps, IDispatchProps>({
   stateToProps: state => ({
-    additionalData: selectTxAdditionalData<ETxSenderType.USER_CLAIM>(state)!,
+    additionalData: selectTxAdditionalData<ETxType.USER_CLAIM>(state)!,
   }),
   dispatchToProps: dispatch => ({
     goToPortfolio: () => dispatch(actions.routing.goToPortfolio()),

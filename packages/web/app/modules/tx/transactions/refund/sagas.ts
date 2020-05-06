@@ -19,7 +19,7 @@ import { selectEtherPriceEur } from "../../../shared/tokenPrice/selectors";
 import { selectEthereumAddress } from "../../../web3/selectors";
 import { txSendSaga } from "../../sender/sagas";
 import { selectTxGasCostEthUlps } from "../../sender/selectors";
-import { ETxSenderType } from "../../types";
+import { ETxType } from "../../types";
 
 function* generateGetRefundTransaction(
   { contractsService, web3Manager }: TGlobalDependencies,
@@ -67,7 +67,7 @@ function* startRefundGenerator(_: TGlobalDependencies, etoId: string): Generator
   const tokenDecimals = ETH_DECIMALS;
 
   yield put(
-    actions.txSender.txSenderContinueToSummary<ETxSenderType.INVESTOR_REFUND>({
+    actions.txSender.txSenderContinueToSummary<ETxType.INVESTOR_REFUND>({
       etoId,
       costUlps,
       costEurUlps,
@@ -88,7 +88,7 @@ function* etoRefundSaga(
   const etoId = action.payload.etoId;
   try {
     yield txSendSaga({
-      type: ETxSenderType.INVESTOR_REFUND,
+      type: ETxType.INVESTOR_REFUND,
       transactionFlowGenerator: startRefundGenerator,
       extraParam: etoId,
     });

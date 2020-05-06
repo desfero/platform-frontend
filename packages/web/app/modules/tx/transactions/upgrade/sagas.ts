@@ -13,7 +13,7 @@ import {
 } from "../../../wallet/selectors";
 import { selectEthereumAddress } from "../../../web3/selectors";
 import { ITxSendParams, txSendSaga } from "../../sender/sagas";
-import { ETokenType, ETxSenderType } from "../../types";
+import { ETokenType, ETxType } from "../../types";
 
 function* generateEuroUpgradeTransaction({
   contractsService,
@@ -87,7 +87,7 @@ function* upgradeTransactionFlow(_: TGlobalDependencies, tokenType: ETokenType):
   const generatedTxDetails: ITxData = yield neuCall(transactionGenerator);
   yield put(actions.txSender.setTransactionData(generatedTxDetails));
   yield put(
-    actions.txSender.txSenderContinueToSummary<ETxSenderType.UPGRADE>({
+    actions.txSender.txSenderContinueToSummary<ETxType.UPGRADE>({
       tokenType,
     }),
   );
@@ -99,7 +99,7 @@ function* upgradeSaga({ logger }: TGlobalDependencies, action: TAction): Generat
 
     const tokenType = action.payload;
     const params: ITxSendParams = {
-      type: ETxSenderType.UPGRADE,
+      type: ETxType.UPGRADE,
       transactionFlowGenerator: upgradeTransactionFlow,
       extraParam: tokenType,
     };

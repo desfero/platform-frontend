@@ -2,10 +2,10 @@ import { assertNever } from "@neufund/shared-utils";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
-import { ETxSenderType } from "../../../modules/tx/types";
+import { ETxType } from "../../../modules/tx/types";
 
 interface IProps {
-  type: ETxSenderType;
+  type: ETxType;
 }
 
 /**
@@ -13,35 +13,35 @@ interface IProps {
  */
 const TxName: React.FunctionComponent<IProps> = ({ type }) => {
   switch (type) {
-    case ETxSenderType.WITHDRAW:
+    case ETxType.WITHDRAW:
       return <FormattedMessage id="withdraw-flow.name" />;
-    case ETxSenderType.TRANSFER_TOKENS:
+    case ETxType.TRANSFER_TOKENS:
       return <FormattedMessage id="token-transfer-flow.name" />;
-    case ETxSenderType.INVESTOR_ACCEPT_PAYOUT:
+    case ETxType.INVESTOR_ACCEPT_PAYOUT:
       return <FormattedMessage id="investor-payout.accept.name" />;
-    case ETxSenderType.INVESTOR_REDISTRIBUTE_PAYOUT:
+    case ETxType.INVESTOR_REDISTRIBUTE_PAYOUT:
       return <FormattedMessage id="investor-payout.redistribute.name" />;
-    case ETxSenderType.USER_CLAIM:
+    case ETxType.USER_CLAIM:
       return <FormattedMessage id="modals.tx-sender.user-claim.title" />;
-    case ETxSenderType.UNLOCK_FUNDS:
+    case ETxType.UNLOCK_FUNDS:
       return <FormattedMessage id="unlock-funds-flow.title" />;
-    case ETxSenderType.ETO_SET_DATE:
+    case ETxType.ETO_SET_DATE:
       return <FormattedMessage id="eto.settings.eto-start-date.title" />;
-    case ETxSenderType.INVEST:
+    case ETxType.INVEST:
       return <FormattedMessage id="investment-flow.title" />;
-    case ETxSenderType.NEUR_REDEEM:
+    case ETxType.NEUR_REDEEM:
       return <FormattedMessage id="bank-transfer.redeem.title" />;
-    case ETxSenderType.SIGN_INVESTMENT_AGREEMENT:
+    case ETxType.SIGN_INVESTMENT_AGREEMENT:
       return <FormattedMessage id="investment-agreement.title" />;
-    case ETxSenderType.UPGRADE:
+    case ETxType.UPGRADE:
       return <FormattedMessage id="upgrade-flow.title" />;
-    case ETxSenderType.INVESTOR_REFUND:
+    case ETxType.INVESTOR_REFUND:
       return <FormattedMessage id="user-refund-flow.title" />;
-    case ETxSenderType.NOMINEE_THA_SIGN:
+    case ETxType.NOMINEE_THA_SIGN:
       return <FormattedMessage id="nominee-sign-tha.title" />;
-    case ETxSenderType.NOMINEE_RAAA_SIGN:
+    case ETxType.NOMINEE_RAAA_SIGN:
       return <FormattedMessage id="nominee-sign-raaa.title" />;
-    case ETxSenderType.NOMINEE_ISHA_SIGN:
+    case ETxType.NOMINEE_ISHA_SIGN:
       return <FormattedMessage id="nominee-sign-isha.title" />;
     default:
       return assertNever(type);

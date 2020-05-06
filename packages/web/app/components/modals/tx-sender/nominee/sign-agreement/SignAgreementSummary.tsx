@@ -11,7 +11,7 @@ import { actions } from "../../../../../modules/actions";
 import { TEtoWithCompanyAndContractReadonly } from "../../../../../modules/eto/types";
 import { selectActiveNomineeEto } from "../../../../../modules/nominee-flow/selectors";
 import { selectTxType } from "../../../../../modules/tx/sender/selectors";
-import { ETxSenderType } from "../../../../../modules/tx/types";
+import { ETxType } from "../../../../../modules/tx/types";
 import { appConnect } from "../../../../../store";
 import { DocumentButton } from "../../../../shared/DocumentLink";
 import { Form, FormFieldBoolean } from "../../../../shared/forms";
@@ -23,7 +23,7 @@ import link from "../../../../../assets/img/inline_icons/download.svg";
 
 interface IStateProps {
   nomineeEto?: TEtoWithCompanyAndContractReadonly;
-  txType?: ETxSenderType;
+  txType?: ETxType;
 }
 
 interface IDispatchProps {

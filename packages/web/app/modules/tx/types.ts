@@ -1,4 +1,5 @@
 import { ETransactionType } from "../../lib/api/analytics-api/interfaces";
+import { ETxType } from "../../lib/web3/types";
 import { TClaimAdditionalData } from "./transactions/claim/types";
 import { TEtoSetDateAdditionalData } from "./transactions/eto-flow/types";
 import { TInvestmentAdditionalData } from "./transactions/investment/types";
@@ -11,96 +12,75 @@ import { TUnlockAdditionalData } from "./transactions/unlock/types";
 import { TUpgradeAdditionalData } from "./transactions/upgrade/types";
 import { TWithdrawAdditionalData } from "./transactions/withdraw/types";
 
+// todo: change all exports
+export { ETxType } from "../../lib/web3/types";
+
 export interface IWithdrawDraftType {
-  type: ETxSenderType.WITHDRAW;
+  type: ETxType.WITHDRAW;
   to: string;
   value: string;
 }
 
 export interface ITokenTransferDraftType {
-  type: ETxSenderType.TRANSFER_TOKENS;
+  type: ETxType.TRANSFER_TOKENS;
   to: string;
   value: string;
 }
 
 export interface IInvestmentDraftType {
-  type: ETxSenderType.INVEST;
+  type: ETxType.INVEST;
 }
 
 export type IDraftType = IWithdrawDraftType | IInvestmentDraftType | ITokenTransferDraftType;
 
-export enum ETxSenderType {
-  UNLOCK_FUNDS = "UNLOCK_FUNDS",
-  TRANSFER_TOKENS = "TRANSFER_TOKENS",
-  WITHDRAW = "WITHDRAW",
-  INVEST = "INVEST",
-  UPGRADE = "UPGRADE",
-  ETO_SET_DATE = "ETO_SET_DATE",
-  SIGN_INVESTMENT_AGREEMENT = "SIGN_INVESTMENT_AGREEMENT",
-  USER_CLAIM = "USER_CLAIM",
-  INVESTOR_ACCEPT_PAYOUT = "INVESTOR_ACCEPT_PAYOUT",
-  INVESTOR_REDISTRIBUTE_PAYOUT = "INVESTOR_REDISTRIBUTE_PAYOUT",
-  NEUR_REDEEM = "NEUR_REDEEM",
-  INVESTOR_REFUND = "INVESTOR_REFUND",
-  NOMINEE_THA_SIGN = "NOMINEE_THA_SIGN",
-  NOMINEE_RAAA_SIGN = "NOMINEE_RAAA_SIGN",
-  NOMINEE_ISHA_SIGN = "NOMINEE_ISHA_SIGN",
-}
-
-export interface ITxTypeWithData<T extends ETxSenderType | undefined, P> {
+export interface ITxTypeWithData<T extends ETxType | undefined, P> {
   type: T;
   additionalData: P;
 }
 
 type TTxSenderTokenTransferState = ITxTypeWithData<
-  ETxSenderType.TRANSFER_TOKENS,
+  ETxType.TRANSFER_TOKENS,
   TTokenTransferAdditionalData
 >;
 
-type TTxSenderWithdrawState = ITxTypeWithData<ETxSenderType.WITHDRAW, TWithdrawAdditionalData>;
+type TTxSenderWithdrawState = ITxTypeWithData<ETxType.WITHDRAW, TWithdrawAdditionalData>;
 
-type TTxSenderClaimState = ITxTypeWithData<ETxSenderType.USER_CLAIM, TClaimAdditionalData>;
+type TTxSenderClaimState = ITxTypeWithData<ETxType.USER_CLAIM, TClaimAdditionalData>;
 
-type TTxSenderEtoSetDateState = ITxTypeWithData<
-  ETxSenderType.ETO_SET_DATE,
-  TEtoSetDateAdditionalData
->;
+type TTxSenderEtoSetDateState = ITxTypeWithData<ETxType.ETO_SET_DATE, TEtoSetDateAdditionalData>;
 
-type TTxSenderInvestState = ITxTypeWithData<ETxSenderType.INVEST, TInvestmentAdditionalData>;
+type TTxSenderInvestState = ITxTypeWithData<ETxType.INVEST, TInvestmentAdditionalData>;
 
 type TTxSenderAcceptPayoutState = ITxTypeWithData<
-  ETxSenderType.INVESTOR_ACCEPT_PAYOUT,
+  ETxType.INVESTOR_ACCEPT_PAYOUT,
   TAcceptPayoutAdditionalData
 >;
 
 type TTxSenderRedistributePayoutState = ITxTypeWithData<
-  ETxSenderType.INVESTOR_REDISTRIBUTE_PAYOUT,
+  ETxType.INVESTOR_REDISTRIBUTE_PAYOUT,
   TRedistributePayoutAdditionalData
 >;
 
-type TTxSenderNEurRedeemState = ITxTypeWithData<
-  ETxSenderType.NEUR_REDEEM,
-  TNEurRedeemAdditionalDetails
->;
+type TTxSenderNEurRedeemState = ITxTypeWithData<ETxType.NEUR_REDEEM, TNEurRedeemAdditionalDetails>;
 
 export type TTxSenderNEurRedeemInitialValues = { initialAmount?: string };
 
-type TTxSenderUnlockState = ITxTypeWithData<ETxSenderType.UNLOCK_FUNDS, TUnlockAdditionalData>;
+type TTxSenderUnlockState = ITxTypeWithData<ETxType.UNLOCK_FUNDS, TUnlockAdditionalData>;
 
-type TTxSenderUpgradeState = ITxTypeWithData<ETxSenderType.UPGRADE, TUpgradeAdditionalData>;
+type TTxSenderUpgradeState = ITxTypeWithData<ETxType.UPGRADE, TUpgradeAdditionalData>;
 
 type TTxSenderSignInvestmentAgreementState = ITxTypeWithData<
-  ETxSenderType.SIGN_INVESTMENT_AGREEMENT,
+  ETxType.SIGN_INVESTMENT_AGREEMENT,
   undefined
 >;
 
-type TTxSenderRefundState = ITxTypeWithData<ETxSenderType.INVESTOR_REFUND, TRefundAdditionalData>;
+type TTxSenderRefundState = ITxTypeWithData<ETxType.INVESTOR_REFUND, TRefundAdditionalData>;
 
-type TTxSenderNomineeSignTHAState = ITxTypeWithData<ETxSenderType.NOMINEE_THA_SIGN, undefined>;
+type TTxSenderNomineeSignTHAState = ITxTypeWithData<ETxType.NOMINEE_THA_SIGN, undefined>;
 
-type TTxSenderNomineeSignRAAAState = ITxTypeWithData<ETxSenderType.NOMINEE_RAAA_SIGN, undefined>;
+type TTxSenderNomineeSignRAAAState = ITxTypeWithData<ETxType.NOMINEE_RAAA_SIGN, undefined>;
 
-type TTxSenderNomineeSignISHAState = ITxTypeWithData<ETxSenderType.NOMINEE_ISHA_SIGN, undefined>;
+type TTxSenderNomineeSignISHAState = ITxTypeWithData<ETxType.NOMINEE_ISHA_SIGN, undefined>;
 
 export type TSpecificTransactionState =
   | TTxSenderSignInvestmentAgreementState
@@ -119,7 +99,7 @@ export type TSpecificTransactionState =
   | TTxSenderTokenTransferState
   | TTxSenderNomineeSignISHAState;
 
-export type TAdditionalDataByType<T extends ETxSenderType> = Extract<
+export type TAdditionalDataByType<T extends ETxType> = Extract<
   TSpecificTransactionState,
   { type: T }
 >["additionalData"];

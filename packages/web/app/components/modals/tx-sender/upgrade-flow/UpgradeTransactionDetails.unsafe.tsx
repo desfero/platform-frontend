@@ -2,7 +2,7 @@ import { multiplyBigNumbers } from "@neufund/shared-utils";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
-import { ETxSenderType } from "../../../../modules/tx/types";
+import { ETxType } from "../../../../modules/tx/types";
 import { Money } from "../../../shared/formatters/Money";
 import {
   ECurrency,
@@ -14,7 +14,7 @@ import { InfoRow } from "../shared/InfoRow";
 import { TimestampRow } from "../shared/TimestampRow";
 import { TransactionDetailsComponent } from "../types";
 
-const UpgradeTransactionDetails: TransactionDetailsComponent<ETxSenderType.UPGRADE> = ({
+const UpgradeTransactionDetails: TransactionDetailsComponent<ETxType.UPGRADE> = ({
   txData,
   className,
   txTimestamp,

@@ -23,7 +23,7 @@ import { neuCall, neuTakeLatest } from "../../../sagasUtils";
 import { selectLiquidEuroTokenBalance } from "../../../wallet/selectors";
 import { selectEthereumAddress } from "../../../web3/selectors";
 import { txSendSaga } from "../../sender/sagas";
-import { ETxSenderType } from "../../types";
+import { ETxType } from "../../types";
 
 function* generateNeuWithdrawTransaction(
   { contractsService, web3Manager }: TGlobalDependencies,
@@ -89,9 +89,7 @@ function* startNEuroRedeemGenerator(_: TGlobalDependencies): any {
     },
   };
 
-  yield put(
-    actions.txSender.txSenderContinueToSummary<ETxSenderType.NEUR_REDEEM>(additionalDetails),
-  );
+  yield put(actions.txSender.txSenderContinueToSummary<ETxType.NEUR_REDEEM>(additionalDetails));
 }
 
 function* neurRedeemSaga({ logger }: TGlobalDependencies): Generator<any, any, any> {
@@ -104,7 +102,7 @@ function* neurRedeemSaga({ logger }: TGlobalDependencies): Generator<any, any, a
 
   try {
     yield txSendSaga({
-      type: ETxSenderType.NEUR_REDEEM,
+      type: ETxType.NEUR_REDEEM,
       transactionFlowGenerator: startNEuroRedeemGenerator,
     });
 

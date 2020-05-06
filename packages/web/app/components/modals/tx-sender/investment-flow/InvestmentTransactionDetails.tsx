@@ -4,7 +4,7 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { TEtoEquityTokenInfoType } from "../../../../lib/api/eto/EtoApi.interfaces.unsafe";
-import { ETxSenderType } from "../../../../modules/tx/types";
+import { ETxType } from "../../../../modules/tx/types";
 import { FormatNumber } from "../../../shared/formatters/FormatNumber";
 import { Money } from "../../../shared/formatters/Money";
 import {
@@ -156,7 +156,7 @@ const Total: React.FunctionComponent<ITotal> = ({ totalCostEur, totalCostEth }) 
   </>
 );
 
-const InvestmentTransactionDetails: TransactionDetailsComponent<ETxSenderType.INVEST> = ({
+const InvestmentTransactionDetails: TransactionDetailsComponent<ETxType.INVEST> = ({
   additionalData,
   className,
   txTimestamp,
