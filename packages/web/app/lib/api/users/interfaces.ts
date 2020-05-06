@@ -2,7 +2,7 @@ import { EthereumAddressWithChecksum } from "@neufund/shared-utils";
 import * as Yup from "yup";
 
 import { ETransactionErrorType, ETxSenderState } from "../../../modules/tx/sender/reducer";
-import { ETxSenderType } from "../../../modules/tx/types";
+import { ETxType } from "../../../modules/tx/types";
 import { EWalletSubType, EWalletType } from "../../../modules/web3/types";
 import * as YupTS from "../../yup-ts.unsafe";
 
@@ -82,28 +82,28 @@ export const TxSchema = YupTS.object({
   value: YupTS.string(),
 });
 
-export const TxWithMetadataSchema = YupTS.object({
+const TxPendingExternalSchema = YupTS.object({
   transaction: TxSchema,
   transactionType: YupTS.string<typeof OOO_TRANSACTION_TYPE>(),
 });
 
-export const TxPendingWithMetadataSchema = YupTS.object({
+const TxPendingWithMetadataSchema = YupTS.object({
   transaction: TxSchema,
-  transactionType: YupTS.string<ETxSenderType>(),
+  transactionType: YupTS.string<ETxType>(),
   transactionTimestamp: YupTS.number(),
   transactionStatus: YupTS.string<ETxSenderState>(),
   transactionError: YupTS.string<ETransactionErrorType>().optional(),
 });
 
-export const PendingTxsSchema = YupTS.object({
+const PendingTxsSchema = YupTS.object({
   // it's a pending transaction issued by us
   pendingTransaction: TxPendingWithMetadataSchema.optional(),
   // list of other pending transaction (out of bounds transactions) issued externally
-  oooTransactions: YupTS.array(TxWithMetadataSchema),
+  oooTransactions: YupTS.array(TxPendingExternalSchema),
 });
 
 export type Tx = YupTS.TypeOf<typeof TxSchema>;
-export type TxWithMetadata = YupTS.TypeOf<typeof TxWithMetadataSchema>;
+export type TxPendingExternal = YupTS.TypeOf<typeof TxPendingExternalSchema>;
 export type TxPendingWithMetadata = YupTS.TypeOf<typeof TxPendingWithMetadataSchema> & {
   transactionAdditionalData?: any;
 };

@@ -17,8 +17,8 @@ import {
   IVerifyEmailUser,
   OOO_TRANSACTION_TYPE,
   TPendingTxs,
+  TxPendingExternal,
   TxPendingWithMetadata,
-  TxWithMetadata,
   UserValidator,
 } from "./interfaces";
 
@@ -180,7 +180,7 @@ export class UsersApi {
   };
 
   public pendingTxs = async (): Promise<TPendingTxs> => {
-    const response = await this.httpClient.get<Array<TxPendingWithMetadata | TxWithMetadata>>({
+    const response = await this.httpClient.get<Array<TxPendingWithMetadata | TxPendingExternal>>({
       baseUrl: USER_API_ROOT,
       url: "/pending_transactions/me",
     });
@@ -193,7 +193,7 @@ export class UsersApi {
         // move other transactions to OOO transactions
         oooTransactions: response.body.filter(
           tx => tx.transactionType === OOO_TRANSACTION_TYPE,
-        ) as TxWithMetadata[],
+        ) as TxPendingExternal[],
       };
     }
     throw new Error("Error while fetching pending transaction");
