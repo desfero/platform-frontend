@@ -1,3 +1,12 @@
+@mixin address {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+
+  // force to not overflow
+  max-width: 100%;
+}
+
 .account-address-with-history-link {
   align-items: center;
   display: inline-flex;
@@ -40,11 +49,48 @@
   font-size: 16px;
 
   .address {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
+    @include address;
+  }
+}
 
-    // force to not overflow
-    max-width: 100%;
+
+.wallet-address {
+  display: grid;
+  grid-template: 3rem auto / 1fr;
+
+  grid-row-gap: 8px;
+  grid-auto-flow: row;
+  align-items: center;
+
+  .addressWrapper {
+    display: grid;
+    grid-template: auto / auto 1fr auto;
+    grid-column-gap: 10px;
+
+    align-items: center;
+
+    background-color: $neu-pale-grey-three;
+    padding: px-to-rem(12);
+    border-radius: 4px;
+
+  }
+
+  .address {
+    @include address;
+
+    font-family: $font-family-roboto;
+    font-size: px-to-rem(14);
+    font-weight: normal;
+  }
+
+  .avatar {
+    width: px-to-rem(24);
+    height: px-to-rem(24);
+  }
+
+  .history-link {
+    font-family: $font-family-roboto;
+    font-size: px-to-rem(12);
+    color: $neu-shuttle-gray;
   }
 }

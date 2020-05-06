@@ -5,11 +5,11 @@ import { SwitchConnected } from "../../utils/react-connected-components/connecte
 import { parentRoutePath, walletRoutes } from "./routes";
 import { DepositEth } from "./views/deposit-funds/DepositEth";
 import { DepositEuroToken } from "./views/deposit-funds/DepositEuroToken";
-import { WalletStart } from "./views/start/Start";
+import { Wallet } from "./Wallet";
 
 export const WalletRouter: React.FunctionComponent = () => (
   <SwitchConnected>
-    <Route path={parentRoutePath} component={WalletStart} exact />
+    <Route path={parentRoutePath} component={Wallet} exact />
 
     {/* Deposit Funds */}
     <Route path={walletRoutes.euroToken} component={DepositEuroToken} exact />

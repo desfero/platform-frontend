@@ -17,7 +17,7 @@ import { ETheme, Money } from "../../shared/formatters/Money";
 import { ENumberOutputFormat } from "../../shared/formatters/utils";
 import { Heading } from "../../shared/Heading";
 import { LoadingIndicator } from "../../shared/loading-indicator/LoadingIndicator";
-import { Panel } from "../../shared/Panel";
+import { Panel, PanelRounded } from "../../shared/Panel";
 import { ENewTableTheme, NewTableRow, Table } from "../../shared/table";
 import { Transaction, TransactionData, TransactionName } from "../../shared/transaction";
 
@@ -39,7 +39,7 @@ const TransactionListLayout: React.FunctionComponent<TStateProps & TDispatchProp
   showTransactionDetails,
   pendingTransaction,
 }) => (
-  <Panel>
+  <PanelRounded >
     {pendingTransaction && (
       <div className={styles.pendingTransactionWrapper}>
         <Transaction
@@ -74,6 +74,7 @@ const TransactionListLayout: React.FunctionComponent<TStateProps & TDispatchProp
                   10,
                 )}`}
               >
+                <div>logo</div>
                 <TransactionData
                   top={<TransactionName transaction={transaction} />}
                   bottom={
@@ -112,7 +113,7 @@ const TransactionListLayout: React.FunctionComponent<TStateProps & TDispatchProp
         <FormattedMessage id="wallet.tx-list.load-more" />
       </Button>
     )}
-  </Panel>
+  </PanelRounded>
 );
 
 const TransactionsList = compose<TStateProps & TDispatchProps, {}>(

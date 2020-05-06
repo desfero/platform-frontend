@@ -13,8 +13,8 @@ export interface IAccountAddressProps {
   address: string;
 }
 
-const HistoryLink: React.FunctionComponent<IAccountAddressProps> = ({ address }) => (
-  <div className={styles.transactionHistory}>
+export const HistoryLink: React.FunctionComponent<IAccountAddressProps & CommonHtmlProps> = ({ address, className }) => (
+  <div className={cn(styles.transactionHistory,className)}>
     <FormattedMessage
       id="shared-components.account-address.transaction-history"
       values={{
@@ -27,6 +27,23 @@ const HistoryLink: React.FunctionComponent<IAccountAddressProps> = ({ address })
     />
   </div>
 );
+
+export const WalletAddress:React.FunctionComponent<IAccountAddressProps &
+  CommonHtmlProps &
+  TDataTestId> = ({
+  address,
+  "data-test-id": dataTestId = "account-address.your.ether-address.from-div"
+  }) =>
+    <div className={styles.walletAddress}>
+      <div className={styles.addressWrapper} >
+      <Avatar seed={address} className={styles.avatar}/>
+      <span className={styles.address} data-test-id={dataTestId}>
+      {address}
+    </span>
+      <CopyToClipboardButton value={address} />
+      </div>
+    <HistoryLink address={address} className={styles.historyLink} />
+    </div>
 
 const AccountAddress: React.FunctionComponent<IAccountAddressProps &
   CommonHtmlProps &
