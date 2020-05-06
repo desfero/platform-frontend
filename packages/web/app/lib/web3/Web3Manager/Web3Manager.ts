@@ -13,7 +13,7 @@ import * as Web3 from "web3";
 import { symbols } from "../../../di/symbols";
 import { calculateGasLimitWithOverhead, encodeTransaction } from "../../../modules/tx/utils";
 import { IPersonalWallet } from "../PersonalWeb3";
-import { IEthereumNetworkConfig } from "../types";
+import { IEthereumNetworkConfig, ITxData, ITxMetadata } from "../types";
 import { Web3Adapter } from "../Web3Adapter";
 import { Web3FactoryType } from "../Web3Batch/Web3Batch";
 
@@ -155,9 +155,9 @@ export class Web3Manager extends EventEmitter implements IEthManager {
     return this.internalWeb3Adapter.getTransactionCount(address);
   }
 
-  public async sendTransaction(tx: Web3.TxData): Promise<string> {
+  public async sendTransaction(tx: ITxData, metadata: ITxMetadata): Promise<string> {
     if (this.personalWallet) {
-      return this.personalWallet.sendTransaction(tx);
+      return this.personalWallet.sendTransaction(tx, metadata);
     } else {
       throw new WalletNotConnectedError();
     }

@@ -5,8 +5,8 @@ import {
   toEthereumAddress,
 } from "@neufund/shared-utils";
 import * as hex2ascii from "hex2ascii";
-import * as Web3 from "web3";
 
+import { ITxData, ITxMetadata } from "../../../lib/web3/types";
 import { EWalletSubType, EWalletType, IBrowserWalletMetadata } from "../../../modules/web3/types";
 import { IPersonalWallet } from "../PersonalWeb3";
 import { Web3Adapter } from "../Web3Adapter";
@@ -88,9 +88,9 @@ export class BrowserWallet implements IPersonalWallet {
     }
   };
 
-  public sendTransaction = async (data: Web3.TxData): Promise<string> => {
+  public sendTransaction = async (txData: ITxData, _: ITxMetadata): Promise<string> => {
     try {
-      return await this.web3Adapter.sendTransaction(data);
+      return await this.web3Adapter.sendTransaction(txData);
     } catch (e) {
       const error = parseBrowserWalletError(e);
       if (error instanceof BrowserWalletConfirmationRejectedError) {
