@@ -6,7 +6,6 @@ import { appRoutes } from "../../components/appRoutes";
 import { etoPublicViewByIdLink, etoPublicViewLink } from "../../components/appRouteUtils";
 import { kycRoutes } from "../../components/kyc/routes";
 import { profileRoutes } from "../../components/settings/routes";
-import { walletRoutes } from "../../components/wallet/routes";
 import { EJurisdiction } from "../../lib/api/eto/EtoProductsApi.interfaces";
 import { TLoginRouterState } from "./types";
 
@@ -62,10 +61,6 @@ export const routingActions = {
 
   // wallet
   goToWallet: () => push(appRoutes.wallet),
-
-  // deposit founds
-  goToDepositEuroToken: () => push(walletRoutes.euroToken),
-  goToDepositEth: () => push(walletRoutes.eth),
 
   // external paths
   openInNewWindow: createActionFactory("OPEN_IN_NEW_WINDOW", (path: string) => ({ path })),

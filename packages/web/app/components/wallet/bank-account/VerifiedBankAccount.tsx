@@ -5,13 +5,13 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { branch, compose, renderComponent } from "recompose";
 
-import { selectIsUserFullyVerified } from "../../modules/auth/selectors";
-import { selectIsBankAccountVerified } from "../../modules/bank-transfer-flow/selectors";
-import { selectBankAccount, selectIsBankAccountLoading } from "../../modules/kyc/selectors";
-import { TBankAccount } from "../../modules/kyc/types";
-import { appConnect } from "../../store";
-import { CommonHtmlProps } from "../../types";
-import { LoadingIndicator } from "../shared/loading-indicator/LoadingIndicator";
+import { selectIsUserFullyVerified } from "../../../modules/auth/selectors";
+import { selectIsBankAccountVerified } from "../../../modules/bank-transfer-flow/selectors";
+import { selectBankAccount, selectIsBankAccountLoading } from "../../../modules/kyc/selectors";
+import { TBankAccount } from "../../../modules/kyc/types";
+import { appConnect } from "../../../store";
+import { CommonHtmlProps } from "../../../types";
+import { LoadingIndicator } from "../../shared/loading-indicator/LoadingIndicator";
 import { BankAccount } from "./BankAccount";
 
 import * as styles from "./VerifiedBankAccount.module.scss";

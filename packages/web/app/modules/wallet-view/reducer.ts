@@ -1,17 +1,34 @@
 import { actions } from "../actions";
+import { EthereumAddressWithChecksum, selectUnits } from "@neufund/shared-utils";
 import { EProcessState } from "../../utils/enums/processStates";
 import { AppReducer } from "../../store";
 
-export type TWalletViewData = {}
+export enum EBalanceType {
+  ETH = "WALLET_TYPE_ETH",
+  NEUR = "WALLET_TYPE_NEUR",
+  ICBM_ETH = "WALLET_TYPE_ICBM_ETH",
+  ICBM_NEUR = "WALLET_TYPE_ICBM_NEUR",
+  LOCKED_ICBM_ETH = "WALLET_TYPE_LOCKED_ICBM_ETH",
+  LOCKED_ICBM_NEUR = "WALLET_TYPE_LOCKED_ICBM_NEUR",
+}
+
+export type TWalletData = {
+  name: string //fixme
+  amount: string
+  euroEquivalentAmount:string
+}
 
 export type TWalletViewState = {
-  processState: EProcessState,
-  wallets: TWalletViewData[]
+  processState: EProcessState.SUCCESS,
+  wallets: TWalletData[],
+  walletBalanceEuro: string
+  userAddress: EthereumAddressWithChecksum
+} | {
+  processState: EProcessState.ERROR | EProcessState.NOT_STARTED | EProcessState.IN_PROGRESS,
 }
 
 const walletViewInitialState:TWalletViewState = {
   processState: EProcessState.NOT_STARTED,
-  wallets: []
 }
 
 export const walletViewReducer:AppReducer<TWalletViewState> = (
@@ -19,17 +36,9 @@ export const walletViewReducer:AppReducer<TWalletViewState> = (
     action,
 ) => {
   switch (action.type) {
-    case actions.walletView.walletViewSetError.getType():
-      return {
-        ...state,
-        processState: EProcessState.ERROR,
-      };
     case actions.walletView.walletViewSetData.getType():
-      return {
-        ...state,
-        processState: EProcessState.SUCCESS,
-        wallets: action.payload.wallets
-      };
+      console.log("--action!",JSON.stringify(action.payload))
+      return action.payload;
 
     default:
       return state;

@@ -8,7 +8,7 @@ import {
   ENumberInputFormat,
   ENumberOutputFormat,
 } from "../../../shared/formatters/utils";
-import { BankNumber } from "../../../wallet/BankAccount";
+import { BankNumber } from "../../../wallet/bank-account/BankAccount";
 import { InfoList } from "../shared/InfoList";
 import { InfoRow } from "../shared/InfoRow";
 import { TimestampRow } from "../shared/TimestampRow";

@@ -13,7 +13,7 @@ import { ENEURWalletStatus } from "../../../modules/wallet/types";
 import { THocProps } from "../../../types";
 import { EColumnSpan } from "../../layouts/Container";
 import { Panel } from "../../shared/Panel";
-import { BankAccount } from "../../wallet/BankAccount";
+import { BankAccount } from "../../wallet/bank-account/BankAccount";
 import { connectLinkBankAccountComponent } from "./ConnectLinkBankAccount";
 
 import bankIcon from "../../../assets/img/bank-transfer/bank-icon.svg";

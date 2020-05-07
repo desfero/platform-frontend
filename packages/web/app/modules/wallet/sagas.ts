@@ -14,7 +14,7 @@ import { ILockedWallet, IWalletStateData } from "./reducer";
 
 const WALLET_DATA_FETCHING_INTERVAL = 12000;
 
-function* loadWalletDataSaga({ logger }: TGlobalDependencies): any {
+export function* loadWalletDataSaga({ logger }: TGlobalDependencies): any {
   try {
     const ethAddress = yield select(selectEthereumAddress);
     yield put(actions.gas.gasApiEnsureLoading());

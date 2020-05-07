@@ -32,7 +32,7 @@ import { EHeadingSize, Heading } from "../../../shared/Heading";
 import { ETheme, MoneySuiteWidget } from "../../../shared/MoneySuiteWidget/MoneySuiteWidget";
 import { Tooltip } from "../../../shared/tooltips/Tooltip";
 import { formatEuroValueToString } from "../../../shared/utils";
-import { VerifiedBankAccount } from "../../../wallet/VerifiedBankAccount";
+import { VerifiedBankAccount } from "../../../wallet/bank-account/VerifiedBankAccount";
 import { CalculatedFee } from "./CalculatedFee";
 import { TotalRedeemed } from "./TotalRedeemed";
 
