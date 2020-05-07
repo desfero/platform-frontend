@@ -1,5 +1,6 @@
 import { createActionFactory } from "@neufund/shared-utils";
-import {  TWalletViewState } from "./reducer";
+
+import { TWalletViewState } from "./types";
 
 export const walletViewActions = {
   loadWalletView: createActionFactory("LOAD_WALLET_VIEW"),

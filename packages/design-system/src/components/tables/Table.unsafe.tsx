@@ -15,7 +15,7 @@ type TExternalProps = {
   data: Array<any>;
   withFooter?: boolean;
   customFooter?: React.ReactElement;
-  CustomHeader?: () => React.ReactElement;
+  CustomHeader?: React.FunctionComponent;
 };
 
 type TTableHeaderProps = {

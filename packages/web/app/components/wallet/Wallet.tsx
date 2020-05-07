@@ -1,7 +1,7 @@
 import * as React from "react";
-import { branch, renderComponent } from "recompose";
+import { branch, renderComponent, withProps } from "recompose";
 import { compose } from "redux";
-import { DeepReadonly, selectUnits, withContainer } from "@neufund/shared-utils";
+import { DeepReadonly, withContainer } from "@neufund/shared-utils";
 import { FormattedMessage } from "react-intl-phraseapp";
 import {
   Button,
@@ -9,11 +9,10 @@ import {
   EButtonLayout,
   EButtonSize,
   Table,
-  TokenIcon, TTranslatedString
+  TokenIcon
 } from "@neufund/design-system";
 
 import { EBankTransferType } from "../../modules/bank-transfer-flow/reducer";
-import { ETokenType } from "../../modules/tx/types";
 import { appConnect } from "../../store";
 import { Container, EColumnSpan, EContainerType } from "../layouts/Container";
 import { LoadingIndicatorContainer } from "../shared/loading-indicator";
@@ -25,37 +24,35 @@ import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "../shared/fo
 import { Money } from "../shared/formatters/Money";
 import { selectWalletViewData } from "../../modules/wallet-view/selectors";
 import { PanelRounded } from "../shared/Panel";
-import { hasBalance } from "../../modules/investment-flow/utils";
-import { EBalanceType, TWalletData, TWalletViewState } from "../../modules/wallet-view/reducer";
 import { EProcessState } from "../../utils/enums/processStates";
 import { CommonBalance } from "./Balance";
 import { BankAccount, NoBankAccount } from "./BankAccount";
+import {
+  TBalance,
+  TBalanceActions,
+  TBalanceData,
+  TWalletViewReadyState,
+  TWalletViewState
+} from "../../modules/wallet-view/types";
+import { balanceActions, balanceNames, balanceSymbols} from "./utils";
 
-import tokenIcon from "../../assets/img/eth_icon.svg"
 import * as styles from "./Wallet.module.scss"
 
 type TStateProps = DeepReadonly<TWalletViewState>
 
-interface IDispatchProps {
-  depositEthUnlockedWallet: () => void;
-  withdrawEthUnlockedWallet: () => void;
-  upgradeWalletEtherToken: () => void;
-  upgradeWalletEuroToken: () => void;
-  purchaseNEur: () => void;
+type TReadyStateProps = TWalletViewReadyState & {balances:TBalance[]}
+
+type TDispatchProps = {
+  balanceActions: TBalanceActions
   verifyBankAccount: () => void;
-  redeemNEur: () => void;
 }
 
-
-type TProps = TStateProps & IDispatchProps;
-
-const SingleWallet = (walletData) => {
-  return ({
-    logo: <TokenIcon srcSet={{ "1x": walletData.logo }} alt="" className={styles.tokenIcon} />,
-    walletName: walletData.currencyName,
-    value: <>
+const Balance = (balance:TBalance) => ({
+    logo: <TokenIcon srcSet={{ "1x": balance.logo }} alt="" className={styles.tokenIcon} />,
+    balanceName: balance.balanceName,
+    amount: <>
       <Money
-        value={walletData.amount}
+        value={balance.amount}
         inputFormat={ENumberInputFormat.ULPS}
         outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
         valueType={ECurrency.ETH}
@@ -63,114 +60,33 @@ const SingleWallet = (walletData) => {
       <span className={styles.euroEquivalent}>
                     {"≈"}
         <Money
-          value={walletData.euroEquivalentAmount}
+          value={balance.euroEquivalentAmount}
           inputFormat={ENumberInputFormat.ULPS}
           outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
           valueType={ECurrency.EUR}
         />
                 </span>
     </>,
-    actions: walletData.walletActions.map((walletAction, i) =>
+    balanceActions: balance.walletActions.map((balanceAction, i) =>
       <Button
         key={i}
         layout={EButtonLayout.PRIMARY}
         size={EButtonSize.SMALL}
-        onClick={walletAction.dispatchAction}
-        // disabled={walletAction.condition(walletData)}
+        onClick={balanceAction.dispatchAction}
+        disabled={balanceAction.disableIf(balance)}
       >
-        {walletAction.text}
+        {balanceAction.text}
       </Button>
     )
-  })
-}
+  });
 
-const walletNames: { [key in EBalanceType]: string } = {
-  [EBalanceType.ETH]: `${selectUnits(ECurrency.ETH)}`,
-  [EBalanceType.NEUR]: `${selectUnits(ECurrency.EUR)}`,
-  [EBalanceType.ICBM_ETH]: `Icbm ${selectUnits(ECurrency.ETH)}`,
-  [EBalanceType.ICBM_NEUR]: `Icbm ${selectUnits(ECurrency.EUR)}`,
-  [EBalanceType.LOCKED_ICBM_ETH]: `Icbm ${selectUnits(ECurrency.ETH)}`,
-  [EBalanceType.LOCKED_ICBM_NEUR]: `Icbm ${selectUnits(ECurrency.EUR)}`,
-}
-
-const currencySymbols: { [key in EBalanceType]: string } = {
-  [EBalanceType.ETH]: tokenIcon,
-  [EBalanceType.NEUR]: tokenIcon,
-  [EBalanceType.ICBM_ETH]: tokenIcon,
-  [EBalanceType.ICBM_NEUR]: tokenIcon,
-  [EBalanceType.LOCKED_ICBM_ETH]: tokenIcon,
-  [EBalanceType.LOCKED_ICBM_NEUR]: tokenIcon,
-}
-
-const walletActions = (dispatch): { [key in EBalanceType]: { dispatchAction: Function, condition: (w: TWalletData) => boolean, text: TTranslatedString }[] } => ({
-  [EBalanceType.ETH]: [
-    {
-      dispatchAction: () => dispatch(actions.txTransactions.startWithdrawEth()),
-      condition: (data) => hasBalance(data.amount),
-      text: <FormattedMessage id="shared-component.account-balance.send" />
-    },
-    {
-      dispatchAction: () => dispatch(actions.depositEthModal.showDepositEthModal()),
-      condition: () => true,
-      text: <FormattedMessage id="shared-component.account-balance.receive" />
-    }
-  ],
-  [EBalanceType.NEUR]: [
-    {
-      dispatchAction: () => dispatch(actions.txTransactions.startWithdrawNEuro()),
-      condition: (data) => hasBalance(data.amount),
-      text: <FormattedMessage id="components.wallet.start.neur-wallet.redeem" />
-    },
-    {
-      dispatchAction: () => dispatch(actions.bankTransferFlow.startBankTransfer(EBankTransferType.PURCHASE)),
-      condition: () => true,
-      text: <FormattedMessage id="components.wallet.start.neur-wallet.purchase" />
-    }
-  ],
-  [EBalanceType.ICBM_ETH]: [],
-  [EBalanceType.ICBM_NEUR]: [],
-  [EBalanceType.LOCKED_ICBM_ETH]: [{
-    dispatchAction: () => dispatch(actions.txTransactions.startUpgrade(ETokenType.ETHER)),
-    condition: () => true,
-    text: <FormattedMessage id="wallet.enable-icbm" />
-  }],
-  [EBalanceType.LOCKED_ICBM_NEUR]: [{
-    dispatchAction: () => dispatch(actions.txTransactions.startUpgrade(ETokenType.EURO)),
-    condition: () => true,
-    text: <FormattedMessage id="wallet.enable-icbm" />
-  }],
-})
-
-
-export const WalletComponent: React.FunctionComponent<TProps> = (p) => {
-
-  const {
-    wallets,
-    walletBalanceEuro,
-    userAddress,
-    verifyBankAccount,
-    bankAccount
-  } = p
-  console.log("WalletComponent",p)
-
-  const walletData = wallets.map((wallet: TWalletData) => {
-    return {
-      logo: currencySymbols[wallet.name],
-      currencyName: walletNames[wallet.name],
-      amount: wallet.amount,
-      euroEquivalentAmount: wallet.euroEquivalentAmount,
-      walletActions: walletActions[wallet.name]
-    }
-  })
-    .map(w => {
-        console.log(w)
-        return SingleWallet(w)
-
-      }
-    )
-
-
-  return (
+export const WalletLayout: React.FunctionComponent<TReadyStateProps & TDispatchProps> = ({
+  balances,
+  walletBalanceEuro,
+  userAddress,
+  verifyBankAccount,
+  bankAccount,
+}) => (
     <>
       <Container columnSpan={EColumnSpan.TWO_COL} type={EContainerType.INHERIT_GRID}>
         <Container columnSpan={EColumnSpan.TWO_COL}>
@@ -188,11 +104,13 @@ export const WalletComponent: React.FunctionComponent<TProps> = (p) => {
               CustomHeader={() => null}
               columns={[
                 { accessor: "logo", Cell: ({ cell }) => <div className={styles.currencyLogo}>{cell.value}</div> },
-                { accessor: "currency", Cell: ({ cell }) => <div className={styles.currency}>{cell.value}</div> },
-                { accessor: "value", Cell: ({ cell }) => <div className={styles.amount}>{cell.value}</div> },
-                { accessor: "actions", Cell: ({ cell }) => <div className={styles.walletActions}>{cell.value}</div> },
+                { accessor: "balanceName", Cell: ({ cell }) => <div className={styles.currency}>{cell.value}</div> },
+                { accessor: "amount", Cell: ({ cell }) => <div className={styles.amount}>{cell.value}</div> },
+                { accessor: "balanceActions", Cell: ({ cell }) => <div className={styles.balanceActions}>{cell.value}</div> },
               ]}
-              data={walletData}
+              data={balances
+                .map(w => Balance(w))
+              }
             />
           </PanelRounded>
         </Container>
@@ -230,18 +148,16 @@ export const WalletComponent: React.FunctionComponent<TProps> = (p) => {
         </Container>
       </Container>
     </>
-  )
-};
+  );
 
 export const Wallet = compose<React.FunctionComponent>(
-  appConnect<TStateProps, IDispatchProps>({
+  appConnect<TStateProps, TDispatchProps>({
     stateToProps: state => {
-      console.log("appConnect",JSON.stringify(state.walletView))
       return ({
       ...selectWalletViewData(state)
     })},
     dispatchToProps: dispatch => ({
-      walletActions: walletActions(dispatch),
+      balanceActions: balanceActions(dispatch),
       verifyBankAccount: () =>
         dispatch(actions.bankTransferFlow.startBankTransfer(EBankTransferType.VERIFY)),
     }),
@@ -249,4 +165,13 @@ export const Wallet = compose<React.FunctionComponent>(
   withContainer(WalletContainer),
   branch<TStateProps>(props => props.processState === EProcessState.ERROR, renderComponent(LoadingIndicatorContainer)), //fixme
   branch<TStateProps>(props => props.processState !== EProcessState.SUCCESS, renderComponent(LoadingIndicatorContainer)),
-)(WalletComponent);
+  withProps<{},TWalletViewReadyState & TDispatchProps>(({balanceData, balanceActions}) => ({
+    balances: balanceData.map((wallet: TBalanceData) => ({
+      logo: balanceSymbols[wallet.name],
+      balanceName: balanceNames[wallet.name],
+      amount: wallet.amount,
+      euroEquivalentAmount: wallet.euroEquivalentAmount,
+      walletActions: balanceActions[wallet.name]
+    }))
+  }))
+)(WalletLayout);

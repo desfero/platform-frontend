@@ -19,6 +19,8 @@ import { selectEthereumAddress } from "../web3/selectors";
 import { EProcessState } from "../../utils/enums/processStates";
 import { loadWalletDataSaga } from "../wallet/sagas";
 import { loadBankAccountDetails } from "../kyc/sagas";
+import { EBalanceType } from "./types";
+import { selectBankAccount } from "../kyc/selectors";
 
 
 export function* loadWalletView() {
@@ -30,6 +32,8 @@ export function* loadWalletView() {
     ])
 
     const userAddress = yield* select(selectEthereumAddress)
+    const bankAccount = yield* select(selectBankAccount)
+
     const ethWalletData = yield all({
       amount: select(selectLiquidEtherBalance),
       euroEquivalentAmount: yield* select(selectLiquidEtherBalanceEuroAmount),
@@ -58,46 +62,46 @@ export function* loadWalletView() {
       isEuroUpgradeTargetSet: select(selectIsEuroUpgradeTargetSet),
     })
 
-    console.log("ethWalletData", ethWalletData)
-    const wallets = [
+    const balanceData = [
       {
-        name: "eth",
+        name: EBalanceType.ETH,
         hasFunds: compareBigNumbers(ethWalletData.amount, "0") > 0,
         amount: ethWalletData.amount,
         euroEquivalentAmount: ethWalletData.euroEquivalentAmount
       },
       {
-        name: "neur",
+        name: EBalanceType.NEUR,
         hasFunds: compareBigNumbers(neuroWalletData.amount, "0") > 0,
         amount: neuroWalletData.amount,
         euroEquivalentAmount: neuroWalletData.euroEquivalentAmount
       },
       {
-        name: "icbm_eth",
+        name: EBalanceType.ICBM_ETH,
         hasFunds: compareBigNumbers(icbmEthWalletData.amount, "0") > 0,
         amount: icbmEthWalletData.amount,
         euroEquivalentAmount: icbmEthWalletData.euroEquivalentAmount
       },
       {
-        name: "icbm_neur",
+        name: EBalanceType.ICBM_NEUR,
         hasFunds: compareBigNumbers(icbmNeuroWalletData.amount, "0") > 0,
         amount: icbmNeuroWalletData.amount,
         euroEquivalentAmount: icbmNeuroWalletData.euroEquivalentAmount
       },
       {
-        name: "locked_icbm_eth",
+        name: EBalanceType.LOCKED_ICBM_ETH,
         hasFunds: compareBigNumbers(lockedIcbmEthWalletData.amount, "0") > 0,
         amount: lockedIcbmEthWalletData.amount,
         euroEquivalentAmount: lockedIcbmEthWalletData.euroEquivalentAmount
       },
       {
-        name: "locked_icbm_neur",
+        name: EBalanceType.LOCKED_ICBM_NEUR,
         hasFunds: compareBigNumbers(lockedIcbmNeuroWalletData.amount, "0") > 0,
         amount: lockedIcbmNeuroWalletData.amount,
         euroEquivalentAmount: lockedIcbmNeuroWalletData.euroEquivalentAmount
       }
     ]
       .filter((data) => data.hasFunds)
+
 
     const walletBalanceEuro = addBigNumbers([
       ethWalletData.euroEquivalentAmount,
@@ -107,11 +111,13 @@ export function* loadWalletView() {
       lockedIcbmEthWalletData.euroEquivalentAmount,
       lockedIcbmNeuroWalletData.euroEquivalentAmount,
     ])
-    console.log("loadWalletView wallets", wallets)
+
+
     yield put(actions.walletView.walletViewSetData({
       userAddress,
-      wallets,
+      balanceData,
       walletBalanceEuro,
+      bankAccount,
       processState: EProcessState.SUCCESS
     }))
 
