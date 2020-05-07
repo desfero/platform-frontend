@@ -229,9 +229,9 @@ export function* walletRoute(payload: RouterState): Generator<any, any, any> {
   });
   return yield routeAction(walletMatch, {
     notAuth: undefined,
-    investor: undefined,
-    issuer: undefined,
-    nominee: undefined,
+    investor: put(actions.walletView.loadWalletView()),
+    issuer: put(actions.walletView.loadWalletView()),
+    nominee: put(actions.walletView.loadWalletView()),
   });
 }
 

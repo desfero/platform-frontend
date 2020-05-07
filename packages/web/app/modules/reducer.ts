@@ -36,6 +36,7 @@ import { walletSelectorReducer } from "./wallet-selector/reducer";
 import { walletConnectReducer } from "./wallet-selector/wallet-connect/reducer";
 import { walletReducer } from "./wallet/reducer";
 import { web3Reducer } from "./web3/reducer";
+import { walletViewReducer } from "./wallet-view/reducer";
 
 // add new app reducers here. They must be AppReducer<T> type
 export const appReducers = {
@@ -58,6 +59,7 @@ export const appReducers = {
   lightWalletWizard: lightWalletWizardReducer,
   walletConnect: walletConnectReducer,
   wallet: walletReducer,
+  walletView: walletViewReducer,
   txHistory: txHistoryReducer,
   notifications: notificationsReducer,
   etoIssuer: etoFlowReducer,

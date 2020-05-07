@@ -38,6 +38,7 @@ import { walletSelectorSagas } from "./wallet-selector/sagas";
 import { walletConnectSagas } from "./wallet-selector/wallet-connect/sagas";
 import { walletSagas } from "./wallet/sagas";
 import { web3Sagas } from "./web3/sagas";
+import { walletViewSagas } from "./wallet-view/sagas";
 
 /**
  * Restart all sagas on error and report error to sentry
@@ -219,6 +220,12 @@ function* allSagas(): Generator<any, any, any> {
       [actions.init.startServices, actions.init.restartServices],
       actions.init.stopServices,
       marketingUnsubscribeView,
+    ),
+    fork(
+      neuTakeUntil,
+      [actions.init.startServices, actions.init.restartServices],
+      actions.init.stopServices,
+      walletViewSagas,
     ),
   ]);
 }
