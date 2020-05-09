@@ -1,5 +1,5 @@
+import { ETxType } from "../../../lib/web3/types";
 import { Schema } from "../../../lib/yup-ts.unsafe";
-import { ETxType } from "../types";
 import { TUserClaimAdditionalData, UserClaimAdditionalDataSchema } from "./claim/types";
 import { EtoSetDateAdditionalDataSchema, TEtoSetDateAdditionalDataSchema } from "./eto-flow/types";
 import {

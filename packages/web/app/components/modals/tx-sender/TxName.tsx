@@ -2,7 +2,7 @@ import { assertNever } from "@neufund/shared-utils";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
-import { ETxType } from "../../../modules/tx/types";
+import { ETxType } from "../../../lib/web3/types";
 
 interface IProps {
   type: ETxType;

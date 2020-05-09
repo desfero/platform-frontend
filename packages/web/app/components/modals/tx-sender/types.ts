@@ -1,8 +1,8 @@
 import * as React from "react";
 
 import { Tx } from "../../../lib/api/users/interfaces";
-import { ITxData } from "../../../lib/web3/types";
-import { ETxType, TAdditionalDataByType } from "../../../modules/tx/types";
+import { ETxType, ITxData } from "../../../lib/web3/types";
+import { TAdditionalDataByType } from "../../../modules/tx/types";
 import { CommonHtmlProps } from "../../../types";
 
 export type TransactionDetailsComponent<T extends ETxType> = React.ComponentType<

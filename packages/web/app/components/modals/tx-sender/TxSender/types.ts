@@ -1,6 +1,5 @@
-import { ITxData } from "../../../../lib/web3/types";
+import { ETxType, ITxData } from "../../../../lib/web3/types";
 import { ETransactionErrorType, ETxSenderState } from "../../../../modules/tx/sender/reducer";
-import { ETxType } from "../../../../modules/tx/types";
 
 export interface ITxSenderStateProps {
   isOpen: boolean;

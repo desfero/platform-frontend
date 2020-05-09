@@ -3,7 +3,7 @@ import BigNumber from "bignumber.js";
 import { addHexPrefix } from "ethereumjs-util";
 
 import { TGlobalDependencies } from "../../../../di/setupBindings";
-import { ITxData } from "../../../../lib/web3/types";
+import { ETxType, ITxData } from "../../../../lib/web3/types";
 import { actions } from "../../../actions";
 import { selectStandardGasPriceWithOverHead } from "../../../gas/selectors";
 import { neuCall, neuTakeLatest } from "../../../sagasUtils";
@@ -14,7 +14,6 @@ import {
 } from "../../../wallet/selectors";
 import { selectEthereumAddress } from "../../../web3/selectors";
 import { txSendSaga } from "../../sender/sagas";
-import { ETxType } from "../../types";
 import { UserCannotUnlockFunds } from "./errors";
 import { selectCanUnlockWallet } from "./selectors";
 

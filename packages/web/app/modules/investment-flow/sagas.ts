@@ -13,7 +13,7 @@ import { WalletSelectionData } from "../../components/modals/tx-sender/investmen
 import { ECurrency } from "../../components/shared/formatters/utils";
 import { TGlobalDependencies } from "../../di/setupBindings";
 import { ETOCommitment } from "../../lib/contracts/ETOCommitment";
-import { ITxData } from "../../lib/web3/types";
+import { ETxType, ITxData } from "../../lib/web3/types";
 import { TAppGlobalState } from "../../store";
 import { actions, TActionFromCreator } from "../actions";
 import {
@@ -33,7 +33,6 @@ import { neuCall } from "../sagasUtils";
 import { selectEtherPriceEur, selectEurPriceEther } from "../shared/tokenPrice/selectors";
 import { selectTxGasCostEthUlps, selectTxSenderModalOpened } from "../tx/sender/selectors";
 import { INVESTMENT_GAS_AMOUNT } from "../tx/transactions/investment/sagas";
-import { ETxType } from "../tx/types";
 import { txValidateSaga } from "../tx/validator/sagas";
 import {
   selectICBMLockedEtherBalance,

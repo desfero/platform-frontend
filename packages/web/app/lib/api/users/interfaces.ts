@@ -1,8 +1,8 @@
 import { EthereumAddressWithChecksum } from "@neufund/shared-utils";
 import * as Yup from "yup";
 
+import { ETxType } from "../../../lib/web3/types";
 import { ETransactionErrorType, ETxSenderState } from "../../../modules/tx/sender/reducer";
-import { ETxType } from "../../../modules/tx/types";
 import { EWalletSubType, EWalletType } from "../../../modules/web3/types";
 import * as YupTS from "../../yup-ts.unsafe";
 

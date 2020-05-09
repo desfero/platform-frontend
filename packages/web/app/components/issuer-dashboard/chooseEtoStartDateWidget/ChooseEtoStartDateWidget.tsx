@@ -6,6 +6,7 @@ import { FormattedHTMLMessage, FormattedMessage } from "react-intl-phraseapp";
 import { FormGroup } from "reactstrap";
 import { branch, compose, lifecycle, renderComponent, renderNothing } from "recompose";
 
+import { ETxType } from "../../../lib/web3/types";
 import { actions } from "../../../modules/actions";
 import {
   selectAreAgreementsSignedByNominee,
@@ -18,7 +19,6 @@ import {
 import { isValidEtoStartDate } from "../../../modules/eto-flow/utils";
 import { selectPlatformPendingTransaction } from "../../../modules/tx/monitor/selectors";
 import { ETxSenderState } from "../../../modules/tx/sender/reducer";
-import { ETxType } from "../../../modules/tx/types";
 import { appConnect } from "../../../store";
 import { EColumnSpan } from "../../layouts/Container";
 import {

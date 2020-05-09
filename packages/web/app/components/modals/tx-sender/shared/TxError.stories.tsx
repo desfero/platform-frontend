@@ -2,9 +2,9 @@ import { convertToUlps, toEquityTokenSymbol } from "@neufund/shared-utils";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
+import { ETxType } from "../../../../lib/web3/types";
 import { EInvestmentType } from "../../../../modules/investment-flow/reducer";
 import { ETransactionErrorType } from "../../../../modules/tx/sender/reducer";
-import { ETxType } from "../../../../modules/tx/types";
 import { withStore } from "../../../../utils/react-connected-components/storeDecorator.unsafe";
 import { withModalBody } from "../../../../utils/react-connected-components/storybookHelpers.unsafe";
 import { TxErrorLayout } from "./TxError";

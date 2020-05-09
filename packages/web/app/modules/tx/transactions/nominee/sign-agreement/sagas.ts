@@ -5,7 +5,7 @@ import { ipfsLinkFromHash } from "../../../../../components/documents/utils";
 import { TGlobalDependencies } from "../../../../../di/setupBindings";
 import { EEtoState } from "../../../../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { ETOCommitment } from "../../../../../lib/contracts/ETOCommitment";
-import { ITxData } from "../../../../../lib/web3/types";
+import { ETxType, ITxData } from "../../../../../lib/web3/types";
 import { TAppGlobalState } from "../../../../../store";
 import { actions } from "../../../../actions";
 import { InvalidETOStateError } from "../../../../eto/errors";
@@ -21,7 +21,6 @@ import { neuCall, neuTakeLatest } from "../../../../sagasUtils";
 import { selectEthereumAddress } from "../../../../web3/selectors";
 import { txSendSaga } from "../../../sender/sagas";
 import { selectTxType } from "../../../sender/selectors";
-import { ETxType } from "../../../types";
 import { EAgreementType, IAgreementContractAndHash } from "./types";
 
 export function* getAgreementContractAndHash(

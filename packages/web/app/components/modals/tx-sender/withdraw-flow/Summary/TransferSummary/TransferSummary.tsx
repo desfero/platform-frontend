@@ -1,11 +1,11 @@
 import { branch, compose } from "recompose";
 
+import { ETxType } from "../../../../../../lib/web3/types";
 import { actions } from "../../../../../../modules/actions";
 import {
   selectTxAdditionalData,
   selectTxGasCostEthUlps,
 } from "../../../../../../modules/tx/sender/selectors";
-import { ETxType } from "../../../../../../modules/tx/types";
 import { selectEthereumAddress } from "../../../../../../modules/web3/selectors";
 import { appConnect } from "../../../../../../store";
 import {

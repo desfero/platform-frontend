@@ -2,7 +2,7 @@ import { fork, put, select } from "@neufund/sagas";
 
 import { TGlobalDependencies } from "../../../../di/setupBindings";
 import { ETOCommitment } from "../../../../lib/contracts/ETOCommitment";
-import { ITxData } from "../../../../lib/web3/types";
+import { ETxType, ITxData } from "../../../../lib/web3/types";
 import { TAppGlobalState } from "../../../../store";
 import { actions, TAction } from "../../../actions";
 import { selectStandardGasPriceWithOverHead } from "../../../gas/selectors";
@@ -11,7 +11,6 @@ import { neuCall, neuTakeLatest } from "../../../sagasUtils";
 import { selectEthereumAddress } from "../../../web3/selectors";
 import { txSendSaga } from "../../sender/sagas";
 import { selectTxGasCostEthUlps } from "../../sender/selectors";
-import { ETxType } from "../../types";
 
 function* generateGetClaimTransaction(
   { contractsService, web3Manager }: TGlobalDependencies,

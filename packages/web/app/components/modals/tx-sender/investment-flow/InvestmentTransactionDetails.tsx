@@ -4,7 +4,7 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { TEtoEquityTokenInfoType } from "../../../../lib/api/eto/EtoApi.interfaces.unsafe";
-import { ETxType } from "../../../../modules/tx/types";
+import { ETxType } from "../../../../lib/web3/types";
 import { FormatNumber } from "../../../shared/formatters/FormatNumber";
 import { Money } from "../../../shared/formatters/Money";
 import {

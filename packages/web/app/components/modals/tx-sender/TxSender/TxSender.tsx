@@ -1,13 +1,13 @@
 import * as cn from "classnames";
 import * as React from "react";
 
+import { ETxType } from "../../../../lib/web3/types";
 import { actions } from "../../../../modules/actions";
 import { ETxSenderState } from "../../../../modules/tx/sender/reducer";
 import {
   selectTxSenderModalOpened,
   selectTxTimestamp,
 } from "../../../../modules/tx/sender/selectors";
-import { ETxType } from "../../../../modules/tx/types";
 import { appConnect } from "../../../../store";
 import { QuintessenceModal } from "../../bank-transfer-flow/QuintessenceModal";
 import { Modal } from "../../Modal";

@@ -5,14 +5,14 @@ import { compose } from "recompose";
 
 import { externalRoutes } from "../../../../config/externalRoutes";
 import { Tx } from "../../../../lib/api/users/interfaces";
-import { ITxData } from "../../../../lib/web3/types";
+import { ETxType, ITxData } from "../../../../lib/web3/types";
 import { ETransactionErrorType } from "../../../../modules/tx/sender/reducer";
 import {
   selectTxAdditionalData,
   selectTxDetails,
   selectTxTimestamp,
 } from "../../../../modules/tx/sender/selectors";
-import { ETxType, TSpecificTransactionState } from "../../../../modules/tx/types";
+import { TSpecificTransactionState } from "../../../../modules/tx/types";
 import { appConnect } from "../../../../store";
 import { ExternalLink } from "../../../shared/links/ExternalLink";
 import { Message } from "../../message/Message";

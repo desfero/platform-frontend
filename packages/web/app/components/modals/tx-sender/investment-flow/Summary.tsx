@@ -6,11 +6,11 @@ import { Container } from "reactstrap";
 import { compose, setDisplayName } from "recompose";
 
 import { EEtoDocumentType } from "../../../../lib/api/eto/EtoFileApi.interfaces";
+import { ETxType } from "../../../../lib/web3/types";
 import { actions } from "../../../../modules/actions";
 import { selectIsRestrictedInvestor } from "../../../../modules/auth/selectors";
 import { selectTxAdditionalData } from "../../../../modules/tx/sender/selectors";
 import { TInvestmentAdditionalData } from "../../../../modules/tx/transactions/investment/types";
-import { ETxType } from "../../../../modules/tx/types";
 import { appConnect } from "../../../../store";
 import { ErrorAlert } from "../../../shared/Alerts";
 import { DocumentButton } from "../../../shared/DocumentLink";

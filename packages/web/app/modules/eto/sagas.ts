@@ -39,6 +39,7 @@ import { ETOCommitment } from "../../lib/contracts/ETOCommitment";
 import { ETOTerms } from "../../lib/contracts/ETOTerms";
 import { EuroToken } from "../../lib/contracts/EuroToken";
 import { ITokenController } from "../../lib/contracts/ITokenController";
+import { ETxType } from "../../lib/web3/types";
 import { TAppGlobalState } from "../../store";
 import { TTranslatedString } from "../../types";
 import { actions, TActionFromCreator } from "../actions";
@@ -52,7 +53,7 @@ import {
   EAgreementType,
   IAgreementContractAndHash,
 } from "../tx/transactions/nominee/sign-agreement/types";
-import { ETxType, TAdditionalDataByType } from "../tx/types";
+import { TAdditionalDataByType } from "../tx/types";
 import { selectEthereumAddress } from "../web3/selectors";
 import { generateRandomEthereumAddress } from "../web3/utils";
 import { InvalidETOStateError } from "./errors";

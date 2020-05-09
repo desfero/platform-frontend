@@ -1,7 +1,7 @@
 import { assertNever } from "@neufund/shared-utils";
 import * as React from "react";
 
-import { ETxType } from "../../../../modules/tx/types";
+import { ETxType } from "../../../../lib/web3/types";
 import { SetEtoDateSummary } from "../eto-flow/SetDateSummary";
 import { SignInvestmentAgreementSummary } from "../eto-flow/SignInvestmentAgreementSummary";
 import { InvestmentSummary } from "../investment-flow/Summary";

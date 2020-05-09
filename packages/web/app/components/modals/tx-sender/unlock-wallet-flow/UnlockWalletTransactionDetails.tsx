@@ -9,7 +9,7 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { compose, lifecycle, withState } from "recompose";
 
-import { ETxType } from "../../../../modules/tx/types";
+import { ETxType } from "../../../../lib/web3/types";
 import { getUnlockedWalletEtherAmountAfterFee } from "../../../../modules/wallet/utils";
 import { Money } from "../../../shared/formatters/Money";
 import {

@@ -5,7 +5,7 @@ import BigNumber from "bignumber.js";
 import { IWindowWithData } from "../../../../../test/helperTypes";
 import { ECurrency } from "../../../../components/shared/formatters/utils";
 import { TGlobalDependencies } from "../../../../di/setupBindings";
-import { ITxData } from "../../../../lib/web3/types";
+import { ETxType, ITxData } from "../../../../lib/web3/types";
 import { DEFAULT_UPPER_GAS_LIMIT } from "../../../../lib/web3/Web3Manager/Web3Manager";
 import { actions } from "../../../actions";
 import { selectStandardGasPriceWithOverHead } from "../../../gas/selectors";
@@ -17,7 +17,6 @@ import {
 import { selectEthereumAddress } from "../../../web3/selectors";
 import { isAddressValid } from "../../../web3/utils";
 import { txSendSaga } from "../../sender/sagas";
-import { ETxType } from "../../types";
 import {
   selectUserFlowTokenData,
   selectUserFlowTxDetails,

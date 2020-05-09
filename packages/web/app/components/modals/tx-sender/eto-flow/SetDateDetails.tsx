@@ -1,7 +1,7 @@
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
-import { ETxType } from "../../../../modules/tx/types";
+import { ETxType } from "../../../../lib/web3/types";
 import { TimeLeft } from "../../../shared/TimeLeft.unsafe";
 import { localTime, timeZone, utcTime, weekdayLocal, weekdayUTC } from "../../../shared/utils";
 import { InfoList } from "../shared/InfoList";

@@ -6,12 +6,12 @@ import { branch, compose, withProps } from "recompose";
 
 import { IEtoDocument } from "../../../../../lib/api/eto/EtoFileApi.interfaces";
 import { IImmutableFileId } from "../../../../../lib/api/immutable-storage/ImmutableStorage.interfaces";
+import { ETxType } from "../../../../../lib/web3/types";
 import * as YupTS from "../../../../../lib/yup-ts.unsafe";
 import { actions } from "../../../../../modules/actions";
 import { TEtoWithCompanyAndContractReadonly } from "../../../../../modules/eto/types";
 import { selectActiveNomineeEto } from "../../../../../modules/nominee-flow/selectors";
 import { selectTxType } from "../../../../../modules/tx/sender/selectors";
-import { ETxType } from "../../../../../modules/tx/types";
 import { appConnect } from "../../../../../store";
 import { DocumentButton } from "../../../../shared/DocumentLink";
 import { Form, FormFieldBoolean } from "../../../../shared/forms";

@@ -3,7 +3,7 @@ import { compareBigNumbers } from "@neufund/shared-utils";
 import { BigNumber } from "bignumber.js";
 
 import { TGlobalDependencies } from "../../../../di/setupBindings";
-import { ITxData } from "../../../../lib/web3/types";
+import { ETxType, ITxData } from "../../../../lib/web3/types";
 import { TAppGlobalState } from "../../../../store";
 import { actions, TActionFromCreator } from "../../../actions";
 import { selectEtoWithCompanyAndContractById } from "../../../eto/selectors";
@@ -28,7 +28,7 @@ import { selectEtherTokenBalance } from "../../../wallet/selectors";
 import { selectEthereumAddress } from "../../../web3/selectors";
 import { txSendSaga } from "../../sender/sagas";
 import { selectTxGasCostEthUlps } from "../../sender/selectors";
-import { ETxType, TAdditionalDataByType } from "../../types";
+import { TAdditionalDataByType } from "../../types";
 
 export const INVESTMENT_GAS_AMOUNT = "600000";
 

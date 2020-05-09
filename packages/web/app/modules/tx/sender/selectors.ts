@@ -1,8 +1,9 @@
 import { multiplyBigNumbers } from "@neufund/shared-utils";
 
+import { ETxType } from "../../../lib/web3/types";
 import { TAppGlobalState } from "../../../store";
 import { selectEtherPriceEur } from "../../shared/tokenPrice/selectors";
-import { ETxType, TAdditionalDataByType } from "../types";
+import { TAdditionalDataByType } from "../types";
 import { ETxSenderState } from "./reducer";
 
 export const selectTxSenderModalOpened = (state: TAppGlobalState) =>

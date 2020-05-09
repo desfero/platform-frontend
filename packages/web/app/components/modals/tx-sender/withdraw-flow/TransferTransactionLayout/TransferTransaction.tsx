@@ -1,6 +1,7 @@
 import { RequiredByKeys } from "@neufund/shared-utils";
 import { branch, compose } from "recompose";
 
+import { ETxType } from "../../../../../lib/web3/types";
 import { actions } from "../../../../../modules/actions";
 import { ETransactionErrorType } from "../../../../../modules/tx/sender/reducer";
 import {
@@ -9,7 +10,6 @@ import {
 } from "../../../../../modules/tx/sender/selectors";
 import { TTokenTransferAdditionalData } from "../../../../../modules/tx/transactions/token-transfer/types";
 import { TWithdrawAdditionalData } from "../../../../../modules/tx/transactions/withdraw/types";
-import { ETxType } from "../../../../../modules/tx/types";
 import { selectEthereumAddress } from "../../../../../modules/web3/selectors";
 import { appConnect } from "../../../../../store";
 import { ETxStatus } from "../../types";

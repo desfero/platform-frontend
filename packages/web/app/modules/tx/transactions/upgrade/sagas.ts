@@ -3,7 +3,7 @@ import { EthereumAddress } from "@neufund/shared-utils";
 import { addHexPrefix } from "ethereumjs-util";
 
 import { TGlobalDependencies } from "../../../../di/setupBindings";
-import { ITxData } from "../../../../lib/web3/types";
+import { ETxType, ITxData } from "../../../../lib/web3/types";
 import { actions, TAction } from "../../../actions";
 import { selectStandardGasPriceWithOverHead } from "../../../gas/selectors";
 import { neuCall, neuTakeLatest } from "../../../sagasUtils";
@@ -13,7 +13,7 @@ import {
 } from "../../../wallet/selectors";
 import { selectEthereumAddress } from "../../../web3/selectors";
 import { ITxSendParams, txSendSaga } from "../../sender/sagas";
-import { ETokenType, ETxType } from "../../types";
+import { ETokenType } from "../../types";
 
 function* generateEuroUpgradeTransaction({
   contractsService,

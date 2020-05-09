@@ -1,10 +1,10 @@
 import { fork, put } from "@neufund/sagas";
 
 import { TGlobalDependencies } from "../../../../di/setupBindings";
+import { ETxType } from "../../../../lib/web3/types";
 import { actions, TActionFromCreator } from "../../../actions";
 import { neuTakeLatest } from "../../../sagasUtils";
 import { txSendSaga } from "../../sender/sagas";
-import { ETxType } from "../../types";
 import { startInvestorPayoutAcceptGenerator } from "../payout/accept/saga";
 import { startInvestorPayoutRedistributionGenerator } from "../payout/redistribute/saga";
 

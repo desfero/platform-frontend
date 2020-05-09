@@ -3,9 +3,9 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { compose } from "recompose";
 
+import { ETxType } from "../../../../../lib/web3/types";
 import { actions } from "../../../../../modules/actions";
 import { selectTxType } from "../../../../../modules/tx/sender/selectors";
-import { ETxType } from "../../../../../modules/tx/types";
 import { appConnect } from "../../../../../store";
 import { EHeadingSize, Heading } from "../../../../shared/Heading";
 import { isRAASign } from "./utils";

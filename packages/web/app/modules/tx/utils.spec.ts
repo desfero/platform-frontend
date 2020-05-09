@@ -2,8 +2,8 @@ import { ECurrency } from "@neufund/shared-utils";
 import { expect } from "chai";
 
 import { ETransactionType } from "../../lib/api/analytics-api/interfaces";
+import { ETxType } from "../../lib/web3/types";
 import { EInvestmentType } from "../investment-flow/reducer";
-import { ETxType } from "./types";
 import {
   generalPendingTxFixture,
   getPendingTransactionAmount,

@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { ETxType } from "../../../../modules/tx/types";
+import { ETxType } from "../../../../lib/web3/types";
 import { LoadingIndicator } from "../../../shared/loading-indicator";
 import { InvestmentSelection } from "../investment-flow/Investment";
 import { InvestorRedistributePayoutConfirm } from "../investor-payout/RedistributeConfirm";

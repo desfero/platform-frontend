@@ -3,11 +3,11 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { Col, Container, Row } from "reactstrap";
 
-import { ITxData } from "../../../../lib/web3/types";
+import { ETxType, ITxData } from "../../../../lib/web3/types";
 import { actions } from "../../../../modules/actions";
 import { selectTxAdditionalData, selectTxDetails } from "../../../../modules/tx/sender/selectors";
 import { TUpgradeAdditionalData } from "../../../../modules/tx/transactions/upgrade/types";
-import { ETokenType, ETxType } from "../../../../modules/tx/types";
+import { ETokenType } from "../../../../modules/tx/types";
 import { appConnect } from "../../../../store";
 import { DocumentButton } from "../../../shared/DocumentLink";
 import { EHeadingSize, Heading } from "../../../shared/Heading";

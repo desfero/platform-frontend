@@ -6,7 +6,7 @@ import * as Web3 from "web3";
 
 import { TGlobalDependencies } from "../../../di/setupBindings";
 import { TPendingTxs, TxPendingWithMetadata } from "../../../lib/api/users/interfaces";
-import { ITxData, ITxMetadata } from "../../../lib/web3/types";
+import { ETxType, ITxData, ITxMetadata } from "../../../lib/web3/types";
 import { OutOfGasError, RevertedTransactionError } from "../../../lib/web3/Web3Adapter";
 import { actions } from "../../actions";
 import { neuCall, neuTakeLatest, neuTakeUntil } from "../../sagasUtils";
@@ -15,7 +15,7 @@ import { getTransactionOrThrow } from "../event-channel/sagas";
 import { ETransactionErrorType, ETxSenderState } from "../sender/reducer";
 import { txMonitorSaga } from "../sender/sagas";
 import { typeToSchema } from "../transactions/types";
-import { ETxType, TSpecificTransactionState } from "../types";
+import { TSpecificTransactionState } from "../types";
 import { SchemaMismatchError } from "./errors";
 import { selectPlatformPendingTransaction } from "./selectors";
 

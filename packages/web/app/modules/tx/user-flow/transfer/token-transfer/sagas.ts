@@ -2,9 +2,9 @@ import { fork, put, select } from "@neufund/sagas";
 import { convertFromUlps } from "@neufund/shared-utils";
 
 import { TGlobalDependencies } from "../../../../../di/setupBindings";
+import { ETxType } from "../../../../../lib/web3/types";
 import { actions, TActionFromCreator } from "../../../../actions";
 import { neuDebounce } from "../../../../sagasUtils";
-import { ETxType } from "../../../types";
 import { selectUserFlowTokenDecimals, selectUserFlowUserBalance } from "../selectors";
 import { toFormValue } from "../utils";
 

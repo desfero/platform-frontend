@@ -1,6 +1,6 @@
 import { IEtoDocument } from "../../../../../lib/api/eto/EtoFileApi.interfaces";
+import { ETxType } from "../../../../../lib/web3/types";
 import { TEtoWithCompanyAndContractReadonly } from "../../../../../modules/eto/types";
-import { ETxType } from "../../../../../modules/tx/types";
 
 export const selectDocument = (
   txType: ETxType | undefined,

@@ -14,6 +14,7 @@ import {
   immutableDocumentName,
   TEtoDocumentTemplates,
 } from "../../../../lib/api/eto/EtoFileApi.interfaces";
+import { ETxType } from "../../../../lib/web3/types";
 import { actions } from "../../../../modules/actions";
 import {
   selectIssuerEtoDateToWhitelistMinDuration,
@@ -23,7 +24,6 @@ import { InvalidETOStateError } from "../../../../modules/eto/errors";
 import { isOnChain } from "../../../../modules/eto/utils";
 import { selectTxAdditionalData } from "../../../../modules/tx/sender/selectors";
 import { TEtoSetDateAdditionalData } from "../../../../modules/tx/transactions/eto-flow/types";
-import { ETxType } from "../../../../modules/tx/types";
 import { appConnect } from "../../../../store";
 import { EHeadingSize, Heading } from "../../../shared/Heading";
 import { EtherscanAddressLink, ExternalLink } from "../../../shared/links";

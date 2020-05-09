@@ -10,13 +10,13 @@ import {
   immutableDocumentName,
 } from "../../../../lib/api/eto/EtoFileApi.interfaces";
 import { IImmutableFileId } from "../../../../lib/api/immutable-storage/ImmutableStorage.interfaces";
+import { ETxType } from "../../../../lib/web3/types";
 import { actions } from "../../../../modules/actions";
 import { selectPendingDownloads } from "../../../../modules/immutable-file/selectors";
 import { selectMyInvestorTicketByEtoId } from "../../../../modules/investor-portfolio/selectors";
 import { TETOWithInvestorTicket } from "../../../../modules/investor-portfolio/types";
 import { selectTxAdditionalData } from "../../../../modules/tx/sender/selectors";
 import { TClaimAdditionalData } from "../../../../modules/tx/transactions/claim/types";
-import { ETxType } from "../../../../modules/tx/types";
 import { appConnect } from "../../../../store";
 import { getInvestorDocumentTitles } from "../../../documents/utils";
 import { DocumentLabel } from "../../../shared/DocumentLink";

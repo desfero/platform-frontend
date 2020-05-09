@@ -9,6 +9,7 @@ import {
 import { BrowserWalletError } from "../../../lib/web3/browser-wallet/BrowserWallet";
 import { LedgerError } from "../../../lib/web3/ledger-wallet/errors";
 import { LightError } from "../../../lib/web3/light-wallet/LightWallet";
+import { ETxType } from "../../../lib/web3/types";
 import {
   InvalidChangeIdError,
   InvalidRlpDataError,
@@ -39,7 +40,7 @@ import {
   selectAreTherePlatformPendingTxs,
   selectExternalPendingTransaction,
 } from "../monitor/selectors";
-import { ETxType, TAdditionalDataByType } from "../types";
+import { TAdditionalDataByType } from "../types";
 import { validateGas } from "../validator/sagas";
 import { ETransactionErrorType, ETxSenderState } from "./reducer";
 import { selectTxAdditionalData, selectTxDetails, selectTxType } from "./selectors";

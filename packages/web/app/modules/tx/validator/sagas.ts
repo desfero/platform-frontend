@@ -12,7 +12,7 @@ import { ETxValidationMessages } from "../../../components/translatedMessages/me
 import { createMessage } from "../../../components/translatedMessages/utils";
 import { TGlobalDependencies } from "../../../di/setupBindings";
 import { STIPEND_ELIGIBLE_WALLETS } from "../../../lib/web3/constants";
-import { ITxData } from "../../../lib/web3/types";
+import { ETxType, ITxData } from "../../../lib/web3/types";
 import { NotEnoughEtherForGasError } from "../../../lib/web3/Web3Adapter";
 import { TAppGlobalState } from "../../../store";
 import { actions, TAction } from "../../actions";
@@ -21,7 +21,6 @@ import { selectEtherBalance } from "../../wallet/selectors";
 import { selectWalletType } from "../../web3/selectors";
 import { generateInvestmentTransaction } from "../transactions/investment/sagas";
 import { selectMaximumInvestment } from "../transactions/investment/selectors";
-import { ETxType } from "../types";
 import { EValidationState } from "./reducer";
 import { selectInvestmentFLow } from "./selectors";
 import { txValidateTokenTransfer } from "./transfer/token-transfer/sagas";

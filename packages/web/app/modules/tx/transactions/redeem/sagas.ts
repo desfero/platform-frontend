@@ -9,7 +9,7 @@ import {
 import BigNumber from "bignumber.js";
 
 import { TGlobalDependencies } from "../../../../di/setupBindings";
-import { ITxData } from "../../../../lib/web3/types";
+import { ETxType, ITxData } from "../../../../lib/web3/types";
 import { actions } from "../../../actions";
 import { EBankTransferType } from "../../../bank-transfer-flow/reducer";
 import {
@@ -23,7 +23,6 @@ import { neuCall, neuTakeLatest } from "../../../sagasUtils";
 import { selectLiquidEuroTokenBalance } from "../../../wallet/selectors";
 import { selectEthereumAddress } from "../../../web3/selectors";
 import { txSendSaga } from "../../sender/sagas";
-import { ETxType } from "../../types";
 
 function* generateNeuWithdrawTransaction(
   { contractsService, web3Manager }: TGlobalDependencies,

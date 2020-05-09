@@ -3,8 +3,8 @@ import { action } from "@storybook/addon-actions";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { ITxData } from "../../../../lib/web3/types";
-import { ETxType, TAdditionalDataByType } from "../../../../modules/tx/types";
+import { ETxType, ITxData } from "../../../../lib/web3/types";
+import { TAdditionalDataByType } from "../../../../modules/tx/types";
 import { withModalBody } from "../../../../utils/react-connected-components/storybookHelpers.unsafe";
 import { RefundSummaryLayout } from "./RefundSummary";
 

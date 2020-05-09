@@ -12,9 +12,6 @@ import { TUnlockAdditionalData } from "./transactions/unlock/types";
 import { TUpgradeAdditionalData } from "./transactions/upgrade/types";
 import { TWithdrawAdditionalData } from "./transactions/withdraw/types";
 
-// todo: change all exports
-export { ETxType } from "../../lib/web3/types";
-
 export interface IWithdrawDraftType {
   type: ETxType.WITHDRAW;
   to: string;

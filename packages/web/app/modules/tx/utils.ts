@@ -6,11 +6,11 @@ import { TxData } from "web3";
 import { ECurrency } from "../../components/shared/formatters/utils";
 import { ETransactionDirection, ETransactionType } from "../../lib/api/analytics-api/interfaces";
 import { TxPendingWithMetadata } from "../../lib/api/users/interfaces";
-import { TBigNumberVariants } from "../../lib/web3/types";
+import { ETxType, TBigNumberVariants } from "../../lib/web3/types";
 import { EInvestmentType } from "../investment-flow/reducer";
 import { ITokenDisbursal } from "../investor-portfolio/types";
 import { ETxSenderState } from "./sender/reducer";
-import { ETxType, TPendingTransactionType } from "./types";
+import { TPendingTransactionType } from "./types";
 
 export const GAS_PRICE_MULTIPLIER = 1 + parseFloat(process.env.NF_GAS_PRICE_OVERHEAD || "0");
 

@@ -1,4 +1,4 @@
-import { ETxType } from "../types";
+import { ETxType } from "../../../lib/web3/types";
 
 export class TxMonitorError extends Error {}
 
