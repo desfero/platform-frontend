@@ -6,8 +6,12 @@ import { TGlobalDependencies } from "../../../di/setupBindings";
 import {
   EWalletConnectEventTypes,
   TWalletConnectEvents,
+  WalletConnectConnector,
 } from "../../../lib/web3/wallet-connect/WalletConnectConnector";
-import { WalletConnectSessionRejectedError } from "../../../lib/web3/wallet-connect/WalletConnectWallet";
+import {
+  WalletConnectChainIdError,
+  WalletConnectSessionRejectedError,
+} from "../../../lib/web3/wallet-connect/WalletConnectWallet";
 import { actions, TActionFromCreator } from "../../actions";
 import { EAuthStatus } from "../../auth/reducer";
 import { selectAuthStatus } from "../../auth/selectors";
@@ -52,7 +56,7 @@ function* startWalletConnectEventChannel(
 
 export function* walletConnectInit({
   walletConnectConnector,
-}: TGlobalDependencies): Generator<any, void, any> {
+}: TGlobalDependencies): Generator<any, WalletConnectConnector, any> {
   const channel = eventChannel<TWalletConnectEvents>(emit => {
     walletConnectConnector.on(EWalletConnectEventTypes.SESSION_REQUEST, uri =>
       emit({ type: EWalletConnectEventTypes.SESSION_REQUEST, payload: { uri } }),
@@ -78,13 +82,15 @@ export function* walletConnectInit({
     };
   });
   yield put(actions.walletSelector.walletConnectStartEventListeners(channel));
-  return yield walletConnectConnector.connect();
+  return walletConnectConnector;
 }
 
 //todo move to utils
 export const mapWalletConnectErrorsToMessages = (error: Error) => {
   if (error instanceof WalletConnectSessionRejectedError) {
     return createMessage(WalletConnectErrorMessage.WC_SESSION_REJECTED_ERROR);
+  } else if (error instanceof WalletConnectChainIdError) {
+    return createMessage(WalletConnectErrorMessage.WC_SESSION_INVALID_CHAIN_ID);
   } else {
     return createMessage(WalletConnectErrorMessage.WC_GENERIC_ERROR);
   }
@@ -92,10 +98,12 @@ export const mapWalletConnectErrorsToMessages = (error: Error) => {
 
 export function* walletConnectStart({
   web3Manager,
+  walletConnectConnector,
   logger,
 }: TGlobalDependencies): Generator<any, void, any> {
   try {
-    const wc = yield neuCall(walletConnectInit);
+    yield neuCall(walletConnectInit);
+    const wc = yield walletConnectConnector.connect();
     yield web3Manager.plugPersonalWallet(wc);
     yield* call(walletSelectorConnect, undefined, undefined);
   } catch (e) {
@@ -106,17 +114,6 @@ export function* walletConnectStart({
 }
 
 export function* walletConnectStop({
-  walletConnectConnector,
-  logger,
-}: TGlobalDependencies): Generator<any, void, any> {
-  try {
-    yield walletConnectConnector.disconnect();
-  } catch (e) {
-    logger.error(`walletConnectStop error: ${e}`);
-  }
-}
-
-export function* walletConnectCancelSession({
   walletConnectConnector,
   logger,
 }: TGlobalDependencies): Generator<any, void, any> {
@@ -136,16 +133,12 @@ export function* logutOnWalletDisconnect(_: TGlobalDependencies): Generator<any,
 
 export function* walletConnectSagas(): Generator<any, void, any> {
   yield fork(neuTakeEvery, actions.walletSelector.walletConnectStart, walletConnectStart);
-  yield fork(
-    neuTakeLatest,
-    actions.walletSelector.walletConnectRestoreConnection,
-    walletConnectInit,
-  );
+  yield fork(neuTakeLatest, actions.walletSelector.walletConnectInit, walletConnectInit);
   yield fork(neuTakeEvery, actions.walletSelector.walletConnectStop, walletConnectStop);
   yield fork(
     neuTakeEvery,
     actions.walletSelector.walletConnectSessionRequestTimeout,
-    walletConnectCancelSession,
+    walletConnectStop,
   );
   yield fork(
     neuTakeEvery,

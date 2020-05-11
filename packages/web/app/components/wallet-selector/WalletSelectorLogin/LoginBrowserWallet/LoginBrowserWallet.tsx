@@ -10,6 +10,7 @@ import {
   TBrowserWalletRegisterData,
 } from "../../../../modules/wallet-selector/types";
 import { appConnect } from "../../../../store";
+import { onEnterAction } from "../../../../utils/react-connected-components/OnEnterAction";
 import { EContentWidth } from "../../../layouts/Content";
 import { TransitionalLayout, TTransitionalLayoutProps } from "../../../layouts/Layout";
 import { LoadingIndicator } from "../../../shared/loading-indicator";
@@ -35,6 +36,11 @@ export const LoginBrowserWallet = compose(
         dispatch(actions.walletSelector.tryConnectingWithBrowserWallet());
       },
     }),
+  }),
+  onEnterAction({
+    actionCreator: dispatch => {
+      dispatch(actions.walletSelector.browserWalletSignMessage());
+    },
   }),
   branch<TBrowserWalletRegisterData>(
     ({ uiState }) => uiState === ECommonWalletRegistrationFlowState.REGISTRATION_WALLET_LOADING,

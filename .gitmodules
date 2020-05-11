@@ -1,7 +1,3 @@
 [submodule "git_modules/platform-contracts-artifacts"]
 	path = git_modules/platform-contracts-artifacts
 	url = https://github.com/Neufund/platform-contracts-artifacts.git
-[submodule "git_modules/walletconnect-monorepo"]
-	path = git_modules/walletconnect-monorepo
-	url = https://github.com/Neufund/walletconnect-monorepo.git
-	branch = wip

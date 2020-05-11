@@ -25,4 +25,8 @@ export interface IPersonalWallet {
   getMetadata(): TWalletMetadata;
 
   isUnlocked(): boolean;
+
+  // unplugs wallet from provider ie. ending wallet connect session
+  // called on user logout by web3 manager
+  unplug(): Promise<void>;
 }

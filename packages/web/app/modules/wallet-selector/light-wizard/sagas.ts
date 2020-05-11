@@ -173,6 +173,7 @@ export function* connectAndRestoreLightWallet(
     },
     userType,
     email: registerFormDefaultValues.email,
+    salt: walletMetadata.salt,
     tos: registerFormDefaultValues.tos,
     backupCodesVerified: true,
   });

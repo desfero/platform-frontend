@@ -10,105 +10,105 @@ import { createMessage } from "../../../components/translatedMessages/utils";
 import { USERS_WITH_ACCOUNT_SETUP } from "../../../config/constants";
 import { TGlobalDependencies } from "../../../di/setupBindings";
 import { IVerifyEmailUser } from "../../../lib/api/users/interfaces";
-import { EmailAlreadyExists } from "../../../lib/api/users/UsersApi";
+import { EmailActivationCodeMismatch, EmailAlreadyExists } from "../../../lib/api/users/UsersApi";
 import { TStoredWalletMetadata } from "../../../lib/persistence/WalletStorage";
 import { TAppGlobalState } from "../../../store";
 import { actions } from "../../actions";
 import { userHasKycAndEmailVerified } from "../../eto-flow/selectors";
 import { selectIsVerifyEmailRedirect } from "../../routing/selectors";
 import { neuCall, neuTakeEvery } from "../../sagasUtils";
-import {
-  selectActivationCodeFromQueryString,
-  selectEmailFromQueryString,
-  selectWalletType,
-} from "../../web3/selectors";
+import { selectActivationCodeFromQueryString, selectWalletType } from "../../web3/selectors";
 import { EWalletType } from "../../web3/types";
 import {
   selectIsAgreementAccepted,
   selectUnverifiedUserEmail,
-  selectUserEmail,
   selectUserType,
   selectVerifiedUserEmail,
 } from "../selectors";
-import { ELogoutReason } from "../types";
 import { loadUser } from "../user/external/sagas";
 
 /**
  * Email Verification
  */
-export function* verifyUserEmail({
-  notificationCenter,
+export function* processVerifyEmailLink({
   walletStorage,
+  notificationCenter,
 }: TGlobalDependencies): Generator<any, any, any> {
-  const userCode = yield* select(selectActivationCodeFromQueryString);
-  const urlEmail = yield* select(selectEmailFromQueryString);
-  const userEmail = yield* select((s: TAppGlobalState) => selectUserEmail(s.auth));
+  const walletMetadata = (yield* call(() => walletStorage.get()))!;
+  const unverifiedEmail = yield* select((s: TAppGlobalState) => selectUnverifiedUserEmail(s.auth));
+  // we ignore everything in the activation link except the code. e-mails may be spoofed or mangled by mail clients
+  const userCode = (yield* select(selectActivationCodeFromQueryString))!;
 
-  if (userCode === undefined || urlEmail === undefined) {
-    yield put(actions.auth.logout());
-    yield notificationCenter.error(
-      {
-        messageType: AuthMessage.AUTH_EMAIL_VERIFICATION_FAILED,
-      },
-      { "data-test-id": "modules.auth.sagas.verify-user-email.toast.verification-failed" },
+  function* goHome(): Generator<any, any, any> {
+    const userType = yield* select((s: TAppGlobalState) => selectUserType(s));
+    const kycAndEmailVerified = yield* select((s: TAppGlobalState) =>
+      userHasKycAndEmailVerified(s),
     );
-    return;
-  }
 
-  if (userEmail && userEmail !== urlEmail) {
-    // Logout if there is different user session active
-    yield put(actions.auth.logout({ logoutType: ELogoutReason.ALREADY_LOGGED_IN }));
-    yield notificationCenter.error(
-      {
-        messageType: AuthMessage.AUTH_EMAIL_VERIFICATION_FAILED_SAME_EMAIL,
-      },
-      { "data-test-id": "modules.auth.sagas.verify-user-email.toast.verification-failed" },
-    );
-    return;
-  }
-
-  const verifiedEmail = yield* select((s: TAppGlobalState) => selectVerifiedUserEmail(s.auth));
-
-  yield neuCall(verifyUserEmailPromise, userCode, urlEmail, verifiedEmail);
-  yield neuCall(loadUser);
-
-  const walletMetadata = yield* call(() => walletStorage.get());
-  // Update metadata email only when wallet type is LightWallet
-  if (walletMetadata && walletMetadata.walletType === EWalletType.LIGHT) {
-    const updatedMetadata: TStoredWalletMetadata = { ...walletMetadata, email: urlEmail };
-    yield* call(() => walletStorage.set(updatedMetadata));
-  }
-
-  const userType = yield* select((s: TAppGlobalState) => selectUserType(s));
-  const kycAndEmailVerified = yield* select((s: TAppGlobalState) => userHasKycAndEmailVerified(s));
-
-  if (!kycAndEmailVerified && includes(userType, USERS_WITH_ACCOUNT_SETUP)) {
-    yield put(actions.routing.goToDashboard());
-  } else {
-    yield put(actions.routing.goToProfile());
-  }
-}
-
-export async function verifyUserEmailPromise(
-  { apiUserService, notificationCenter }: TGlobalDependencies,
-  userCode: IVerifyEmailUser,
-  urlEmail: string,
-  verifiedEmail: string | undefined,
-): Promise<void> {
-  if (urlEmail === verifiedEmail) {
-    return;
-  }
-  if (!userCode) return;
-  try {
-    await apiUserService.verifyUserEmail(userCode);
-    notificationCenter.info(createMessage(AuthMessage.AUTH_EMAIL_VERIFIED));
-  } catch (e) {
-    if (e instanceof EmailAlreadyExists) {
-      notificationCenter.error(createMessage(AuthMessage.AUTH_EMAIL_ALREADY_EXISTS));
+    if (!kycAndEmailVerified && includes(userType, USERS_WITH_ACCOUNT_SETUP)) {
+      yield put(actions.routing.goToDashboard());
     } else {
-      notificationCenter.error(createMessage(AuthMessage.AUTH_EMAIL_VERIFICATION_FAILED));
+      yield put(actions.routing.goToProfile());
     }
   }
+
+  if (walletMetadata.walletType === EWalletType.LIGHT) {
+    // in case of light wallet email activation link will be also used to login so dealing with invalid activation
+    // codes is normal
+    if (unverifiedEmail === undefined) {
+      // if there's nothing to activate - exit
+      yield* goHome();
+      return;
+    }
+  } else {
+    // in case of other wallets say e-mail is already activated
+    if (unverifiedEmail === undefined) {
+      yield notificationCenter.error(createMessage(AuthMessage.AUTH_EMAIL_ALREADY_VERIFIED));
+      yield* goHome();
+      return;
+    }
+  }
+
+  const activated: boolean = yield neuCall(verifyUserEmailPromise, userCode);
+  if (!activated) {
+    // there was a problem when activating - go to profile for full overview
+    yield put(actions.routing.goToProfile());
+    return;
+  }
+  yield neuCall(loadUser);
+  // Update metadata email only when wallet type is LightWallet
+  if (walletMetadata.walletType === EWalletType.LIGHT) {
+    const verifiedEmail = yield* select((s: TAppGlobalState) => selectVerifiedUserEmail(s.auth));
+    const updatedMetadata: TStoredWalletMetadata = { ...walletMetadata, email: verifiedEmail! };
+    yield* call(() => walletStorage.set(updatedMetadata));
+  }
+  yield* goHome();
+}
+
+async function verifyUserEmailPromise(
+  { apiUserService, notificationCenter }: TGlobalDependencies,
+  userCode: IVerifyEmailUser,
+): Promise<boolean> {
+  try {
+    await apiUserService.verifyUserEmail(userCode);
+    await notificationCenter.info(createMessage(AuthMessage.AUTH_EMAIL_VERIFIED));
+  } catch (e) {
+    const toast = (message: AuthMessage) =>
+      notificationCenter.error(createMessage(message), {
+        "data-test-id": `modules.auth.sagas.verify-user-email.toast.verification-failed-${message}`,
+      });
+
+    if (e instanceof EmailAlreadyExists) {
+      await toast(AuthMessage.AUTH_EMAIL_ALREADY_EXISTS);
+    } else if (e instanceof EmailActivationCodeMismatch) {
+      await toast(AuthMessage.AUTH_EMAIL_VERIFICATION_CODE_MISMATCH);
+    } else {
+      await toast(AuthMessage.AUTH_EMAIL_VERIFICATION_FAILED);
+    }
+    return false;
+  }
+
+  return true;
 }
 
 export async function isEmailAvailablePromise(
@@ -121,7 +121,7 @@ export async function isEmailAvailablePromise(
 
 export function* checkForPendingEmailVerification(): Generator<any, void, any> {
   const tosAccepted = yield* select(selectIsAgreementAccepted);
-  const unverifiedEmail = yield* select(selectUnverifiedUserEmail);
+  const unverifiedEmail = yield* select((s: TAppGlobalState) => selectUnverifiedUserEmail(s.auth));
 
   // this is a workaround for #3942 (see QA's comment).
   // this can be done in a much nicer way after implementing route-based saga approach
@@ -143,5 +143,5 @@ export function* checkForPendingEmailVerification(): Generator<any, void, any> {
 }
 
 export function* authEmailSagas(): Generator<any, any, any> {
-  yield fork(neuTakeEvery, actions.auth.verifyEmail, verifyUserEmail);
+  yield fork(neuTakeEvery, actions.auth.verifyEmailLink, processVerifyEmailLink);
 }

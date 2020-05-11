@@ -32,7 +32,7 @@ export const RegisterLedger = compose<TWalletRegisterData, {}>(
     }),
     dispatchToProps: dispatch => ({
       submitForm: (email: string) =>
-        dispatch(actions.walletSelector.browserWalletRegisterFormData(email, true)),
+        dispatch(actions.walletSelector.genericWalletRegisterFormData(email, true)),
       closeAccountChooser: () => {
         dispatch(actions.walletSelector.ledgerCloseAccountChooser());
       },

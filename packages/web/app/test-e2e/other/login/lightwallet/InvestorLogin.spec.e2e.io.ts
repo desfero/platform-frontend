@@ -2,6 +2,8 @@ import { appRoutes } from "../../../../components/appRoutes";
 import { stubChallengeApiRequest } from "../../../utils/apiStubs";
 import {
   assertDashboard,
+  assertLogin,
+  assertProfile,
   assertVerifyEmailWidgetIsInVerfiedEmailState,
   assertWaitForLatestEmailSentWithSalt,
   createAndLoginNewUser,
@@ -14,6 +16,7 @@ import {
   logoutViaAccountMenu,
   registerWithLightWallet,
   tid,
+  tidStartsWith,
   verifyLatestUserEmailAccountSetup,
 } from "../../../utils/index";
 
@@ -101,7 +104,7 @@ describe("Investor", () => {
     });
   });
 
-  it("should logout previous user when email activation occurs #login #p3", () => {
+  it("should kepp user logged in on invalid access code and silence toaster when verified #login #p3", () => {
     registerWithLightWallet(email, password);
     assertDashboard();
 
@@ -119,17 +122,34 @@ describe("Investor", () => {
 
       // Asserts if error toast shows up
       // @SEE https://github.com/Neufund/platform-frontend/issues/2709
-      cy.get(tid("modules.auth.sagas.verify-user-email.toast.verification-failed")).should("exist");
-
-      cy.get(tid("light-wallet-login-with-email-email-field")).contains(email);
-      cy.get(tid("light-wallet-login-with-email-password-field")).type(password);
-      cy.get(tid("wallet-selector-nuewallet.login-button")).click();
-
-      assertDashboard();
-      goToProfile();
-      // email should be verified
-      assertVerifyEmailWidgetIsInVerfiedEmailState();
-      cy.get(tid("profile.verify-email-widget.verified-email")).contains(email);
+      cy.get(
+        tidStartsWith("modules.auth.sagas.verify-user-email.toast.verification-failed"),
+      ).should("exist");
+      // user B looks goes to dashboard
+      assertProfile();
+      // activate user B
+      getLatestVerifyUserEmailLink(newEmail).then(activationLinkB => {
+        cy.visit(activationLinkB);
+        assertDashboard();
+        goToProfile();
+        assertProfile();
+        // email should be verified
+        assertVerifyEmailWidgetIsInVerfiedEmailState();
+        cy.get(tid("profile.verify-email-widget.verified-email")).contains(newEmail);
+        logoutViaAccountMenu();
+        // login via link
+        cy.visit(activationLinkB);
+        assertLogin();
+        cy.get(tid("light-wallet-login-with-email-email-field")).contains(newEmail);
+        cy.get(tid("light-wallet-login-with-email-password-field")).type(password);
+        cy.get(tid("wallet-selector-nuewallet.login-button")).click();
+        assertDashboard();
+        cy.visit(activationLinkB);
+        assertDashboard();
+        cy.get(tidStartsWith("modules.auth.sagas.verify-user-email.toast.verification-failed"), {
+          timeout: 2000,
+        }).should("not.exist");
+      });
     });
   });
 });

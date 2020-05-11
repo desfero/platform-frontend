@@ -1,5 +1,6 @@
 import { danger, fail, message } from "danger";
 import { writeFileSync } from "fs";
+import { uniq } from "lodash";
 
 const main = (): void => {
   checkPackageLock();
@@ -18,19 +19,20 @@ function checkPackageLock(): void {
   message("No Package lock detected");
 }
 
-// We will always run these tests
-const alwaysRunningTests: string = "#p1&#p2";
+// We will always run these tests in PR
+const alwaysRunningTests = ["#p1", "#p2"];
 
 function getE2ETestTags(): void {
+  // if it's github pr read tags from pr body.
+  // in case of time triggered builds run all e2e tests
   const prBody = danger.github.pr.body;
-  // Replacing `,` with ` ` is done for readability purposes only
-  const tags = [...new Set(prBody.replace(",", " ").match(/#\w+/g))].join("&");
 
-  let resultTags = tags ? [alwaysRunningTests, tags].join("&") : alwaysRunningTests;
+  const tags = prBody.match(/#\w+/g) ?? [];
+  const allTags = uniq(alwaysRunningTests.concat(tags));
 
-  writeFileSync("./e2e-test-tags", resultTags);
+  writeFileSync("./e2e/e2e-test-tags", allTags.join("&"));
 
-  message("Tags written to the file");
+  message(`Running tests for ${allTags.join(", ")}`);
 }
 
 main();

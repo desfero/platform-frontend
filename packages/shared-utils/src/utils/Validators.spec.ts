@@ -2,29 +2,35 @@ import { expect } from "chai";
 
 import { derivationPathPrefixValidator } from "./Validators";
 
-const DEFAULT_DERIVATION_PATH_PREFIX = "44'/60'/0'/";
-
 describe("Validators", () => {
   describe("derivationPathPrefixValidator", () => {
-    const correctPrefix = DEFAULT_DERIVATION_PATH_PREFIX;
-    const incorrectPrefix = [
+    const correctPrefixes = [
+      "44'/60'/0'/0",
+      "44'/60'/0'/1",
+      "44'/60'/0'/12",
+      "44'/60'/1'/0",
+      "44'/60'/1'/1",
+      "44'/60'/1'/12",
+    ];
+    const incorrectPrefixes = [
+      "44'/60'/0'/0'",
       "44'/60'/0'/2/",
       "44'/62'/0'/0",
       "44'/60'/0'/0a",
       "a44'/60'/0'/0",
       "44'/60'/0'/0'/s",
+      "44'/62'/0'/0'",
     ];
 
     it("should return null for correct prefix path", () => {
-      expect(derivationPathPrefixValidator(correctPrefix)).to.be.null;
+      for (const dp of correctPrefixes) {
+        expect(derivationPathPrefixValidator(dp)).to.be.true;
+      }
     });
 
     it("should return string message for incorrect prefix path", () => {
-      for (const dp of incorrectPrefix) {
-        const validationResult = derivationPathPrefixValidator(dp);
-        expect(validationResult).to.be.not.null;
-        expect(validationResult).to.be.a("string");
-        expect(validationResult!.length).to.be.greaterThan(0);
+      for (const dp of incorrectPrefixes) {
+        expect(derivationPathPrefixValidator(dp)).to.be.false;
       }
     });
   });

@@ -29,4 +29,4 @@ export const PAYOUT_POLLING_DELAY = 1000;
 export const USERS_WITH_ACCOUNT_SETUP = [EUserType.NOMINEE, EUserType.INVESTOR];
 
 export const WC_DEFAULT_SESSION_REQUEST_TIMEOUT = minutesToMs(10);
-export const WC_DEFAULT_SIGN_TIMEOUT = minutesToMs(2);
+export const WC_DEFAULT_SIGN_TIMEOUT = minutesToMs(10);

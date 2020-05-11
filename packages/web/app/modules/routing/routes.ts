@@ -6,7 +6,6 @@ import { matchPath } from "react-router";
 import { appRoutes } from "../../components/appRoutes";
 import { profileRoutes } from "../../components/settings/routes";
 import { e2eRoutes } from "../../components/testing/e2eRoutes";
-import { walletLoginRoutes } from "../../components/wallet-selector/WalletSelectorLogin/wallet-routes";
 import { TGlobalDependencies } from "../../di/setupBindings";
 import { EUserType } from "../../lib/api/users/interfaces";
 import { actions } from "../actions";
@@ -440,22 +439,6 @@ export function* loginRoute(payload: RouterState): Generator<any, any, any> {
   const loginMatch = yield matchPath(payload.location.pathname, {
     path: appRoutes.login,
   });
-
-  const matchLedgerRoute = yield matchPath(payload.location.pathname, {
-    path: walletLoginRoutes.ledger,
-  });
-
-  const matchBrowserRoute = yield matchPath(payload.location.pathname, {
-    path: walletLoginRoutes.browser,
-  });
-
-  if (matchLedgerRoute) {
-    yield put(actions.walletSelector.loginWithLedger());
-  }
-
-  if (matchBrowserRoute) {
-    yield put(actions.walletSelector.browserWalletSignMessage());
-  }
 
   return yield routeAction(loginMatch, {
     notAuth: undefined,

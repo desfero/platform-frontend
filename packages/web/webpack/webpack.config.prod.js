@@ -26,7 +26,7 @@ module.exports = merge.smart(configCommon, {
       new TerserPlugin({
         // CircleCI doesn't provide real available CPU's
         // see: https://github.com/webpack-contrib/terser-webpack-plugin/issues/202
-        parallel: isCircleCI() ? 2 : true,
+        parallel: isCircleCI() ? 1 : true,
         terserOptions: {
           mangle: {
             // for details see https://github.com/ethereum/web3.js/issues/1356

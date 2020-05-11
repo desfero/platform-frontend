@@ -8,7 +8,7 @@ import { isEmailAvailablePromise } from "../../auth/email/sagas";
 import { TBaseUiData } from "../sagas";
 import {
   ECommonWalletRegistrationFlowState,
-  TBrowserWalletFormValues,
+  TGenericWalletFormValues,
   TLightWalletFormValues,
 } from "../types";
 
@@ -35,8 +35,8 @@ export function* registerForm(
     afterRegistrationGenerator: (() => Generator<any, unknown, any>) | undefined;
     expectedAction:
       | typeof actions.walletSelector.lightWalletRegisterFormData
-      | typeof actions.walletSelector.browserWalletRegisterFormData;
-    initialFormValues: TBrowserWalletFormValues | TLightWalletFormValues;
+      | typeof actions.walletSelector.genericWalletRegisterFormData;
+    initialFormValues: TGenericWalletFormValues | TLightWalletFormValues;
     baseUiData: TBaseUiData;
     userEmail?: string;
   },

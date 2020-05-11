@@ -7,7 +7,7 @@ import { compose } from "recompose";
 import * as Yup from "yup";
 
 import { externalRoutes } from "../../../../config/externalRoutes";
-import { TBrowserWalletFormValues } from "../../../../modules/wallet-selector/types";
+import { TGenericWalletFormValues } from "../../../../modules/wallet-selector/types";
 import { Form } from "../../../shared/forms/Form";
 import { getMessageTranslation } from "../../../translatedMessages/messages";
 import { TMessage } from "../../../translatedMessages/utils";
@@ -18,7 +18,7 @@ type TEmailTosFormProps = {
   intl: IIntlHelpers;
   isLoading: boolean;
   submitForm: (email: string, tos: boolean) => void;
-  initialFormValues: TBrowserWalletFormValues;
+  initialFormValues: TGenericWalletFormValues;
   errorMessage: TMessage | undefined;
 };
 
@@ -45,12 +45,12 @@ export const BrowserWalletAskForEmailAndTosForm: React.FunctionComponent<TEmailT
   initialFormValues,
   errorMessage,
 }) => (
-  <Form<TBrowserWalletFormValues>
+  <Form<TGenericWalletFormValues>
     validationSchema={validationSchema}
     initialValues={initialFormValues}
     initialErrors={
       { email: errorMessage && getMessageTranslation(errorMessage) } as FormikErrors<
-        TBrowserWalletFormValues
+        TGenericWalletFormValues
       >
     }
     initialTouched={{ email: !!errorMessage }}

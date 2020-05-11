@@ -85,7 +85,7 @@ const LoginLightWalletForm: React.FunctionComponent<TProps & FormikProps<IFormVa
         type="submit"
         layout={EButtonLayout.PRIMARY}
         width={EButtonWidth.BLOCK}
-        disabled={!props.isValid}
+        disabled={!props.values.password}
         isLoading={props.isLoading}
         data-test-id="wallet-selector-nuewallet.login-button"
         className={styles.buttons}

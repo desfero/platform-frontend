@@ -96,6 +96,7 @@ export const staticValues = (
       contracts: state.contracts,
       init: { ...initInitialState, smartcontractsInit: state.init.smartcontractsInit },
       web3: createInitialWeb3State(state),
+      browser: state.browser,
     };
   }
 

@@ -14,10 +14,10 @@ import {
   TWalletRegisterData,
 } from "../../../../modules/wallet-selector/types";
 import { appConnect } from "../../../../store";
+import { onEnterAction } from "../../../../utils/react-connected-components/OnEnterAction";
 import { EContentWidth } from "../../../layouts/Content";
 import { TransitionalLayout, TTransitionalLayoutProps } from "../../../layouts/Layout";
 import { LoadingIndicator } from "../../../shared/loading-indicator/LoadingIndicator";
-import { shouldNeverHappen } from "../../../shared/NeverComponent";
 import { LedgerErrorMessage } from "../../../translatedMessages/messages";
 import { TMessage } from "../../../translatedMessages/utils";
 import { DefaultLedgerError } from "../../shared/ledger-wallet/DefaultLedgerError/DefaultLedgerError";
@@ -43,6 +43,11 @@ export const LoginWalletLedger = compose<{}, {}>(
     dispatchToProps: dispatch => ({
       tryToEstablishConnectionWithLedger: () => dispatch(actions.walletSelector.ledgerReconnect()),
     }),
+  }),
+  onEnterAction({
+    actionCreator: dispatch => {
+      dispatch(actions.walletSelector.loginWithLedger());
+    },
   }),
   branch<IWalletLedgerStateProps>(
     ({ uiState }) => uiState === ELedgerRegistrationFlowState.LEDGER_ACCOUNT_CHOOSER,
@@ -96,4 +101,4 @@ export const LoginWalletLedger = compose<{}, {}>(
     ({ uiState }) => uiState === ECommonWalletRegistrationFlowState.REGISTRATION_WALLET_SIGNING,
     renderComponent(LoadingIndicator),
   ),
-)(shouldNeverHappen("LoginWalletLedger reached default branch"));
+)(() => null);

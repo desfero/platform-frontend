@@ -17,6 +17,7 @@ import {
 import { TAppGlobalState } from "../../../store";
 import { actions, TActionFromCreator } from "../../actions";
 import { EInitType } from "../../init/reducer";
+import { restartServices } from "../../init/sagas";
 import { loadKycRequestData } from "../../kyc/sagas";
 import { selectRedirectURLFromQueryString } from "../../routing/selectors";
 import {
@@ -76,27 +77,26 @@ export function* signInUser(
     cleanupGenerator,
     userType,
     email,
+    salt,
     tos = false,
     backupCodesVerified = false,
   }: {
     cleanupGenerator?: () => Generator<any, void, any>;
     userType: EUserType;
     email?: string;
+    salt?: string;
     tos?: boolean;
     backupCodesVerified?: boolean;
   },
 ): Generator<any, any, any> {
   try {
-    yield neuCall(authModuleAPI.sagas.createJwt, [
-      EJwtPermissions.SIGN_TOS,
-      EJwtPermissions.CHANGE_EMAIL_PERMISSION,
-    ]);
+    yield neuCall(authModuleAPI.sagas.createJwt, [EJwtPermissions.SIGN_TOS]);
     yield put(
       actions.walletSelector.setWalletRegisterData({
         uiState: ECommonWalletRegistrationFlowState.REGISTRATION_WALLET_LOADING,
       }),
     );
-    yield neuCall(loadOrCreateUser, userType, email, tos, backupCodesVerified);
+    yield neuCall(loadOrCreateUser, { userType, email, salt, tos, backupCodesVerified });
     if (tos) yield neuCall(handleAcceptCurrentAgreement);
     yield call(checkForPendingEmailVerification);
 
@@ -132,6 +132,7 @@ export function* signInUser(
     );
   } catch (e) {
     yield neuCall(logoutUser);
+    yield neuCall(restartServices);
     if (e instanceof SignerRejectConfirmationError || e instanceof SignerTimeoutError) {
       throw e;
     } else {
@@ -170,10 +171,19 @@ function* getUsersMeFromApi({
  */
 export function* loadOrCreateUser(
   { apiUserService, web3Manager }: TGlobalDependencies,
-  userType: EUserType,
-  email?: string,
-  tos: boolean = false,
-  backupCodesVerified = false,
+  {
+    userType,
+    email,
+    salt,
+    tos = false,
+    backupCodesVerified = false,
+  }: {
+    userType: EUserType;
+    email?: string;
+    salt?: string;
+    tos?: boolean;
+    backupCodesVerified?: boolean;
+  },
 ): Generator<any, void, any> {
   if (!web3Manager.personalWallet) {
     throw new Error("Personal Wallet must be plugged");
@@ -182,20 +192,35 @@ export function* loadOrCreateUser(
   const userFromApi = yield* neuCall(getUsersMeFromApi);
   let user;
   if (userFromApi) {
-    user = yield* call(apiUserService.updateUser, {
-      ...userFromApi,
-      salt: walletMetadata.salt,
-      walletType: walletMetadata.walletType,
-      walletSubtype: walletMetadata.walletSubType,
-      newEmail: email,
-      backupCodesVerified: backupCodesVerified ? true : undefined,
-    });
+    // we should update wallet in case of
+    // 1. there's a new e-mail provided ie. during recovery or when user re-registers existing wallet
+    // 2. when wallet type/subtype changes ie. someone moves from lightwallet to metamask via key import
+    // 3. backup codes verified flag is set. it cannot be used to unset value
+    if (
+      email ||
+      backupCodesVerified === true ||
+      userFromApi.walletType !== walletMetadata.walletType ||
+      userFromApi.walletSubtype !== walletMetadata.walletSubType
+    ) {
+      //TODO: we need to clean-up the logic above as mentioned in
+      // @See https://github.com/Neufund/platform-frontend/issues/4312
+      user = yield* call(apiUserService.updateUser, {
+        ...userFromApi,
+        salt,
+        walletType: walletMetadata.walletType,
+        walletSubtype: walletMetadata.walletSubType,
+        newEmail: email,
+        backupCodesVerified: backupCodesVerified || userFromApi.backupCodesVerified,
+      });
+    } else {
+      user = userFromApi;
+    }
   } else {
     user = yield* call(apiUserService.createAccount, {
       newEmail: email || walletMetadata?.email,
       backupCodesVerified:
         backupCodesVerified || walletMetadata?.walletType === EWalletType.LIGHT ? false : true,
-      salt: walletMetadata?.salt,
+      salt: salt || walletMetadata?.salt,
       type: userType,
       walletType: walletMetadata.walletType,
       walletSubtype: walletMetadata.walletSubType,

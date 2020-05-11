@@ -66,7 +66,9 @@ export function* addNewEmail(
     : createMessage(ProfileMessage.PROFILE_ADD_EMAIL_TITLE);
 
   const actualVerifiedEmail = yield select((s: TAppGlobalState) => selectVerifiedUserEmail(s.auth));
-  const actualUnverifiedEmail = yield select((s: TAppGlobalState) => selectUnverifiedUserEmail(s));
+  const actualUnverifiedEmail = yield select((s: TAppGlobalState) =>
+    selectUnverifiedUserEmail(s.auth),
+  );
 
   if (email === actualVerifiedEmail) {
     notificationCenter.error(createMessage(ProfileMessage.PROFILE_CHANGE_EMAIL_VERIFIED_EXISTS), {

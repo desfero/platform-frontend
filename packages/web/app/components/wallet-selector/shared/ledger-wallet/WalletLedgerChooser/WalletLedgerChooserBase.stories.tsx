@@ -18,15 +18,14 @@ const account2 = {
 };
 
 const testData = {
-  hasPreviousAddress: false,
+  hasPreviousPage: false,
   loading: false,
   advanced: false,
-  onDerivationPathPrefixChange: () => {},
-  onDerivationPathPrefixError: () => {},
+  onSearch: () => {},
   handleAddressChosen: () => {},
   showPrevAddresses: () => {},
   showNextAddresses: () => {},
-  handleAdvanced: () => {},
+  toggleAdvanced: () => {},
 };
 
 storiesOf("Wallet selector/Ledger", module)

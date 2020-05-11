@@ -119,15 +119,13 @@ export class LedgerWalletConnector {
     derivationPathPrefix: string,
     page: number,
     addressesPerPage: number,
-  ): Promise<IDerivationPathToAddress> => {
-    const derivationPath = derivationPathPrefix + "0";
-
-    return this.getMultipleAccountsFromHdPath(
-      derivationPath,
+  ): Promise<IDerivationPathToAddress> =>
+    this.getMultipleAccountsFromHdPath(
+      derivationPathPrefix,
       page * addressesPerPage,
       addressesPerPage,
     );
-  };
+
   public testConnection = async (): Promise<boolean> => {
     if (!this.getTransport) throw new LedgerNotAvailableError();
 

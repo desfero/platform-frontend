@@ -124,6 +124,15 @@ export function* loadBookBuildingListStats(
 ): Generator<any, any, any> {
   try {
     const etosIds = action.payload.etosIds;
+
+    // there are some edge cases where eto list is empty
+    // therefore there is no need to fetch in batch bookbuilding stats
+    if (etosIds.length === 0) {
+      logger.info("No ETO's to load bookbuilding stats for");
+
+      return;
+    }
+
     const statsListResponse: Record<
       string,
       IBookBuildingStats

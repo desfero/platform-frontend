@@ -3,13 +3,8 @@ import { expect } from "chai";
 import { LedgerErrorMessage } from "../../../components/translatedMessages/messages";
 import { createMessage } from "../../../components/translatedMessages/utils";
 import { actions } from "../../actions";
-import {
-  DEFAULT_DERIVATION_PATH_PREFIX,
-  DEFAULT_LEDGER_ACCOUNTS_PER_PAGE,
-  ILedgerWizardState,
-  ledgerWizardInitialState,
-  ledgerWizardReducer,
-} from "./reducer";
+import { DEFAULT_DERIVATION_PATH_PREFIX, DEFAULT_LEDGER_ACCOUNTS_PER_PAGE } from "./constants";
+import { ILedgerWizardState, ledgerWizardInitialState, ledgerWizardReducer } from "./reducer";
 
 describe("Wallet selector > Ledger wizard > reducer", () => {
   it("should act on LOAD_ACCOUNTS action", () => {
@@ -202,24 +197,7 @@ describe("Wallet selector > Ledger wizard > reducer", () => {
       derivationPathPrefix: newDerivationPath,
       numberOfAccountsPerPage: DEFAULT_LEDGER_ACCOUNTS_PER_PAGE,
       advanced: false,
-    });
-  });
-
-  it("should act on LEDGER_WIZARD_DERIVATION_PATH_PREFIX_ERROR", () => {
-    const newState = ledgerWizardReducer(
-      ledgerWizardInitialState,
-      actions.walletSelector.ledgerWizardDerivationPathPrefixError(),
-    );
-
-    expect(newState).to.be.deep.eq({
-      isInitialConnectionInProgress: false,
-      isConnectionEstablished: false,
-      isLoading: false,
-      accounts: [],
-      index: 0,
-      derivationPathPrefix: "",
-      numberOfAccountsPerPage: 10,
-      advanced: false,
+      errorMsg: undefined,
     });
   });
 

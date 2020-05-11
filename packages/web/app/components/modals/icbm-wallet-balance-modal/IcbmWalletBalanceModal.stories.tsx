@@ -26,7 +26,7 @@ storiesOf("ICBMWalletModalComponent", module)
   .add("Missing Verifications", () => (
     <IcbmWalletBalanceComponentInner
       isOpen={true}
-      isVerificationFullyDone={false}
+      isUserVerified={false}
       lockedWalletConnected={false}
       onCancel={() => {}}
       onGotoWallet={() => {}}
@@ -48,7 +48,7 @@ storiesOf("ICBMWalletModalComponent", module)
   .add("Missing Migration Target", () => (
     <IcbmWalletBalanceComponentInner
       isOpen={true}
-      isVerificationFullyDone={true}
+      isUserVerified={true}
       lockedWalletConnected={false}
       onCancel={() => {}}
       onGotoWallet={() => {}}
@@ -70,7 +70,7 @@ storiesOf("ICBMWalletModalComponent", module)
   .add("Balance Modal All verifications done", () => (
     <IcbmWalletBalanceComponentInner
       isOpen={true}
-      isVerificationFullyDone={true}
+      isUserVerified={true}
       lockedWalletConnected={false}
       onCancel={() => {}}
       onGotoWallet={() => {}}
@@ -92,7 +92,7 @@ storiesOf("ICBMWalletModalComponent", module)
   .add("With All verifications Step 1", () => (
     <IcbmWalletBalanceComponentInner
       isOpen={true}
-      isVerificationFullyDone={true}
+      isUserVerified={true}
       lockedWalletConnected={false}
       onCancel={() => {}}
       onGotoWallet={() => {}}
@@ -115,7 +115,7 @@ storiesOf("ICBMWalletModalComponent", module)
   .add("With All verifications Step 1 Success", () => (
     <IcbmWalletBalanceComponentInner
       isOpen={true}
-      isVerificationFullyDone={true}
+      isUserVerified={true}
       lockedWalletConnected={false}
       onCancel={() => {}}
       onGotoWallet={() => {}}
@@ -139,7 +139,7 @@ storiesOf("ICBMWalletModalComponent", module)
   .add("With All verifications Step 2", () => (
     <IcbmWalletBalanceComponentInner
       isOpen={true}
-      isVerificationFullyDone={true}
+      isUserVerified={true}
       lockedWalletConnected={false}
       onCancel={() => {}}
       onGotoWallet={() => {}}
@@ -162,7 +162,7 @@ storiesOf("ICBMWalletModalComponent", module)
   .add("With All verifications Success", () => (
     <IcbmWalletBalanceComponentInner
       isOpen={true}
-      isVerificationFullyDone={true}
+      isUserVerified={true}
       lockedWalletConnected={true}
       onCancel={() => {}}
       onGotoWallet={() => {}}
@@ -186,7 +186,7 @@ storiesOf("ICBMWalletModalComponent", module)
   .add("Wallet Loading", () => (
     <IcbmWalletBalanceComponentInner
       isOpen={true}
-      isVerificationFullyDone={true}
+      isUserVerified={true}
       lockedWalletConnected={false}
       onCancel={() => {}}
       onGotoWallet={() => {}}

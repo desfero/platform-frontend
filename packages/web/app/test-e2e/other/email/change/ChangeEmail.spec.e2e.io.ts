@@ -1,18 +1,18 @@
 import { DEFAULT_PASSWORD } from "../../../utils/constants";
 import { fillForm } from "../../../utils/forms";
 import {
-  assertDashboard,
   assertEmailChangeAbort,
   assertEmailChangeFlow,
   assertEmailPendingChange,
+  assertProfile,
   confirmAccessModal,
   createAndLoginNewUser,
   generateRandomEmailAddress,
   getLatestVerifyUserEmailLink,
   getWalletMetaData,
   goToProfile,
+  lightWalletTypeLoginInfo,
   lightWalletTypePasswordAndLogin,
-  loginWithLightWallet,
   logoutViaAccountMenu,
   registerWithLightWallet,
   tid,
@@ -42,6 +42,8 @@ describe("Change Email", function(): void {
       email: email,
       "verify-email-widget-form-submit": { type: "submit" },
     });
+
+    confirmAccessModal();
 
     // assert if error message has popped in
     cy.get(tid("profile-email-exists")).should("exist");
@@ -74,25 +76,21 @@ describe("Change Email", function(): void {
     confirmAccessModal();
 
     // assert if new email is pending for verification
-
     assertEmailPendingChange(email, newEmail);
-
-    getLatestVerifyUserEmailLink(newEmail).then(activationLink => {
-      cy.visit(activationLink);
-    });
 
     logoutViaAccountMenu();
 
-    loginWithLightWallet(newEmail, DEFAULT_PASSWORD);
-
-    assertDashboard();
+    getLatestVerifyUserEmailLink(newEmail).then(activationLink => {
+      cy.visit(activationLink);
+      lightWalletTypeLoginInfo(newEmail, DEFAULT_PASSWORD);
+      assertProfile();
+    });
   });
 
   it("should allow to abort email change flow #emailing #p3", () => {
     const newEmail = generateRandomEmailAddress();
 
     goToProfile();
-
     assertEmailChangeFlow();
 
     fillForm({
@@ -110,7 +108,7 @@ describe("Change Email", function(): void {
     assertEmailChangeAbort(email);
   });
 
-  it("should not show unverified email reminder when user is verifying their email #emailing #p3", () => {
+  it("should not show unverified email reminder when after verifying email #emailing #p3", () => {
     goToProfile();
     assertEmailChangeFlow();
 
@@ -123,17 +121,15 @@ describe("Change Email", function(): void {
     confirmAccessModal();
 
     // assert if new email is pending for verification
-
     assertEmailPendingChange(email, newEmail);
 
     logoutViaAccountMenu();
 
     getLatestVerifyUserEmailLink(newEmail).then(activationLink => {
       cy.visit(activationLink);
+      lightWalletTypePasswordAndLogin(DEFAULT_PASSWORD);
+      cy.get(tid("profile.verify-email-widget")).should("exist");
+      cy.get(tid("unverified-email-reminder-modal")).should("not.exist");
     });
-
-    lightWalletTypePasswordAndLogin(DEFAULT_PASSWORD);
-    cy.get(tid("profile.verify-email-widget")).should("exist");
-    cy.get(tid("unverified-email-reminder-modal")).should("not.exist");
   });
 });

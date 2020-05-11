@@ -1,3 +1,4 @@
+import * as cn from "classnames";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
@@ -14,12 +15,12 @@ export const RecoverLightWalletBase: React.FunctionComponent<TStateProps> = ({
 }) => (
   <>
     <div className={styles.wrapper} data-test-id="wallet-selector">
-      <h1 className={styles.title}>
-        <FormattedMessage id="wallet-selector.sign-up" />
+      <h1 className={cn(styles.title, styles.textLeft)}>
+        <FormattedMessage id="account-recovery.seed-check.title" />
       </h1>
-      <section className={styles.main}>
-        <p className={styles.explanation}>
-          <FormattedMessage id="account-recovery.sign-up.description" />
+      <section className={cn(styles.main)}>
+        <p className={cn(styles.explanation, styles.textLeft)}>
+          <FormattedMessage id="account-recovery.import-wallet.description" />
         </p>
         {children}
       </section>

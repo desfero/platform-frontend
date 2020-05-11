@@ -19,10 +19,6 @@
   background-color: transparent;
 }
 
-.advanced {
-  margin-top: px-to-rem(24px);
-}
-
 .explanation {
   width: 100%;
   margin: px-to-rem(20px) 0 px-to-rem(24px);
@@ -34,8 +30,4 @@
   font-family: $font-family-montserrat;
   font-size: px-to-rem(32px);
   font-weight: 600;
-}
-
-.error-message {
-  padding: px-to-rem(20px);
 }

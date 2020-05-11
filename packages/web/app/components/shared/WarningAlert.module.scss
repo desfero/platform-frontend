@@ -11,9 +11,9 @@
   .icon {
     @include rect(20px);
     display: block;
-    margin-right: 5px;
-    margin-left: auto;
-    margin-bottom: px-to-rem(45px);
+    margin-right: px-to-rem(5px);
+    align-self: center;
+    margin-top: px-to-rem(-1px);
   }
 
   &.inline {

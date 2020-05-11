@@ -5,45 +5,33 @@ import {
   WC_DEFAULT_SESSION_REQUEST_TIMEOUT,
   WC_DEFAULT_SIGN_TIMEOUT,
 } from "../../../config/constants";
-import { EWalletSubType, TWcWalletSubtypes } from "../../../modules/web3/types";
+import { EWalletSubType } from "../../../modules/web3/types";
 import { ESignTransactionMethod } from "../types";
 import { generateWalletMetaFormPeerMeta } from "./utils";
 
 describe("peerMeta to walletMeta", () => {
-  it("default", () => {
-    const peerMeta = null;
+  it("metamask", () => {
+    let peerMeta = null;
+
     const expectedWalletMeta = {
-      walletSubType: EWalletSubType.UNKNOWN as TWcWalletSubtypes,
+      walletSubType: EWalletSubType.METAMASK,
       sendTransactionMethod: ESignTransactionMethod.ETH_SEND_TRANSACTION,
-      signerType: ESignerType.ETH_SIGN,
+      signerType: ESignerType.ETH_SIGN_TYPED_DATA_V3,
       signingTimeout: WC_DEFAULT_SIGN_TIMEOUT,
       sessionRequestTimeout: WC_DEFAULT_SESSION_REQUEST_TIMEOUT,
+      expectsEthSignDigest: true,
       supportsExplicitTimeouts: false,
       supportSessionPings: false,
       supportsRemoteKyc: false,
       supportsWalletMigration: false,
     };
     expect(generateWalletMetaFormPeerMeta(peerMeta)).to.be.deep.eq(expectedWalletMeta);
-  });
 
-  it("metamask", () => {
-    const peerMeta = {
-      description: "I'm Metamask",
-      url: "https://666.com",
+    peerMeta = {
+      description: "MetaMask 1.0",
+      url: "https://metamask.org",
       icons: [],
-      name: "Metamask",
-    };
-
-    const expectedWalletMeta = {
-      walletSubType: EWalletSubType.METAMASK as TWcWalletSubtypes,
-      sendTransactionMethod: ESignTransactionMethod.ETH_SEND_TRANSACTION,
-      signerType: ESignerType.ETH_SIGN_TYPED_DATA,
-      signingTimeout: WC_DEFAULT_SIGN_TIMEOUT,
-      sessionRequestTimeout: WC_DEFAULT_SESSION_REQUEST_TIMEOUT,
-      supportsExplicitTimeouts: false,
-      supportSessionPings: false,
-      supportsRemoteKyc: false,
-      supportsWalletMigration: false,
+      name: "MetaMask",
     };
     expect(generateWalletMetaFormPeerMeta(peerMeta)).to.be.deep.eq(expectedWalletMeta);
   });
@@ -57,11 +45,12 @@ describe("peerMeta to walletMeta", () => {
     };
 
     const expectedWalletMeta = {
-      walletSubType: EWalletSubType.NEUFUND as TWcWalletSubtypes,
+      walletSubType: EWalletSubType.NEUFUND,
       sendTransactionMethod: ESignTransactionMethod.ETH_SEND_TRANSACTION,
       signerType: ESignerType.ETH_SIGN,
-      signingTimeout: WC_DEFAULT_SIGN_TIMEOUT,
+      signingTimeout: 120000,
       sessionRequestTimeout: WC_DEFAULT_SESSION_REQUEST_TIMEOUT,
+      expectsEthSignDigest: false,
       supportsExplicitTimeouts: true,
       supportSessionPings: true,
       supportsRemoteKyc: true,
@@ -79,11 +68,12 @@ describe("peerMeta to walletMeta", () => {
     };
 
     const expectedWalletMeta = {
-      walletSubType: EWalletSubType.UNKNOWN as TWcWalletSubtypes,
+      walletSubType: EWalletSubType.UNKNOWN,
       sendTransactionMethod: ESignTransactionMethod.ETH_SEND_TRANSACTION,
       signerType: ESignerType.ETH_SIGN,
       signingTimeout: WC_DEFAULT_SIGN_TIMEOUT,
       sessionRequestTimeout: WC_DEFAULT_SESSION_REQUEST_TIMEOUT,
+      expectsEthSignDigest: true,
       supportsExplicitTimeouts: false,
       supportSessionPings: false,
       supportsRemoteKyc: false,

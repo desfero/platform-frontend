@@ -253,7 +253,7 @@ const VerifiedUserSection: React.FunctionComponent<TVerificationSection> = ({
     return (
       <>
         <Container columnSpan={EColumnSpan.THREE_COL} className="mb-5">
-          <div className={styles.header}>
+          <div className={styles.header} data-test-id="eto-issuer-state">
             <Heading level={2} decorator={false} disableTransform={true} inheritFont={true}>
               <FormattedHTMLMessage tagName="span" id="eto-dashboard.header" />
             </Heading>

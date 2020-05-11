@@ -27,6 +27,7 @@ const USER_API_ROOT = "/api/user";
 export class UserApiError extends Error {}
 export class UserNotExisting extends UserApiError {}
 export class EmailAlreadyExists extends UserApiError {}
+export class EmailActivationCodeMismatch extends UserApiError {}
 
 const ensureWalletTypesInUser = (userApiResponse: IUser): IUser => ({
   ...userApiResponse,
@@ -124,7 +125,7 @@ export class UsersApi {
       baseUrl: USER_API_ROOT,
       url: "/user/me/email-verification",
       responseSchema: UserValidator,
-      allowedStatusCodes: [404, 409],
+      allowedStatusCodes: [404, 409, 403],
       body: userCode,
     });
 
@@ -133,6 +134,9 @@ export class UsersApi {
     }
     if (response.statusCode === 409) {
       throw new EmailAlreadyExists();
+    }
+    if (response.statusCode === 403) {
+      throw new EmailActivationCodeMismatch();
     }
 
     return ensureWalletTypesInUser(response.body);

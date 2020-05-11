@@ -13,7 +13,7 @@ import { IDerivationPathToAddress } from "../../../lib/web3/ledger-wallet/types"
 import { Web3Manager } from "../../../lib/web3/Web3Manager/Web3Manager";
 import { TAppGlobalState } from "../../../store";
 import { actions } from "../../actions";
-import { DEFAULT_DERIVATION_PATH_PREFIX } from "./reducer";
+import { DEFAULT_DERIVATION_PATH_PREFIX } from "./constants";
 import { loadLedgerAccountsEffect } from "./sagas";
 import {
   goToNextPageAndLoadData,
@@ -29,7 +29,7 @@ describe("Wallet selector > Ledger wizard > actions", () => {
           isInitialConnectionInProgress: false,
           index: 1,
           numberOfAccountsPerPage: 10,
-          derivationPathPrefix: "44'/60'/0'/",
+          derivationPathPrefix: "44'/60'/0'/0",
           accounts: [],
           isLoading: false,
           isConnectionEstablished: true,

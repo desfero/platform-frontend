@@ -1,5 +1,5 @@
 import { call, Effect, put, race, select, take } from "@neufund/sagas";
-import { invariant } from "@neufund/shared-utils";
+import { assertNever, invariant } from "@neufund/shared-utils";
 
 import { GenericErrorMessage } from "../../components/translatedMessages/messages";
 import { TMessage } from "../../components/translatedMessages/utils";
@@ -14,6 +14,7 @@ import {
   testWalletPassword,
 } from "../../lib/web3/light-wallet/LightWalletUtils";
 import { IPersonalWallet } from "../../lib/web3/PersonalWeb3";
+import { WalletConnectConnector } from "../../lib/web3/wallet-connect/WalletConnectConnector";
 import { SignerError, Web3Manager } from "../../lib/web3/Web3Manager/Web3Manager";
 import { TAppGlobalState } from "../../store";
 import { actions, TActionFromCreator } from "../actions";
@@ -37,38 +38,56 @@ export function* ensureWalletConnection(
     lightWalletConnector,
     ledgerWalletConnector,
     browserWalletConnector,
+    walletConnectConnector,
   }: TGlobalDependencies,
   password?: string,
-): any {
-  const metadata = yield* call(() => walletStorage.get());
+): Generator<any, IPersonalWallet, any> {
+  let wallet: IPersonalWallet | undefined;
+  const hasWallet = yield web3Manager.hasPluggedWallet();
+  if (hasWallet) {
+    wallet = web3Manager.personalWallet!;
+    // we must unplug old instance of LIGHT wallet to have instance with password
+    if (wallet.walletType === EWalletType.LIGHT) {
+      yield web3Manager.unplugPersonalWallet();
+      wallet = undefined;
+    }
+  }
+  if (!wallet) {
+    const metadata = yield* call(() => walletStorage.get());
+    invariant(metadata, "User has JWT but doesn't have wallet metadata!");
 
-  if (!metadata) return invariant(metadata, "User has JWT but doesn't have wallet metadata!");
+    switch (metadata.walletType) {
+      case EWalletType.LEDGER:
+        wallet = yield connectLedger(ledgerWalletConnector, web3Manager, metadata);
+        break;
+      case EWalletType.BROWSER:
+        wallet = yield connectBrowser(browserWalletConnector, web3Manager);
+        break;
+      case EWalletType.LIGHT:
+        invariant(password, "Light Wallet user without a password");
+        wallet = yield connectLightWallet(lightWalletConnector, metadata, password);
+        break;
+      case EWalletType.WALLETCONNECT:
+        // TODO: having a side effect in wallet selector is not nice, should we wire those events in AppInit?
+        yield put(actions.walletSelector.walletConnectInit());
+        wallet = yield connectWalletConnect(walletConnectConnector);
+        break;
+      default:
+        assertNever(metadata, "Wallet type unrecognized");
+    }
 
-  let wallet: IPersonalWallet;
-  switch (metadata.walletType) {
-    case EWalletType.LEDGER:
-      wallet = yield connectLedger(ledgerWalletConnector, web3Manager, metadata);
-      break;
-    case EWalletType.BROWSER:
-      wallet = yield connectBrowser(browserWalletConnector, web3Manager);
-      break;
-    case EWalletType.LIGHT:
-      if (!password) return invariant(metadata, "Light Wallet user without a password");
-      wallet = yield connectLightWallet(lightWalletConnector, metadata, password);
-      break;
-    default:
-      return invariant(false, "Wallet type unrecognized");
+    yield web3Manager.plugPersonalWallet(wallet!);
+
+    // verify if newly plugged wallet address is the same as before. Mismatch can happen for multiple reasons:
+    //  - user selects different wallet in user interface (metamask)
+    //  - user attaches different ledger device
+    const isSameAddress = wallet!.ethereumAddress.toLowerCase() === metadata.address.toLowerCase();
+    if (!isSameAddress) {
+      throw new MismatchedWalletAddressError(metadata.address, wallet!.ethereumAddress);
+    }
   }
 
-  // verify if newly plugged wallet address is the same as before. Mismatch can happen for multiple reasons:
-  //  - user selects different wallet in user interface (metamask)
-  //  - user attaches different ledger device
-  const isSameAddress = wallet.ethereumAddress.toLowerCase() === metadata.address.toLowerCase();
-  if (!isSameAddress) {
-    throw new MismatchedWalletAddressError(metadata.address, wallet.ethereumAddress);
-  }
-
-  yield web3Manager.plugPersonalWallet(wallet);
+  return wallet!;
 }
 
 async function connectLedger(
@@ -119,6 +138,12 @@ export function* connectLightWallet(
     throw new LightWalletWrongPassword();
   }
   return wallet;
+}
+
+async function connectWalletConnect(
+  walletConnectConnector: WalletConnectConnector,
+): Promise<IPersonalWallet> {
+  return walletConnectConnector.connect();
 }
 
 export function* connectWallet(): Generator<any, any, any> {

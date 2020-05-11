@@ -140,4 +140,6 @@ export class LightWallet implements IPersonalWallet {
   });
 
   public isUnlocked = (): boolean => !!this.password;
+
+  public unplug = () => Promise.resolve();
 }

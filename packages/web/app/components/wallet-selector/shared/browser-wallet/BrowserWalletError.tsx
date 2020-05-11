@@ -5,7 +5,10 @@ import { compose } from "recompose";
 
 import { actions } from "../../../../modules/actions";
 import { appConnect } from "../../../../store";
-import { getMessageTranslation } from "../../../translatedMessages/messages";
+import {
+  BrowserWalletErrorMessage,
+  getMessageTranslation,
+} from "../../../translatedMessages/messages";
 import { TMessage } from "../../../translatedMessages/utils";
 import {
   TWalletBrowserDispatchProps,
@@ -29,15 +32,16 @@ export const BrowserWalletErrorBase: React.FunctionComponent<TBrowserWalletError
       <img src={notificationSign} alt="" />
       <span>{getMessageTranslation(errorMessage)}</span>
     </div>
-
-    <Button
-      layout={EButtonLayout.PRIMARY}
-      onClick={tryConnectingWithBrowserWallet}
-      data-test-id="browser-wallet-init.try-again"
-      className={styles.button}
-    >
-      <FormattedMessage id="common.try-again" />
-    </Button>
+    {errorMessage.messageType !== BrowserWalletErrorMessage.WALLET_NOT_ENABLED && (
+      <Button
+        layout={EButtonLayout.PRIMARY}
+        onClick={tryConnectingWithBrowserWallet}
+        data-test-id="browser-wallet-init.try-again"
+        className={styles.button}
+      >
+        <FormattedMessage id="common.try-again" />
+      </Button>
+    )}
   </>
 );
 

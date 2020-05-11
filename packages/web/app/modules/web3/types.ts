@@ -1,7 +1,4 @@
-import { ESignerType } from "@neufund/shared-modules";
 import { EthereumAddressWithChecksum } from "@neufund/shared-utils";
-
-import { ESignTransactionMethod } from "../../lib/web3/types";
 
 // normalized information about all possible types of personal wallets
 export enum EWalletType {
@@ -18,11 +15,6 @@ export enum EWalletSubType {
   NEUFUND = "NEUFUND",
   UNKNOWN = "UNKNOWN",
 }
-
-export type TWcWalletSubtypes =
-  | EWalletSubType.UNKNOWN
-  | EWalletSubType.METAMASK
-  | EWalletSubType.NEUFUND;
 
 export type TWalletMetadata =
   | ILightWalletMetadata
@@ -68,15 +60,7 @@ export interface ILedgerWalletMetadata extends ICommonWalletMetadata {
 
 export interface IWalletConnectMetadata extends ICommonWalletMetadata {
   walletType: EWalletType.WALLETCONNECT;
-  walletSubType: EWalletSubType.UNKNOWN | EWalletSubType.METAMASK | EWalletSubType.NEUFUND;
-  sendTransactionMethod: ESignTransactionMethod;
-  signerType: ESignerType;
-  sessionRequestTimeout: number;
-  signingTimeout: number;
-  supportsExplicitTimeouts: boolean;
-  supportSessionPings: boolean;
-  supportsRemoteKyc: boolean;
-  supportsWalletMigration: boolean;
+  walletSubType: EWalletSubType;
   salt: undefined;
   email: undefined;
 }

@@ -2,9 +2,7 @@ declare module "get-params";
 
 declare module "history/createBrowserHistory";
 
-declare module "web3-provider-engine";
 declare module "web3-provider-engine/subproviders/rpc";
-declare module "web3-provider-engine/subproviders/hooked-wallet";
 
 declare module "web3-eth-accounts";
 
@@ -30,5 +28,3 @@ declare module "bitcore-mnemonic";
 declare module "truffle-privatekey-provider";
 
 declare module "node-fetch";
-
-declare module "@walletconnect/web3-subprovider";

@@ -93,4 +93,6 @@ export class LedgerWallet implements IPersonalWallet {
   };
 
   public isUnlocked = (): boolean => true;
+
+  public unplug = () => Promise.resolve();
 }

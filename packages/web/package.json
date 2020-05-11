@@ -46,8 +46,8 @@
     "test:e2e": "./e2e/setup-e2e.sh",
     "test:e2e:chrome": "./e2e/setup-docker-e2e.sh",
     "test:e2e:vis-reg": "./e2e/setup-vis-reg-e2e.sh",
-    "test:e2e:cypress:vm": "cypress run --env Tags=$(cat ./e2e-test-tags) --config testFiles=\"**/*.spec.e2e.ts\" --record --parallel --group localNodeTests --ci-build-id $CIRCLE_BUILD_NUM$(echo node)",
-    "test:e2e:cypress:io": "cypress run --env Tags=$(cat ./e2e-test-tags) --config testFiles=\"**/*.spec.e2e.io.ts\" --record --parallel --group remoteIOTests --ci-build-id $CIRCLE_BUILD_NUM$(echo node)",
+    "test:e2e:cypress:vm": "cypress run --env Tags=$(cat ./e2e/e2e-test-tags) --config testFiles=\"**/*.spec.e2e.ts\" --record --parallel --group localNodeTests --ci-build-id $CIRCLE_BUILD_NUM$(echo node)",
+    "test:e2e:cypress:io": "cypress run --env Tags=$(cat ./e2e/e2e-test-tags) --config testFiles=\"**/*.spec.e2e.io.ts\" --record --parallel --group remoteIOTests --ci-build-id $CIRCLE_BUILD_NUM$(echo node)",
     "test:e2e:cypress:vis-reg": "echo build id $CIRCLE_BUILD_NUM$(echo visReg) && cypress run --browser chrome --config testFiles=\"**/*.spec.e2e.visreg.ts\" --record --parallel --group io --ci-build-id $CIRCLE_BUILD_NUM$(echo visReg)",
     "test:e2e:dev": "cypress open --config testFiles=\"**/*.spec.e2e.*\"",
     "test": "yarn test:browser",
@@ -58,7 +58,7 @@
     "tslint:app": "NODE_OPTIONS=--max_old_space_size=9192 tslint --project ./tsconfig.json --format stylish",
     "tslint:e2e": "tslint --project ./tsconfig.e2e.json --format stylish",
     "tslint:fix": "concurrently -p \"[{name}]\" -n \"APP,E2E\" -c \"bgGreen.bold,bgCyan.bold\" \"yarn tslint:app --fix\" \"yarn tslint:e2e --fix\"",
-    "show:tags": "cat ./e2e-test-tags"
+    "show:tags": "cat ./e2e/e2e-test-tags"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.5",
@@ -204,6 +204,10 @@
     "@neufund/shared-utils": "^1.0.0",
     "@sentry/browser": "^4.3.0",
     "@types/ethereum-protocol": "^1.0.0",
+    "@walletconnect/qrcode-modal": "^1.0.0-beta.47",
+    "@walletconnect/browser": "^1.0.0-beta.47",
+    "@walletconnect/types": "^1.0.0-beta.47",
+    "@walletconnect/utils": "^1.0.0-beta.47",
     "babel-regenerator-runtime": "^6.5.0",
     "bignumber.js": "^5.0.0",
     "bitcore-mnemonic": "^8.3.3",
@@ -264,10 +268,8 @@
     "tslib": "^1.9.3",
     "tweetnacl": "^1.0.0",
     "tweetnacl-util": "^0.15.0",
-    "@walletconnect/web3-subprovider": "file:./../../git_modules/walletconnect-monorepo/packages/providers/web3-subprovider",
-
     "web3": "0.20.2",
-    "web3-provider-engine": "^15.0.4",
+    "web3-provider-engine": "^15.0.7",
     "web3-utils": "^1.2.4",
     "yup": "^0.26.7"
   }

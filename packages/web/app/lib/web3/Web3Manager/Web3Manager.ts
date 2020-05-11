@@ -110,8 +110,13 @@ export class Web3Manager extends EventEmitter implements IEthManager {
     return this.internalWeb3Adapter.web3;
   }
 
-  public unplugPersonalWallet(): void {
-    this.personalWallet = undefined;
+  public async unplugPersonalWallet(): Promise<void> {
+    if (this.personalWallet) {
+      await this.personalWallet.unplug();
+      this.personalWallet = undefined;
+    } else {
+      throw new WalletNotConnectedError();
+    }
   }
 
   async hasPluggedWallet(): Promise<boolean> {

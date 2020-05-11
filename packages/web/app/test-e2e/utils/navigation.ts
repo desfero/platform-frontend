@@ -97,6 +97,10 @@ export const goToPortfolioWithRequiredPayoutAmountSet = (requiredPayoutAmount?: 
   assertPortfolio();
 };
 
+export const goToLoginLightWallet = () => {
+  cy.visit("/login/light");
+};
+
 export const goToLoginWithMockedWeb3 = () => {
   cy.visit("/login", {
     onBeforeLoad(win: IWindowWithData): void {

@@ -490,6 +490,7 @@ export function* loadNomineeEtos({
 }: TGlobalDependencies): Generator<any, any, any> {
   try {
     const etos: TEtoWithCompanyAndContract[] = yield apiEtoService.loadNomineeEtos();
+
     yield put(actions.bookBuilding.loadBookBuildingListStats(etos.map(eto => eto.etoId)));
 
     let getEtoDataEffects: Dictionary<Generator<any, any, any>, string> = {};

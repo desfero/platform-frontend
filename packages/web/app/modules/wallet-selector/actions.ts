@@ -31,8 +31,8 @@ const actions = {
     "SET_WALLET_REGISTER_DATA",
     (data: TWalletRegisterData) => ({ data } as const),
   ),
-  browserWalletRegisterFormData: createActionFactory(
-    "BROWSER_WALLET_REGISTER_FORM_DATA",
+  genericWalletRegisterFormData: createActionFactory(
+    "GENERIC_WALLET_REGISTER_FORM_DATA",
     (email: string, tos: boolean) => ({ email, tos }),
   ),
   browserWalletSignMessage: createActionFactory("BROWSER_WALLET_SIGN_MESSAGE"),

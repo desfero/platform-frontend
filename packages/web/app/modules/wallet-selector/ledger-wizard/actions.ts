@@ -1,42 +1,50 @@
 import { createActionFactory } from "@neufund/shared-utils";
 
 import { TMessage } from "../../../components/translatedMessages/utils";
-import { createAction, createSimpleAction } from "../../actionsUtils";
 import { ILedgerAccount } from "./reducer";
 
 export const ledgerWizardActions = {
   ledgerLoadAccounts: createActionFactory("LEDGER_LOAD_ACCOUNTS"),
 
-  ledgerSetDerivationPathPrefix: (derivationPathPrefix: string) =>
-    createAction("LEDGER_SET_DERIVATION_PATH_PREFIX", { derivationPathPrefix }),
+  ledgerSetDerivationPathPrefix: createActionFactory(
+    "LEDGER_SET_DERIVATION_PATH_PREFIX",
+    (derivationPathPrefix: string) => ({ derivationPathPrefix }),
+  ),
 
-  ledgerGoToNextPageAndLoadData: () => createSimpleAction("LEDGER_GO_TO_NEXT_PAGE_AND_LOAD_DATA"),
+  ledgerGoToNextPageAndLoadData: createActionFactory("LEDGER_GO_TO_NEXT_PAGE_AND_LOAD_DATA"),
 
-  ledgerGoToPreviousPageAndLoadData: () =>
-    createSimpleAction("LEDGER_GO_TO_PREVIOUS_PAGE_AND_LOAD_DATA"),
+  ledgerGoToPreviousPageAndLoadData: createActionFactory(
+    "LEDGER_GO_TO_PREVIOUS_PAGE_AND_LOAD_DATA",
+  ),
 
   ledgerFinishSettingUpLedgerConnector: createActionFactory(
     "LEDGER_FINISH_SETTING_UP_LEDGER_CONNECTOR",
     (derivationPath: string) => ({ derivationPath }),
   ),
 
-  ledgerWizardAccountsListNextPage: () =>
-    createSimpleAction("LEDGER_WIZARD_ACCOUNTS_LIST_NEXT_PAGE"),
+  ledgerWizardAccountsListNextPage: createActionFactory("LEDGER_WIZARD_ACCOUNTS_LIST_NEXT_PAGE"),
 
-  ledgerWizardAccountsListPreviousPage: () =>
-    createSimpleAction("LEDGER_WIZARD_ACCOUNTS_LIST_PREVIOUS_PAGE"),
+  ledgerWizardAccountsListPreviousPage: createActionFactory(
+    "LEDGER_WIZARD_ACCOUNTS_LIST_PREVIOUS_PAGE",
+  ),
 
-  ledgerConnectionEstablishedError: (errorMsg: TMessage) =>
-    createAction("LEDGER_CONNECTION_ESTABLISHED_ERROR", { errorMsg }),
+  ledgerConnectionEstablishedError: createActionFactory(
+    "LEDGER_CONNECTION_ESTABLISHED_ERROR",
+    (errorMsg: TMessage) => ({ errorMsg }),
+  ),
 
-  setLedgerWizardDerivationPathPrefix: (derivationPathPrefix: string) =>
-    createAction("SET_LEDGER_WIZARD_DERIVATION_PATH_PREFIX", { derivationPathPrefix }),
+  setLedgerWizardDerivationPathPrefix: createActionFactory(
+    "SET_LEDGER_WIZARD_DERIVATION_PATH_PREFIX",
+    (derivationPathPrefix: string) => ({ derivationPathPrefix }),
+  ),
 
-  ledgerWizardDerivationPathPrefixError: () =>
-    createSimpleAction("LEDGER_WIZARD_DERIVATION_PATH_PREFIX_ERROR"),
+  toggleLedgerAccountsAdvanced: createActionFactory("TOGGLE_LEDGER_WIZARD_ADVANCED"),
 
-  toggleLedgerAccountsAdvanced: () => createSimpleAction("TOGGLE_LEDGER_WIZARD_ADVANCED"),
-
-  setLedgerAccounts: (accounts: ILedgerAccount[], derivationPathPrefix: string) =>
-    createAction("SET_LEDGER_WIZARD_ACCOUNTS", { accounts, derivationPathPrefix }),
+  setLedgerAccounts: createActionFactory(
+    "SET_LEDGER_WIZARD_ACCOUNTS",
+    (accounts: ILedgerAccount[], derivationPathPrefix: string) => ({
+      accounts,
+      derivationPathPrefix,
+    }),
+  ),
 };

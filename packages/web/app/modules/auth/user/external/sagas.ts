@@ -1,4 +1,4 @@
-import { call, put, select } from "@neufund/sagas";
+import { call, put } from "@neufund/sagas";
 
 import { TGlobalDependencies } from "../../../../di/setupBindings";
 import { IUser, IUserInput } from "../../../../lib/api/users/interfaces";
@@ -6,10 +6,7 @@ import { actions } from "../../../actions";
 import { stopServices } from "../../../init/sagas";
 import { loadKycRequestData } from "../../../kyc/sagas";
 import { neuCall } from "../../../sagasUtils";
-import { walletConnectStop } from "../../../wallet-selector/wallet-connect/sagas";
 import { loadPreviousWallet } from "../../../web3/sagas";
-import { selectWalletType } from "../../../web3/selectors";
-import { EWalletType } from "../../../web3/types";
 
 export function* loadUser({ apiUserService }: TGlobalDependencies): Generator<any, IUser, any> {
   const user: IUser = yield apiUserService.me();
@@ -31,22 +28,16 @@ export function* updateUser(
 export function* logoutUser({
   web3Manager,
   jwtStorage,
-  walletConnectStorage,
   logger,
   userStorage,
-}: TGlobalDependencies): Generator<any, any, any> {
+}: TGlobalDependencies): Generator<any, void, any> {
   yield neuCall(stopServices);
-
-  const userWallet = yield* select(selectWalletType);
-  if (userWallet === EWalletType.WALLETCONNECT) {
-    yield neuCall(walletConnectStop);
-  }
-
-  yield* call(() => walletConnectStorage.clear());
   yield* call(() => userStorage.clear());
   yield* call(() => jwtStorage.clear());
-  yield web3Manager.unplugPersonalWallet();
-
+  const hasPluggedWallet = yield web3Manager.hasPluggedWallet();
+  if (hasPluggedWallet) {
+    yield web3Manager.unplugPersonalWallet();
+  }
   yield put(actions.web3.personalWalletDisconnected());
 
   // reset app state and restart sagas here

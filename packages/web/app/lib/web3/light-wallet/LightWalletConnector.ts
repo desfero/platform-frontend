@@ -64,8 +64,17 @@ export class LightWalletConnector {
     try {
       // hooked-wallet-subprovider required methods were manually implemented
       const web3Provider = new HookedWalletSubprovider({
-        signTransaction: () => {
+        signMessage: () => {
           // Native signTransaction Shouldn't be used
+          throw new NativeSignTransactionUserError();
+        },
+        signPersonalMessage: () => {
+          throw new NativeSignTransactionUserError();
+        },
+        signTypedMessage: () => {
+          throw new NativeSignTransactionUserError();
+        },
+        signTransaction: () => {
           throw new NativeSignTransactionUserError();
         },
         getAccounts: (cb: any) => {

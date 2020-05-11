@@ -5,6 +5,7 @@ import {
   assertVerifyEmailWidgetIsInNoEmailState,
   assertVerifyEmailWidgetIsInUnverifiedEmailState,
   assertVerifyEmailWidgetIsInVerfiedEmailState,
+  confirmAccessModal,
   fillForm,
   generateRandomEmailAddress,
   goToProfile,
@@ -29,15 +30,17 @@ describe("Verify Email Widget", () => {
 
     goToUserAccountSettings();
     assertVerifyEmailWidgetIsInUnverifiedEmailState();
+
     cy.get(tid("verify-email-widget.change-email.button")).awaitedClick();
     assertVerifyEmailWidgetIsInNoEmailState();
 
     cy.get(tid("verify-email-widget-form-email-input")).type(secondEmail);
     cy.get(tid("verify-email-widget-form-submit")).awaitedClick();
 
+    confirmAccessModal();
     verifyLatestUserEmailAccountSetup(secondEmail);
-
     assertDashboard();
+
     goToProfile();
     assertVerifyEmailWidgetIsInVerfiedEmailState();
     assertVerifyEmailWidgetIsInUnverifiedEmailState(true);
@@ -53,24 +56,19 @@ describe("Verify Email Widget", () => {
 
     goToUserAccountSettings();
     assertVerifyEmailWidgetIsInUnverifiedEmailState();
-
     verifyLatestUserEmailWithAPI(email);
-
     assertVerifyEmailWidgetIsInVerfiedEmailState();
-
     assertEmailChangeFlow();
 
     const newEmail = generateRandomEmailAddress();
-
     fillForm({
       email: newEmail,
       "verify-email-widget-form-submit": { type: "submit" },
     });
 
+    confirmAccessModal();
     assertEmailPendingChange(email, newEmail);
-
     verifyLatestUserEmailWithAPI(newEmail);
-
     assertVerifyEmailWidgetIsInVerfiedEmailState();
   });
 });

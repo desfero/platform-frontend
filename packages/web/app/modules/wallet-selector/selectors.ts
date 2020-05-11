@@ -9,7 +9,7 @@ import { TAppGlobalState } from "../../store";
 import {
   ECommonWalletRegistrationFlowState,
   ELedgerRegistrationFlowState,
-  TBrowserWalletFormValues,
+  TGenericWalletFormValues,
   TLightWalletFormValues,
 } from "./types";
 
@@ -66,7 +66,7 @@ export const selectRegisterWalletType = (state: TAppGlobalState) => state.wallet
 export const selectRegisterWalletDefaultFormValues = (
   state: TAppGlobalState,
 ):
-  | DeepReadonlyObject<TBrowserWalletFormValues>
+  | DeepReadonlyObject<TGenericWalletFormValues>
   | DeepReadonlyObject<TLightWalletFormValues>
   | undefined =>
   state.walletSelector.uiState !== ECommonWalletRegistrationFlowState.NOT_STARTED

@@ -1,44 +1,48 @@
 import { withContainer } from "@neufund/shared-utils";
 import * as React from "react";
 import { FormattedMessage } from "react-intl";
-import { branch, compose, renderComponent, withProps } from "recompose";
+import { compose, withProps } from "recompose";
 
 import { actions } from "../../../../../modules/actions";
+import { DEFAULT_DERIVATION_PATH_SUB_PREFIX_1 } from "../../../../../modules/wallet-selector/ledger-wizard/constants";
 import {
   ILedgerAccount,
   selectHasPreviousPage,
+  selectLedgerWizardError,
 } from "../../../../../modules/wallet-selector/ledger-wizard/reducer";
 import { appConnect } from "../../../../../store";
 import { EContentWidth } from "../../../../layouts/Content";
 import { FullscreenProgressLayout } from "../../../../layouts/FullscreenProgressLayout";
 import { TContentExternalProps } from "../../../../layouts/Layout";
-import { LoadingIndicator } from "../../../../shared/loading-indicator";
 import {
-  IWalletLedgerChooserComponent,
-  IWalletLedgerChooserComponentDispatchProps,
+  IWalletLedgerChooserDispatchProps,
+  IWalletLedgerChooserStateProps,
   WalletLedgerChooserBase,
 } from "./WalletLedgerChooserBase";
 
 export const WalletLedgerChooser = compose<
-  IWalletLedgerChooserComponent & IWalletLedgerChooserComponentDispatchProps,
-  IWalletLedgerChooserComponent & IWalletLedgerChooserComponentDispatchProps
+  IWalletLedgerChooserStateProps & IWalletLedgerChooserDispatchProps,
+  IWalletLedgerChooserStateProps & IWalletLedgerChooserDispatchProps
 >(
-  appConnect<IWalletLedgerChooserComponent, IWalletLedgerChooserComponentDispatchProps>({
+  appConnect<IWalletLedgerChooserStateProps, IWalletLedgerChooserDispatchProps>({
     stateToProps: state => ({
       loading: state.ledgerWizardState.isLoading,
       accounts: state.ledgerWizardState.accounts,
       derivationPath: state.ledgerWizardState.derivationPathPrefix,
-      hasPreviousAddress: selectHasPreviousPage(state.ledgerWizardState),
+      hasPreviousPage: selectHasPreviousPage(state.ledgerWizardState),
       advanced: state.ledgerWizardState.advanced,
+      ledgerError: selectLedgerWizardError(state),
     }),
     dispatchToProps: dispatch => ({
       closeAccountChooser: () => {
         dispatch(actions.walletSelector.ledgerCloseAccountChooser());
       },
-      onDerivationPathPrefixError: () =>
-        dispatch(actions.walletSelector.ledgerWizardDerivationPathPrefixError()),
-      onDerivationPathPrefixChange: (derivationPathPrefix: string) => {
-        dispatch(actions.walletSelector.ledgerSetDerivationPathPrefix(derivationPathPrefix));
+      onSearch: (derivationPathPrefix: string) => {
+        dispatch(
+          actions.walletSelector.ledgerSetDerivationPathPrefix(
+            DEFAULT_DERIVATION_PATH_SUB_PREFIX_1 + derivationPathPrefix,
+          ),
+        );
       },
       handleAddressChosen: (account: ILedgerAccount) => {
         dispatch(
@@ -47,7 +51,7 @@ export const WalletLedgerChooser = compose<
       },
       showNextAddresses: () => dispatch(actions.walletSelector.ledgerGoToNextPageAndLoadData()),
       showPrevAddresses: () => dispatch(actions.walletSelector.ledgerGoToPreviousPageAndLoadData()),
-      handleAdvanced: () => {
+      toggleAdvanced: () => {
         dispatch(actions.walletSelector.toggleLedgerAccountsAdvanced());
         dispatch(actions.walletSelector.ledgerLoadAccounts());
       },
@@ -64,9 +68,5 @@ export const WalletLedgerChooser = compose<
         },
       }),
     )(FullscreenProgressLayout),
-  ),
-  branch<IWalletLedgerChooserComponent>(
-    ({ loading }) => !!loading,
-    renderComponent(LoadingIndicator),
   ),
 )(WalletLedgerChooserBase);

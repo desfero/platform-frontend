@@ -39,7 +39,7 @@ const connectVerifyEmailComponent = <T extends {}>(
         isThereUnverifiedEmail: selectIsThereUnverifiedEmail(s.auth),
         isEmailTemporaryCancelled: selectIsCancelEmail(s.profile),
         verifiedEmail: selectVerifiedUserEmail(s.auth),
-        unverifiedEmail: selectUnverifiedUserEmail(s),
+        unverifiedEmail: selectUnverifiedUserEmail(s.auth),
         isLocked: selectIsConnectedButtonLocked(s.verifyEmailWidgetState),
       }),
       dispatchToProps: dispatch => ({

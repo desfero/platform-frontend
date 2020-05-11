@@ -13,7 +13,7 @@ import { InfoRow } from "../tx-sender/shared/InfoRow";
 import * as styles from "./IcbmWalletBalanceModal.module.scss";
 
 interface IBalanceModal {
-  isVerificationFullyDone: boolean;
+  isUserVerified: boolean;
   startMigration: () => void;
   ethAddress: string;
   neumarksDue: string;
@@ -52,7 +52,7 @@ const BalanceFooter: React.FunctionComponent<{
 );
 
 export const BalanceModal: React.FunctionComponent<IBalanceModal> = ({
-  isVerificationFullyDone,
+  isUserVerified,
   startMigration,
   ethAddress = "",
   neumarksDue = "0",
@@ -110,7 +110,7 @@ export const BalanceModal: React.FunctionComponent<IBalanceModal> = ({
     </InfoList>
 
     <BalanceFooter
-      disabled={!isVerificationFullyDone}
+      disabled={!isUserVerified}
       startMigration={startMigration}
       downloadICBMAgreement={downloadICBMAgreement}
     />

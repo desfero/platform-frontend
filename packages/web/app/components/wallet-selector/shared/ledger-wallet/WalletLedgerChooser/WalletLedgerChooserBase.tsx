@@ -1,72 +1,41 @@
-import { Button, EButtonLayout } from "@neufund/design-system";
 import * as React from "react";
 import { FormattedHTMLMessage, FormattedMessage } from "react-intl-phraseapp";
 
-import {
-  DEFAULT_DERIVATION_PATH_PREFIX,
-  ILedgerAccount,
-} from "../../../../../modules/wallet-selector/ledger-wizard/reducer";
-import { PanelRounded } from "../../../../shared/Panel";
-import {
-  EWarningAlertLayout,
-  EWarningAlertSize,
-  WarningAlert,
-} from "../../../../shared/WarningAlert";
-import { AddressTable } from "./AddressTable";
-import { TableControls } from "./TableControls";
+import { ILedgerAccount } from "../../../../../modules/wallet-selector/ledger-wizard/reducer";
+import { getMessageTranslation } from "../../../../translatedMessages/messages";
+import { TMessage } from "../../../../translatedMessages/utils";
+import { AdvancedChooser } from "./AdvancedChooser/AdvancedChooser";
+import { SimpleChooser } from "./SimpleChooser";
 
 import * as styles from "./WalletLedgerChooserBase.module.scss";
 
-export interface IWalletLedgerChooserComponent {
+export interface IWalletLedgerChooserStateProps {
   accounts: ReadonlyArray<ILedgerAccount>;
-  hasPreviousAddress: boolean;
+  hasPreviousPage: boolean;
   loading: boolean;
   advanced: boolean;
+  ledgerError?: TMessage;
 }
 
-export interface IWalletLedgerChooserComponentDispatchProps {
-  onDerivationPathPrefixChange: (derivationPathprefix: string) => void;
-  onDerivationPathPrefixError: () => void;
+export interface IWalletLedgerChooserDispatchProps {
+  onSearch: (derivationPathprefix: string) => void;
   handleAddressChosen: (account: ILedgerAccount) => void;
   showPrevAddresses: () => void;
   showNextAddresses: () => void;
-  handleAdvanced: () => void;
+  toggleAdvanced: () => void;
 }
 
-export const WalletLedgerChooserBase: React.FunctionComponent<IWalletLedgerChooserComponent &
-  IWalletLedgerChooserComponentDispatchProps> = ({
+export const WalletLedgerChooserBase: React.FunctionComponent<IWalletLedgerChooserStateProps &
+  IWalletLedgerChooserDispatchProps> = ({
   accounts,
   handleAddressChosen,
-  hasPreviousAddress,
-  showPrevAddresses,
-  showNextAddresses,
   loading,
   advanced,
-  onDerivationPathPrefixChange,
-  onDerivationPathPrefixError,
-  handleAdvanced,
+  toggleAdvanced,
+  ledgerError,
+  ...remainingProps
 }) => {
-  const [derivationPathPrefix, setDerivationPathPrefix] = React.useState<string>(
-    DEFAULT_DERIVATION_PATH_PREFIX,
-  );
-  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
-
-  let content;
-
-  if (errorMessage) {
-    content = (
-      <WarningAlert
-        className={styles.errorMessage}
-        size={EWarningAlertSize.BIG}
-        layout={EWarningAlertLayout.INLINE}
-        data-test-id="wallet-selector-session-timeout-notification"
-      >
-        {errorMessage}
-      </WarningAlert>
-    );
-  } else if (accounts.length > 0) {
-    content = <AddressTable accounts={accounts} handleAddressChosen={handleAddressChosen} />;
-  }
+  const ledgerErrorMessage = ledgerError ? getMessageTranslation(ledgerError) : undefined;
 
   return (
     <div className={styles.wrapper}>
@@ -75,7 +44,7 @@ export const WalletLedgerChooserBase: React.FunctionComponent<IWalletLedgerChoos
       </h1>
 
       <p className={styles.explanation}>
-        {accounts.length > 1 ? (
+        {advanced ? (
           <FormattedHTMLMessage
             tagName="span"
             id="wallet-selector.ledger.select-address.description"
@@ -88,34 +57,23 @@ export const WalletLedgerChooserBase: React.FunctionComponent<IWalletLedgerChoos
         )}
       </p>
 
-      <PanelRounded>
-        <div>
-          <TableControls
-            derivationPathPrefix={derivationPathPrefix}
-            setDerivationPathPrefix={setDerivationPathPrefix}
-            errorMessage={errorMessage}
-            setErrorMessage={setErrorMessage}
-            onDerivationPathPrefixChange={onDerivationPathPrefixChange}
-            onDerivationPathPrefixError={onDerivationPathPrefixError}
-            hasPreviousAddress={hasPreviousAddress}
-            showPrevAddresses={showPrevAddresses}
-            showNextAddresses={showNextAddresses}
-            showNavigation={advanced}
-          />
-
-          {content}
-        </div>
-      </PanelRounded>
-
-      {!advanced && !loading && (
-        <Button
-          className={styles.advanced}
-          onClick={handleAdvanced}
-          data-test-id="btn-advanced-simple"
-          layout={EButtonLayout.PRIMARY}
-        >
-          <FormattedMessage id="wallet-selector.ledger.show-more" />
-        </Button>
+      {advanced ? (
+        <AdvancedChooser
+          accounts={accounts}
+          handleAddressChosen={handleAddressChosen}
+          ledgerErrorMessage={ledgerErrorMessage}
+          loading={loading}
+          toggleAdvanced={toggleAdvanced}
+          {...remainingProps}
+        />
+      ) : (
+        <SimpleChooser
+          accounts={accounts}
+          handleAddressChosen={handleAddressChosen}
+          ledgerErrorMessage={ledgerErrorMessage}
+          loading={loading}
+          toggleAdvanced={toggleAdvanced}
+        />
       )}
     </div>
   );

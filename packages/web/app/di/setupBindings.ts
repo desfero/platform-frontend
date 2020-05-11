@@ -37,7 +37,7 @@ import { STORAGE_JWT_KEY } from "../lib/persistence/JwtObjectStorage";
 import { ObjectStorage } from "../lib/persistence/ObjectStorage";
 import { Storage } from "../lib/persistence/Storage";
 import { USER_JWT_KEY } from "../lib/persistence/UserStorage";
-import { WalletConnectStorage } from "../lib/persistence/WalletConnectStorage";
+import { STORAGE_WALLET_CONNECT_KEY } from "../lib/persistence/WalletConnectStorage";
 import { WalletStorage } from "../lib/persistence/WalletStorage";
 import { BrowserWalletConnector } from "../lib/web3/browser-wallet/BrowserWalletConnector";
 import { ContractsService } from "../lib/web3/ContractsService";
@@ -164,10 +164,6 @@ export function setupBindings(config: IConfig): ContainerModule {
       .to(WalletStorage)
       .inSingletonScope();
 
-    bind<WalletConnectStorage>(symbols.walletConnectStorage)
-      .to(WalletConnectStorage)
-      .inSingletonScope();
-
     bind<DocumentsConfidentialityAgreementsStorage>(
       symbols.documentsConfidentialityAgreementsStorage,
     )
@@ -192,6 +188,17 @@ export function setupBindings(config: IConfig): ContainerModule {
             ctx.container.get(symbols.storage),
             ctx.container.get(symbols.logger),
             USER_JWT_KEY,
+          ),
+      )
+      .inSingletonScope();
+
+    bind<ObjectStorage<string>>(symbols.walletConnectStorage)
+      .toDynamicValue(
+        ctx =>
+          new ObjectStorage<string>(
+            ctx.container.get(symbols.storage),
+            ctx.container.get(symbols.logger),
+            STORAGE_WALLET_CONNECT_KEY,
           ),
       )
       .inSingletonScope();
@@ -248,7 +255,7 @@ export const createGlobalDependencies = (container: Container) => ({
   // storage
   jwtStorage: container.get<ObjectStorage<string>>(symbols.jwtStorage),
   walletStorage: container.get<WalletStorage>(symbols.walletStorage),
-  walletConnectStorage: container.get<WalletConnectStorage>(symbols.walletConnectStorage),
+  walletConnectStorage: container.get<ObjectStorage<string>>(symbols.walletConnectStorage),
   documentsConfidentialityAgreementsStorage: container.get<
     DocumentsConfidentialityAgreementsStorage
   >(symbols.documentsConfidentialityAgreementsStorage),

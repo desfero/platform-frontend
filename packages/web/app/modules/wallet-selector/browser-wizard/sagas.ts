@@ -15,7 +15,7 @@ import {
   EBrowserWalletRegistrationFlowState,
   ECommonWalletRegistrationFlowState,
   EFlowType,
-  TBrowserWalletFormValues,
+  TGenericWalletFormValues,
 } from "../types";
 import { mapBrowserWalletErrorToErrorMessage } from "./errors";
 
@@ -74,7 +74,7 @@ export function* browserWalletRegister(
     rootPath: "/register",
     flowType: EFlowType.REGISTER,
   };
-  const initialFormValues: TBrowserWalletFormValues = {
+  const initialFormValues: TGenericWalletFormValues = {
     email: "",
     tos: false,
   };
@@ -84,7 +84,7 @@ export function* browserWalletRegister(
       yield neuCall(browserWalletConnectAndSign);
       return true;
     },
-    expectedAction: actions.walletSelector.browserWalletRegisterFormData,
+    expectedAction: actions.walletSelector.genericWalletRegisterFormData,
     initialFormValues,
     baseUiData,
   });

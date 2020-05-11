@@ -35,22 +35,20 @@ export enum ECommonWalletRegistrationFlowState {
   REGISTRATION_WALLET_SIGNING = "REGISTRATION_WALLET_SIGNING",
 }
 
-export type TBrowserWalletFormValues = {
+export type TGenericWalletFormValues = {
   tos: boolean;
   email: string;
 };
 
 export type TLightWalletFormValues = {
-  tos: boolean;
-  email: string;
   password: string;
   repeatPassword: string;
-};
+} & TGenericWalletFormValues;
 
 // TODO: Setup the types in a way where only
 export type TCommonWalletRegisterData = {
   showWalletSelector?: boolean | undefined;
-  initialFormValues?: TBrowserWalletFormValues | TLightWalletFormValues;
+  initialFormValues?: TGenericWalletFormValues | TLightWalletFormValues;
 };
 
 export type TBrowserWalletRegisterData = TCommonWalletRegisterData &

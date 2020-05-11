@@ -22,5 +22,4 @@ export const walletConnectActions = {
     "WALLET_CONNECT_START_EVENT_LISTENERS",
     (channel: EventChannel<TWalletConnectEvents>) => ({ channel }),
   ),
-  walletConnectRestoreConnection: createActionFactory("WALLET_CONNECT_RESTORE_CONNECTION"),
 };

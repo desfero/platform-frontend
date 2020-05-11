@@ -11,7 +11,6 @@ import { EthereumAddressWithChecksum } from "@neufund/shared-utils";
 import { Container } from "inversify";
 import { toChecksumAddress } from "web3-utils";
 
-import { IBackendRoot } from "../app/config/getConfig";
 import { symbols } from "../app/di/symbols";
 import { UsersApi } from "../app/lib/api/users/UsersApi";
 import { STORAGE_JWT_KEY } from "../app/lib/persistence/JwtObjectStorage";
@@ -69,9 +68,7 @@ export const setupIntegrationTestContainer = (backendUrl: string) => {
   // We don't need any logging in integration tests
   myContainer.bind<any>(symbols.logger).toConstantValue(noopLogger);
 
-  myContainer
-    .bind<IBackendRoot>(coreModuleApi.symbols.backendRootUrl)
-    .toConstantValue({ url: backendUrl });
+  myContainer.bind<string>(coreModuleApi.symbols.backendRootUrl).toConstantValue(backendUrl);
 
   const apiUserService = myContainer.get<UsersApi>(symbols.usersApi);
   const jwtStorage = myContainer.get<ObjectStorage<string>>(authModuleAPI.symbols.jwtStorage);
@@ -81,7 +78,6 @@ export const setupIntegrationTestContainer = (backendUrl: string) => {
 
 /**
  * Signs a new using a the light wallet as a test wallet.
- * @param param0
  *
  * @returns {jwt: a new jwt from the backend,
  * salt: new created salt,

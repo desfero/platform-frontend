@@ -30,10 +30,8 @@ export const WarningAlert: React.FunctionComponent<IWarningAlertProps & TDataTes
   layout = EWarningAlertLayout.DEFAULT,
   "data-test-id": dataTestId,
 }) => (
-  <div className={cn(styles.warningAlert, size, layout, className)}>
-    <span data-test-id={dataTestId}>
-      <InlineIcon svgIcon={warningIcon} className={styles.icon} />
-      {children}
-    </span>
+  <div className={cn(styles.warningAlert, size, layout, className)} data-test-id={dataTestId}>
+    <InlineIcon svgIcon={warningIcon} className={styles.icon} />
+    <span>{children}</span>
   </div>
 );

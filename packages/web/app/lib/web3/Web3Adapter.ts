@@ -87,7 +87,7 @@ export class Web3Adapter {
   }
 
   // Gnosis extension uses wallet_signTypedData to sign ERC712 typed data
-  public async walletSignTypedData(
+  public async signTypedDataV3(
     address: EthereumAddress | EthereumAddressWithChecksum,
     data: string,
   ): Promise<string> {
@@ -96,7 +96,7 @@ export class Web3Adapter {
     ); // web3 typings are not accurate here
 
     const resultData = await send({
-      method: "wallet_signTypedData",
+      method: "eth_signTypedData",
       params: [address as string, data],
       from: address as string,
     });

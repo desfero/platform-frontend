@@ -7,7 +7,7 @@
   border: solid 1px $neu-light-blue-grey-two;
   background-color: $neu-white;
   text-align: left;
-  padding: px-to-rem(16px);
+  padding: px-to-rem(17px);
   color: $neu-charcoal-grey;
 
   // sass-lint:disable-all
@@ -26,16 +26,19 @@
   &:focus {
     border-color: $neu-bitter-lemon;
     border-width: 2px;
+    padding: px-to-rem(16px);
   }
 
   &:disabled {
     background-color: $neu-pale-grey-three;
     border-color: $neu-light-blue-grey-two;
+    padding: px-to-rem(16px);
   }
 
   &:invalid,
   &[aria-invalid="true"] {
     border-width: 2px;
     border-color: $neu-flamingo-red;
+    padding: px-to-rem(16px);
   }
 }

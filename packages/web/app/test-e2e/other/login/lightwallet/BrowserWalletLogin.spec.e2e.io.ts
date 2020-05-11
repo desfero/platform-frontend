@@ -74,6 +74,24 @@ describe("Ethereum Routing", () => {
       });
   });
 
+  it("should work on retry after exception #browserWallet #p3", () => {
+    cy.server();
+    stubChallengeApiRequest({}, 405);
+    goToLanding();
+
+    ethereumProvider(ISSUER_SETUP_NODE_PROVIDER);
+
+    cy.get(tid("Header-login")).click();
+    cy.get(tid("wallet-selector-browser")).click();
+    cy.get(tid("browser-wallet-error-msg")).should("exist");
+
+    cy.server({ enable: false });
+
+    cy.get(tid("browser-wallet-init.try-again")).click();
+
+    cy.get(tid("eto-issuer-state"));
+  });
+
   it("should show error message #browserWallet #p3", () => {
     cy.server();
     stubChallengeApiRequest({}, 405);

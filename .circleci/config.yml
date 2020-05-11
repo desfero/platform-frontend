@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  slack: circleci/slack@3.4.2
+
 executors:
   docker:
     docker:
@@ -11,44 +14,93 @@ executors:
       - image: circleci/node:12.16.2-browsers
     working_directory: /home/circleci/app
 
+commands:
+  notify-slack:
+    description: "Notifies slack about the job failure on master or production branches"
+    steps:
+      - slack/status:
+          fail_only: true
+          only_for_branches: master,production
+          failure_message: ':red_circle: $CIRCLE_JOB failed for $CIRCLE_BRANCH!'
+
+  checkout-and-install:
+    description: "Install and caches all dependencies"
+    steps:
+      - checkout
+
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-v1-{{ checksum "yarn.lock" }}
+
+      - run:
+          name: Install Dependencies
+          command: yarn install --frozen-lockfile
+
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-v1-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+            - ~/.cache/Cypress
+
+
 jobs:
   ## Web package related jobs
 
-  web_install-lint-test:
-    # install and lint is taken as one job to remove required time for downloading cache
+  web_check-artifacts:
     executor: docker
 
     steps:
-      # Download and cache dependencies
-      - checkout
+      - checkout-and-install
 
-      # Installation
-      - run: yarn --frozen-lockfile
-      # Confirm Artifact Version
       - run: yarn workspace @neufund/web contract-artifacts:check
+
+  # install and lint is taken as one job to remove required time for downloading cache
+  web_install-lint-test:
+    executor: docker
+
+    steps:
+      - checkout-and-install
+
       # Danger
-      - run: yarn workspace @neufund/web danger ci
+      - run: yarn workspace @neufund/web danger ci --failOnErrors
+
       # Linting
       - run: yarn workspace @neufund/design-system lint
       - run: yarn workspace @neufund/sagas lint
       - run: yarn workspace @neufund/shared-modules lint
       - run: yarn workspace @neufund/shared-utils lint
       - run: yarn workspace @neufund/web lint
+
       # Unit Tests
       - run: yarn workspace @neufund/shared-utils test
       - run: yarn workspace @neufund/web test
 
-      - save_cache:
-          paths:
-            - node_modules
-            - packages/web/app/lib/contracts
-            - /home/circleci/.cache/Cypress
-          key: v33-deps-{{ checksum "package.json" }}
-
       - persist_to_workspace:
           root: /home/circleci/app/packages/web
           paths:
-            - ./e2e-test-tags
+            - ./e2e/e2e-test-tags
+
+      - notify-slack
+
+  web_build:
+    executor: docker
+
+    steps:
+      - checkout-and-install
+
+      - run:
+          command: yarn workspace @neufund/web build:prod:e2e
+          # If build takes more than 30mins then fail
+          no_output_timeout: 30m
+
+      - persist_to_workspace:
+          root: /home/circleci/app
+          paths:
+            - ./
+
+      - notify-slack
 
   web_build-docker-test-e2e:
     executor: docker-browsers
@@ -56,11 +108,7 @@ jobs:
     parallelism: 4
 
     steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v33-deps-{{ checksum "package.json" }}
-            - v33-deps-
+      - checkout-and-install
 
       - attach_workspace:
           at: /home/circleci/app/packages/web
@@ -73,25 +121,7 @@ jobs:
       - run:
           command: yarn workspace @neufund/web test:e2e:chrome
 
-  web_build:
-    executor: docker
-
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v33-deps-{{ checksum "package.json" }}
-            - v33-deps-
-
-      - run: yarn --frozen-lockfile
-      - run:
-          command: yarn workspace @neufund/web build:prod:e2e
-          no_output_timeout: 10m
-      # If build takes more than 10mins then fail
-      - persist_to_workspace:
-          root: /home/circleci/app
-          paths:
-            - ./
+      - notify-slack
 
   web_test-e2e:
     machine:
@@ -109,74 +139,68 @@ jobs:
     steps:
       - attach_workspace:
           at: /home/circleci/app
+
       - run: ./.circleci/install-yarn.sh
+
       - restore_cache:
+          name: Restore Yarn Package Cache
           keys:
-            - v33-deps-{{ checksum "package.json" }}
-            - v33-deps-
+            - yarn-packages-v1-{{ checksum "yarn.lock" }}
 
       - run:
           command: source /opt/circleci/.nvm/nvm.sh && yarn workspace @neufund/web test:e2e
           no_output_timeout: 30m
 
+      - notify-slack
+
   web_codechecks:
     executor: docker
 
     steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v33-deps-{{ checksum "package.json" }}
-            - v33-deps-
+      - checkout-and-install
 
-      - run: yarn --frozen-lockfile
       - run: yarn workspace @neufund/web build:commit-deployment
       - run: yarn workspace @neufund/web codechecks
+
+      - notify-slack
 
   web_codechecks-vis-reg:
     executor: docker-browsers
 
     steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v33-deps-{{ checksum "package.json" }}
-            - v33-deps-
+      - checkout-and-install
 
-      - run: yarn --frozen-lockfile
       - run: yarn workspace @neufund/web storybook:screenshots
       - run: yarn workspace @neufund/web codechecks ./codechecks-vis-reg.ts
+
+      - notify-slack
 
   web_codechecks-e2e-vis-reg:
     executor: docker-browsers
 
     steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v33-deps-{{ checksum "package.json" }}
-            - v33-deps-
+      - checkout-and-install
 
-      - run: yarn --frozen-lockfile
       - run:
           command: yarn workspace @neufund/web build:prod:e2e:io
           no_output_timeout: 10m
+
       - run:
           command: yarn workspace @neufund/web test:e2e:vis-reg
+
       - run: yarn workspace @neufund/web codechecks ./codechecks-e2e-vis-reg.ts
+
+      - notify-slack
 
   deploy-storybook:
     executor: docker
 
     steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v33-deps-{{ checksum "package.json" }}
-            - v33-deps-
+      - checkout-and-install
 
-      - run: yarn --frozen-lockfile
       - run: yarn storybook-to-ghpages --script=storybook:build --ci --host-token-env-variable=DANGER_GITHUB_API_TOKEN --packages packages
+
+      - notify-slack
 
   ## Mobile package related jobs
 
@@ -186,13 +210,14 @@ jobs:
 
     steps:
       # Download and cache dependencies
-      - checkout
-      # Installation
-      - run: yarn --frozen-lockfile
+      - checkout-and-install
+
       # Linting
       - run: yarn workspace @neufund/wallet lint
       # Unit Tests
       - run: yarn workspace @neufund/wallet test
+
+      - notify-slack
 
 workflows:
   version: 2
@@ -200,6 +225,10 @@ workflows:
   web:
     jobs:
       - web_install-lint-test
+
+      - web_check-artifacts:
+          requires:
+            - web_install-lint-test
       - web_build-docker-test-e2e:
           requires:
             - web_install-lint-test
@@ -223,7 +252,7 @@ workflows:
     jobs:
       - mobile_install-lint-test
 
-  nightly:
+  nightly-web:
     triggers:
       - schedule:
           cron: "0 5 * * *"
@@ -235,6 +264,7 @@ workflows:
 
     jobs:
       - web_install-lint-test
+
       - web_build-docker-test-e2e:
           requires:
             - web_install-lint-test
@@ -244,7 +274,6 @@ workflows:
       - web_test-e2e:
           requires:
             - web_build
-            - web_build-docker-test-e2e
       - web_codechecks:
           requires:
             - web_build
@@ -254,6 +283,20 @@ workflows:
       - web_codechecks-e2e-vis-reg:
           requires:
             - web_build
+
+  nightly-mobile:
+    triggers:
+      - schedule:
+          cron: "0 5 * * *"
+          filters:
+            branches:
+              only:
+                - master
+                - production
+
+    jobs:
+      - mobile_install-lint-test
+
 
   deploy-storybook:
     jobs:

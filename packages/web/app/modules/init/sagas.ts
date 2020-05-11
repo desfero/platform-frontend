@@ -3,16 +3,13 @@ import { authModuleAPI, tokenPriceModuleApi } from "@neufund/shared-modules";
 import { isJwtExpiringLateEnough } from "@neufund/shared-utils";
 
 import { TGlobalDependencies } from "../../di/setupBindings";
-import { TStoredWalletConnectData } from "../../lib/persistence/WalletConnectStorage";
 import { TAppGlobalState } from "../../store";
+import { ensureWalletConnection } from "../access-wallet/sagas";
 import { actions, TActionFromCreator } from "../actions";
-import { ELogoutReason } from "../auth/types";
 import { loadUser } from "../auth/user/external/sagas";
-import { handleLogOutUserInternal } from "../auth/user/sagas";
 import { initializeContracts } from "../contracts/sagas";
 import { neuCall, neuTakeEvery, neuTakeOnly } from "../sagasUtils";
 import { detectUserAgent } from "../user-agent/sagas";
-import { walletConnectInit } from "../wallet-selector/wallet-connect/sagas";
 import { initWeb3ManagerEvents } from "../web3/sagas";
 import { selectWalletType } from "../web3/selectors";
 import { EWalletType } from "../web3/types";
@@ -68,12 +65,6 @@ function* makeSureWalletMetaDataExists({
   }
 }
 
-function* loadWalletConnectSession({
-  walletConnectStorage,
-}: TGlobalDependencies): Generator<any, TStoredWalletConnectData | undefined, any> {
-  return yield walletConnectStorage.get();
-}
-
 function* deleteWalletConnectSession({
   walletConnectStorage,
 }: TGlobalDependencies): Generator<any, void, any> {
@@ -83,24 +74,17 @@ function* deleteWalletConnectSession({
 function* restoreUserSession(
   { logger }: TGlobalDependencies,
   jwt: string,
-  wcSession: TStoredWalletConnectData | undefined,
 ): Generator<any, void, any> {
   yield neuCall(makeSureWalletMetaDataExists);
   if (isJwtExpiringLateEnough(jwt)) {
     try {
       yield neuCall(authModuleAPI.sagas.setJwt, jwt);
       yield neuCall(loadUser);
+      // plugin wallet connect
       const walletType = yield select(selectWalletType);
-
-      if (walletType === EWalletType.WALLETCONNECT && wcSession) {
-        yield neuCall(walletConnectInit);
-      } else if (walletType !== EWalletType.WALLETCONNECT && wcSession) {
-        // action.auth.logout will be called automatically after change in local storage
-        yield neuCall(deleteWalletConnectSession);
-      } else if (walletType === EWalletType.WALLETCONNECT && !wcSession) {
-        yield neuCall(handleLogOutUserInternal, ELogoutReason.USER_REQUESTED);
+      if (walletType === EWalletType.WALLETCONNECT) {
+        yield neuCall(ensureWalletConnection);
       }
-
       yield put(actions.auth.finishSigning());
     } catch (e) {
       yield put(actions.auth.logout());
@@ -132,11 +116,10 @@ export function* initApp({ logger }: TGlobalDependencies): Generator<any, void, 
   try {
     yield neuCall(startServices);
     yield neuCall(detectUserAgent);
-    const wcSession = yield neuCall(loadWalletConnectSession);
     const jwt = yield neuCall(authModuleAPI.sagas.loadJwt);
 
     if (jwt) {
-      yield neuCall(restoreUserSession, jwt, wcSession);
+      yield neuCall(restoreUserSession, jwt);
     } else {
       yield neuCall(deleteWalletConnectSession);
     }

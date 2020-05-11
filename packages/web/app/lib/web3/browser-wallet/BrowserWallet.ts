@@ -74,7 +74,7 @@ export class BrowserWallet implements IPersonalWallet {
         return await this.web3Adapter.signTypedData(address, typedDataDecoded);
       } else if (this.walletSubType === EWalletSubType.GNOSIS) {
         const typedDataDecoded = hex2ascii(data);
-        return await this.web3Adapter.walletSignTypedData(address, typedDataDecoded);
+        return await this.web3Adapter.signTypedDataV3(address, typedDataDecoded);
       } else {
         return await this.web3Adapter.ethSign(address, "0x" + data);
       }
@@ -110,4 +110,6 @@ export class BrowserWallet implements IPersonalWallet {
   });
 
   public isUnlocked = (): boolean => true;
+
+  public unplug = () => Promise.resolve();
 }

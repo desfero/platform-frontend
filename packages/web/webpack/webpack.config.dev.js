@@ -27,6 +27,7 @@ module.exports = merge.smart(configCommon, {
   mode: "development",
   devtool: "cheap-module-source-map",
   devServer: {
+    clientLogLevel: "warn",
     contentBase: paths.dist,
     // provide `NF_SERVE_ON_NETWORK` to expose app to the local network (useful for cross device testing)
     host: process.env.NF_SERVE_ON_NETWORK || "localhost",

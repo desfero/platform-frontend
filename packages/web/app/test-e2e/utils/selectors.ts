@@ -2,6 +2,10 @@ export function tid(id: string): string {
   return `[data-test-id~="${id}"]`;
 }
 
+export function tidStartsWith(id: string): string {
+  return `[data-test-id^="${id}"]`;
+}
+
 export function formFieldErrorMessage(key: string): string {
   return tid(`form.${key}.error-message`);
 }

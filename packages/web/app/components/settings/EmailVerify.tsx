@@ -25,6 +25,6 @@ export class EmailVerifyComponent extends React.Component<IEmailVerifyDispatchPr
 
 export const EmailVerify = appConnect<IEmailVerifyDispatchProps>({
   dispatchToProps: dispatch => ({
-    verifyEmail: () => dispatch(actions.auth.verifyEmail()),
+    verifyEmail: () => dispatch(actions.auth.verifyEmailLink()),
   }),
 })(EmailVerifyComponent);

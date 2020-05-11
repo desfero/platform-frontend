@@ -1,11 +1,9 @@
 import { DeepReadonly } from "@neufund/shared-utils";
 
 import { TMessage } from "../../../components/translatedMessages/utils";
-import { AppReducer } from "../../../store";
+import { AppReducer, TAppGlobalState } from "../../../store";
 import { actions } from "../../actions";
-
-export const DEFAULT_DERIVATION_PATH_PREFIX = "44'/60'/0'/";
-export const DEFAULT_LEDGER_ACCOUNTS_PER_PAGE = 10;
+import { DEFAULT_DERIVATION_PATH_PREFIX, DEFAULT_LEDGER_ACCOUNTS_PER_PAGE } from "./constants";
 
 export interface ILedgerAccount {
   address: string;
@@ -48,14 +46,15 @@ export const ledgerWizardReducer: AppReducer<ILedgerWizardState> = (
         ...state,
         isLoading: true,
       };
-    case "LEDGER_CONNECTION_ESTABLISHED_ERROR":
+    case actions.walletSelector.ledgerConnectionEstablishedError.getType():
       return {
         ...state,
         isInitialConnectionInProgress: false,
         isConnectionEstablished: false,
+        isLoading: false,
         errorMsg: action.payload.errorMsg,
       };
-    case "LEDGER_WIZARD_ACCOUNTS_LIST_NEXT_PAGE":
+    case actions.walletSelector.ledgerWizardAccountsListNextPage.getType():
       return {
         ...state,
         index: state.index + 1,
@@ -63,14 +62,14 @@ export const ledgerWizardReducer: AppReducer<ILedgerWizardState> = (
         isLoading: true,
         isInitialConnectionInProgress: false,
       };
-    case "LEDGER_WIZARD_ACCOUNTS_LIST_PREVIOUS_PAGE":
+    case actions.walletSelector.ledgerWizardAccountsListPreviousPage.getType():
       return {
         ...state,
         index: state.index === 0 ? state.index : state.index - 1,
         accounts: [],
         isLoading: true,
       };
-    case "SET_LEDGER_WIZARD_ACCOUNTS": {
+    case actions.walletSelector.setLedgerAccounts.getType(): {
       // There is a possibility of race condition in the app when we get account lists from ledger which is async
       // operation. That's why we need to check if list that was received matches derivation path prefix that is
       // currently set.
@@ -84,28 +83,24 @@ export const ledgerWizardReducer: AppReducer<ILedgerWizardState> = (
       }
       break;
     }
-    case "SET_LEDGER_WIZARD_DERIVATION_PATH_PREFIX":
+    case actions.walletSelector.setLedgerWizardDerivationPathPrefix.getType():
       return {
         ...state,
+        errorMsg: undefined,
         derivationPathPrefix: action.payload.derivationPathPrefix,
         index: 0,
         accounts: [],
         isLoading: true,
         isInitialConnectionInProgress: false,
       };
-    case "LEDGER_WIZARD_DERIVATION_PATH_PREFIX_ERROR":
-      return {
-        ...state,
-        derivationPathPrefix: "",
-        isInitialConnectionInProgress: false,
-        accounts: [],
-      };
-    case "TOGGLE_LEDGER_WIZARD_ADVANCED":
+    case actions.walletSelector.toggleLedgerAccountsAdvanced.getType():
       return {
         ...state,
         isLoading: true,
         advanced: !state.advanced,
       };
+    case actions.walletSelector.ledgerCloseAccountChooser.getType():
+      return ledgerWizardInitialState;
   }
 
   return state;
@@ -114,3 +109,5 @@ export const ledgerWizardReducer: AppReducer<ILedgerWizardState> = (
 export function selectHasPreviousPage(state: DeepReadonly<ILedgerWizardState>): boolean {
   return state.index > 0;
 }
+
+export const selectLedgerWizardError = (state: TAppGlobalState) => state.ledgerWizardState.errorMsg;

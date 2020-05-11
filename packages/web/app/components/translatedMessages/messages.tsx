@@ -62,6 +62,7 @@ export enum GenericErrorMessage {
 export enum WalletConnectErrorMessage {
   WC_GENERIC_ERROR = "wcGenericError",
   WC_SESSION_REJECTED_ERROR = "wcSessionRejectedError",
+  WC_SESSION_INVALID_CHAIN_ID = "wcSessionInvalidChainId",
 }
 
 export enum GenericModalMessage {
@@ -221,7 +222,7 @@ export enum AuthMessage {
   AUTH_EMAIL_VERIFIED = "authEmailVerified",
   AUTH_EMAIL_ALREADY_EXISTS = "authEmailAlreadyExists",
   AUTH_EMAIL_VERIFICATION_FAILED = "authEmailVerificationFailed",
-  AUTH_EMAIL_VERIFICATION_FAILED_SAME_EMAIL = "authEmailVerificationFailedSameEmail",
+  AUTH_EMAIL_VERIFICATION_CODE_MISMATCH = "authEmailVerificationCodeMismatch",
   AUTH_TOC_ACCEPT_ERROR = "authTocAcceptError",
   AUTH_TOC_FILENAME = "authTocFilename",
 }
@@ -567,9 +568,9 @@ const getMessageTranslation = ({ messageType, messageData }: TMessage): TTransla
       return (
         <FormattedMessage id="modules.auth.sagas.verify-user-email-promise.failed-email-verify" />
       );
-    case AuthMessage.AUTH_EMAIL_VERIFICATION_FAILED_SAME_EMAIL:
+    case AuthMessage.AUTH_EMAIL_VERIFICATION_CODE_MISMATCH:
       return (
-        <FormattedMessage id="modules.auth.sagas.verify-user-email-promise.failed-email-verify-same-email" />
+        <FormattedMessage id="modules.auth.sagas.verify-user-email-promise.failed-email-verify-code-mismatch" />
       );
     case AuthMessage.AUTH_TOC_ACCEPT_ERROR:
       return <FormattedMessage id="settings.modal.accept-tos.failure" />;
@@ -822,6 +823,9 @@ const getMessageTranslation = ({ messageType, messageData }: TMessage): TTransla
       );
     case WalletConnectErrorMessage.WC_SESSION_REJECTED_ERROR:
       return <FormattedMessage id="wallet-connect.session-rejected-error" />;
+
+    case WalletConnectErrorMessage.WC_SESSION_INVALID_CHAIN_ID:
+      return <FormattedMessage id="wallet-connect.session-invalid-chain-id" />;
 
     // NEVER DO THIS! This is only for tests, so that we don't bloat locales.json with test strings!
     case TestMessage.TEST_MESSAGE:

@@ -50,7 +50,7 @@ export const RegisterBrowserWallet = compose<IStateProps & IDispatchProps & TAdd
     }),
     dispatchToProps: dispatch => ({
       submitForm: (email: string, tos: boolean) =>
-        dispatch(actions.walletSelector.browserWalletRegisterFormData(email, tos)),
+        dispatch(actions.walletSelector.genericWalletRegisterFormData(email, tos)),
     }),
   }),
   branch<TBrowserWalletRegisterData>(
