@@ -1,4 +1,5 @@
-import { IBasicContractAdapter } from "./IBasicContractAdapter";
+import { IERC20TokenAdapter } from "./IERC20TokenAdapter";
+import { IICBMLockedAccountAdapter, ILockedAccountAdapter } from "./ILockedAccountAdapter";
 import { IRateOracleAdapter } from "./IRateOracleAdapter";
 
 /**
@@ -8,9 +9,17 @@ interface IContractsService {
   /**
    * Tokens
    */
-  neumark: IBasicContractAdapter;
-  etherToken: IBasicContractAdapter;
-  euroToken: IBasicContractAdapter;
+  neumark: IERC20TokenAdapter;
+  etherToken: IERC20TokenAdapter;
+  euroToken: IERC20TokenAdapter;
+
+  /**
+   * Locked acccounts
+   */
+  icbmEuroLock: IICBMLockedAccountAdapter;
+  icbmEtherLock: IICBMLockedAccountAdapter;
+  euroLock: ILockedAccountAdapter;
+  etherLock: ILockedAccountAdapter;
 
   /**
    * Services

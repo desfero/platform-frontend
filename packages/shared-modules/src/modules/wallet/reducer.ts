@@ -1,4 +1,7 @@
-import { AppReducer } from "../../store";
+import { AppReducer } from "@neufund/sagas";
+import { StateFromReducersMapObject } from "redux";
+
+import { walletActions } from "./actions";
 
 export interface IWalletState {
   loading: boolean;
@@ -34,7 +37,7 @@ const walletInitialState: IWalletState = {
   loading: true,
 };
 
-export const walletReducer: AppReducer<IWalletState> = (
+export const walletReducer: AppReducer<IWalletState, typeof walletActions> = (
   state = walletInitialState,
   action,
 ): IWalletState => {
@@ -55,3 +58,11 @@ export const walletReducer: AppReducer<IWalletState> = (
 
   return state;
 };
+
+const walletReducerMap = {
+  wallet: walletReducer,
+};
+
+export { walletReducerMap };
+
+export type TModuleState = StateFromReducersMapObject<typeof walletReducerMap>;

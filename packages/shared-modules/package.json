@@ -21,7 +21,9 @@
     "tslint:fix": "yarn tslint --fix"
   },
   "dependencies": {
-    "crypto-random-string": "^3.0.1"
+    "crypto-random-string": "^3.0.1",
+    "promise-all": "^1.0.0",
+    "web3-utils": "^1.2.4"
   },
   "devDependencies": {
     "@neufund/sagas": "^1.0.0",

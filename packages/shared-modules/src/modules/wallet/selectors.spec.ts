@@ -1,7 +1,7 @@
 import { Q18 } from "@neufund/shared-utils";
 import { expect } from "chai";
 
-import { TAppGlobalState } from "../../store";
+import { TWalletModuleState } from "./module";
 import {
   selectICBMLockedEuroTotalAmount,
   selectLiquidEuroTotalAmount,
@@ -58,7 +58,7 @@ describe("Wallet > selectors", () => {
   };
 
   it("should calculate total value correctly", () => {
-    const fullStateMock = (defaultState as any) as TAppGlobalState;
+    const fullStateMock = (defaultState as any) as TWalletModuleState;
 
     const totalEther = Q18.mul((10 + 23.11 + 50 + 100).toString());
     expect(selectTotalEtherBalance(fullStateMock)).to.be.eq(totalEther.toString());

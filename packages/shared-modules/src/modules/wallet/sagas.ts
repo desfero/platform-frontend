@@ -1,59 +1,74 @@
-import { delay, fork, put, select, take } from "@neufund/sagas";
-import { authModuleAPI, contractsModuleApi } from "@neufund/shared-modules";
-import { EthereumAddress } from "@neufund/shared-utils";
-import * as promiseAll from "promise-all";
+import {
+  delay,
+  fork,
+  neuCall,
+  neuTakeEvery,
+  neuTakeUntil,
+  put,
+  SagaGenerator,
+  select,
+} from "@neufund/sagas";
+import { EthereumAddressWithChecksum } from "@neufund/shared-utils";
+import BigNumber from "bignumber.js";
+import promiseAll from "promise-all";
 
-import { TGlobalDependencies } from "../../di/setupBindings";
-import { ICBMLockedAccount } from "../../lib/contracts/ICBMLockedAccount";
-import { LockedAccount } from "../../lib/contracts/LockedAccount";
-import { actions } from "../actions";
-import { waitUntilSmartContractsAreInitialized } from "../init/sagas";
-import { neuCall, neuTakeEvery, neuTakeUntil } from "../sagasUtils";
-import { selectEthereumAddress } from "../web3/selectors";
+import { neuGetBindings } from "../../utils";
+import { authModuleAPI, IUser, TAuthModuleState } from "../auth/module";
+import { contractsModuleApi, IContractsService, ILockedAccountAdapter } from "../contracts/module";
+import { coreModuleApi } from "../core/module";
+import { walletActions } from "./actions";
 import { ILockedWallet, IWalletStateData } from "./reducer";
+
+type TGlobalDependencies = unknown;
 
 const WALLET_DATA_FETCHING_INTERVAL = 12000;
 
-function* loadWalletDataSaga({ logger }: TGlobalDependencies): any {
+function* loadWalletDataSaga(_: TGlobalDependencies): any {
+  const { logger, contractsService } = yield* neuGetBindings({
+    logger: coreModuleApi.symbols.logger,
+    contractsService: contractsModuleApi.symbols.contractsService,
+  });
+
   try {
-    const ethAddress = yield select(selectEthereumAddress);
-    yield put(actions.gas.gasApiEnsureLoading());
-    yield take(actions.gas.gasApiLoaded);
+    // COMMENT: it looks like the gas price api information is not really needed
+    // for this saga to work properly..
+    // yield put(actions.gas.gasApiEnsureLoading());
+    // yield take(actions.gas.gasApiLoaded);
 
-    const state: IWalletStateData = yield neuCall(loadWalletDataAsync, ethAddress);
+    const user: IUser = yield select((state: TAuthModuleState) =>
+      authModuleAPI.selectors.selectUser(state),
+    );
+    const ethAddress = user.userId;
 
-    yield put(actions.wallet.saveWalletData(state));
+    const state: IWalletStateData = yield neuCall(
+      loadWalletDataAsync,
+      ethAddress,
+      contractsService,
+    );
+    yield put(walletActions.saveWalletData(state));
     logger.info("Wallet Loaded");
   } catch (e) {
-    yield put(actions.wallet.loadWalletDataError("Error while loading wallet data."));
+    yield put(walletActions.loadWalletDataError("Error while loading wallet data."));
     logger.error("Error while loading wallet data: ", e);
   }
 }
 
 async function loadICBMWallet(
-  ethAddress: EthereumAddress,
-  lockedAccount?: ICBMLockedAccount | LockedAccount,
+  ethAddress: EthereumAddressWithChecksum,
+  lockedAccount: ILockedAccountAdapter,
 ): Promise<ILockedWallet> {
-  if (lockedAccount) {
-    const balance = await lockedAccount.balanceOf(ethAddress);
-    return contractsModuleApi.utils.numericValuesToString({
-      LockedBalance: balance[0],
-      neumarksDue: balance[1],
-      unlockDate: balance[2],
-    });
-  } else {
-    // todo: may be removed when contracts deployed on production
-    return {
-      LockedBalance: "0",
-      neumarksDue: "0",
-      unlockDate: "0",
-    };
-  }
+  const balance = await lockedAccount.balanceOf(ethAddress);
+  return contractsModuleApi.utils.numericValuesToString({
+    LockedBalance: balance[0],
+    neumarksDue: balance[1],
+    unlockDate: balance[2],
+  });
 }
 
 export async function loadWalletDataAsync(
-  { contractsService, web3Manager }: TGlobalDependencies,
-  ethAddress: EthereumAddress,
+  _: TGlobalDependencies,
+  ethAddress: EthereumAddressWithChecksum,
+  contractsService: IContractsService,
 ): Promise<IWalletStateData> {
   return {
     ...(await promiseAll({
@@ -69,7 +84,8 @@ export async function loadWalletDataAsync(
       await promiseAll({
         etherTokenBalance: contractsService.etherToken.balanceOf(ethAddress),
         euroTokenBalance: contractsService.euroToken.balanceOf(ethAddress),
-        etherBalance: web3Manager.getBalance(ethAddress),
+        // TODO: get ether balance from somewhere
+        etherBalance: Promise.resolve(new BigNumber(0)),
         neuBalance: contractsService.neumark.balanceOf(ethAddress),
       }),
     ),
@@ -77,7 +93,8 @@ export async function loadWalletDataAsync(
 }
 
 function* walletBalanceWatcher(): any {
-  yield waitUntilSmartContractsAreInitialized();
+  // TODO wait for contracts
+  // yield waitUntilSmartContractsAreInitialized();
 
   while (true) {
     yield neuCall(loadWalletDataSaga);
@@ -85,11 +102,13 @@ function* walletBalanceWatcher(): any {
   }
 }
 
-export function* walletSagas(): any {
-  yield fork(neuTakeEvery, "WALLET_LOAD_WALLET_DATA", loadWalletDataSaga);
-  yield neuTakeUntil(
-    authModuleAPI.actions.setUser,
-    actions.wallet.stopWalletBalanceWatcher,
-    walletBalanceWatcher,
-  );
+export function setupWalletSagas(): () => SagaGenerator<void> {
+  return function* walletSagas(): any {
+    yield fork(neuTakeEvery, "WALLET_LOAD_WALLET_DATA", loadWalletDataSaga);
+    yield neuTakeUntil(
+      authModuleAPI.actions.setUser,
+      walletActions.stopWalletBalanceWatcher,
+      walletBalanceWatcher,
+    );
+  };
 }

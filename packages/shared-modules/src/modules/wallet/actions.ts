@@ -1,12 +1,14 @@
 import { createActionFactory } from "@neufund/shared-utils";
 
-import { createAction, createSimpleAction } from "../actionsUtils";
 import { IWalletStateData } from "./reducer";
 
 export const walletActions = {
-  loadWalletData: () => createSimpleAction("WALLET_LOAD_WALLET_DATA"),
-  saveWalletData: (data: IWalletStateData) => createAction("WALLET_SAVE_WALLET_DATA", { data }),
-  loadWalletDataError: (errorMsg: string) =>
-    createAction("WALLET_LOAD_WALLET_DATA_ERROR", { errorMsg }),
+  loadWalletData: createActionFactory("WALLET_LOAD_WALLET_DATA"),
+  saveWalletData: createActionFactory("WALLET_SAVE_WALLET_DATA", (data: IWalletStateData) => ({
+    data,
+  })),
+  loadWalletDataError: createActionFactory("WALLET_LOAD_WALLET_DATA_ERROR", (errorMsg: string) => ({
+    errorMsg,
+  })),
   stopWalletBalanceWatcher: createActionFactory("STOP_WALLET_BALANCE_WATCHER"),
 };
