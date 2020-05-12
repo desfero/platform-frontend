@@ -4,7 +4,6 @@ import {
   ETHEREUM_ZERO_ADDRESS,
   multiplyBigNumbers,
   NEUR_ALLOWED_US_STATES,
-  subtractBigNumbers,
 } from "@neufund/shared-utils";
 import BigNumber from "bignumber.js";
 import { createSelector } from "reselect";
@@ -15,7 +14,6 @@ import { TAppGlobalState } from "../../store";
 import { selectIsUserFullyVerified } from "../auth/selectors";
 import { selectIndividualAddress, selectKycRequestType } from "../kyc/selectors";
 import { selectEtherPriceEur, selectNeuPriceEur } from "../shared/tokenPrice/selectors";
-import { selectTxGasCostEthUlps } from "../tx/sender/selectors";
 import { IWalletState, IWalletStateData } from "./reducer";
 import { ENEURWalletStatus } from "./types";
 
@@ -220,10 +218,6 @@ export const selectIsEuroUpgradeTargetSet = (state: TAppGlobalState): boolean =>
     Web3Utils.isAddress(state.wallet.data.euroTokenUpgradeTarget) &&
     state.wallet.data.euroTokenUpgradeTarget !== ETHEREUM_ZERO_ADDRESS
   );
-
-/* General State Selectors */
-export const selectMaxAvailableEther = (state: TAppGlobalState): string =>
-  subtractBigNumbers([selectLiquidEtherBalance(state), selectTxGasCostEthUlps(state)]);
 
 export const selectNEURStatus = (state: TAppGlobalState): ENEURWalletStatus => {
   const isUserFullyVerified = selectIsUserFullyVerified(state);
