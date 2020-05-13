@@ -12,6 +12,7 @@ interface IContractsService {
   /**
    * Special functions (ether balance)
    */
+  // TODO: move to new eth module
   balanceOf: (address: EthereumAddressWithChecksum) => Promise<BigNumber>;
 
   /**

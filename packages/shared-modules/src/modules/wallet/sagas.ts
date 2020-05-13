@@ -10,7 +10,6 @@ import {
   take,
 } from "@neufund/sagas";
 import { EthereumAddressWithChecksum } from "@neufund/shared-utils";
-import BigNumber from "bignumber.js";
 import promiseAll from "promise-all";
 
 import { neuGetBindings } from "../../utils";

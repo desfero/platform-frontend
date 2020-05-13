@@ -62,6 +62,8 @@ export class ContractsService implements IContractsService {
     this.logger.info("Initializing contracts...");
 
     this.web3 = this.web3Manager.getFullWeb3Object();
+
+    // TODO: move to new eth module
     this.balanceOf = (address: EthereumAddressWithChecksum) =>
       this.web3Manager.getBalance((address as unknown) as EthereumAddress);
 

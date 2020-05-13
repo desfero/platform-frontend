@@ -2,7 +2,7 @@ import { generateSharedModuleId } from "../../utils";
 import { setupContainerModule } from "./lib/bindings";
 import { IContractsService } from "./lib/ContractService";
 import { IERC20TokenAdapter } from "./lib/IERC20TokenAdapter";
-import { ILockedAccountAdapter } from "./lib/ILockedAccountAdapter";
+import { IICBMLockedAccountAdapter, ILockedAccountAdapter } from "./lib/ILockedAccountAdapter";
 import { IRateOracleAdapter } from "./lib/IRateOracleAdapter";
 import { symbols } from "./lib/symbols";
 import * as utils from "./utils";
@@ -29,4 +29,5 @@ export {
   contractsModuleApi,
   ILockedAccountAdapter,
   IERC20TokenAdapter,
+  IICBMLockedAccountAdapter,
 };
