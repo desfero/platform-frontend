@@ -1,3 +1,6 @@
+import { EthereumAddressWithChecksum } from "@neufund/shared-utils";
+import { BigNumber } from "bignumber.js";
+
 import { IERC20TokenAdapter } from "./IERC20TokenAdapter";
 import { IICBMLockedAccountAdapter, ILockedAccountAdapter } from "./ILockedAccountAdapter";
 import { IRateOracleAdapter } from "./IRateOracleAdapter";
@@ -6,6 +9,11 @@ import { IRateOracleAdapter } from "./IRateOracleAdapter";
  * An interface syncing ContractsService implementation between platforms (web and mobile)
  */
 interface IContractsService {
+  /**
+   * Special functions (ether balance)
+   */
+  balanceOf: (address: EthereumAddressWithChecksum) => Promise<BigNumber>;
+
   /**
    * Tokens
    */

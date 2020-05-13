@@ -1,5 +1,6 @@
 import { IContractsService, ILogger } from "@neufund/shared-modules";
-import { EthereumAddress } from "@neufund/shared-utils";
+import { EthereumAddress, EthereumAddressWithChecksum } from "@neufund/shared-utils";
+import { BigNumber } from "bignumber.js";
 import { inject, injectable } from "inversify";
 import * as Web3 from "web3";
 
@@ -49,6 +50,8 @@ export class ContractsService implements IContractsService {
   public platformTerms!: PlatformTerms;
   public rateOracle!: ITokenExchangeRateOracle;
 
+  public balanceOf!: (address: EthereumAddressWithChecksum) => Promise<BigNumber>;
+
   constructor(
     @inject(symbols.config) private readonly config: IConfig,
     @inject(symbols.web3Manager) private readonly web3Manager: Web3Manager,
@@ -59,6 +62,8 @@ export class ContractsService implements IContractsService {
     this.logger.info("Initializing contracts...");
 
     this.web3 = this.web3Manager.getFullWeb3Object();
+    this.balanceOf = (address: EthereumAddressWithChecksum) =>
+      this.web3Manager.getBalance((address as unknown) as EthereumAddress);
 
     if (!this.web3) {
       throw new Error("Could not initialize web3");
