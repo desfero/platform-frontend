@@ -11,12 +11,14 @@ export { ENEURWalletStatus, ILockedWallet, IWalletStateData } from "./types";
 
 const MODULE_ID = generateSharedModuleId("wallet");
 
-const setupWalletModule = () => {
+type Config = Parameters<typeof sagas.setupWalletSagas>[0];
+
+const setupWalletModule = (config: Config) => {
   const module = {
     id: MODULE_ID,
     api: walletApi,
     libs: [],
-    sagas: [sagas.setupWalletSagas()],
+    sagas: [sagas.setupWalletSagas(config)],
     reducerMap: walletReducerMap,
   };
 

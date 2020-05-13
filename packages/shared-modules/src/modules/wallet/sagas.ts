@@ -23,7 +23,7 @@ type TGlobalDependencies = unknown;
 
 const WALLET_DATA_FETCHING_INTERVAL = 12000;
 
-function* loadWalletDataSaga(_: TGlobalDependencies): any {
+function* loadWalletDataSaga(_: TGlobalDependencies): Generator<any, any, any> {
   const { logger, contractsService } = yield* neuGetBindings({
     logger: coreModuleApi.symbols.logger,
     contractsService: contractsModuleApi.symbols.contractsService,
@@ -91,19 +91,21 @@ export async function loadWalletDataAsync(
   };
 }
 
-function* walletBalanceWatcher(): any {
-  // TODO wait for contracts
-  // yield waitUntilSmartContractsAreInitialized();
-
+function* walletBalanceWatcher(_: TGlobalDependencies): Generator<any, any, any> {
   while (true) {
     yield neuCall(loadWalletDataSaga);
     yield delay(WALLET_DATA_FETCHING_INTERVAL);
   }
 }
 
-export function setupWalletSagas(): () => SagaGenerator<void> {
+type TSetupSagasConfig = {
+  waitUntilSmartContractsAreInitialized: () => Generator<any, any, any>;
+};
+
+export function setupWalletSagas(config: TSetupSagasConfig): () => SagaGenerator<void> {
   return function* walletSagas(): any {
     yield fork(neuTakeEvery, "WALLET_LOAD_WALLET_DATA", loadWalletDataSaga);
+    yield config.waitUntilSmartContractsAreInitialized();
     yield neuTakeUntil(
       authModuleAPI.actions.setUser,
       walletActions.stopWalletBalanceWatcher,
