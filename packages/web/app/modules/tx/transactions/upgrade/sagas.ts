@@ -1,4 +1,5 @@
 import { fork, put, select } from "@neufund/sagas";
+import { walletApi } from "@neufund/shared-modules";
 import { EthereumAddress } from "@neufund/shared-utils";
 import { addHexPrefix } from "ethereumjs-util";
 
@@ -7,10 +8,6 @@ import { ITxData } from "../../../../lib/web3/types";
 import { actions, TAction } from "../../../actions";
 import { selectStandardGasPriceWithOverHead } from "../../../gas/selectors";
 import { neuCall, neuTakeLatest } from "../../../sagasUtils";
-import {
-  selectIsEtherUpgradeTargetSet,
-  selectIsEuroUpgradeTargetSet,
-} from "../../../wallet/selectors";
 import { selectEthereumAddress } from "../../../web3/selectors";
 import { ITxSendParams, txSendSaga } from "../../sender/sagas";
 import { ETokenType, ETxSenderType } from "../../types";
@@ -21,7 +18,7 @@ function* generateEuroUpgradeTransaction({
 }: TGlobalDependencies): any {
   const userAddress = yield select(selectEthereumAddress);
   const gasPriceWithOverhead = yield select(selectStandardGasPriceWithOverHead);
-  const migrationTarget = yield select(selectIsEuroUpgradeTargetSet);
+  const migrationTarget = yield select(walletApi.selectors.selectIsEuroUpgradeTargetSet);
 
   if (!migrationTarget) {
     throw new Error();
@@ -53,7 +50,7 @@ function* generateEtherUpgradeTransaction({
 }: TGlobalDependencies): any {
   const userAddress: EthereumAddress = yield select(selectEthereumAddress);
   const gasPriceWithOverhead = yield select(selectStandardGasPriceWithOverHead);
-  const migrationTarget: boolean = yield select(selectIsEtherUpgradeTargetSet);
+  const migrationTarget: boolean = yield select(walletApi.selectors.selectIsEtherUpgradeTargetSet);
 
   if (!migrationTarget) {
     throw new Error();

@@ -1,3 +1,4 @@
+import { walletApi } from "@neufund/shared-modules";
 import { compose, withHandlers } from "recompose";
 
 import { actions } from "../../../../../modules/actions";
@@ -13,7 +14,6 @@ import {
   selectTxValidationNotifications,
   selectTxValidationState,
 } from "../../../../../modules/tx/validator/selectors";
-import { selectLiquidEtherBalance } from "../../../../../modules/wallet/selectors";
 import { appConnect } from "../../../../../store";
 import {
   ITransferLayoutDispatchProps,
@@ -26,7 +26,7 @@ import { onTransferValidateHandler } from "./utils";
 const WithdrawInit = compose<TTransferLayoutProps, {}>(
   appConnect<ITransferLayoutStateProps, ITransferLayoutDispatchProps>({
     stateToProps: state => ({
-      tokenAmount: selectLiquidEtherBalance(state),
+      tokenAmount: walletApi.selectors.selectLiquidEtherBalance(state),
       tokenSymbol: selectUserFlowTokenSymbol(state),
       tokenImage: selectUserFlowTokenImage(state),
       validationState: selectTxValidationState(state),

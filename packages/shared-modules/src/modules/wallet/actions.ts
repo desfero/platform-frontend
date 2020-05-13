@@ -1,6 +1,6 @@
 import { createActionFactory } from "@neufund/shared-utils";
 
-import { IWalletStateData } from "./reducer";
+import { IWalletStateData } from "./types";
 
 export const walletActions = {
   loadWalletData: createActionFactory("WALLET_LOAD_WALLET_DATA"),

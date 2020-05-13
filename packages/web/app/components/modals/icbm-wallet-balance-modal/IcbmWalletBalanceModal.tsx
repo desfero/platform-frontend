@@ -1,3 +1,4 @@
+import { walletApi } from "@neufund/shared-modules";
 import * as React from "react";
 import { compose } from "recompose";
 
@@ -18,10 +19,6 @@ import {
   selectWalletMigrationData,
 } from "../../../modules/icbm-wallet-balance-modal/selectors";
 import { ETokenType } from "../../../modules/tx/types";
-import {
-  selectIsEtherUpgradeTargetSet,
-  selectLockedWalletConnected,
-} from "../../../modules/wallet/selectors";
 import { appConnect } from "../../../store";
 import { LoadingIndicator } from "../../shared/loading-indicator";
 import { Modal } from "../Modal";
@@ -121,9 +118,9 @@ const IcbmWalletBalanceModal = compose<IStateProps & IDispatchProps, {}>(
       etherBalance: selectEtherBalanceIcbmModal(state),
       isUserVerified: selectIsUserVerified(state),
       walletMigrationData: selectWalletMigrationData(state.icbmWalletBalanceModal),
-      lockedWalletConnected: selectLockedWalletConnected(state),
+      lockedWalletConnected: walletApi.selectors.selectLockedWalletConnected(state),
       currentMigrationStep: selectWalletMigrationCurrentStep(state),
-      isEtherMigrationTargetSet: selectIsEtherUpgradeTargetSet(state),
+      isEtherMigrationTargetSet: walletApi.selectors.selectIsEtherUpgradeTargetSet(state),
       isWalletMigrating: selectIcbmModalIsMigrating(state),
       isFirstTxDone: selectIcbmModalIsFirstTransactionDone(state),
       isSecondTxDone: selectIcbmModalIsSecondTransactionDone(state),

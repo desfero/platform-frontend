@@ -17,7 +17,7 @@ import { authModuleAPI, IUser, TAuthModuleState } from "../auth/module";
 import { contractsModuleApi, IContractsService, ILockedAccountAdapter } from "../contracts/module";
 import { coreModuleApi } from "../core/module";
 import { walletActions } from "./actions";
-import { ILockedWallet, IWalletStateData } from "./reducer";
+import { ILockedWallet, IWalletStateData } from "./types";
 
 type TGlobalDependencies = unknown;
 

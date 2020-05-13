@@ -1,3 +1,4 @@
+import { ENEURWalletStatus, walletApi } from "@neufund/shared-modules";
 import * as React from "react";
 import { branch, renderComponent } from "recompose";
 import { compose } from "redux";
@@ -6,28 +7,7 @@ import { actions } from "../../../../modules/actions";
 import { EBankTransferType } from "../../../../modules/bank-transfer-flow/reducer";
 import { selectIndividualAddress } from "../../../../modules/kyc/selectors";
 import { ETokenType } from "../../../../modules/tx/types";
-import {
-  selectICBMLockedEtherBalance,
-  selectICBMLockedEtherBalanceEuroAmount,
-  selectICBMLockedEuroTokenBalance,
-  selectICBMLockedEuroTotalAmount,
-  selectICBMLockedWalletHasFunds,
-  selectIsEtherUpgradeTargetSet,
-  selectIsEuroUpgradeTargetSet,
-  selectIsLoading,
-  selectLiquidEtherBalance,
-  selectLiquidEtherBalanceEuroAmount,
-  selectLiquidEuroTokenBalance,
-  selectLiquidEuroTotalAmount,
-  selectLockedEtherBalance,
-  selectLockedEtherBalanceEuroAmount,
-  selectLockedEuroTokenBalance,
-  selectLockedEuroTotalAmount,
-  selectLockedWalletHasFunds,
-  selectNEURStatus,
-  selectWalletError,
-} from "../../../../modules/wallet/selectors";
-import { ENEURWalletStatus } from "../../../../modules/wallet/types";
+import { selectNEURStatus } from "../../../../modules/wallet/selectors";
 import { selectEthereumAddress } from "../../../../modules/web3/selectors";
 import { appConnect } from "../../../../store";
 import { onEnterAction } from "../../../../utils/react-connected-components/OnEnterAction";
@@ -130,34 +110,34 @@ export const WalletStart = compose<React.FunctionComponent>(
     stateToProps: state => ({
       userAddress: selectEthereumAddress(state),
       // Wallet Related State
-      isLoading: selectIsLoading(state),
-      error: selectWalletError(state),
+      isLoading: walletApi.selectors.selectIsLoading(state),
+      error: walletApi.selectors.selectWalletError(state),
       neurStatus: selectNEURStatus(state),
       individualAddress: selectIndividualAddress(state),
       liquidWalletData: {
-        ethAmount: selectLiquidEtherBalance(state),
-        ethEuroAmount: selectLiquidEtherBalanceEuroAmount(state),
-        neuroAmount: selectLiquidEuroTokenBalance(state),
-        neuroEuroAmount: selectLiquidEuroTokenBalance(state),
-        totalEuroAmount: selectLiquidEuroTotalAmount(state),
+        ethAmount: walletApi.selectors.selectLiquidEtherBalance(state),
+        ethEuroAmount: walletApi.selectors.selectLiquidEtherBalanceEuroAmount(state),
+        neuroAmount: walletApi.selectors.selectLiquidEuroTokenBalance(state),
+        neuroEuroAmount: walletApi.selectors.selectLiquidEuroTokenBalance(state),
+        totalEuroAmount: walletApi.selectors.selectLiquidEuroTotalAmount(state),
       },
       lockedWalletData: {
-        hasFunds: selectLockedWalletHasFunds(state),
-        ethAmount: selectLockedEtherBalance(state),
-        ethEuroAmount: selectLockedEtherBalanceEuroAmount(state),
-        neuroAmount: selectLockedEuroTokenBalance(state),
-        neuroEuroAmount: selectLockedEuroTokenBalance(state),
-        totalEuroAmount: selectLockedEuroTotalAmount(state),
+        hasFunds: walletApi.selectors.selectLockedWalletHasFunds(state),
+        ethAmount: walletApi.selectors.selectLockedEtherBalance(state),
+        ethEuroAmount: walletApi.selectors.selectLockedEtherBalanceEuroAmount(state),
+        neuroAmount: walletApi.selectors.selectLockedEuroTokenBalance(state),
+        neuroEuroAmount: walletApi.selectors.selectLockedEuroTokenBalance(state),
+        totalEuroAmount: walletApi.selectors.selectLockedEuroTotalAmount(state),
       },
       icbmWalletData: {
-        hasFunds: selectICBMLockedWalletHasFunds(state),
-        ethAmount: selectICBMLockedEtherBalance(state),
-        ethEuroAmount: selectICBMLockedEtherBalanceEuroAmount(state),
-        neuroAmount: selectICBMLockedEuroTokenBalance(state),
-        neuroEuroAmount: selectICBMLockedEuroTokenBalance(state),
-        totalEuroAmount: selectICBMLockedEuroTotalAmount(state),
-        isEtherUpgradeTargetSet: selectIsEtherUpgradeTargetSet(state),
-        isEuroUpgradeTargetSet: selectIsEuroUpgradeTargetSet(state),
+        hasFunds: walletApi.selectors.selectICBMLockedWalletHasFunds(state),
+        ethAmount: walletApi.selectors.selectICBMLockedEtherBalance(state),
+        ethEuroAmount: walletApi.selectors.selectICBMLockedEtherBalanceEuroAmount(state),
+        neuroAmount: walletApi.selectors.selectICBMLockedEuroTokenBalance(state),
+        neuroEuroAmount: walletApi.selectors.selectICBMLockedEuroTokenBalance(state),
+        totalEuroAmount: walletApi.selectors.selectICBMLockedEuroTotalAmount(state),
+        isEtherUpgradeTargetSet: walletApi.selectors.selectIsEtherUpgradeTargetSet(state),
+        isEuroUpgradeTargetSet: walletApi.selectors.selectIsEuroUpgradeTargetSet(state),
       },
     }),
     dispatchToProps: dispatch => ({

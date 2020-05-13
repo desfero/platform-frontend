@@ -5,11 +5,11 @@ import {
   EButtonSize,
   EIconPosition,
 } from "@neufund/design-system";
+import { ENEURWalletStatus } from "@neufund/shared-modules";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { branch, compose, renderNothing } from "recompose";
 
-import { ENEURWalletStatus } from "../../../modules/wallet/types";
 import { THocProps } from "../../../types";
 import { EColumnSpan } from "../../layouts/Container";
 import { Panel } from "../../shared/Panel";

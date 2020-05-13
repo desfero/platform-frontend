@@ -1,8 +1,8 @@
+import { ENEURWalletStatus } from "@neufund/shared-modules";
 import { action } from "@storybook/addon-actions";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { ENEURWalletStatus } from "../../../modules/wallet/types";
 import { LinkedBankAccountLayout } from "./LinkedBankAccountWidget";
 
 storiesOf("LinkedBankAccountWidget", module)

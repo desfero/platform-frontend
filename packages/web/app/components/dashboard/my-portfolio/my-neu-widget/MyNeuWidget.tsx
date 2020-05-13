@@ -1,4 +1,5 @@
 import { EButtonLayout } from "@neufund/design-system";
+import { walletApi } from "@neufund/shared-modules";
 import { withContainer } from "@neufund/shared-utils";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
@@ -18,12 +19,6 @@ import {
   selectTokensDisbursalIsLoading,
   selectTokensDisbursalNotInitialized,
 } from "../../../../modules/investor-portfolio/selectors";
-import {
-  selectIsLoading,
-  selectNeuBalance,
-  selectNeuBalanceEuroAmount,
-  selectWalletError,
-} from "../../../../modules/wallet/selectors";
 import { appConnect } from "../../../../store";
 import { onEnterAction } from "../../../../utils/react-connected-components/OnEnterAction";
 import { ButtonLink } from "../../../shared/buttons/ButtonLink";
@@ -114,15 +109,15 @@ export const MyNeuWidget = compose<TComponentProps, {}>(
   appConnect<TStateProps>({
     stateToProps: state => ({
       isLoading:
-        selectIsLoading(state) ||
+        walletApi.selectors.selectIsLoading(state) ||
         (selectIsIncomingPayoutNotInitialized(state) && selectIsIncomingPayoutLoading(state)) ||
         (selectTokensDisbursalNotInitialized(state) && selectTokensDisbursalIsLoading(state)),
       error:
-        !!selectWalletError(state) ||
+        !!walletApi.selectors.selectWalletError(state) ||
         selectIncomingPayoutError(state) ||
         selectTokensDisbursalError(state),
-      balanceNeu: selectNeuBalance(state),
-      balanceEur: selectNeuBalanceEuroAmount(state),
+      balanceNeu: walletApi.selectors.selectNeuBalance(state),
+      balanceEur: walletApi.selectors.selectNeuBalanceEuroAmount(state),
       isPayoutPending: selectIsIncomingPayoutPending(state),
       isPayoutAvailable: selectPayoutAvailable(state),
       tokensDisbursalEurEquiv: selectTokensDisbursalEurEquivTotal(state),

@@ -1,9 +1,9 @@
+import { ENEURWalletStatus } from "@neufund/shared-modules";
 import { ECountries, EUSState, Q18 } from "@neufund/shared-utils";
 import { action } from "@storybook/addon-actions";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { ENEURWalletStatus } from "../../../modules/wallet/types";
 import { UnlockedNEURWallet } from "./UnlockedNEURWallet";
 
 storiesOf("Unlocked EUR Wallet", module)

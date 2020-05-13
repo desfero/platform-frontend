@@ -2,36 +2,7 @@ import { AppReducer } from "@neufund/sagas";
 import { StateFromReducersMapObject } from "redux";
 
 import { walletActions } from "./actions";
-
-export interface IWalletState {
-  loading: boolean;
-  error?: string;
-  data?: IWalletStateData;
-}
-
-export interface ILockedWallet {
-  LockedBalance: string;
-  neumarksDue: string;
-  unlockDate: string;
-}
-
-// balances of all coins are represented by bignumber.js strings
-export interface IWalletStateData {
-  euroTokenLockedWallet: ILockedWallet;
-  etherTokenLockedWallet: ILockedWallet;
-
-  etherTokenBalance: string;
-  euroTokenBalance: string;
-  etherBalance: string;
-  neuBalance: string;
-
-  euroTokenICBMLockedWallet: ILockedWallet;
-  etherTokenICBMLockedWallet: ILockedWallet;
-  etherTokenUpgradeTarget?: string;
-  euroTokenUpgradeTarget?: string;
-  // TODO: Remove once
-  neumarkAddress: string;
-}
+import { IWalletState } from "./types";
 
 const walletInitialState: IWalletState = {
   loading: true,

@@ -1,3 +1,4 @@
+import { walletApi } from "@neufund/shared-modules";
 import { createMount, tid } from "@neufund/shared-utils/tests";
 import { expect } from "chai";
 import * as React from "react";
@@ -5,7 +6,6 @@ import { createSandbox, SinonStub } from "sinon";
 
 import { wrapWithBasicProviders } from "../../../../../test/integrationTestUtils.unsafe";
 import * as investorPortfolio from "../../../../modules/investor-portfolio/selectors";
-import * as walletSelectors from "../../../../modules/wallet/selectors";
 import * as buttonLink from "../../../shared/buttons/ButtonLink";
 import { WarningAlert } from "../../../shared/WarningAlert";
 import { MyNeuWidget } from "./MyNeuWidget";
@@ -22,12 +22,12 @@ describe("MyNeuWidget", () => {
     ));
 
     stubs = {
-      selectIsLoading: stub(walletSelectors, "selectIsLoading").returns(undefined),
-      selectNeuBalance: stub(walletSelectors, "selectNeuBalance").returns(undefined),
-      selectNeuBalanceEuroAmount: stub(walletSelectors, "selectNeuBalanceEuroAmount").returns(
+      selectIsLoading: stub(walletApi.selectors, "selectIsLoading").returns(undefined),
+      selectNeuBalance: stub(walletApi.selectors, "selectNeuBalance").returns(undefined),
+      selectNeuBalanceEuroAmount: stub(walletApi.selectors, "selectNeuBalanceEuroAmount").returns(
         undefined,
       ),
-      selectWalletError: stub(walletSelectors, "selectWalletError").returns(undefined),
+      selectWalletError: stub(walletApi.selectors, "selectWalletError").returns(undefined),
 
       selectIncomingPayoutError: stub(investorPortfolio, "selectIncomingPayoutError").returns(
         undefined,

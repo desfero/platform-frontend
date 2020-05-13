@@ -5,7 +5,7 @@ import * as Web3Utils from "web3-utils";
 
 import { selectEtherPriceEur, selectNeuPriceEur } from "../token-price/selectors";
 import { TWalletModuleState } from "./module";
-import { IWalletState, IWalletStateData } from "./reducer";
+import { IWalletState, IWalletStateData } from "./types";
 
 export const selectWalletData = (state: TWalletModuleState): IWalletStateData | undefined =>
   state.wallet.data;

@@ -1,5 +1,5 @@
 import { StringableActionCreator } from "@neufund/sagas";
-import { txHistoryApi } from "@neufund/shared-modules";
+import { txHistoryApi, walletApi } from "@neufund/shared-modules";
 import { TDictionaryValues } from "@neufund/shared-utils";
 import { LocationChangeAction } from "connected-react-router";
 
@@ -38,7 +38,6 @@ import { userAgentActions } from "./user-agent/actions";
 import { verifyEmailActions } from "./verify-email-widget/actions";
 import { videoModalActions } from "./video-modal/actions";
 import { walletSelectorActions } from "./wallet-selector/actions";
-import { walletActions } from "./wallet/actions";
 import { web3Actions } from "./web3/actions";
 
 /** You should add new actions also here (with a namespace).*/
@@ -60,7 +59,7 @@ export const actions = {
   investorEtoTicket: investorEtoTicketActions,
   userAgent: userAgentActions,
   auth: authActions,
-  wallet: walletActions,
+  wallet: walletApi.actions,
   notifications: notificationActions,
   notificationModal: notificationModalActions,
   etoFlow: etoFlowActions,

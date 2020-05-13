@@ -5,20 +5,13 @@ import {
   EButtonWidth,
   TokenIcon,
 } from "@neufund/design-system";
+import { walletApi } from "@neufund/shared-modules";
 import * as cn from "classnames";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { branch, compose, renderComponent } from "recompose";
 
 import { actions } from "../../../modules/actions";
-import {
-  selectIcbmWalletConnected,
-  selectLockedWalletConnected,
-  selectTotalEtherBalance,
-  selectTotalEtherBalanceEuroAmount,
-  selectTotalEuroBalance,
-  selectTotalEuroTokenBalance,
-} from "../../../modules/wallet/selectors";
 import { appConnect } from "../../../store";
 import { CommonHtmlProps } from "../../../types";
 import { onEnterAction } from "../../../utils/react-connected-components/OnEnterAction";
@@ -178,12 +171,12 @@ export const MyWalletWidget = compose<TComponentProps, CommonHtmlProps>(
           isLoading,
           hasError,
           data: {
-            euroTokenAmount: selectTotalEuroTokenBalance(state),
-            ethAmount: selectTotalEtherBalance(state),
-            ethEuroAmount: selectTotalEtherBalanceEuroAmount(state),
-            totalAmount: selectTotalEuroBalance(state),
-            isIcbmWalletConnected: selectIcbmWalletConnected(state.wallet),
-            isLockedWalletConnected: selectLockedWalletConnected(state),
+            euroTokenAmount: walletApi.selectors.selectTotalEuroTokenBalance(state),
+            ethAmount: walletApi.selectors.selectTotalEtherBalance(state),
+            ethEuroAmount: walletApi.selectors.selectTotalEtherBalanceEuroAmount(state),
+            totalAmount: walletApi.selectors.selectTotalEuroBalance(state),
+            isIcbmWalletConnected: walletApi.selectors.selectIcbmWalletConnected(state.wallet),
+            isLockedWalletConnected: walletApi.selectors.selectLockedWalletConnected(state),
           },
         };
       } else {

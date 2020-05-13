@@ -1,4 +1,5 @@
 import { fork, put, select, take } from "@neufund/sagas";
+import { walletApi } from "@neufund/shared-modules";
 import { ETH_DECIMALS, toEthereumAddress } from "@neufund/shared-utils";
 import BigNumber from "bignumber.js";
 
@@ -10,10 +11,6 @@ import { DEFAULT_UPPER_GAS_LIMIT } from "../../../../lib/web3/Web3Manager/Web3Ma
 import { actions } from "../../../actions";
 import { selectStandardGasPriceWithOverHead } from "../../../gas/selectors";
 import { neuTakeLatest } from "../../../sagasUtils";
-import {
-  selectEtherTokenBalanceAsBigNumber,
-  selectLiquidEtherBalance,
-} from "../../../wallet/selectors";
 import { selectEthereumAddress } from "../../../web3/selectors";
 import { isAddressValid } from "../../../web3/utils";
 import { txSendSaga } from "../../sender/sagas";
@@ -49,7 +46,9 @@ export function* generateEthWithdrawTransaction(
   }
   const valueUlpsAsBigN = new BigNumber(valueUlps);
 
-  const etherTokenBalance: BigNumber = yield select(selectEtherTokenBalanceAsBigNumber);
+  const etherTokenBalance: BigNumber = yield select(
+    walletApi.selectors.selectEtherTokenBalanceAsBigNumber,
+  );
   const from: string = yield select(selectEthereumAddress);
   const gasPriceWithOverhead = yield select(selectStandardGasPriceWithOverHead);
 
@@ -138,7 +137,7 @@ function* withdrawSaga({
 }: TGlobalDependencies): Generator<any, any, any> {
   try {
     const etherTokenAddress = contractsService.etherToken.address;
-    const userBalance: string = yield select(selectLiquidEtherBalance);
+    const userBalance: string = yield select(walletApi.selectors.selectLiquidEtherBalance);
 
     yield put(
       actions.txUserFlowTransfer.setInitialValues({

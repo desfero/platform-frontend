@@ -3,9 +3,11 @@ import { generateSharedModuleId } from "../../utils";
 import { setupTokenPriceModule } from "../token-price/module";
 import { walletActions } from "./actions";
 import { walletReducerMap } from "./reducer";
-import { setupWalletSagas } from "./sagas";
+import * as sagas from "./sagas";
 import * as selectors from "./selectors";
-export { ENEURWalletStatus } from "./types";
+import * as utils from "./utils";
+
+export { ENEURWalletStatus, ILockedWallet, IWalletStateData } from "./types";
 
 const MODULE_ID = generateSharedModuleId("wallet");
 
@@ -14,7 +16,7 @@ const setupWalletModule = () => {
     id: MODULE_ID,
     api: walletApi,
     libs: [],
-    sagas: [setupWalletSagas()],
+    sagas: [sagas.setupWalletSagas()],
     reducerMap: walletReducerMap,
   };
 
@@ -24,6 +26,8 @@ const setupWalletModule = () => {
 const walletApi = {
   actions: walletActions,
   selectors,
+  utils,
+  sagas,
 };
 
 export { setupWalletModule, walletApi };

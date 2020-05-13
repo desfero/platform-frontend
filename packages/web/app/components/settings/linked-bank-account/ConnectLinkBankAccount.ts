@@ -1,3 +1,4 @@
+import { ENEURWalletStatus } from "@neufund/shared-modules";
 import { DeepReadonly } from "@neufund/shared-utils";
 import * as React from "react";
 import { compose } from "recompose";
@@ -8,7 +9,6 @@ import { selectIsBankAccountVerified } from "../../../modules/bank-transfer-flow
 import { selectBankAccount } from "../../../modules/kyc/selectors";
 import { TBankAccount } from "../../../modules/kyc/types";
 import { selectNEURStatus } from "../../../modules/wallet/selectors";
-import { ENEURWalletStatus } from "../../../modules/wallet/types";
 import { appConnect } from "../../../store";
 import { onEnterAction } from "../../../utils/react-connected-components/OnEnterAction";
 

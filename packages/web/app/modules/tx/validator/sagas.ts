@@ -1,4 +1,5 @@
 import { fork, put, select } from "@neufund/sagas";
+import { walletApi } from "@neufund/shared-modules";
 import {
   addBigNumbers,
   compareBigNumbers,
@@ -18,7 +19,6 @@ import { TAppGlobalState } from "../../../store";
 import { actions, TAction } from "../../actions";
 import { webNotificationUIModuleApi } from "../../notification-ui/module";
 import { neuCall, neuTakeLatestUntil } from "../../sagasUtils";
-import { selectEtherBalance } from "../../wallet/selectors";
 import { selectWalletType } from "../../web3/selectors";
 import { generateInvestmentTransaction } from "../transactions/investment/sagas";
 import { selectMaximumInvestment } from "../transactions/investment/selectors";
@@ -83,7 +83,7 @@ export function* txValidateSaga({ logger }: TGlobalDependencies, action: TAction
 }
 
 export function* validateGas({ apiUserTxService }: TGlobalDependencies, txDetails: ITxData): any {
-  const maxEtherUlps = yield select(selectEtherBalance);
+  const maxEtherUlps = yield select(walletApi.selectors.selectEtherBalance);
 
   const costUlps = multiplyBigNumbers([txDetails.gasPrice, txDetails.gas]);
   const valueUlps = subtractBigNumbers([maxEtherUlps, costUlps]);

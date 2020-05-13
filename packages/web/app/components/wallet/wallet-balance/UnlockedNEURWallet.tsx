@@ -1,10 +1,10 @@
+import { ENEURWalletStatus } from "@neufund/shared-modules";
 import { InvariantError, isZero, NEUR_ALLOWED_US_STATES } from "@neufund/shared-utils";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { externalRoutes } from "../../../config/externalRoutes";
 import { selectIndividualAddress } from "../../../modules/kyc/selectors";
-import { ENEURWalletStatus } from "../../../modules/wallet/types";
 import { CommonHtmlProps } from "../../../types";
 import { US_STATES } from "../../../utils/enums/usStatesEnum";
 import { EColumnSpan } from "../../layouts/Container";

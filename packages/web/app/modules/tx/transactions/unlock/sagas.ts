@@ -1,4 +1,5 @@
 import { fork, put, select, take } from "@neufund/sagas";
+import { walletApi } from "@neufund/shared-modules";
 import BigNumber from "bignumber.js";
 import { addHexPrefix } from "ethereumjs-util";
 
@@ -7,11 +8,6 @@ import { ITxData } from "../../../../lib/web3/types";
 import { actions } from "../../../actions";
 import { selectStandardGasPriceWithOverHead } from "../../../gas/selectors";
 import { neuCall, neuTakeLatest } from "../../../sagasUtils";
-import {
-  selectEtherLockedNeumarksDue,
-  selectLockedEtherBalance,
-  selectLockedEtherUnlockDate,
-} from "../../../wallet/selectors";
 import { selectEthereumAddress } from "../../../web3/selectors";
 import { txSendSaga } from "../../sender/sagas";
 import { ETxSenderType } from "../../types";
@@ -29,7 +25,7 @@ function* generateUnlockEuroTransaction({
 
   const userAddress = yield select(selectEthereumAddress);
   const gasPriceWithOverhead = yield select(selectStandardGasPriceWithOverHead);
-  const etherNeumarksDue = yield select(selectEtherLockedNeumarksDue);
+  const etherNeumarksDue = yield select(walletApi.selectors.selectEtherLockedNeumarksDue);
 
   const txData = contractsService.neumark.rawWeb3Contract.approveAndCall[
     "address,uint256,bytes"
@@ -52,9 +48,11 @@ function* generateUnlockEuroTransaction({
 
 function* unlockEtherFundsTransactionGenerator(_: TGlobalDependencies): any {
   const generatedTxDetails: ITxData = yield neuCall(generateUnlockEuroTransaction);
-  const etherNeumarksDue = yield select(selectEtherLockedNeumarksDue);
-  const lockedEtherBalance: string = yield select(selectLockedEtherBalance);
-  const lockedEtherUnlockDate: string = yield select(selectLockedEtherUnlockDate);
+  const etherNeumarksDue = yield select(walletApi.selectors.selectEtherLockedNeumarksDue);
+  const lockedEtherBalance: string = yield select(walletApi.selectors.selectLockedEtherBalance);
+  const lockedEtherUnlockDate: string = yield select(
+    walletApi.selectors.selectLockedEtherUnlockDate,
+  );
 
   yield put(actions.txSender.setTransactionData(generatedTxDetails));
   yield put(
