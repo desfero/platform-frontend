@@ -11,7 +11,6 @@ import { etoNomineeReducer } from "./eto-nominee/reducer";
 import { etoViewReducer } from "./eto-view/shared/reducer";
 import { etoReducer } from "./eto/reducer";
 import { fullPageLoadingReducer } from "./full-page-loading/reducer";
-import { gasReducer } from "./gas/reducer";
 import { genericModalReducer } from "./generic-modal/reducer";
 import { icbmWalletBalanceModalReducer } from "./icbm-wallet-balance-modal/reducer";
 import { immutableStorageReducer } from "./immutable-file/reducer";
@@ -64,7 +63,6 @@ export const appReducers = {
   etoView: etoViewReducer,
   depositEthModal: depositEthModalReducer,
   icbmWalletBalanceModal: icbmWalletBalanceModalReducer,
-  gas: gasReducer,
   investmentFlow: investmentFlowReducer,
   videoModal: videoModalReducer,
   personProfileModal: personProfileModalReducer,

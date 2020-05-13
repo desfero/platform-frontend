@@ -7,6 +7,7 @@ import {
   put,
   SagaGenerator,
   select,
+  take,
 } from "@neufund/sagas";
 import { EthereumAddressWithChecksum } from "@neufund/shared-utils";
 import BigNumber from "bignumber.js";
@@ -16,6 +17,7 @@ import { neuGetBindings } from "../../utils";
 import { authModuleAPI, IUser, TAuthModuleState } from "../auth/module";
 import { contractsModuleApi, IContractsService, ILockedAccountAdapter } from "../contracts/module";
 import { coreModuleApi } from "../core/module";
+import { gasApi } from "../gas/module";
 import { walletActions } from "./actions";
 import { ILockedWallet, IWalletStateData } from "./types";
 
@@ -30,10 +32,8 @@ function* loadWalletDataSaga(_: TGlobalDependencies): Generator<any, any, any> {
   });
 
   try {
-    // COMMENT: it looks like the gas price api information is not really needed
-    // for this saga to work properly..
-    // yield put(actions.gas.gasApiEnsureLoading());
-    // yield take(actions.gas.gasApiLoaded);
+    yield put(gasApi.actions.gasApiEnsureLoading());
+    yield take(gasApi.actions.gasApiLoaded);
 
     const user: IUser = yield select((state: TAuthModuleState) =>
       authModuleAPI.selectors.selectUser(state),

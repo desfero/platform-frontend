@@ -10,7 +10,6 @@ import { etoFlowSagas } from "./eto-flow/sagas";
 import { etoNomineeSagas } from "./eto-nominee/sagas";
 import { etoViewSagas } from "./eto-view/shared/sagas";
 import { etoSagas } from "./eto/sagas";
-import { gasApiSagas } from "./gas/sagas";
 import { icbmWalletGetDataSagas } from "./icbm-wallet-balance-modal/sagas";
 import { immutableFileSagas } from "./immutable-file/sagas";
 import { initSagas } from "./init/sagas";
@@ -169,12 +168,6 @@ function* allSagas(): Generator<any, any, any> {
       [actions.init.startServices, actions.init.restartServices],
       actions.init.stopServices,
       txTransactionsSagasWatcher,
-    ),
-    fork(
-      neuTakeUntil,
-      [actions.init.startServices, actions.init.restartServices],
-      actions.init.stopServices,
-      gasApiSagas,
     ),
     fork(
       neuTakeUntil,

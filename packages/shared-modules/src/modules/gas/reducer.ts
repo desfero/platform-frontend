@@ -1,8 +1,9 @@
+import { AppReducer } from "@neufund/sagas";
 import { DeepReadonly } from "@neufund/shared-utils";
+import { StateFromReducersMapObject } from "redux";
 
-import { GasModelShape } from "../../lib/api/gas/GasApi";
-import { AppReducer } from "../../store";
-import { actions } from "../actions";
+import { gasActions } from "./actions";
+import { GasModelShape } from "./lib/http/gas-api/GasApi";
 
 export interface IGasState {
   loading: boolean;
@@ -14,17 +15,17 @@ export const gasInitialState: IGasState = {
   loading: false,
 };
 
-export const gasReducer: AppReducer<IGasState> = (
+export const gasReducer: AppReducer<IGasState, typeof gasActions> = (
   state = gasInitialState,
   action,
 ): DeepReadonly<IGasState> => {
   switch (action.type) {
-    case actions.gas.gasApiStartLoading.getType():
+    case gasActions.gasApiStartLoading.getType():
       return {
         ...state,
         loading: true,
       };
-    case actions.gas.gasApiLoaded.getType():
+    case gasActions.gasApiLoaded.getType():
       return {
         ...state,
         gasPrice: action.payload.data || state.gasPrice,
@@ -34,3 +35,11 @@ export const gasReducer: AppReducer<IGasState> = (
 
   return state;
 };
+
+const gasReducerMap = {
+  gas: gasReducer,
+};
+
+export { gasReducerMap };
+
+export type TModuleState = StateFromReducersMapObject<typeof gasReducerMap>;

@@ -1,5 +1,5 @@
 import { StringableActionCreator } from "@neufund/sagas";
-import { txHistoryApi, walletApi } from "@neufund/shared-modules";
+import { gasApi, txHistoryApi, walletApi } from "@neufund/shared-modules";
 import { TDictionaryValues } from "@neufund/shared-utils";
 import { LocationChangeAction } from "connected-react-router";
 
@@ -16,7 +16,6 @@ import { etoNomineeActions } from "./eto-nominee/actions";
 import { etoViewActions } from "./eto-view/shared/actions";
 import { etoActions } from "./eto/actions";
 import { fullPageLoadingActions } from "./full-page-loading/actions";
-import { gasActions } from "./gas/actions";
 import { genericModalActions } from "./generic-modal/actions";
 import { icbmWalletBalanceModalActions } from "./icbm-wallet-balance-modal/actions";
 import { immutableStorageActions } from "./immutable-file/actions";
@@ -72,7 +71,7 @@ export const actions = {
   remoteFile: remoteFileActions,
   depositEthModal: depositModalActions,
   icbmWalletBalanceModal: icbmWalletBalanceModalActions,
-  gas: gasActions,
+  gas: gasApi.actions,
   investmentFlow: investmentFlowActions,
   videoModal: videoModalActions,
   personProfileModal: personProfileModalActions,

@@ -3,6 +3,7 @@ import {
   setupAuthModule,
   setupContractsModule,
   setupCoreModule,
+  setupGasModule,
   setupTokenPriceModule,
   setupWalletModule,
   TAppConnectOptions,
@@ -79,6 +80,7 @@ export const setupAppModule = ({ history, config, container }: TAppModuleConfig)
     ...setupWebTxHistoryModule({
       refreshOnAction: actions.web3.newBlockArrived,
     }),
+    setupGasModule(),
     setupWebNotificationUIModule(),
     appModule,
   ];

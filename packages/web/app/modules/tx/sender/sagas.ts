@@ -1,5 +1,5 @@
 import { call, Channel, put, race, select, take, takeLatest } from "@neufund/sagas";
-import { EWalletType } from "@neufund/shared-modules";
+import { EWalletType, gasApi, IGasState } from "@neufund/shared-modules";
 
 import { TGlobalDependencies } from "../../../di/setupBindings";
 import {
@@ -22,8 +22,6 @@ import { SignerError } from "../../../lib/web3/Web3Manager/Web3Manager";
 import { TAppGlobalState } from "../../../store";
 import { connectWallet } from "../../access-wallet/sagas";
 import { actions } from "../../actions";
-import { IGasState } from "../../gas/reducer";
-import { selectGasPrice } from "../../gas/selectors";
 import { neuCall, neuRepeatIf, neuSpawn } from "../../sagasUtils";
 import { selectWalletType } from "../../web3/selectors";
 import { createWatchTxChannel } from "../event-channel/sagas";
@@ -86,7 +84,7 @@ function* txMonitor(_: TGlobalDependencies): Generator<any, any, any> {
 }
 
 function* txControllerSaga(controlledEffect: Generator<any, any, any>): any {
-  const gasPrice: IGasState = yield select(selectGasPrice);
+  const gasPrice: IGasState = yield select(gasApi.selectors.selectGasPrice);
 
   if (!gasPrice) {
     yield take(actions.gas.gasApiLoaded);
