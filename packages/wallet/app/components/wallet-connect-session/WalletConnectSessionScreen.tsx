@@ -3,7 +3,7 @@ import * as React from "react";
 import { FormattedDate } from "react-intl";
 import { StyleSheet } from "react-native";
 
-import { appRoutes } from "../../appRoutes";
+import { EAppRoutes } from "../../appRoutes";
 import { externalRoutes } from "../../config/externalRoutes";
 import { walletConnectModuleApi } from "../../modules/wallet-connect/module";
 import { appConnect } from "../../store/utils";
@@ -69,7 +69,7 @@ const WalletConnectLayout: React.FunctionComponent<TStateProps & TDispatchProps>
           <Button
             layout={EButtonLayout.PRIMARY}
             testID="wallet-connect-session-screen.scan-qr"
-            onPress={() => navigation.navigate(appRoutes.qrCode)}
+            onPress={() => navigation.navigate(EAppRoutes.qrCode)}
           >
             Scan QR code
           </Button>

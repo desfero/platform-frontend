@@ -39,7 +39,7 @@ const ProfileLayout: React.FunctionComponent<TStateProps & TDispatchProps> = ({
         heading: "Neufund Web",
         helperText: walletConnectPeer ? "Connected" : "Not connected",
         icon: EIconType.DEVICE,
-        onPress: () => navigation.navigate(appRoutes.walletConnectSession),
+        onPress: () => navigation.navigate(EAppRoutes.walletConnectSession),
       },
     ];
 

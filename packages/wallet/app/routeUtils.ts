@@ -24,6 +24,7 @@ export type RootStackParamList = {
   [EAppRoutes.wallet]: undefined;
   [EAppRoutes.profile]: undefined;
   [EAppRoutes.qrCode]: undefined;
+  [EAppRoutes.walletConnectSession]: undefined;
 };
 
 const navigate = (name: string, params?: StackNavigationProp<RootStackParamList>) => {
