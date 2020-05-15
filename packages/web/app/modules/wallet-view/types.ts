@@ -1,5 +1,5 @@
 import { EProcessState } from "../../utils/enums/processStates";
-import {  EthereumAddressWithChecksum } from "@neufund/shared-utils";
+import { ECurrency, EthereumAddressWithChecksum } from "@neufund/shared-utils";
 import { TBankAccount } from "../kyc/types";
 import { TTranslatedString } from "@neufund/design-system";
 
@@ -33,9 +33,10 @@ export type TWalletViewState = ({
 } & {})
 
 export type TBalance = {
-  logo: string,
+  logo: React.ComponentType,
   balanceName: string,
   amount: string,
+  currency: ECurrency,
   euroEquivalentAmount: string,
   walletActions: TBalanceAction[]
 }

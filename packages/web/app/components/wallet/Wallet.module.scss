@@ -21,6 +21,12 @@
   margin-top: px-to-rem(20px);
 }
 
+.transaction-history {
+  @include media-breakpoint-up(sm) {
+    order: initial;
+  }
+    order: 4;
+}
 
 .linked-bank-account-wrapper {
   display: grid;
@@ -51,11 +57,12 @@
   color: $neu-charcoal-grey;
 }
 
-.asideTitle {
+.subtitle {
   font-family: $font-family-roboto;
   font-size: px-to-rem(14);
   font-weight: 500;
   text-transform: uppercase;
+  color: $neu-charcoal-grey;
   margin-bottom: px-to-rem(4);
 }
 
@@ -95,28 +102,50 @@
 .bank-icon {
   height: px-to-rem(24);
   margin-right: 1rem;
+
 }
 
-.balance-actions {
-  width: 100%;
-  display: flex;
-  flex-flow: row-reverse;
-  justify-content: space-between;
+
+.balance-list {
+  display: grid;
+  grid-template: px-to-rem(64)/ 1fr;
+
 }
+
+.balance-list-item {
+  @include media-breakpoint-up(sm) {
+    grid-template: px-to-rem(32) / auto auto 1fr minmax(px-to-rem(248), auto);
+  }
+
+  $row-padding: 14px;
+
+  position: relative;
+  display: grid;
+  grid-template: px-to-rem(32) / auto auto 1fr minmax(px-to-rem(32), auto);
+  grid-column-gap: 1rem;
+
+  align-content: center;
+  align-items: center;
+
+
+  padding: $row-padding px-to-rem(18) $row-padding px-to-rem(20);
+  border-bottom: 1px solid #c4c5c6;
+
+  &:last-of-type {
+    border-bottom: none;
+  }
+}
+
 
 .unlock-button {
   width: 100%;
 }
 
-.token-icon {
+.currency-logo {
+  padding: 0;
   width: 100%;
   height: 100%;
 }
-
-.currency-logo {
-  padding-right: 0;
-}
-
 
 .currency {
   @include table-text-style;
@@ -131,9 +160,11 @@
   align-items: flex-end;
 
   font-size: px-to-rem(18);
+  line-height: 1;
 }
 
 .euro-equivalent {
+
   font-size: px-to-rem(14);
   font-weight: 400;
   line-height: 1;
@@ -141,3 +172,61 @@
   margin: 0;
   padding: 0;
 }
+
+.balance-actions-button {
+  @include media-breakpoint-up(sm) {
+    display: none;
+  }
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: px-to-rem(32);
+  height: px-to-rem(32);
+  padding: 0;
+
+  font-family: $font-family-roboto;
+  font-size: 1rem;
+  color: $neu-charcoal-grey;
+}
+
+
+.balance-actions {
+  $button-width: minmax(px-to-rem(110), auto);
+
+  @mixin balance-actions-visible {
+    @include media-breakpoint-up(sm) {
+      position: relative;
+      right: 0;
+      opacity: 1;
+    }
+
+    display: grid;
+    grid-template: auto / $button-width;
+    grid-auto-columns: $button-width;
+    grid-auto-flow: column;
+    grid-column-gap: px-to-rem(12);
+
+    justify-content: flex-start;
+    align-content: center;
+    padding-left: 1rem;
+
+  }
+
+  @include media-breakpoint-up(sm) {
+    @include balance-actions-visible;
+  }
+
+  display: none;
+  opacity: 0;
+  transition: opacity 1s;
+
+  &.active {
+    @include balance-actions-visible;
+    position: absolute;
+    right: px-to-rem(64);
+    opacity: 1;
+  }
+}
+
+

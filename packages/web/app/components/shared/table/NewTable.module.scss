@@ -74,6 +74,7 @@
       }
     }
   }
+  //table-layout: fixed;
 }
 
 .header {
@@ -81,6 +82,14 @@
 
   .header-row {
     border-bottom: 1px solid $neu-silver;
+  }
+}
+
+.header-hidden {
+  font-size: 0;
+
+  th {
+  padding: 0;
   }
 }
 

@@ -89,7 +89,7 @@ const PlaceholderTableRow: React.FunctionComponent<IPlaceholderTableRow> = ({
   </tr>
 );
 
-const TableLayout: React.FunctionComponent<TProps> = ({
+const Table: React.FunctionComponent<TProps> = ({
   titles,
   children,
   className,
@@ -107,7 +107,7 @@ const TableLayout: React.FunctionComponent<TProps> = ({
       className={cn(styles.table, theme, className, { [styles.tableKeepRhythm]: keepRhythm })}
       {...props}
     >
-      <thead className={cn(styles.header, { "sr-only": titlesVisuallyHidden })}>
+      <thead className={cn(styles.header, { [styles.headerHidden]:titlesVisuallyHidden,"sr-only": titlesVisuallyHidden })}>
         <tr className={styles.headerRow}>
           {titles.map((value, index) =>
             value && typeof value === "object" && "width" in value ? (
@@ -133,16 +133,5 @@ const TableLayout: React.FunctionComponent<TProps> = ({
   );
 };
 
-const Table: React.FunctionComponent<TProps> = props => (
-  <div className={styles.wrapper}>
-    <TableLayout {...props} />
-  </div>
-);
 
-const NewTable: React.FunctionComponent<TProps> = props => (
-  <div className={styles.panel}>
-    <Table {...props} />
-  </div>
-);
-
-export { NewTable, NewTableRow, Table, ENewTableCellLayout, ENewTableTheme };
+export {  NewTableRow, Table, ENewTableCellLayout, ENewTableTheme };

@@ -7,10 +7,13 @@ import {
   TableBodyProps,
   useTable,
 } from "react-table";
+import * as cn from 'classnames'
+
+import { CommonHtmlProps } from "@neufund/web/app/types";
 
 import * as styles from "./Table.module.scss";
 
-type TExternalProps = {
+type TExternalProps = { //fixme any -> <T>
   columns: Column[];
   data: Array<any>;
   withFooter?: boolean;
@@ -75,12 +78,13 @@ const TableFooter: React.FunctionComponent<TTableFooterProps> = ({ footerGroups 
   </tfoot>
 );
 
-const Table: React.FunctionComponent<TExternalProps> = ({
+const Table: React.FunctionComponent<TExternalProps & CommonHtmlProps> = ({
   columns,
   data,
   withFooter,
   customFooter,
-  CustomHeader
+  CustomHeader,
+  className
 }) => {
   const {
     getTableProps,
@@ -93,10 +97,10 @@ const Table: React.FunctionComponent<TExternalProps> = ({
     columns,
     data,
   });
-
+  console.log("className",className)
   return (
     <div className={styles.container}>
-      <table className={styles.table} {...getTableProps()}>
+      <table className={cn(styles.table, className)} {...getTableProps()}>
         {CustomHeader
           ? <CustomHeader />
           : <TableHeader headerGroups={headerGroups} />

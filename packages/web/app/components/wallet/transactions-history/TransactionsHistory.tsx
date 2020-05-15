@@ -17,7 +17,7 @@ import { ETheme, Money } from "../../shared/formatters/Money";
 import { ENumberOutputFormat } from "../../shared/formatters/utils";
 import { Heading } from "../../shared/Heading";
 import { LoadingIndicator } from "../../shared/loading-indicator/LoadingIndicator";
-import { Panel, PanelRounded } from "../../shared/Panel";
+import { PanelRounded } from "../../shared/Panel";
 import { ENewTableTheme, NewTableRow, Table } from "../../shared/table";
 import { Transaction, TransactionData, TransactionName } from "../../shared/transaction";
 
@@ -50,7 +50,6 @@ const TransactionListLayout: React.FunctionComponent<TStateProps & TDispatchProp
       </div>
     )}
     {transactionsHistoryPaginated.transactions && (
-      <div className={styles.wrapper}>
         <Table
           aria-describedby="transactions-history-heading"
           titles={[
@@ -101,7 +100,6 @@ const TransactionListLayout: React.FunctionComponent<TStateProps & TDispatchProp
             );
           })}
         </Table>
-      </div>
     )}
     {transactionsHistoryPaginated.canLoadMore && (
       <Button
@@ -116,7 +114,7 @@ const TransactionListLayout: React.FunctionComponent<TStateProps & TDispatchProp
   </PanelRounded>
 );
 
-const TransactionsList = compose<TStateProps & TDispatchProps, {}>(
+const TransactionsHistory = compose<TStateProps & TDispatchProps, {}>(
   onEnterAction({
     actionCreator: dispatch => {
       dispatch(actions.txHistory.loadTransactions());
@@ -145,15 +143,5 @@ const TransactionsList = compose<TStateProps & TDispatchProps, {}>(
     renderComponent(LoadingIndicator),
   ),
 )(TransactionListLayout);
-
-const TransactionsHistory: React.FunctionComponent = () => (
-  <>
-    <Heading id="transactions-history-heading" level={2} decorator={false}>
-      <FormattedMessage id="wallet.tx-list.heading" />
-    </Heading>
-
-    <TransactionsList />
-  </>
-);
 
 export { TransactionsHistory };

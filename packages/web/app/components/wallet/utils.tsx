@@ -2,31 +2,39 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { EBalanceType, TBalanceActions } from "../../modules/wallet-view/types";
-import { selectUnits } from "@neufund/shared-utils";
 import { ECurrency } from "../shared/formatters/utils";
 import { actions } from "../../modules/actions";
 import { hasBalance } from "../../modules/investment-flow/utils";
 import { EBankTransferType } from "../../modules/bank-transfer-flow/reducer";
 import { ETokenType } from "../../modules/tx/types";
 
-import tokenIcon from "../../assets/img/eth_icon.svg";
+import { EthIcon, NeuroIcon } from "@neufund/design-system";
 
-export const balanceNames: { [key in EBalanceType]: string } = {
-  [EBalanceType.ETH]: `${selectUnits(ECurrency.ETH)}`,
-  [EBalanceType.NEUR]: `${selectUnits(ECurrency.EUR)}`,
-  [EBalanceType.ICBM_ETH]: `Icbm ${selectUnits(ECurrency.ETH)}`,
-  [EBalanceType.ICBM_NEUR]: `Icbm ${selectUnits(ECurrency.EUR)}`,
-  [EBalanceType.LOCKED_ICBM_ETH]: `Icbm ${selectUnits(ECurrency.ETH)}`,
-  [EBalanceType.LOCKED_ICBM_NEUR]: `Icbm ${selectUnits(ECurrency.EUR)}`,
+export const balanceCurrencies: { [key in EBalanceType]: ECurrency } = {
+  [EBalanceType.ETH]: ECurrency.ETH,
+  [EBalanceType.NEUR]: ECurrency.EUR,
+  [EBalanceType.ICBM_ETH]: ECurrency.ETH,
+  [EBalanceType.ICBM_NEUR]: ECurrency.EUR,
+  [EBalanceType.LOCKED_ICBM_ETH]: ECurrency.ETH,
+  [EBalanceType.LOCKED_ICBM_NEUR]: ECurrency.EUR,
 }
 
-export const balanceSymbols: { [key in EBalanceType]: string } = {
-  [EBalanceType.ETH]: tokenIcon,
-  [EBalanceType.NEUR]: tokenIcon,
-  [EBalanceType.ICBM_ETH]: tokenIcon,
-  [EBalanceType.ICBM_NEUR]: tokenIcon,
-  [EBalanceType.LOCKED_ICBM_ETH]: tokenIcon,
-  [EBalanceType.LOCKED_ICBM_NEUR]: tokenIcon,
+export const balanceNames: { [key in EBalanceType]: string } = {
+  [EBalanceType.ETH]: `Ether`,
+  [EBalanceType.NEUR]: `nEUR`,
+  [EBalanceType.ICBM_ETH]: `Icbm Ether`,
+  [EBalanceType.ICBM_NEUR]: `Icbm nEUR`,
+  [EBalanceType.LOCKED_ICBM_ETH]: `Icbm Ether`,
+  [EBalanceType.LOCKED_ICBM_NEUR]: `Icbm nEUR`,
+}
+
+export const balanceSymbols: { [key in EBalanceType]: React.ComponentType } = {
+  [EBalanceType.ETH]: EthIcon,
+  [EBalanceType.NEUR]: NeuroIcon,
+  [EBalanceType.ICBM_ETH]: EthIcon,
+  [EBalanceType.ICBM_NEUR]: NeuroIcon,
+  [EBalanceType.LOCKED_ICBM_ETH]: EthIcon,
+  [EBalanceType.LOCKED_ICBM_NEUR]: NeuroIcon,
 }
 
 export const balanceActions = (dispatch:Function):TBalanceActions => ({

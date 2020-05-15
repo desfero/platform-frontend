@@ -1522,7 +1522,7 @@
   "wallet.link-bank-account" : "Link a bank account",
   "wallet.enable-icbm": "Enable ICBM balance",
   "wallet.tx-list.amount": "Amount",
-  "wallet.tx-list.heading": "Platform Transaction history",
+  "wallet.tx-list.heading": "Transactions",
   "wallet.tx-list.load-more": "Load more",
   "wallet.tx-list.modal.common.from-address.caption": "From Address",
   "wallet.tx-list.modal.common.status.caption": "Status",

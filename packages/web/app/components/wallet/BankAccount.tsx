@@ -13,9 +13,9 @@ import * as styles from "./Wallet.module.scss";
 
 export const BankAccount = ({ verifyBankAccount, bankAccount }) => (
   <Container className={styles.linkedBankAccountWrapper} columnSpan={EColumnSpan.ONE_COL}>
-    <div className={styles.asideTitle}>
+    <h2 className={styles.subtitle}>
       <FormattedMessage id="wallet.linked-bank-account-title" />
-    </div>
+    </h2>
     {/*fixme disable if user is not verified*/}
     <ButtonInline
       className={styles.linkButtonInline}
@@ -39,7 +39,7 @@ export const BankAccount = ({ verifyBankAccount, bankAccount }) => (
 export const NoBankAccount = ({ verifyBankAccount }) => (
   <Container className={styles.noLinkedBankAccountWrapper} columnSpan={EColumnSpan.ONE_COL}>
 
-    <div className={styles.asideTitle}>
+    <div className={styles.subtitle}>
       <FormattedMessage id="wallet.linked-bank-account-title" />
     </div>
     <div className={styles.noLinkedBankAccount}>
