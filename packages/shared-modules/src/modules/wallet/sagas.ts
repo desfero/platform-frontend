@@ -91,6 +91,7 @@ export async function loadWalletDataAsync(
 }
 
 function* walletBalanceWatcher(_: TGlobalDependencies): Generator<any, any, any> {
+  yield waitUntilSmartContractsAreInitialized();
   while (true) {
     yield neuCall(loadWalletDataSaga);
     yield delay(WALLET_DATA_FETCHING_INTERVAL);
@@ -101,10 +102,12 @@ type TSetupSagasConfig = {
   waitUntilSmartContractsAreInitialized: () => Generator<any, any, any>;
 };
 
+let waitUntilSmartContractsAreInitialized: () => Generator<any, any, any>;
+
 export function setupWalletSagas(config: TSetupSagasConfig): () => SagaGenerator<void> {
+  waitUntilSmartContractsAreInitialized = config.waitUntilSmartContractsAreInitialized;
   return function* walletSagas(): any {
     yield fork(neuTakeEvery, "WALLET_LOAD_WALLET_DATA", loadWalletDataSaga);
-    yield config.waitUntilSmartContractsAreInitialized();
     yield neuTakeUntil(
       authModuleAPI.actions.setUser,
       walletActions.stopWalletBalanceWatcher,
