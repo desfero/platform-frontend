@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as cn from "classnames";
-import { Button, ButtonInline, EButtonLayout, EButtonSize, TokenIcon } from "@neufund/design-system";
+import { Button, ButtonInline, EButtonLayout, EButtonSize, InlineIcon, TokenIcon } from "@neufund/design-system";
 import { FormattedHTMLMessage, FormattedMessage } from "react-intl-phraseapp";
 
 import { Container, EColumnSpan } from "../layouts/Container";
@@ -8,7 +8,7 @@ import { BankNumber } from "./bank-account/BankAccount";
 import { KycBankVerifiedBankAccount } from "../../lib/api/kyc/KycApi.interfaces";
 
 import bankIcon from "../../assets/img/bank-transfer/bank-icon.svg";
-import tokenIcon from "../../assets/img/eth_icon.svg";
+import linkIcon from "../../assets/img/inline_icons/social_link.svg";
 import * as styles from "./Wallet.module.scss";
 
 type TBankAccountProps = {
@@ -59,7 +59,7 @@ export const NoBankAccount:React.FunctionComponent<TNobankAccountProps> = ({ ver
         layout={EButtonLayout.SECONDARY}
         className={styles.linkButton}
       >
-        <TokenIcon srcSet={{ "1x": tokenIcon }} alt="" className={styles.linkButtonIcon} />
+        <InlineIcon svgIcon={linkIcon} alt="" className={styles.linkButtonIcon} />
         <FormattedMessage id="wallet.link-bank-account" />
       </Button>
     </div>

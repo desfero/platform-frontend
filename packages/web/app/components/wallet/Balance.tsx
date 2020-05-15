@@ -5,51 +5,26 @@ import { Button, EButtonLayout, EButtonSize } from "@neufund/design-system";
 import { TBalance, TBalanceAction } from "../../modules/wallet-view/types";
 import { Money } from "../shared/formatters/Money";
 import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "../shared/formatters/utils";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
+import { useCycleFocus } from "../shared/hooks/useCycleFocus";
 
 import * as styles from "./Wallet.module.scss";
 
-type TBalanceActionsProps = { isOn: boolean, toggle: (x: boolean) => void }
+const BalanceActions: React.FunctionComponent<TBalance> = (props) => {
+  const { walletActions } = props
 
-const BalanceActions: React.FunctionComponent<TBalance & TBalanceActionsProps> = (props) => {
-  const { walletActions, isOn, toggle } = props
+  const [isOn, toggle] = React.useState(false);
 
   const toggleBalanceActionsRef = useRef<HTMLButtonElement>(null)
   const balanceActionRefs = walletActions.map(_ => useRef<HTMLButtonElement>(null))
+  const allRefs = [toggleBalanceActionsRef, ...[...balanceActionRefs].reverse()] //reverse the button order to reflect the visual ordering
 
-  const allRefs = [...balanceActionRefs, toggleBalanceActionsRef]
-  const [f, setF] = useState(allRefs.length - 1)
+  const moveFocusOnTabKey = useCycleFocus(allRefs)
 
-  useEffect(() => {
-    allRefs[f].current !== null && allRefs[f].current!.focus()
-  }, [f])
-
-
-  const onTabKey = (ref: React.RefObject<unknown>, e: React.KeyboardEvent) => {
-
-
-    if (isOn && e.which === 9 && !e.shiftKey) {
-      const next = f + 1 >= allRefs.length ? 0 : f + 1
-      setNext(e, next)
-
-    } else if (isOn && e.which === 9 && e.shiftKey) {
-      const next = f - 1 >= 0 ? f - 1 : allRefs.length - 1
-      setNext(e, next)
+  const onTabKey = (ref: React.RefObject<HTMLButtonElement>, e: React.KeyboardEvent) => {
+    if (isOn){
+      moveFocusOnTabKey(ref, e)
     }
-  }
-
-  const setNext = (e: React.KeyboardEvent, next: number) => {
-    e.preventDefault()
-    if (allRefs[next].current !== null) {
-      setF(next)
-    }
-  }
-
-  const setButtonFocus = (i) => {
-
-  }
-
-  const setToggleButtonFocus = () => {
   }
 
   return (
@@ -59,7 +34,6 @@ const BalanceActions: React.FunctionComponent<TBalance & TBalanceActionsProps> =
           <Button
             onKeyDown={(e) => onTabKey(balanceActionRefs[i], e)}
             ref={balanceActionRefs[i]}
-            // onFocus={() => setFocus(i)}
             key={i}
             layout={EButtonLayout.PRIMARY}
             size={EButtonSize.SMALL}
@@ -88,9 +62,6 @@ const BalanceActions: React.FunctionComponent<TBalance & TBalanceActionsProps> =
 
 
 export const Balance: React.FunctionComponent<TBalance> = (balance) => {
-  const [isOn, toggle] = React.useState(false);
-
-
   const {
     balanceName,
     logo: Logo,
@@ -99,7 +70,7 @@ export const Balance: React.FunctionComponent<TBalance> = (balance) => {
     euroEquivalentAmount,
   } = balance
   return (
-    <div className={styles.balanceListItem} key={balanceName} onClick={() => isOn ? undefined : toggle(true)}>
+    <div className={styles.balanceListItem}>
       <div className={styles.currencyLogo}>
         <Logo />
       </div>
@@ -124,8 +95,6 @@ export const Balance: React.FunctionComponent<TBalance> = (balance) => {
       {!!balance.walletActions.length &&
       <BalanceActions
         {...balance}
-        isOn={isOn}
-        toggle={toggle}
       />
       }
 
