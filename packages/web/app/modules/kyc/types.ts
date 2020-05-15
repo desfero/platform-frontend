@@ -8,10 +8,7 @@ export type TClaims = {
 };
 
 export type TBankAccount =
-  | {
-      hasBankAccount: true;
-      details: KycBankVerifiedBankAccount;
-    }
+  | { hasBankAccount: true; details:  KycBankVerifiedBankAccount}
   | { hasBankAccount: false };
 
 export enum EBeneficialOwnerType {

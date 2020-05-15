@@ -21,16 +21,17 @@ import { loadWalletDataSaga } from "../wallet/sagas";
 import { loadBankAccountDetails } from "../kyc/sagas";
 import { EBalanceType } from "./types";
 import { selectBankAccount } from "../kyc/selectors";
+import { selectIsUserFullyVerified } from "../auth/selectors";
 
 
 export function* loadWalletView() {
-  console.log("->>loadWalletView started")
   try {
     yield all([
       neuCall(loadWalletDataSaga),
       neuCall(loadBankAccountDetails)
     ])
 
+    const userIsFullyVerified = yield* select(selectIsUserFullyVerified)
     const userAddress = yield* select(selectEthereumAddress)
     const bankAccount = yield* select(selectBankAccount)
 
@@ -114,6 +115,7 @@ export function* loadWalletView() {
 
 
     yield put(actions.walletView.walletViewSetData({
+      userIsFullyVerified,
       userAddress,
       balanceData,
       walletBalanceEuro,

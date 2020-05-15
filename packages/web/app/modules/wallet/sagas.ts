@@ -82,7 +82,7 @@ function* walletBalanceWatcher(): any {
   // while (true) {
   //   yield neuCall(loadWalletDataSaga);
   //   yield delay(WALLET_DATA_FETCHING_INTERVAL);
-  // } //fixme
+  // } //fixme revert!!
 }
 
 export function* walletSagas(): any {

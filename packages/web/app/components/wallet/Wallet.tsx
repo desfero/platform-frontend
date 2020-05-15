@@ -47,6 +47,7 @@ export const WalletLayout: React.FunctionComponent<TReadyStateProps & TDispatchP
   userAddress,
   verifyBankAccount,
   bankAccount,
+  userIsFullyVerified
 }) => (
   <>
     <Container columnSpan={EColumnSpan.TWO_COL} type={EContainerType.INHERIT_GRID}>
@@ -78,7 +79,7 @@ export const WalletLayout: React.FunctionComponent<TReadyStateProps & TDispatchP
 
       <Container className={styles.walletAddressWrapper} columnSpan={EColumnSpan.ONE_COL}>
         {(bankAccount && bankAccount.hasBankAccount)
-          ? <BankAccount bankAccount={bankAccount} verifyBankAccount={verifyBankAccount} />
+          ? <BankAccount bankAccountData={bankAccount.details} verifyBankAccount={verifyBankAccount} userIsFullyVerified={userIsFullyVerified} />
           : <NoBankAccount verifyBankAccount={verifyBankAccount} />
         }
       </Container>

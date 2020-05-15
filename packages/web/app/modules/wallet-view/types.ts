@@ -22,7 +22,8 @@ export type TWalletViewReadyState = {
   balanceData: TBalanceData[],
   walletBalanceEuro: string
   userAddress: EthereumAddressWithChecksum,
-  bankAccount: TBankAccount | undefined
+  bankAccount: TBankAccount | undefined,
+  userIsFullyVerified: boolean
 }
 
 export type TWalletViewState = ({

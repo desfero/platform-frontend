@@ -5,23 +5,32 @@ import { FormattedHTMLMessage, FormattedMessage } from "react-intl-phraseapp";
 
 import { Container, EColumnSpan } from "../layouts/Container";
 import { BankNumber } from "./bank-account/BankAccount";
+import { KycBankVerifiedBankAccount } from "../../lib/api/kyc/KycApi.interfaces";
 
 import bankIcon from "../../assets/img/bank-transfer/bank-icon.svg";
 import tokenIcon from "../../assets/img/eth_icon.svg";
 import * as styles from "./Wallet.module.scss";
 
+type TBankAccountProps = {
+  verifyBankAccount: () => void
+  bankAccountData: KycBankVerifiedBankAccount
+  userIsFullyVerified: boolean
+}
 
-export const BankAccount = ({ verifyBankAccount, bankAccount }) => (
+type TNobankAccountProps = {
+  verifyBankAccount: () => void
+}
+
+export const BankAccount:React.FunctionComponent<TBankAccountProps> = ({ verifyBankAccount, bankAccountData, userIsFullyVerified }) => (
   <Container className={styles.linkedBankAccountWrapper} columnSpan={EColumnSpan.ONE_COL}>
     <h2 className={styles.subtitle}>
       <FormattedMessage id="wallet.linked-bank-account-title" />
     </h2>
-    {/*fixme disable if user is not verified*/}
     <ButtonInline
       className={styles.linkButtonInline}
       onClick={verifyBankAccount}
       data-test-id="locked-wallet.neur.bank-account.link-account"
-      disabled={false}
+      disabled={!userIsFullyVerified}
     >
       <FormattedMessage id="shared-component.wallet-verified-bank-account.link-account" />
     </ButtonInline>
@@ -29,14 +38,14 @@ export const BankAccount = ({ verifyBankAccount, bankAccount }) => (
       <img className={styles.bankIcon} src={bankIcon} alt="" />
       <div>
         <p className={cn(styles.bankNumber, "m-0")} data-test-id="wallet.bank-account.details">
-          <BankNumber last4={bankAccount.details.bankAccountNumberLast4} bank={bankAccount.details.bankName} />
+          <BankNumber last4={bankAccountData.bankAccountNumberLast4} bank={bankAccountData.bankName} />
         </p>
       </div>
     </div>
   </Container>
 )
 
-export const NoBankAccount = ({ verifyBankAccount }) => (
+export const NoBankAccount:React.FunctionComponent<TNobankAccountProps> = ({ verifyBankAccount }) => (
   <Container className={styles.noLinkedBankAccountWrapper} columnSpan={EColumnSpan.ONE_COL}>
 
     <div className={styles.subtitle}>
