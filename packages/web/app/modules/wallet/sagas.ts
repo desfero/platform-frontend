@@ -79,10 +79,10 @@ export async function loadWalletDataAsync(
 function* walletBalanceWatcher(): any {
   yield waitUntilSmartContractsAreInitialized();
 
-  // while (true) {
-  //   yield neuCall(loadWalletDataSaga);
-  //   yield delay(WALLET_DATA_FETCHING_INTERVAL);
-  // } //fixme revert!!
+  while (true) {
+    yield neuCall(loadWalletDataSaga);
+    yield delay(WALLET_DATA_FETCHING_INTERVAL);
+  }
 }
 
 export function* walletSagas(): any {

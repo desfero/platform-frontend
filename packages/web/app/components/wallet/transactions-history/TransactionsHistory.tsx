@@ -1,4 +1,4 @@
-import { Button, EButtonLayout } from "@neufund/design-system";
+import { Button, EButtonLayout, InlineIcon } from "@neufund/design-system";
 import * as cn from "classnames";
 import * as React from "react";
 import { FormattedDate } from "react-intl";
@@ -15,12 +15,11 @@ import { onLeaveAction } from "../../../utils/react-connected-components/OnLeave
 import { PendingTransactionImage } from "../../layouts/header/PendingTransactionStatus";
 import { ETheme, Money } from "../../shared/formatters/Money";
 import { ENumberOutputFormat } from "../../shared/formatters/utils";
-import { Heading } from "../../shared/Heading";
 import { LoadingIndicator } from "../../shared/loading-indicator/LoadingIndicator";
 import { PanelRounded } from "../../shared/Panel";
-import { ENewTableTheme, NewTableRow, Table } from "../../shared/table";
 import { Transaction, TransactionData, TransactionName } from "../../shared/transaction";
 
+import transactionIcon from "../../../assets/img/inline_icons/upload.svg"
 import * as styles from "./TransactionsHistory.module.scss";
 
 type TStateProps = {
@@ -39,7 +38,7 @@ const TransactionListLayout: React.FunctionComponent<TStateProps & TDispatchProp
   showTransactionDetails,
   pendingTransaction,
 }) => (
-  <PanelRounded >
+  <PanelRounded>
     {pendingTransaction && (
       <div className={styles.pendingTransactionWrapper}>
         <Transaction
@@ -50,30 +49,24 @@ const TransactionListLayout: React.FunctionComponent<TStateProps & TDispatchProp
       </div>
     )}
     {transactionsHistoryPaginated.transactions && (
-        <Table
-          aria-describedby="transactions-history-heading"
-          titles={[
-            <FormattedMessage id="wallet.tx-list.transaction" />,
-            <FormattedMessage id="wallet.tx-list.amount" />,
-          ]}
-          titlesVisuallyHidden={true}
-          placeholder={<FormattedMessage id="wallet.tx-list.placeholder" />}
-          theme={ENewTableTheme.NORMAL}
-        >
-          {transactionsHistoryPaginated.transactions.map(transaction => {
-            const isIncomeTransaction =
-              transaction.transactionDirection === ETransactionDirection.IN;
+      <div className={styles.transactionList}>
+        {transactionsHistoryPaginated.transactions.map(transaction => {
+          const isIncomeTransaction =
+            transaction.transactionDirection === ETransactionDirection.IN;
 
-            return (
-              <NewTableRow
-                key={transaction.id}
-                onClick={() => showTransactionDetails(transaction.id)}
-                data-test-id={`transactions-history-row transactions-history-${transaction.txHash.slice(
-                  0,
-                  10,
-                )}`}
-              >
-                <div>logo</div>
+          return (
+            <div className={styles.transactionListItem}
+                 key={transaction.id}
+                 onClick={() => showTransactionDetails(transaction.id)}
+                 data-test-id={`transactions-history-row transactions-history-${transaction.txHash.slice(
+                   0,
+                   10,
+                 )}`}
+            >
+              <div className={styles.transactionLogo}>
+                <InlineIcon svgIcon={transactionIcon} />
+              </div>
+              <div className={styles.transactionData}>
                 <TransactionData
                   top={<TransactionName transaction={transaction} />}
                   bottom={
@@ -85,21 +78,32 @@ const TransactionListLayout: React.FunctionComponent<TStateProps & TDispatchProp
                     />
                   }
                 />
-                <>
+              </div>
+              <div className={styles.transactionAmount}>
+                  <span className={cn(styles.amount, { [styles.amountIn]: isIncomeTransaction })}>
                   {!isIncomeTransaction && "-"}
+                    <Money
+                      inputFormat={transaction.amountFormat}
+                      outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
+                      theme={isIncomeTransaction ? ETheme.GREEN : undefined}
+                      value={transaction.amount}
+                      valueType={transaction.currency}
+                    />
+                  </span>
+                <span className={styles.euroEquivalent}>
+                  {"≈"}
                   <Money
-                    className={cn(styles.amount, { [styles.amountIn]: isIncomeTransaction })}
                     inputFormat={transaction.amountFormat}
                     outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
-                    theme={isIncomeTransaction ? ETheme.GREEN : undefined}
                     value={transaction.amount}
                     valueType={transaction.currency}
                   />
-                </>
-              </NewTableRow>
-            );
-          })}
-        </Table>
+                  </span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     )}
     {transactionsHistoryPaginated.canLoadMore && (
       <Button

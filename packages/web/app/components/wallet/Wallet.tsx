@@ -3,9 +3,6 @@ import { branch, renderComponent, withProps } from "recompose";
 import { compose } from "redux";
 import { DeepReadonly, withContainer } from "@neufund/shared-utils";
 import { FormattedMessage } from "react-intl-phraseapp";
-import {
-  DashboardTitle,
-} from "@neufund/design-system";
 
 import { EBankTransferType } from "../../modules/bank-transfer-flow/reducer";
 import { appConnect } from "../../store";
@@ -29,6 +26,8 @@ import {
 } from "../../modules/wallet-view/types";
 import { balanceActions, balanceCurrencies, balanceNames, balanceSymbols } from "./utils";
 import { Balance } from "./Balance";
+import { ECustomTooltipTextPosition, Tooltip } from "../shared/tooltips";
+import { Heading } from "../shared/Heading";
 
 import * as styles from "./Wallet.module.scss"
 
@@ -52,7 +51,9 @@ export const WalletLayout: React.FunctionComponent<TReadyStateProps & TDispatchP
   <>
     <Container columnSpan={EColumnSpan.TWO_COL} type={EContainerType.INHERIT_GRID}>
       <Container columnSpan={EColumnSpan.TWO_COL}>
-        <DashboardTitle titleText={<FormattedMessage id="wallet.title" />} />
+        <Heading level={2} decorator={false}>
+          <FormattedMessage id="wallet.title" />
+        </Heading>
       </Container>
 
       <Container columnSpan={EColumnSpan.TWO_COL}>
@@ -87,9 +88,19 @@ export const WalletLayout: React.FunctionComponent<TReadyStateProps & TDispatchP
 
     {process.env.NF_TRANSACTIONS_HISTORY_VISIBLE === "1" && (
       <Container columnSpan={EColumnSpan.TWO_COL} className={styles.transactionHistory}>
-        <h2 id="transactions-history-heading" className={styles.subtitle}>
+        <Heading level={4} decorator={false}>
           <FormattedMessage id="wallet.tx-list.heading" />
-        </h2>
+          <Tooltip
+            data-test-id="transactions.info"
+            content={
+              <FormattedMessage
+                id="wallet.tx-list.tooltip"
+              />
+            }
+            textPosition={ECustomTooltipTextPosition.LEFT}
+            preventDefault={false}
+          />
+        </Heading>
         <TransactionsHistory />
       </Container>
     )}

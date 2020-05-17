@@ -26,20 +26,22 @@
   grid-row-gap: px-to-rem(12);
 }
 
-.common-balance-title {
+.total-balance-title {
   font-family: $font-family-roboto;
   font-size: px-to-rem(14);
   font-weight: 500;
   text-transform: uppercase;
-  color: $neu-gull-gray
+  color: $neu-gull-gray;
+  line-height: 1;
 }
 
-.common-balance {
+.total-balance {
   font-family: $font-family-montserrat;
   font-size: 2rem;
   font-weight: 600;
   letter-spacing: .32px;
   color: $neu-charcoal-grey;
+  line-height: 1;
 }
 
 .subtitle {

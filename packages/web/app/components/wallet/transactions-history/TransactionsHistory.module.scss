@@ -1,5 +1,7 @@
 @import "../../shared/Panel.module";
 
+$vertical-margin:px-to-rem(18);
+
 .wrapper {
   @include remove-panel-padding;
 
@@ -16,3 +18,55 @@
     font-weight: bold;
   }
 }
+
+.transaction-list {
+  display: grid;
+  grid-template: px-to-rem(72) / auto;
+  grid-auto-rows: px-to-rem(72);
+}
+
+.transaction-list-item {
+  display: grid;
+  grid-template: 100% / px-to-rem(68) 1fr 1fr;
+
+  &:last-of-type * {
+    border-bottom: none;
+  }
+}
+
+.transaction-logo {
+  width: px-to-rem(22.5);
+  margin: $vertical-margin 1rem $vertical-margin px-to-rem(20);
+}
+
+.transaction-data {
+  height: 100%;
+  align-self: flex-start;
+  padding: px-to-rem(18) 0;
+  border-bottom: 1px solid #c4c5c6;
+}
+
+.transaction-amount {
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: flex-end;
+  align-self: flex-end;
+  border-bottom: 1px solid #c4c5c6;
+  padding: $vertical-margin px-to-rem(20) $vertical-margin 0;
+
+  font-family: $font-family-roboto;
+  font-size: px-to-rem(14);
+  font-weight: 500;
+  color: $neu-charcoal-grey;
+  line-height: 1.4;
+}
+
+.euroEquivalent {
+  font-size: px-to-rem(12);
+  font-weight: 400;
+  color: $neu-gull-gray;
+}
+
+

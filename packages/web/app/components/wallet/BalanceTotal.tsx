@@ -1,4 +1,5 @@
 import * as React from "react";
+import { FormattedMessage } from "react-intl-phraseapp";
 
 import { ECurrencySymbol, Money } from "../shared/formatters/Money";
 import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "../shared/formatters/utils";
@@ -11,14 +12,14 @@ type TCommonBalanceProps = {
 
 export const BalanceTotal: React.FunctionComponent<TCommonBalanceProps> = ({ walletBalanceEuro }) =>
   <>
-    <div className={styles.commonBalanceTitle}>Wallet balance</div>
-    <span className={styles.commonBalance}>€
+    <div className={styles.totalBalanceTitle}><FormattedMessage id="wallet.total-balance"/></div>
+    <span className={styles.totalBalance}>€
     <Money
-    currencySymbol={ECurrencySymbol.NONE}
-    inputFormat={ENumberInputFormat.ULPS}
-    outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
-    value={walletBalanceEuro}
-    valueType={ECurrency.EUR}
-  />
+      currencySymbol={ECurrencySymbol.NONE}
+      inputFormat={ENumberInputFormat.ULPS}
+      outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
+      value={walletBalanceEuro}
+      valueType={ECurrency.EUR}
+    />
   </span>
   </>
