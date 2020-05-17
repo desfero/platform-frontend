@@ -1,25 +1,19 @@
-import { Button, EButtonLayout, InlineIcon } from "@neufund/design-system";
-import * as cn from "classnames";
+import { Button, EButtonLayout } from "@neufund/design-system";
 import * as React from "react";
-import { FormattedDate } from "react-intl";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { branch, compose, renderComponent } from "recompose";
 
-import { ETransactionDirection } from "../../../lib/api/analytics-api/interfaces";
 import { actions } from "../../../modules/actions";
 import { selectTxHistoryPaginated } from "../../../modules/tx-history/selectors";
 import { selectPlatformMiningTransaction } from "../../../modules/tx/monitor/selectors";
 import { appConnect } from "../../../store";
 import { onEnterAction } from "../../../utils/react-connected-components/OnEnterAction";
 import { onLeaveAction } from "../../../utils/react-connected-components/OnLeaveAction";
-import { PendingTransactionImage } from "../../layouts/header/PendingTransactionStatus";
-import { ETheme, Money } from "../../shared/formatters/Money";
-import { ENumberOutputFormat } from "../../shared/formatters/utils";
 import { LoadingIndicator } from "../../shared/loading-indicator/LoadingIndicator";
 import { PanelRounded } from "../../shared/Panel";
-import { Transaction, TransactionData, TransactionName } from "../../shared/transaction";
+import { Transaction } from "./Transaction";
+import { PendingTransaction } from "./PendingTransaction";
 
-import transactionIcon from "../../../assets/img/inline_icons/upload.svg"
 import * as styles from "./TransactionsHistory.module.scss";
 
 type TStateProps = {
@@ -32,77 +26,66 @@ type TDispatchProps = {
   showTransactionDetails: (id: string) => void;
 };
 
+// const pendingTransactionGeneral = {
+//   transaction: {
+//     from: "0xA622f39780fC8722243b49ACF3bFFEEb9B9201F2",
+//     gas: "0x15dc0",
+//     gasPrice: "0x3a1d51c00",
+//     hash: "0xd5cd84e84ced9eccc8f80cd4e5b1d40e8cb42a76d9b0dfb9d575bb389c42fad8",
+//     input: "0x64663ea60000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000016345785d8a0000",
+//     nonce: "0x0",
+//     to: "0x8843fd9a6e5078ab538dd49f6e106e822508225a",
+//     value: "0x0"
+//   },
+//   transactionType: "WITHDRAW",
+//   "transactionAdditionalData": {
+//     "to": "0x0000000000000000000000000000000000000000",
+//     "amount": "100000000000000000",
+//     "total": "101396761600000000",
+//     "totalEur": "19470473800366460490.458112",
+//     "tokenSymbol": "eth",
+//     "tokenImage": "/images/1b0f8ccf.svg",
+//     "tokenDecimals": 18,
+//     "currency": "eth",
+//     "subType": "pending",
+//     "transactionDirection": "out",
+//     "amountFormat": "ulps",
+//     "type": "transfer"
+//   },
+//   "transactionStatus": "MINING",
+//   "transactionTimestamp": 1589738946289,
+// } as TxPendingWithMetadata
+//
+// const pendingTransactionThaSigning = {
+//     transactionType: ETxSenderType.NOMINEE_THA_SIGN,
+//   transaction: {
+//   },
+// } as TxPendingWithMetadata
+
+
 const TransactionListLayout: React.FunctionComponent<TStateProps & TDispatchProps> = ({
   transactionsHistoryPaginated,
   loadTxHistoryNext,
-  showTransactionDetails,
   pendingTransaction,
+  showTransactionDetails
 }) => (
   <PanelRounded>
-    {pendingTransaction && (
-      <div className={styles.pendingTransactionWrapper}>
-        <Transaction
-          data-test-id="pending-transactions.transaction-mining"
-          icon={<PendingTransactionImage />}
-          transaction={pendingTransaction}
-        />
-      </div>
-    )}
+
     {transactionsHistoryPaginated.transactions && (
       <div className={styles.transactionList}>
-        {transactionsHistoryPaginated.transactions.map(transaction => {
-          const isIncomeTransaction =
-            transaction.transactionDirection === ETransactionDirection.IN;
+        {pendingTransaction && (
+          <PendingTransaction
+            data-test-id="pending-transactions.transaction-mining"
+            transaction={pendingTransaction}
+          />
+        )}
 
-          return (
-            <div className={styles.transactionListItem}
-                 key={transaction.id}
-                 onClick={() => showTransactionDetails(transaction.id)}
-                 data-test-id={`transactions-history-row transactions-history-${transaction.txHash.slice(
-                   0,
-                   10,
-                 )}`}
-            >
-              <div className={styles.transactionLogo}>
-                <InlineIcon svgIcon={transactionIcon} />
-              </div>
-              <div className={styles.transactionData}>
-                <TransactionData
-                  top={<TransactionName transaction={transaction} />}
-                  bottom={
-                    <FormattedDate
-                      value={transaction.date}
-                      year="numeric"
-                      month="long"
-                      day="2-digit"
-                    />
-                  }
-                />
-              </div>
-              <div className={styles.transactionAmount}>
-                  <span className={cn(styles.amount, { [styles.amountIn]: isIncomeTransaction })}>
-                  {!isIncomeTransaction && "-"}
-                    <Money
-                      inputFormat={transaction.amountFormat}
-                      outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
-                      theme={isIncomeTransaction ? ETheme.GREEN : undefined}
-                      value={transaction.amount}
-                      valueType={transaction.currency}
-                    />
-                  </span>
-                <span className={styles.euroEquivalent}>
-                  {"≈"}
-                  <Money
-                    inputFormat={transaction.amountFormat}
-                    outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
-                    value={transaction.amount}
-                    valueType={transaction.currency}
-                  />
-                  </span>
-              </div>
-            </div>
-          );
-        })}
+        {transactionsHistoryPaginated.transactions.map(transaction =>
+        <Transaction
+          transaction={transaction}
+          showTransactionDetails={showTransactionDetails}
+        />
+        )}
       </div>
     )}
     {transactionsHistoryPaginated.canLoadMore && (

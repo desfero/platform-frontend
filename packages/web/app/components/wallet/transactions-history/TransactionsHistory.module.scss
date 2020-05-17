@@ -1,6 +1,11 @@
 @import "../../shared/Panel.module";
 
-$vertical-margin:px-to-rem(18);
+@mixin transaction-list-cell {
+  border-bottom: 1px solid $neu-silver;
+  padding: px-to-rem(18) 0
+}
+
+$vertical-margin: px-to-rem(18);
 
 .wrapper {
   @include remove-panel-padding;
@@ -34,27 +39,58 @@ $vertical-margin:px-to-rem(18);
   }
 }
 
+.pending-transaction-item {
+  background-color: $neu-pale-grey-three;
+}
+
+.pending-transaction-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: px-to-rem(60);
+  height: px-to-rem(24);
+
+  background-color: $neu-dark-blue;
+  border-radius: 4px;
+  margin: auto 0 auto .5rem;
+
+  font-size: px-to-rem(12);
+  color: $neu-white;
+}
+
 .transaction-logo {
   width: px-to-rem(22.5);
   margin: $vertical-margin 1rem $vertical-margin px-to-rem(20);
+  align-self: center;
 }
 
 .transaction-data {
+  @include transaction-list-cell();
+
   height: 100%;
   align-self: flex-start;
-  padding: px-to-rem(18) 0;
-  border-bottom: 1px solid #c4c5c6;
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+}
+
+.signing-transaction {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
 }
 
 .transaction-amount {
+  @include transaction-list-cell();
+
   height: 100%;
   display: flex;
   flex-flow: column;
   justify-content: center;
   align-items: flex-end;
   align-self: flex-end;
-  border-bottom: 1px solid #c4c5c6;
-  padding: $vertical-margin px-to-rem(20) $vertical-margin 0;
+
+  padding-right: px-to-rem(20);
 
   font-family: $font-family-roboto;
   font-size: px-to-rem(14);
