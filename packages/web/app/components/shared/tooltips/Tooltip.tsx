@@ -1,13 +1,14 @@
 import { makeTid } from "@neufund/shared-utils";
 import * as cn from "classnames";
 import * as React from "react";
+import { InlineIcon } from "@neufund/design-system";
 
 import { CommonHtmlProps, TDataTestId, TTranslatedString } from "../../../types";
-import { InlineIcon } from "../icons";
 import { TooltipBase } from "./TooltipBase";
 
-import icon from "../../../assets/img/inline_icons/icon_questionmark.svg";
+import icon from "../../../assets/img/inline_icons/info-outline.svg";
 import * as styles from "./Tooltip.module.scss";
+import { EInlineIconFill } from "../icons";
 
 interface IProps {
   content: TTranslatedString;
@@ -55,7 +56,7 @@ class Tooltip extends React.Component<
           id={this.state.targetId}
           data-test-id={makeTid(dataTestId, "trigger")}
         >
-          {children ? children : <InlineIcon svgIcon={icon} />}
+          {children ? children : <InlineIcon fill={EInlineIconFill.FILL_OUTLINE} svgIcon={icon} />}
         </span>
         <TooltipBase
           target={this.state.targetId}

@@ -1,4 +1,4 @@
-$icon-size: 18px;
+$icon-size: 14px;
 
 .tooltip-wrapper {
   @include media-breakpoint-down (sm) {
@@ -9,10 +9,10 @@ $icon-size: 18px;
   display: inline-block;
 
   position: relative;
-  vertical-align: text-bottom;
 
   &--icon {
-    margin-left: px-to-rem(10px);
+    margin-left: px-to-rem(5px);
+    top: -5px;
 
     .tooltip {
       @include media-breakpoint-down (sm) {
