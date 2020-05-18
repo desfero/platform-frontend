@@ -423,7 +423,6 @@ describe("WalletConnectAdapter", () => {
       const { mockInstance, wcAdapter } = await approveSession(new KillSessionMock());
 
       await wcAdapter.disconnectSession();
-
       expect(mockInstance.killSession).toHaveBeenCalled();
     });
   });

@@ -1,7 +1,7 @@
 import { unwrapPromise } from "./promiseUtils";
 
 describe("promise utils", () => {
-  describe.only("unwrapPromise", () => {
+  describe("unwrapPromise", () => {
     it("should handle properly resolving", async () => {
       const { resolve, promise } = unwrapPromise<string>();
 

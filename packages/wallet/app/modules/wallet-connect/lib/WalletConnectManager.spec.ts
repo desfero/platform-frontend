@@ -38,20 +38,16 @@ describe("WalletConnectManager", () => {
     );
 
     const manager = new WalletConnectManager(noopLogger, sessionStorageMock);
-
     const uri = toWalletConnectUri("foo");
-
     await manager.createSession(uri);
 
     expect(WalletConnectAdapter).toHaveBeenCalledWith({ uri }, noopLogger);
     expect(wcAdapter.connect).toHaveBeenCalled();
 
     wcAdapter.emit(EWalletConnectAdapterEvents.CONNECTED);
-
     expect(sessionStorageMock.set).toHaveBeenCalledWith(session);
 
     wcAdapter.emit(EWalletConnectAdapterEvents.DISCONNECTED);
-
     expect(sessionStorageMock.clear).toHaveBeenCalled();
   });
 
@@ -89,7 +85,6 @@ describe("WalletConnectManager", () => {
     );
 
     const manager = new WalletConnectManager(noopLogger, sessionStorageMock);
-
     await manager.useExistingSession();
 
     expect(WalletConnectAdapter).toHaveBeenCalledWith(
@@ -98,11 +93,9 @@ describe("WalletConnectManager", () => {
     );
 
     wcAdapter.emit(EWalletConnectAdapterEvents.CONNECTED);
-
     expect(sessionStorageMock.set).toHaveBeenCalledWith(session);
 
     wcAdapter.emit(EWalletConnectAdapterEvents.DISCONNECTED);
-
     expect(sessionStorageMock.clear).toHaveBeenCalled();
   });
 });

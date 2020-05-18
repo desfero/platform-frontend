@@ -1,5 +1,6 @@
 import { call, SagaGenerator, takeLatest } from "@neufund/sagas";
 import { coreModuleApi, neuGetBindings } from "@neufund/shared-modules";
+
 import { walletConnectActions } from "./actions";
 import { privateSymbols } from "./lib/symbols";
 import { MODULE_ID } from "./module";

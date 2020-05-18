@@ -71,10 +71,6 @@ class WalletConnectManager {
     this.subscribeToConnectionEvents(walletConnectAdapter);
     return walletConnectAdapter.connect();
   }
-
-  async clearSession(){
-
-  }
 }
 
 export { WalletConnectManager };

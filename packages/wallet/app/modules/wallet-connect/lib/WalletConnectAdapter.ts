@@ -5,13 +5,13 @@ import { IWalletConnectSession } from "@walletconnect/types";
 import { EventEmitter2 } from "eventemitter2";
 
 import { unwrapPromise } from "../../../utils/promiseUtils";
+import { TWalletConnectPeer } from "../types";
 import {
   InvalidJSONRPCPayloadError,
   InvalidRPCMethodError,
   NoPeerMetaError,
   WalletConnectAdapterError,
 } from "./adapterErrors";
-import { TWalletConnectPeer } from "../types";
 import {
   CALL_REQUEST_EVENT,
   CONNECT_EVENT,
@@ -52,7 +52,6 @@ class WalletConnectAdapter extends EventEmitter2 {
 
   constructor(options: IWalletConnectOptions, logger: ILogger) {
     super();
-
     this.logger = logger;
 
     this.walletConnect = new WalletConnect(
@@ -205,7 +204,7 @@ class WalletConnectAdapter extends EventEmitter2 {
    */
   async connect(): Promise<TSessionDetails> {
     return new Promise((resolve, reject) => {
-      const callback = async (error, payload) => {
+      const callback = async (error: Error | null, payload: unknown | null) => {
         if (error) {
           reject(error);
           return;
@@ -260,11 +259,6 @@ class WalletConnectAdapter extends EventEmitter2 {
    */
   async disconnectSession() {
     this.logger.info(`Disconnecting wallet connect session with peer ${this.getPeerId()}`);
-    await this.walletConnect.killSession();
-  }
-
-  async clearSession() {
-    this.logger.info(`Clearing wallet connect session`);
     await this.walletConnect.killSession();
   }
 }
