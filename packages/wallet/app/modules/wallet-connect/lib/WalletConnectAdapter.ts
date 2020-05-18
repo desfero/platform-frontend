@@ -172,6 +172,10 @@ class WalletConnectAdapter extends EventEmitter2 {
     });
   }
 
+  destory() {
+    this.removeAllListeners();
+  }
+
   /**
    * Gets connected peer id
    */

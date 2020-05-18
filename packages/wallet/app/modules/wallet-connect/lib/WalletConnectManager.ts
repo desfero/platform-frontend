@@ -1,4 +1,4 @@
-import { ILogger, coreModuleApi } from "@neufund/shared-modules";
+import { coreModuleApi, ILogger } from "@neufund/shared-modules";
 import { invariant } from "@neufund/shared-utils";
 import { inject, injectable } from "inversify";
 
@@ -25,7 +25,6 @@ class WalletConnectManager {
     this.sessionStorage = sessionStorage;
   }
 
-  // TODO: Make sure we don't have a memory leak and events are cleaned up when disconnected
   private subscribeToConnectionEvents(adapter: WalletConnectAdapter) {
     adapter.on(EWalletConnectAdapterEvents.CONNECTED, async () => {
       await this.sessionStorage.set(adapter.getSession());
@@ -33,6 +32,7 @@ class WalletConnectManager {
 
     adapter.on(EWalletConnectAdapterEvents.DISCONNECTED, async () => {
       await this.sessionStorage.clear();
+      adapter.destory();
     });
   }
 
