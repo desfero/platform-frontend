@@ -196,8 +196,8 @@ describe("Wallet View", () => {
 
       await expectSaga(loadWalletView)
         .withState({
-          auth: {
-            user: {
+          user: {
+            data: {
               type: EUserType.INVESTOR,
               verifiedEmail: "sdafas@dsafasdf.dd",
               backupCodesVerified: true,
