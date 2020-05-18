@@ -1,6 +1,7 @@
 import { IERC20TokenAdapter } from "@neufund/shared-modules";
 import { BigNumber } from "bignumber.js";
 import { providers, Signer } from "ethers";
+
 import { IERC20Token } from "../../../lib/contracts/IERC20Token";
 import { IERC20TokenFactory } from "../../../lib/contracts/IERC20TokenFactory";
 
@@ -17,7 +18,7 @@ class ERC20TokenAdapterFactory {
  * An adapter for ERC20 Tokens to hide implementation differences between web3 and ethers generated contracts interfaces
  */
 class ERC20TokenAdapter implements IERC20TokenAdapter {
-  constructor(private tokenContract: IERC20Token) {}
+  constructor(private readonly tokenContract: IERC20Token) {}
 
   address = this.tokenContract.address;
 

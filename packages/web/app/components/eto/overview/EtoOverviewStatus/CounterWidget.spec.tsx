@@ -1,4 +1,3 @@
-import { EUserType } from "@neufund/shared-modules";
 import { createMount, setupFakeClock, tid } from "@neufund/shared-utils/tests";
 import { expect } from "chai";
 import * as React from "react";
@@ -6,7 +5,6 @@ import { createSandbox, SinonStub } from "sinon";
 
 import { testCompany, testContract, testEto } from "../../../../../test/fixtures";
 import { wrapWithBasicProviders } from "../../../../../test/integrationTestUtils.unsafe";
-import { EAuthStatus } from "../../../../modules/auth/reducer";
 import * as authModuleSelectors from "../../../../modules/auth/selectors";
 import * as bookBuildingFlowSelectors from "../../../../modules/bookbuilding-flow/selectors";
 import * as etoSelectors from "../../../../modules/eto/selectors";
@@ -33,23 +31,6 @@ const eto = {
   contracts: {
     [testEto.previewCode]: contract,
   },
-};
-
-const initialStateBase = {
-  jwt: {
-    token: "jwt token",
-  },
-  user: {
-    data: {
-      userId: "0x353d3030AF583fc0e547Da80700BbD953F330A4b",
-      type: EUserType.INVESTOR,
-    },
-  },
-  auth: {
-    status: EAuthStatus.AUTHORIZED,
-  },
-  wallet: {},
-  eto,
 };
 
 const props = {

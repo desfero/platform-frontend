@@ -1,6 +1,7 @@
 import { IICBMLockedAccountAdapter } from "@neufund/shared-modules";
 import { BigNumber } from "bignumber.js";
 import { providers, Signer } from "ethers";
+
 import { ICBMLockedAccount } from "../../../lib/contracts/ICBMLockedAccount";
 import { ICBMLockedAccountFactory } from "../../../lib/contracts/ICBMLockedAccountFactory";
 
@@ -19,7 +20,7 @@ class ICBMLockedAccountAdapterFactory {
  * An adapter for ERC20 Tokens to hide implementation differences between web3 and ethers generated contracts interfaces
  */
 class ICBMLockedAccountAdapter implements IICBMLockedAccountAdapter {
-  constructor(private accountContract: ICBMLockedAccount) {}
+  constructor(private readonly accountContract: ICBMLockedAccount) {}
 
   address = this.accountContract.address;
 
