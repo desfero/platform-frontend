@@ -1522,6 +1522,8 @@
   "wallet.no-linked-bank-account" : "You haven't linked a bank account. Linking a bank account will allow you to purchase and redeem nEUR. nEUR represents a Euro equivalent and is issued by <a href={href}> Quintessence PLC.</a>",
   "wallet.link-bank-account" : "Link a bank account",
   "wallet.enable-icbm": "Enable ICBM balance",
+  "wallet.icbm-balance-unlocked.tooltip": "You can use your ICBM balance to invest on the platform.",
+  "wallet.icbm-balance-locked.tooltip": "Please enable your ICBM balance to use it for investments on the platform.",
   "wallet.tx-list.tooltip": "Here you can view all your past transactions on the platform.",
   "wallet.tx-list.amount": "Amount",
   "wallet.tx-list.heading": "Transactions",

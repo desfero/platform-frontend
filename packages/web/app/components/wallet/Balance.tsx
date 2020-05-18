@@ -2,13 +2,19 @@ import * as React from "react";
 import * as cn from "classnames";
 import { Button, EButtonLayout, EButtonSize } from "@neufund/design-system";
 
-import { TBalance, TBalanceAction } from "../../modules/wallet-view/types";
+import { EBalanceActionLevel, TBalance, TBalanceAction } from "../../modules/wallet-view/types";
 import { Money } from "../shared/formatters/Money";
 import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "../shared/formatters/utils";
 import { useRef } from "react";
 import { useCycleFocus } from "../shared/hooks/useCycleFocus";
+import { ECustomTooltipTextPosition, Tooltip } from "../shared/tooltips";
 
 import * as styles from "./Wallet.module.scss";
+
+const mapBalanceActionLevelToBtnProps = {
+  [EBalanceActionLevel.PRIMARY]:EButtonLayout.PRIMARY,
+  [EBalanceActionLevel.SECONDARY]:EButtonLayout.SECONDARY
+}
 
 const BalanceActions: React.FunctionComponent<TBalance> = (props) => {
   const { walletActions } = props
@@ -22,7 +28,7 @@ const BalanceActions: React.FunctionComponent<TBalance> = (props) => {
   const moveFocusOnTabKey = useCycleFocus(allRefs)
 
   const onTabKey = (ref: React.RefObject<HTMLButtonElement>, e: React.KeyboardEvent) => {
-    if (isOn){
+    if (isOn) {
       moveFocusOnTabKey(ref, e)
     }
   }
@@ -35,7 +41,7 @@ const BalanceActions: React.FunctionComponent<TBalance> = (props) => {
             onKeyDown={(e) => onTabKey(balanceActionRefs[i], e)}
             ref={balanceActionRefs[i]}
             key={i}
-            layout={EButtonLayout.PRIMARY}
+            layout={mapBalanceActionLevelToBtnProps[balanceAction.level]}
             size={EButtonSize.SMALL}
             onClick={balanceAction.dispatchAction}
             disabled={balanceAction.disableIf(props)}
@@ -68,13 +74,22 @@ export const Balance: React.FunctionComponent<TBalance> = (balance) => {
     amount,
     currency,
     euroEquivalentAmount,
+    balanceAdditionalInfo
   } = balance
   return (
     <div className={styles.balanceListItem}>
       <div className={styles.currencyLogo}>
         <Logo />
       </div>
-      <div className={styles.currency}>{balanceName}</div>
+      <div className={styles.currency}>
+        {balanceName}
+        {balanceAdditionalInfo && <Tooltip
+          data-test-id="transactions.info"
+          content={balanceAdditionalInfo}
+          textPosition={ECustomTooltipTextPosition.LEFT}
+          preventDefault={false}
+        />}
+      </div>
       <div className={styles.amount}>
         <Money
           value={amount}

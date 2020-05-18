@@ -24,7 +24,7 @@ import {
   TWalletViewReadyState,
   TWalletViewState
 } from "../../modules/wallet-view/types";
-import { balanceActions, balanceCurrencies, balanceNames, balanceSymbols } from "./utils";
+import { balanceActions, balanceAdditionalInfo, balanceCurrencies, balanceNames, balanceSymbols } from "./utils";
 import { Balance } from "./Balance";
 import { ECustomTooltipTextPosition, Tooltip } from "../shared/tooltips";
 import { Heading } from "../shared/Heading";
@@ -123,10 +123,11 @@ export const Wallet = compose<React.FunctionComponent>(
   withContainer(WalletContainer),
   branch<TStateProps>(props => props.processState === EProcessState.ERROR, renderComponent(LoadingIndicatorContainer)), //fixme
   branch<TStateProps>(props => props.processState !== EProcessState.SUCCESS, renderComponent(LoadingIndicatorContainer)),
-  withProps<{}, TWalletViewReadyState & TDispatchProps>(({ balanceData, balanceActions }) => ({
+  withProps<{ balances: TBalance[] }, TWalletViewReadyState & TDispatchProps>(({ balanceData, balanceActions }) => ({
     balances: balanceData.map((wallet: TBalanceData) => ({
       logo: balanceSymbols[wallet.name],
       balanceName: balanceNames[wallet.name],
+      balanceAdditionalInfo: balanceAdditionalInfo[wallet.name],
       amount: wallet.amount,
       currency: balanceCurrencies[wallet.name],
       euroEquivalentAmount: wallet.euroEquivalentAmount,

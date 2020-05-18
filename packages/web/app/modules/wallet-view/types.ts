@@ -12,6 +12,11 @@ export enum EBalanceType {
   LOCKED_ICBM_NEUR = "WALLET_TYPE_LOCKED_ICBM_NEUR",
 }
 
+export enum EBalanceActionLevel {
+  PRIMARY= "primary",
+  SECONDARY= "secondary"
+}
+
 export type TBalanceData = {
   name: EBalanceType
   amount: string
@@ -36,12 +41,18 @@ export type TWalletViewState = ({
 export type TBalance = {
   logo: React.ComponentType,
   balanceName: string,
+  balanceAdditionalInfo: TTranslatedString | undefined
   amount: string,
   currency: ECurrency,
   euroEquivalentAmount: string,
   walletActions: TBalanceAction[]
 }
 
-export type TBalanceAction = { dispatchAction: (x: unknown)=>void, disableIf: (w: TBalance) => boolean, text: TTranslatedString }
+export type TBalanceAction = {
+  dispatchAction: (x: unknown)=>void,
+  disableIf: (w: TBalance) => boolean,
+  text: TTranslatedString,
+  level: EBalanceActionLevel
+}
 
 export type TBalanceActions = { [key in EBalanceType]: TBalanceAction[] }
