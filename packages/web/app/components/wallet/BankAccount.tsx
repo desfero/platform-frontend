@@ -1,11 +1,11 @@
-import * as React from "react";
+import { Button, ButtonInline, EButtonLayout, EButtonSize, InlineIcon } from "@neufund/design-system";
 import * as cn from "classnames";
-import { Button, ButtonInline, EButtonLayout, EButtonSize, InlineIcon, TokenIcon } from "@neufund/design-system";
+import * as React from "react";
 import { FormattedHTMLMessage, FormattedMessage } from "react-intl-phraseapp";
 
+import { KycBankVerifiedBankAccount } from "../../lib/api/kyc/KycApi.interfaces";
 import { Container, EColumnSpan } from "../layouts/Container";
 import { BankNumber } from "./bank-account/BankAccount";
-import { KycBankVerifiedBankAccount } from "../../lib/api/kyc/KycApi.interfaces";
 
 import bankIcon from "../../assets/img/bank-transfer/bank-icon.svg";
 import linkIcon from "../../assets/img/inline_icons/social_link.svg";

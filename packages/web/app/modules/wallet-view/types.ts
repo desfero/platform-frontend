@@ -1,7 +1,8 @@
-import { EProcessState } from "../../utils/enums/processStates";
-import { ECurrency, EthereumAddressWithChecksum } from "@neufund/shared-utils";
-import { TBankAccount } from "../kyc/types";
 import { TTranslatedString } from "@neufund/design-system";
+import { ECurrency, EthereumAddressWithChecksum } from "@neufund/shared-utils";
+
+import { EProcessState } from "../../utils/enums/processStates";
+import { TBankAccount } from "../kyc/types";
 
 export type TWalletData = {
   name: EBalanceType,

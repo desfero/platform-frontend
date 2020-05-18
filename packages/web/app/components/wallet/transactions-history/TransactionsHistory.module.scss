@@ -12,7 +12,7 @@
 
 @mixin transaction-list-cell {
   border-bottom: 1px solid $neu-silver;
-  padding: px-to-rem(18) 0
+  padding: px-to-rem(18) 0;
 }
 
 $vertical-margin: px-to-rem(18);
@@ -43,11 +43,11 @@ $vertical-margin: px-to-rem(18);
 .transaction-list-item {
   display: grid;
   grid-template: 100% / px-to-rem(68) 1fr 1fr;
-  margin:0;
+  margin: 0;
   padding: 0;
 
   &:last-of-type * {
-    border-bottom: none;
+    border-bottom: 0;
   }
 }
 
@@ -77,7 +77,7 @@ $vertical-margin: px-to-rem(18);
 }
 
 .transaction-data {
-  @include transaction-list-cell();
+  @include transaction-list-cell;
 
   height: 100%;
   align-self: flex-start;
@@ -93,7 +93,7 @@ $vertical-margin: px-to-rem(18);
 }
 
 .transaction-amount {
-  @include transaction-list-cell();
+  @include transaction-list-cell;
 
   height: 100%;
   display: flex;
@@ -111,7 +111,7 @@ $vertical-margin: px-to-rem(18);
   line-height: 1.4;
 }
 
-.euroEquivalent {
+.euro-equivalent {
   font-size: px-to-rem(12);
   font-weight: 400;
   color: $neu-gull-gray;

@@ -1,17 +1,17 @@
-import { ETransactionDirection } from "../../../lib/api/analytics-api/interfaces";
-import * as React from "react";
-import * as cn from "classnames";
 import { InlineIcon } from "@neufund/design-system";
+import * as cn from "classnames";
+import * as React from "react";
 import { FormattedDate } from "react-intl";
 
-import { TransactionData, TransactionName } from "../../shared/transaction";
+import { ETransactionDirection } from "../../../lib/api/analytics-api/interfaces";
+import { TEtoInvestmentTx, TTxHistory } from "../../../modules/tx-history/types";
 import { ETheme, Money } from "../../shared/formatters/Money";
 import { ECurrency, ENumberOutputFormat } from "../../shared/formatters/utils";
-import { TEtoInvestmentTx, TTxHistory } from "../../../modules/tx-history/types";
-
-import * as styles from "./TransactionsHistory.module.scss";
-import transactionIcon from "../../../assets/img/inline_icons/tx_icon_placeholder.svg";
 import { EInlineIconFill } from "../../shared/icons";
+import { TransactionData, TransactionName } from "../../shared/transaction";
+
+import transactionIcon from "../../../assets/img/inline_icons/tx_icon_placeholder.svg";
+import * as styles from "./TransactionsHistory.module.scss";
 
 
 export type TTransactionProps = {

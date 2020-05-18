@@ -1,11 +1,10 @@
-import * as React from "react";
-import * as cn from "classnames";
 import { Button, EButtonLayout, EButtonSize } from "@neufund/design-system";
+import * as cn from "classnames";
+import * as React from "react";
 
 import { EBalanceActionLevel, TBalance, TBalanceAction } from "../../modules/wallet-view/types";
 import { Money } from "../shared/formatters/Money";
 import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "../shared/formatters/utils";
-import { useRef } from "react";
 import { useCycleFocus } from "../shared/hooks/useCycleFocus";
 import { ECustomTooltipTextPosition, Tooltip } from "../shared/tooltips";
 
@@ -21,8 +20,8 @@ const BalanceActions: React.FunctionComponent<TBalance> = (props) => {
 
   const [isOn, toggle] = React.useState(false);
 
-  const toggleBalanceActionsRef = useRef<HTMLButtonElement>(null)
-  const balanceActionRefs = walletActions.map(_ => useRef<HTMLButtonElement>(null))
+  const toggleBalanceActionsRef = React.useRef<HTMLButtonElement>(null)
+  const balanceActionRefs = walletActions.map(_ => React.useRef<HTMLButtonElement>(null))
   const allRefs = [toggleBalanceActionsRef, ...[...balanceActionRefs].reverse()] //reverse the button order to reflect the visual ordering
 
   const moveFocusOnTabKey = useCycleFocus(allRefs)

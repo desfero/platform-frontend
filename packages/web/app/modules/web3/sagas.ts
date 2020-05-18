@@ -111,7 +111,7 @@ export function* initWeb3ManagerEvents({ web3Manager }: TGlobalDependencies): an
         );
         break;
       case EWeb3ManagerEvents.NEW_BLOCK_ARRIVED:
-        // yield put(actions.web3.newBlockArrived(event.payload.blockNumber)); //fixme revert!!
+        yield put(actions.web3.newBlockArrived(event.payload.blockNumber));
         break;
       case EWeb3ManagerEvents.ETH_BLOCK_TRACKER_ERROR:
         yield put(actions.web3.ethBlockTrackerError(event.payload.error));

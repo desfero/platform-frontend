@@ -1,8 +1,13 @@
-import { neuTakeLatestUntil, neuCall } from "../sagasUtils";
-import { select, all, put, call } from "@neufund/sagas";
+import { all, call, put, select } from "@neufund/sagas";
 import { addBigNumbers, compareBigNumbers } from "@neufund/shared-utils";
 
+import { EProcessState } from "../../utils/enums/processStates";
 import { actions } from "../actions";
+import { selectIsUserFullyVerified } from "../auth/selectors";
+import { loadBankAccountDetails } from "../kyc/sagas";
+import { selectBankAccount } from "../kyc/selectors";
+import { neuCall, neuTakeLatestUntil } from "../sagasUtils";
+import { loadWalletDataSaga } from "../wallet/sagas";
 import {
   selectICBMLockedEtherBalance,
   selectICBMLockedEtherBalanceEuroAmount,
@@ -17,12 +22,7 @@ import {
   selectNEURStatus
 } from "../wallet/selectors";
 import { selectEthereumAddress } from "../web3/selectors";
-import { EProcessState } from "../../utils/enums/processStates";
-import { loadWalletDataSaga } from "../wallet/sagas";
-import { loadBankAccountDetails } from "../kyc/sagas";
 import { EBalanceType, TBalanceData, TWalletData } from "./types";
-import { selectBankAccount } from "../kyc/selectors";
-import { selectIsUserFullyVerified } from "../auth/selectors";
 
 export function* populateWalletData(): Generator<any, TWalletData[], any> {
   const ethWalletData = yield all({
@@ -93,7 +93,7 @@ export function* populateWalletData(): Generator<any, TWalletData[], any> {
   ]
 }
 
-export function* loadWalletView() {
+export function* loadWalletView():Generator<any,void,any> {
   try {
     yield all([
       neuCall(loadWalletDataSaga),

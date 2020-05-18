@@ -1,22 +1,12 @@
+import { DeepReadonly, withContainer } from "@neufund/shared-utils";
 import * as React from "react";
+import { FormattedMessage } from "react-intl-phraseapp";
 import { branch, renderComponent, withProps } from "recompose";
 import { compose } from "redux";
-import { DeepReadonly, withContainer } from "@neufund/shared-utils";
-import { FormattedMessage } from "react-intl-phraseapp";
 
-import { EBankTransferType } from "../../modules/bank-transfer-flow/reducer";
-import { appConnect } from "../../store";
-import { Container, EColumnSpan, EContainerType } from "../layouts/Container";
-import { LoadingIndicatorContainer } from "../shared/loading-indicator";
-import { TransactionsHistory } from "./transactions-history/TransactionsHistory";
-import { WalletContainer } from "./WalletContainer";
 import { actions } from "../../modules/actions";
-import { WalletAddress } from "../shared/AccountAddress";
+import { EBankTransferType } from "../../modules/bank-transfer-flow/reducer";
 import { selectWalletViewData } from "../../modules/wallet-view/selectors";
-import { PanelRounded } from "../shared/Panel";
-import { EProcessState } from "../../utils/enums/processStates";
-import { BalanceTotal } from "./BalanceTotal";
-import { BankAccount, NoBankAccount } from "./BankAccount";
 import {
   TBalance,
   TBalanceActions,
@@ -24,11 +14,21 @@ import {
   TWalletViewReadyState,
   TWalletViewState
 } from "../../modules/wallet-view/types";
-import { balanceActions, balanceAdditionalInfo, balanceCurrencies, balanceNames, balanceSymbols } from "./utils";
-import { Balance } from "./Balance";
-import { ECustomTooltipTextPosition, Tooltip } from "../shared/tooltips";
-import { Heading } from "../shared/Heading";
+import { appConnect } from "../../store";
+import { EProcessState } from "../../utils/enums/processStates";
+import { Container, EColumnSpan, EContainerType } from "../layouts/Container";
+import { WalletAddress } from "../shared/AccountAddress";
 import { ErrorBoundaryComponent } from "../shared/errorBoundary/ErrorBoundaryLayout";
+import { Heading } from "../shared/Heading";
+import { LoadingIndicatorContainer } from "../shared/loading-indicator";
+import { PanelRounded } from "../shared/Panel";
+import { ECustomTooltipTextPosition, Tooltip } from "../shared/tooltips";
+import { Balance } from "./Balance";
+import { BalanceTotal } from "./BalanceTotal";
+import { BankAccount, NoBankAccount } from "./BankAccount";
+import { TransactionsHistory } from "./transactions-history/TransactionsHistory";
+import { balanceAdditionalInfo, balanceCurrencies, balanceNames, balanceSymbols, createBalanceActions } from "./utils";
+import { WalletContainer } from "./WalletContainer";
 
 import * as styles from "./Wallet.module.scss"
 
@@ -110,13 +110,12 @@ export const WalletLayout: React.FunctionComponent<TReadyStateProps & TDispatchP
 
 export const Wallet = compose<React.FunctionComponent>(
   appConnect<TStateProps, TDispatchProps>({
-    stateToProps: state => {
-      return ({
+    stateToProps: state =>
+      ({
         ...selectWalletViewData(state),
-      })
-    },
+      }),
     dispatchToProps: dispatch => ({
-      balanceActions: balanceActions(dispatch),
+      balanceActions: createBalanceActions(dispatch),
       verifyBankAccount: () =>
         dispatch(actions.bankTransferFlow.startBankTransfer(EBankTransferType.VERIFY)),
     }),

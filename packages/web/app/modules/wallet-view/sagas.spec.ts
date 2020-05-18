@@ -1,8 +1,16 @@
-import { expectSaga, matchers } from "@neufund/sagas/tests";
 import { select } from "@neufund/sagas";
+import { expectSaga, matchers } from "@neufund/sagas/tests";
+import { EthereumAddressWithChecksum } from "@neufund/shared-utils";
 import { getContext } from "redux-saga-test-plan/matchers";
 
-import { loadWalletView, populateWalletData } from "./sagas";
+import { EKycRequestStatus } from "../../lib/api/kyc/KycApi.interfaces";
+import { EUserType } from "../../lib/api/users/interfaces";
+import { EProcessState } from "../../utils/enums/processStates";
+import { actions } from "../actions";
+import { selectIsUserFullyVerified } from "../auth/selectors";
+import { loadBankAccountDetails } from "../kyc/sagas";
+import { selectBankAccount } from "../kyc/selectors";
+import { loadWalletDataSaga } from "../wallet/sagas";
 import {
   selectICBMLockedEtherBalance,
   selectICBMLockedEtherBalanceEuroAmount,
@@ -16,17 +24,9 @@ import {
   selectLockedEuroTokenBalance,
   selectNEURStatus
 } from "../wallet/selectors";
-import { EBalanceType } from "./types";
-import { selectIsUserFullyVerified } from "../auth/selectors";
 import { selectEthereumAddress } from "../web3/selectors";
-import { selectBankAccount } from "../kyc/selectors";
-import { actions } from "../actions";
-import { EProcessState } from "../../utils/enums/processStates";
-import { EthereumAddressWithChecksum } from "@neufund/shared-utils";
-import { EUserType } from "../../lib/api/users/interfaces";
-import { loadWalletDataSaga } from "../wallet/sagas";
-import { loadBankAccountDetails } from "../kyc/sagas";
-import { EKycRequestStatus } from "../../lib/api/kyc/KycApi.interfaces";
+import { loadWalletView, populateWalletData } from "./sagas";
+import { EBalanceType } from "./types";
 
 const testWalletData = [{
   name: EBalanceType.ETH,
@@ -67,9 +67,9 @@ const testWalletData = [{
 
 describe("Wallet View", () => {
   describe("populateWalletData()", () => {
-    it("will populate wallet data, no funds anywhere", () => {
+    it("will populate wallet data, no funds anywhere", async () => {
 
-      expectSaga(
+      await expectSaga(
         populateWalletData,
       )
         .provide([
@@ -126,9 +126,9 @@ describe("Wallet View", () => {
         )
         .run();
     });
-    it("will populate wallet data, some have funds anywhere", () => {
+    it("will populate wallet data, some have funds anywhere", async () => {
 
-      expectSaga(
+      await expectSaga(
         populateWalletData,
       )
         .provide([
@@ -163,7 +163,7 @@ describe("Wallet View", () => {
     } as const
 
 
-    it.only("loadWalletView", async function (): Promise<void> {
+    it("loadWalletView", async () => {
       const context = {
         apiKycService: {
           getBankAccount: () => {

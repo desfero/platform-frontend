@@ -11,8 +11,8 @@ import { onEnterAction } from "../../../utils/react-connected-components/OnEnter
 import { onLeaveAction } from "../../../utils/react-connected-components/OnLeaveAction";
 import { LoadingIndicator } from "../../shared/loading-indicator/LoadingIndicator";
 import { PanelRounded } from "../../shared/Panel";
-import { Transaction } from "./Transaction";
 import { PendingTransaction } from "./PendingTransaction";
+import { Transaction } from "./Transaction";
 
 import * as styles from "./TransactionsHistory.module.scss";
 

@@ -3,15 +3,15 @@ import * as React from "react";
 import { FormattedDate } from "react-intl";
 import { FormattedMessage } from "react-intl-phraseapp";
 
-import { TDataTestId } from "../../../types";
+import { TxPendingWithMetadata } from "../../../lib/api/users/interfaces";
 import { ETxSenderType } from "../../../modules/tx/types";
-import { TransactionData, TransactionName } from "../../shared/transaction";
+import { TDataTestId } from "../../../types";
 import { Money } from "../../shared/formatters/Money";
 import { ENumberOutputFormat } from "../../shared/formatters/utils";
-import { TxPendingWithMetadata } from "../../../lib/api/users/interfaces";
+import { TransactionData, TransactionName } from "../../shared/transaction";
 
-import * as styles from "./TransactionsHistory.module.scss";
 import txPending from "../../../assets/img/Pending.svg";
+import * as styles from "./TransactionsHistory.module.scss";
 
 const PendingTransactionLabel = () =>
   <div className={styles.pendingTransactionLabel}>

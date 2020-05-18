@@ -1,14 +1,13 @@
+import { EthIcon, EthIconWithLock, NeuroIcon, TTranslatedString } from "@neufund/design-system";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
+import { actions } from "../../modules/actions";
+import { EBankTransferType } from "../../modules/bank-transfer-flow/reducer";
+import { hasBalance } from "../../modules/investment-flow/utils";
+import { ETokenType } from "../../modules/tx/types";
 import { EBalanceActionLevel, EBalanceType, TBalanceActions } from "../../modules/wallet-view/types";
 import { ECurrency } from "../shared/formatters/utils";
-import { actions } from "../../modules/actions";
-import { hasBalance } from "../../modules/investment-flow/utils";
-import { EBankTransferType } from "../../modules/bank-transfer-flow/reducer";
-import { ETokenType } from "../../modules/tx/types";
-
-import { EthIcon, EthIconWithLock, NeuroIcon, TTranslatedString } from "@neufund/design-system";
 
 
 export const balanceCurrencies: { [key in EBalanceType]: ECurrency } = {
@@ -47,7 +46,7 @@ export const balanceSymbols: { [key in EBalanceType]: React.ComponentType } = {
   [EBalanceType.LOCKED_ICBM_NEUR]: EthIconWithLock,
 }
 
-export const balanceActions = (dispatch: Function): TBalanceActions => ({
+export const createBalanceActions = (dispatch: Function): TBalanceActions => ({
   [EBalanceType.ETH]: [
     {
       dispatchAction: () => dispatch(actions.txTransactions.startWithdrawEth()),

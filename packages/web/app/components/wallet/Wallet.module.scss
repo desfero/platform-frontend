@@ -10,7 +10,7 @@
   @include media-breakpoint-up(sm) {
     order: initial;
   }
-    order: 4;
+  order: 4;
 }
 
 .linked-bank-account-wrapper {
@@ -70,7 +70,7 @@
 
 .no-linked-bank-account {
   display: grid;
-  grid-template: auto auto/1fr;
+  grid-template: auto auto / 1fr;
   grid-row-gap: px-to-rem(12);
   background-color: $neu-pale-grey-three;
   padding: px-to-rem(20);
@@ -95,7 +95,7 @@
 
 .balance-list {
   display: grid;
-  grid-template: px-to-rem(64)/ 1fr;
+  grid-template: px-to-rem(64) / 1fr;
 
 }
 
@@ -114,12 +114,12 @@
   align-content: center;
   align-items: center;
 
-  margin:0;
+  margin: 0;
   padding: $row-padding px-to-rem(18) $row-padding px-to-rem(20);
-  border-bottom: 1px solid #c4c5c6;
+  border-bottom: 1px solid $neu-silver;
 
   &:last-of-type {
-    border-bottom: none;
+    border-bottom: 0;
   }
 }
 

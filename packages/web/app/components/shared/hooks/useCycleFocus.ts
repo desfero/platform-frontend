@@ -1,7 +1,5 @@
 import * as React from "react";
 
-import { useEffect } from "react";
-
 /*
 * A hook that returns a function to trap focus within a set of html elements
 * and cycle it in a predefined order on TAB/SHIFT-TAB keypress
@@ -35,7 +33,7 @@ import { useEffect } from "react";
 * */
 
 const useCycleFocus = (refs: React.RefObject<HTMLElement>[]) => {
-  useEffect(() => { //set initial focus on mount
+  React.useEffect(() => { //set initial focus on mount
     if (refs[0] && refs[0].current !== null) {
       refs[0].current.focus()
     }
@@ -47,10 +45,10 @@ const useCycleFocus = (refs: React.RefObject<HTMLElement>[]) => {
   const moveFocus = (ref: React.RefObject<HTMLElement>, e: React.KeyboardEvent, nextFn: (i: number) => number) => {
     const currentFocusIndex = refs.indexOf(ref)
     if (currentFocusIndex !== -1) {
-      const next = nextFn(currentFocusIndex)
+      const nextFocusIndex = nextFn(currentFocusIndex)
       e.preventDefault()
-      if (refs[next].current !== null) {
-        refs[next].current !== null && refs[next].current!.focus()
+      if (refs[nextFocusIndex].current !== null) {
+        refs[nextFocusIndex].current !== null && refs[nextFocusIndex].current!.focus()
       }
     }
   }

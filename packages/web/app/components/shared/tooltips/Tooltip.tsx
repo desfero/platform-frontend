@@ -1,14 +1,14 @@
+import { InlineIcon } from "@neufund/design-system";
 import { makeTid } from "@neufund/shared-utils";
 import * as cn from "classnames";
 import * as React from "react";
-import { InlineIcon } from "@neufund/design-system";
 
 import { CommonHtmlProps, TDataTestId, TTranslatedString } from "../../../types";
+import { EInlineIconFill } from "../icons";
 import { TooltipBase } from "./TooltipBase";
 
 import icon from "../../../assets/img/inline_icons/info-outline.svg";
 import * as styles from "./Tooltip.module.scss";
-import { EInlineIconFill } from "../icons";
 
 interface IProps {
   content: TTranslatedString;

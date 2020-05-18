@@ -36,9 +36,9 @@ import { ledgerSagas } from "./wallet-selector/ledger-wizard/sagas";
 import { lightWalletSagas } from "./wallet-selector/light-wizard/sagas";
 import { walletSelectorSagas } from "./wallet-selector/sagas";
 import { walletConnectSagas } from "./wallet-selector/wallet-connect/sagas";
+import { walletViewSagas } from "./wallet-view/sagas";
 import { walletSagas } from "./wallet/sagas";
 import { web3Sagas } from "./web3/sagas";
-import { walletViewSagas } from "./wallet-view/sagas";
 
 /**
  * Restart all sagas on error and report error to sentry

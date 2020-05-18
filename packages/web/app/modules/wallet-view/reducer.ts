@@ -1,6 +1,6 @@
-import { actions } from "../actions";
-import { EProcessState } from "../../utils/enums/processStates";
 import { AppReducer } from "../../store";
+import { EProcessState } from "../../utils/enums/processStates";
+import { actions } from "../actions";
 import { TWalletViewState } from "./types";
 
 

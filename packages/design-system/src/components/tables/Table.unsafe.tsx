@@ -13,7 +13,7 @@ import { CommonHtmlProps } from "@neufund/web/app/types";
 
 import * as styles from "./Table.module.scss";
 
-type TExternalProps = { //fixme any -> <T>
+type TExternalProps = {
   columns: Column[];
   data: Array<any>;
   withFooter?: boolean;

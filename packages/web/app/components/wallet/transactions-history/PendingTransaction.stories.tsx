@@ -1,6 +1,6 @@
+import { ECurrency } from "@neufund/shared-utils";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
-import { ECurrency } from "@neufund/shared-utils";
 
 import { ETransactionDirection, ETransactionType } from "../../../lib/api/analytics-api/interfaces";
 import { TxPendingWithMetadata } from "../../../lib/api/users/interfaces";

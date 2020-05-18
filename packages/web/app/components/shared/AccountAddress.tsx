@@ -6,9 +6,9 @@ import { CommonHtmlProps, TDataTestId } from "../../types";
 import { Avatar } from "./Avatar";
 import { CopyToClipboardButton } from "./CopyToClipboardButton";
 import { EtherscanAddressLink } from "./links";
+import { ECustomTooltipTextPosition, Tooltip } from "./tooltips";
 
 import * as styles from "./AccountAddress.module.scss";
-import { ECustomTooltipTextPosition, Tooltip } from "./tooltips";
 
 export interface IAccountAddressProps {
   address: string;

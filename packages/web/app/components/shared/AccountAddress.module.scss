@@ -63,7 +63,7 @@
   grid-auto-flow: row;
   align-items: center;
 
-  .addressWrapper {
+  .address-wrapper {
     display: grid;
     grid-template: auto / auto 1fr auto;
     grid-column-gap: 10px;
@@ -86,7 +86,7 @@
     align-items: center;
 
     span {
-      border: none;
+      border: 0;
       margin: auto 0;
       max-width: 100%;
     }
