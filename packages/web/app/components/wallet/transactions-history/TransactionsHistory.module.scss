@@ -1,5 +1,15 @@
 @import "../../shared/Panel.module";
 
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(180deg);
+  }
+}
+
 @mixin transaction-list-cell {
   border-bottom: 1px solid $neu-silver;
   padding: px-to-rem(18) 0
@@ -33,6 +43,8 @@ $vertical-margin: px-to-rem(18);
 .transaction-list-item {
   display: grid;
   grid-template: 100% / px-to-rem(68) 1fr 1fr;
+  margin:0;
+  padding: 0;
 
   &:last-of-type * {
     border-bottom: none;
@@ -105,4 +117,7 @@ $vertical-margin: px-to-rem(18);
   color: $neu-gull-gray;
 }
 
+.pending-transaction-icon {
+  animation: rotation 1s linear 0s infinite;
+}
 

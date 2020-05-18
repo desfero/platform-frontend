@@ -4,9 +4,9 @@ import { CommonHtmlProps } from "../../types";
 import { IconWithBadge, } from "../..";
 
 import ethIcon from "../../assets/img/ETH_32.svg"
-import tokenIcon from "../../assets/img/token_icon.svg"
+import lockIcon from "../../assets/img/Lock_ICBM.svg"
 
 export const EthIconWithLock: React.FunctionComponent<CommonHtmlProps> = ({
   className,
 }) =>
-  <IconWithBadge icon={ethIcon} badge={tokenIcon} className={className} />
+  <IconWithBadge icon={ethIcon} badge={lockIcon} className={className} />

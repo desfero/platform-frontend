@@ -28,6 +28,7 @@ import { balanceActions, balanceAdditionalInfo, balanceCurrencies, balanceNames,
 import { Balance } from "./Balance";
 import { ECustomTooltipTextPosition, Tooltip } from "../shared/tooltips";
 import { Heading } from "../shared/Heading";
+import { ErrorBoundaryComponent } from "../shared/errorBoundary/ErrorBoundaryLayout";
 
 import * as styles from "./Wallet.module.scss"
 
@@ -62,10 +63,10 @@ export const WalletLayout: React.FunctionComponent<TReadyStateProps & TDispatchP
 
       <Container columnSpan={EColumnSpan.TWO_COL}>
         <PanelRounded>
-          <div className={styles.balanceList}>
+          <li className={styles.balanceList}>
             {balances.map(b => <Balance {...b} key={b.balanceName} />)
             }
-          </div>
+          </li>
         </PanelRounded>
       </Container>
     </Container>
@@ -111,7 +112,7 @@ export const Wallet = compose<React.FunctionComponent>(
   appConnect<TStateProps, TDispatchProps>({
     stateToProps: state => {
       return ({
-        ...selectWalletViewData(state)
+        ...selectWalletViewData(state),
       })
     },
     dispatchToProps: dispatch => ({
@@ -121,7 +122,7 @@ export const Wallet = compose<React.FunctionComponent>(
     }),
   }),
   withContainer(WalletContainer),
-  branch<TStateProps>(props => props.processState === EProcessState.ERROR, renderComponent(LoadingIndicatorContainer)), //fixme
+  branch<TStateProps>(props => props.processState === EProcessState.ERROR, renderComponent(ErrorBoundaryComponent)),
   branch<TStateProps>(props => props.processState !== EProcessState.SUCCESS, renderComponent(LoadingIndicatorContainer)),
   withProps<{ balances: TBalance[] }, TWalletViewReadyState & TDispatchProps>(({ balanceData, balanceActions }) => ({
     balances: balanceData.map((wallet: TBalanceData) => ({

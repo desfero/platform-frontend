@@ -77,7 +77,7 @@ export const Balance: React.FunctionComponent<TBalance> = (balance) => {
     balanceAdditionalInfo
   } = balance
   return (
-    <div className={styles.balanceListItem}>
+    <ul className={styles.balanceListItem}>
       <div className={styles.currencyLogo}>
         <Logo />
       </div>
@@ -113,6 +113,6 @@ export const Balance: React.FunctionComponent<TBalance> = (balance) => {
       />
       }
 
-    </div>
+    </ul>
   );
 }

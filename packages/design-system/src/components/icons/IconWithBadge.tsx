@@ -3,7 +3,7 @@ import * as React from "react";
 import { CommonHtmlProps } from "../../types";
 import { Image } from "../..";
 
-import * as styles from "./TokenIcon.module.scss"
+import * as styles from "./IconWithBadge.module.scss"
 
 export type TIconWithBadgeProps = {
   badge: string,

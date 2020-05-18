@@ -26,7 +26,7 @@ type TDispatchProps = {
   showTransactionDetails: (id: string) => void;
 };
 
-// const pendingTransactionGeneral = {
+// const pendingTransactionGeneral = { //fixme
 //   transaction: {
 //     from: "0xA622f39780fC8722243b49ACF3bFFEEb9B9201F2",
 //     gas: "0x15dc0",
@@ -72,7 +72,7 @@ const TransactionListLayout: React.FunctionComponent<TStateProps & TDispatchProp
   <PanelRounded>
 
     {transactionsHistoryPaginated.transactions && (
-      <div className={styles.transactionList}>
+      <li className={styles.transactionList}>
         {pendingTransaction && (
           <PendingTransaction
             data-test-id="pending-transactions.transaction-mining"
@@ -86,7 +86,7 @@ const TransactionListLayout: React.FunctionComponent<TStateProps & TDispatchProp
           showTransactionDetails={showTransactionDetails}
         />
         )}
-      </div>
+      </li>
     )}
     {transactionsHistoryPaginated.canLoadMore && (
       <Button

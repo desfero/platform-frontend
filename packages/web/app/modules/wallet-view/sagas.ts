@@ -94,6 +94,7 @@ export function* populateWalletData(): Generator<any, TWalletData[], any> {
 }
 
 export function* loadWalletView() {
+  try {
     yield all([
       neuCall(loadWalletDataSaga),
       neuCall(loadBankAccountDetails)
@@ -116,6 +117,9 @@ export function* loadWalletView() {
       bankAccount,
       processState: EProcessState.SUCCESS
     }))
+  }catch(e) {
+    yield put(actions.walletView.walletViewSetData({processState: EProcessState.ERROR}))
+  }
 }
 
 export function* walletViewSagas(): any {

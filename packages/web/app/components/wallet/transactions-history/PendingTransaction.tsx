@@ -5,13 +5,13 @@ import { FormattedMessage } from "react-intl-phraseapp";
 
 import { TDataTestId } from "../../../types";
 import { ETxSenderType } from "../../../modules/tx/types";
-import { PendingTransactionImage } from "../../layouts/header/PendingTransactionStatus";
 import { TransactionData, TransactionName } from "../../shared/transaction";
 import { Money } from "../../shared/formatters/Money";
 import { ENumberOutputFormat } from "../../shared/formatters/utils";
 import { TxPendingWithMetadata } from "../../../lib/api/users/interfaces";
 
 import * as styles from "./TransactionsHistory.module.scss";
+import txPending from "../../../assets/img/Pending.svg";
 
 const PendingTransactionLabel = () =>
   <div className={styles.pendingTransactionLabel}>
@@ -22,6 +22,10 @@ type TPendingTransactionProps = {
   transaction: TxPendingWithMetadata
 }
 
+const PendingTransactionIcon = () =>
+  <img src={txPending} className={styles.pendingTransactionIcon} alt="" />
+
+
 export const PendingTransaction: React.FunctionComponent<TPendingTransactionProps & TDataTestId> = ({
   transaction,
   "data-test-id": dataTestId,
@@ -29,22 +33,22 @@ export const PendingTransaction: React.FunctionComponent<TPendingTransactionProp
   switch (transaction.transactionType) {
     case ETxSenderType.NOMINEE_THA_SIGN:
       return (
-        <div className={cn(styles.transactionListItem,styles.pendingTransactionItem )} data-test-id={dataTestId}>
+        <ul className={cn(styles.transactionListItem,styles.pendingTransactionItem )} data-test-id={dataTestId}>
           <div className={styles.transactionLogo}>
-            <PendingTransactionImage />
+            <PendingTransactionIcon />
           </div>
           <div className={styles.transactionData}>
             <FormattedMessage id="wallet.tx-list.name.nominee-sign-tha" />
             <PendingTransactionLabel />
           </div>
           <div className={styles.transactionAmount} />
-        </div>
+        </ul>
       );
     default:
       return (
-        <div className={cn(styles.transactionListItem,styles.pendingTransactionItem )} data-test-id={dataTestId}>
+        <ul className={cn(styles.transactionListItem,styles.pendingTransactionItem )} data-test-id={dataTestId}>
           <div className={styles.transactionLogo}>
-            <PendingTransactionImage />
+            <PendingTransactionIcon />
           </div>
           <div className={styles.transactionData}>
             <TransactionData
@@ -70,7 +74,7 @@ export const PendingTransaction: React.FunctionComponent<TPendingTransactionProp
               valueType={transaction.transactionAdditionalData.currency}
             />
           </div>
-        </div>
+        </ul>
       );
   }
 };

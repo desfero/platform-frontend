@@ -4,13 +4,15 @@ import * as cn from "classnames";
 import { InlineIcon } from "@neufund/design-system";
 import { FormattedDate } from "react-intl";
 
-import transactionIcon from "../../../assets/img/inline_icons/upload.svg";
 import { TransactionData, TransactionName } from "../../shared/transaction";
 import { ETheme, Money } from "../../shared/formatters/Money";
 import { ECurrency, ENumberOutputFormat } from "../../shared/formatters/utils";
 import { TEtoInvestmentTx, TTxHistory } from "../../../modules/tx-history/types";
 
 import * as styles from "./TransactionsHistory.module.scss";
+import transactionIcon from "../../../assets/img/inline_icons/tx_icon_placeholder.svg";
+import { EInlineIconFill } from "../../shared/icons";
+
 
 export type TTransactionProps = {
   showTransactionDetails: (id: string) => void;
@@ -22,7 +24,7 @@ export const Transaction: React.FunctionComponent<TTransactionProps> = ({ showTr
     transaction.transactionDirection === ETransactionDirection.IN;
 
   return (
-    <div className={styles.transactionListItem}
+    <ul className={styles.transactionListItem}
          key={transaction.id}
          onClick={() => showTransactionDetails(transaction.id)}
          data-test-id={`transactions-history-row transactions-history-${transaction.txHash.slice(
@@ -31,7 +33,7 @@ export const Transaction: React.FunctionComponent<TTransactionProps> = ({ showTr
          )}`}
     >
       <div className={styles.transactionLogo}>
-        <InlineIcon svgIcon={transactionIcon} />
+        <InlineIcon svgIcon={transactionIcon} fill={EInlineIconFill.FILL_OUTLINE} />
       </div>
       <div className={styles.transactionData}>
         <TransactionData
@@ -70,6 +72,6 @@ export const Transaction: React.FunctionComponent<TTransactionProps> = ({ showTr
           : null
         }
       </div>
-    </div>
+    </ul>
   );
 }
