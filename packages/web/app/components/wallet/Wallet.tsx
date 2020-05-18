@@ -12,7 +12,7 @@ import {
   TBalanceActions,
   TBalanceData,
   TWalletViewReadyState,
-  TWalletViewState
+  TWalletViewState,
 } from "../../modules/wallet-view/types";
 import { appConnect } from "../../store";
 import { EProcessState } from "../../utils/enums/processStates";
@@ -21,25 +21,30 @@ import { WalletAddress } from "../shared/AccountAddress";
 import { ErrorBoundaryComponent } from "../shared/errorBoundary/ErrorBoundaryLayout";
 import { Heading } from "../shared/Heading";
 import { LoadingIndicatorContainer } from "../shared/loading-indicator";
-import { PanelRounded } from "../shared/Panel";
 import { ECustomTooltipTextPosition, Tooltip } from "../shared/tooltips";
-import { Balance } from "./Balance";
+import { BalanceList } from "./BalanceList";
 import { BalanceTotal } from "./BalanceTotal";
 import { BankAccount, NoBankAccount } from "./BankAccount";
 import { TransactionsHistory } from "./transactions-history/TransactionsHistory";
-import { balanceAdditionalInfo, balanceCurrencies, balanceNames, balanceSymbols, createBalanceActions } from "./utils";
+import {
+  balanceAdditionalInfo,
+  balanceCurrencies,
+  balanceNames,
+  balanceSymbols,
+  createBalanceActions,
+} from "./utils";
 import { WalletContainer } from "./WalletContainer";
 
-import * as styles from "./Wallet.module.scss"
+import * as styles from "./Wallet.module.scss";
 
-type TStateProps = DeepReadonly<TWalletViewState>
+type TStateProps = DeepReadonly<TWalletViewState>;
 
-type TReadyStateProps = TWalletViewReadyState & { balances: TBalance[] }
+type TReadyStateProps = TWalletViewReadyState & { balances: TBalance[] };
 
 type TDispatchProps = {
-  balanceActions: TBalanceActions
+  balanceActions: TBalanceActions;
   verifyBankAccount: () => void;
-}
+};
 
 export const WalletLayout: React.FunctionComponent<TReadyStateProps & TDispatchProps> = ({
   balances,
@@ -47,7 +52,7 @@ export const WalletLayout: React.FunctionComponent<TReadyStateProps & TDispatchP
   userAddress,
   verifyBankAccount,
   bankAccount,
-  userIsFullyVerified
+  userIsFullyVerified,
 }) => (
   <>
     <Container columnSpan={EColumnSpan.TWO_COL} type={EContainerType.INHERIT_GRID}>
@@ -62,12 +67,7 @@ export const WalletLayout: React.FunctionComponent<TReadyStateProps & TDispatchP
       </Container>
 
       <Container columnSpan={EColumnSpan.TWO_COL}>
-        <PanelRounded>
-          <li className={styles.balanceList}>
-            {balances.map(b => <Balance {...b} key={b.balanceName} />)
-            }
-          </li>
-        </PanelRounded>
+        <BalanceList balances={balances} />
       </Container>
     </Container>
 
@@ -80,10 +80,15 @@ export const WalletLayout: React.FunctionComponent<TReadyStateProps & TDispatchP
       </Container>
 
       <Container className={styles.walletAddressWrapper} columnSpan={EColumnSpan.ONE_COL}>
-        {(bankAccount && bankAccount.hasBankAccount)
-          ? <BankAccount bankAccountData={bankAccount.details} verifyBankAccount={verifyBankAccount} userIsFullyVerified={userIsFullyVerified} />
-          : <NoBankAccount verifyBankAccount={verifyBankAccount} />
-        }
+        {bankAccount && bankAccount.hasBankAccount ? (
+          <BankAccount
+            bankAccountData={bankAccount.details}
+            verifyBankAccount={verifyBankAccount}
+            userIsFullyVerified={userIsFullyVerified}
+          />
+        ) : (
+          <NoBankAccount verifyBankAccount={verifyBankAccount} />
+        )}
       </Container>
     </Container>
 
@@ -93,11 +98,7 @@ export const WalletLayout: React.FunctionComponent<TReadyStateProps & TDispatchP
           <FormattedMessage id="wallet.tx-list.heading" />
           <Tooltip
             data-test-id="transactions.info"
-            content={
-              <FormattedMessage
-                id="wallet.tx-list.tooltip"
-              />
-            }
+            content={<FormattedMessage id="wallet.tx-list.tooltip" />}
             textPosition={ECustomTooltipTextPosition.LEFT}
             preventDefault={false}
           />
@@ -110,10 +111,9 @@ export const WalletLayout: React.FunctionComponent<TReadyStateProps & TDispatchP
 
 export const Wallet = compose<React.FunctionComponent>(
   appConnect<TStateProps, TDispatchProps>({
-    stateToProps: state =>
-      ({
-        ...selectWalletViewData(state),
-      }),
+    stateToProps: state => ({
+      ...selectWalletViewData(state),
+    }),
     dispatchToProps: dispatch => ({
       balanceActions: createBalanceActions(dispatch),
       verifyBankAccount: () =>
@@ -121,17 +121,25 @@ export const Wallet = compose<React.FunctionComponent>(
     }),
   }),
   withContainer(WalletContainer),
-  branch<TStateProps>(props => props.processState === EProcessState.ERROR, renderComponent(ErrorBoundaryComponent)),
-  branch<TStateProps>(props => props.processState !== EProcessState.SUCCESS, renderComponent(LoadingIndicatorContainer)),
-  withProps<{ balances: TBalance[] }, TWalletViewReadyState & TDispatchProps>(({ balanceData, balanceActions }) => ({
-    balances: balanceData.map((wallet: TBalanceData) => ({
-      logo: balanceSymbols[wallet.name],
-      balanceName: balanceNames[wallet.name],
-      balanceAdditionalInfo: balanceAdditionalInfo[wallet.name],
-      amount: wallet.amount,
-      currency: balanceCurrencies[wallet.name],
-      euroEquivalentAmount: wallet.euroEquivalentAmount,
-      walletActions: balanceActions[wallet.name]
-    }))
-  }))
+  branch<TStateProps>(
+    props => props.processState === EProcessState.ERROR,
+    renderComponent(ErrorBoundaryComponent),
+  ),
+  branch<TStateProps>(
+    props => props.processState !== EProcessState.SUCCESS,
+    renderComponent(LoadingIndicatorContainer),
+  ),
+  withProps<{ balances: TBalance[] }, TWalletViewReadyState & TDispatchProps>(
+    ({ balanceData, balanceActions }) => ({
+      balances: balanceData.map((wallet: TBalanceData) => ({
+        logo: balanceSymbols[wallet.name],
+        balanceName: balanceNames[wallet.name],
+        balanceAdditionalInfo: balanceAdditionalInfo[wallet.name],
+        amount: wallet.amount,
+        currency: balanceCurrencies[wallet.name],
+        euroEquivalentAmount: wallet.euroEquivalentAmount,
+        walletActions: balanceActions[wallet.name],
+      })),
+    }),
+  ),
 )(WalletLayout);

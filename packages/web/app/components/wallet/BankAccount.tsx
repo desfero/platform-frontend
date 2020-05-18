@@ -1,4 +1,10 @@
-import { Button, ButtonInline, EButtonLayout, EButtonSize, InlineIcon } from "@neufund/design-system";
+import {
+  Button,
+  ButtonInline,
+  EButtonLayout,
+  EButtonSize,
+  InlineIcon,
+} from "@neufund/design-system";
 import * as cn from "classnames";
 import * as React from "react";
 import { FormattedHTMLMessage, FormattedMessage } from "react-intl-phraseapp";
@@ -12,16 +18,20 @@ import linkIcon from "../../assets/img/inline_icons/social_link.svg";
 import * as styles from "./Wallet.module.scss";
 
 type TBankAccountProps = {
-  verifyBankAccount: () => void
-  bankAccountData: KycBankVerifiedBankAccount
-  userIsFullyVerified: boolean
-}
+  verifyBankAccount: () => void;
+  bankAccountData: KycBankVerifiedBankAccount;
+  userIsFullyVerified: boolean;
+};
 
 type TNobankAccountProps = {
-  verifyBankAccount: () => void
-}
+  verifyBankAccount: () => void;
+};
 
-export const BankAccount:React.FunctionComponent<TBankAccountProps> = ({ verifyBankAccount, bankAccountData, userIsFullyVerified }) => (
+export const BankAccount: React.FunctionComponent<TBankAccountProps> = ({
+  verifyBankAccount,
+  bankAccountData,
+  userIsFullyVerified,
+}) => (
   <Container className={styles.linkedBankAccountWrapper} columnSpan={EColumnSpan.ONE_COL}>
     <h2 className={styles.subtitle}>
       <FormattedMessage id="wallet.linked-bank-account-title" />
@@ -38,21 +48,29 @@ export const BankAccount:React.FunctionComponent<TBankAccountProps> = ({ verifyB
       <img className={styles.bankIcon} src={bankIcon} alt="" />
       <div>
         <p className={cn(styles.bankNumber, "m-0")} data-test-id="wallet.bank-account.details">
-          <BankNumber last4={bankAccountData.bankAccountNumberLast4} bank={bankAccountData.bankName} />
+          <BankNumber
+            last4={bankAccountData.bankAccountNumberLast4}
+            bank={bankAccountData.bankName}
+          />
         </p>
       </div>
     </div>
   </Container>
-)
+);
 
-export const NoBankAccount:React.FunctionComponent<TNobankAccountProps> = ({ verifyBankAccount }) => (
+export const NoBankAccount: React.FunctionComponent<TNobankAccountProps> = ({
+  verifyBankAccount,
+}) => (
   <Container className={styles.noLinkedBankAccountWrapper} columnSpan={EColumnSpan.ONE_COL}>
-
     <div className={styles.subtitle}>
       <FormattedMessage id="wallet.linked-bank-account-title" />
     </div>
     <div className={styles.noLinkedBankAccount}>
-      <FormattedHTMLMessage tagName="span" id="wallet.no-linked-bank-account" values={{ href: "" }} />
+      <FormattedHTMLMessage
+        tagName="span"
+        id="wallet.no-linked-bank-account"
+        values={{ href: "" }}
+      />
       <Button
         onClick={verifyBankAccount}
         size={EButtonSize.SMALL}
@@ -64,4 +82,4 @@ export const NoBankAccount:React.FunctionComponent<TNobankAccountProps> = ({ ver
       </Button>
     </div>
   </Container>
-)
+);

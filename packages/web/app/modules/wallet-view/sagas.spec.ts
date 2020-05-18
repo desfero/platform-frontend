@@ -1,10 +1,10 @@
 import { select } from "@neufund/sagas";
 import { expectSaga, matchers } from "@neufund/sagas/tests";
+import { EUserType } from "@neufund/shared-modules";
 import { EthereumAddressWithChecksum } from "@neufund/shared-utils";
 import { getContext } from "redux-saga-test-plan/matchers";
 
 import { EKycRequestStatus } from "../../lib/api/kyc/KycApi.interfaces";
-import { EUserType } from "../../lib/api/users/interfaces";
 import { EProcessState } from "../../utils/enums/processStates";
 import { actions } from "../actions";
 import { selectIsUserFullyVerified } from "../auth/selectors";
@@ -15,63 +15,63 @@ import {
   selectICBMLockedEtherBalance,
   selectICBMLockedEtherBalanceEuroAmount,
   selectICBMLockedEuroTokenBalance,
-  selectIsEtherUpgradeTargetSet, selectIsEuroUpgradeTargetSet,
+  selectIsEtherUpgradeTargetSet,
+  selectIsEuroUpgradeTargetSet,
   selectLiquidEtherBalance,
   selectLiquidEtherBalanceEuroAmount,
   selectLiquidEuroTokenBalance,
   selectLockedEtherBalance,
   selectLockedEtherBalanceEuroAmount,
   selectLockedEuroTokenBalance,
-  selectNEURStatus
+  selectNEURStatus,
 } from "../wallet/selectors";
 import { selectEthereumAddress } from "../web3/selectors";
 import { loadWalletView, populateWalletData } from "./sagas";
 import { EBalanceType } from "./types";
 
-const testWalletData = [{
-  name: EBalanceType.ETH,
-  hasFunds: true,
-  amount: '300000',
-  euroEquivalentAmount: '123456'
-},
+const testWalletData = [
+  {
+    name: EBalanceType.ETH,
+    hasFunds: true,
+    amount: "300000",
+    euroEquivalentAmount: "123456",
+  },
   {
     name: EBalanceType.NEUR,
     hasFunds: true,
-    amount: '87654',
-    euroEquivalentAmount: '87654'
+    amount: "87654",
+    euroEquivalentAmount: "87654",
   },
   {
     name: EBalanceType.ICBM_ETH,
     hasFunds: false,
-    amount: '0',
-    euroEquivalentAmount: '0'
+    amount: "0",
+    euroEquivalentAmount: "0",
   },
   {
     name: EBalanceType.ICBM_NEUR,
     hasFunds: false,
-    amount: '0',
-    euroEquivalentAmount: '0'
+    amount: "0",
+    euroEquivalentAmount: "0",
   },
   {
     name: EBalanceType.LOCKED_ICBM_ETH,
     hasFunds: true,
-    amount: '23456',
-    euroEquivalentAmount: '876543'
+    amount: "23456",
+    euroEquivalentAmount: "876543",
   },
   {
     name: EBalanceType.LOCKED_ICBM_NEUR,
     hasFunds: false,
-    amount: '0',
-    euroEquivalentAmount: '0'
-  }]
+    amount: "0",
+    euroEquivalentAmount: "0",
+  },
+];
 
 describe("Wallet View", () => {
   describe("populateWalletData()", () => {
     it("will populate wallet data, no funds anywhere", async () => {
-
-      await expectSaga(
-        populateWalletData,
-      )
+      await expectSaga(populateWalletData)
         .provide([
           [matchers.select(selectLiquidEtherBalance), "0"],
           [matchers.select(selectLiquidEtherBalanceEuroAmount), "0"],
@@ -91,46 +91,43 @@ describe("Wallet View", () => {
             name: EBalanceType.ETH,
             hasFunds: false,
             amount: "0",
-            euroEquivalentAmount: "0"
+            euroEquivalentAmount: "0",
           },
           {
             name: EBalanceType.NEUR,
             hasFunds: false,
             amount: "0",
-            euroEquivalentAmount: "0"
+            euroEquivalentAmount: "0",
           },
           {
             name: EBalanceType.ICBM_ETH,
             hasFunds: false,
             amount: "0",
-            euroEquivalentAmount: "0"
+            euroEquivalentAmount: "0",
           },
           {
             name: EBalanceType.ICBM_NEUR,
             hasFunds: false,
             amount: "0",
-            euroEquivalentAmount: "0"
+            euroEquivalentAmount: "0",
           },
           {
             name: EBalanceType.LOCKED_ICBM_ETH,
             hasFunds: false,
             amount: "0",
-            euroEquivalentAmount: "0"
+            euroEquivalentAmount: "0",
           },
           {
             name: EBalanceType.LOCKED_ICBM_NEUR,
             hasFunds: false,
             amount: "0",
-            euroEquivalentAmount: "0"
-          }]
-        )
+            euroEquivalentAmount: "0",
+          },
+        ])
         .run();
     });
     it("will populate wallet data, some have funds anywhere", async () => {
-
-      await expectSaga(
-        populateWalletData,
-      )
+      await expectSaga(populateWalletData)
         .provide([
           [matchers.select(selectLiquidEtherBalance), "300000"],
           [matchers.select(selectLiquidEtherBalanceEuroAmount), "123456"],
@@ -148,9 +145,9 @@ describe("Wallet View", () => {
         .returns(testWalletData)
         .run();
     });
-  })
+  });
   describe("loadWalletView", () => {
-    const ethAddress = "0x295a803de79cd256ff544682a51435e549a080b2" as EthereumAddressWithChecksum
+    const ethAddress = "0x295a803de79cd256ff544682a51435e549a080b2" as EthereumAddressWithChecksum;
     const bankAccount = {
       hasBankAccount: true,
       details: {
@@ -159,72 +156,65 @@ describe("Wallet View", () => {
         name: "Lorem Ipsum",
         isSepa: true,
         swiftCode: "33212",
-      }
-    } as const
-
+      },
+    } as const;
 
     it("loadWalletView", async () => {
       const context = {
         apiKycService: {
-          getBankAccount: () => {
-          }
+          getBankAccount: () => {},
         },
         notificationCenter: {
-          error: () => {
-          }
+          error: () => {},
         },
         logger: {
-          error: () => {
-          },
-          info: () => {
-          }
+          error: () => {},
+          info: () => {},
+        },
+      };
 
-        }
-      }
-
-      const resultBalanceData = [{
-        name: EBalanceType.ETH,
-        hasFunds: true,
-        amount: '300000',
-        euroEquivalentAmount: '123456'
-      },
+      const resultBalanceData = [
+        {
+          name: EBalanceType.ETH,
+          hasFunds: true,
+          amount: "300000",
+          euroEquivalentAmount: "123456",
+        },
         {
           name: EBalanceType.NEUR,
           hasFunds: true,
-          amount: '87654',
-          euroEquivalentAmount: '87654'
+          amount: "87654",
+          euroEquivalentAmount: "87654",
         },
         {
           name: EBalanceType.LOCKED_ICBM_ETH,
           hasFunds: true,
-          amount: '23456',
-          euroEquivalentAmount: '876543'
+          amount: "23456",
+          euroEquivalentAmount: "876543",
         },
-      ]
+      ];
 
-      await expectSaga(
-        loadWalletView,
-      )
+      await expectSaga(loadWalletView)
         .withState({
           auth: {
             user: {
               type: EUserType.INVESTOR,
               verifiedEmail: "sdafas@dsafasdf.dd",
-              backupCodesVerified: true
+              backupCodesVerified: true,
             },
           },
           web3: {
             connected: true,
-            wallet: { address: ethAddress }
+            wallet: { address: ethAddress },
           },
           kyc: {
             bankAccount,
-            status: {status:EKycRequestStatus.ACCEPTED},
+            status: { status: EKycRequestStatus.ACCEPTED },
             claims: {
               isVerified: true,
-              isAccountFrozen: false
-            }
-          }
+              isAccountFrozen: false,
+            },
+          },
         })
         .provide([
           [getContext("deps"), context],
@@ -242,12 +232,10 @@ describe("Wallet View", () => {
             balanceData: resultBalanceData,
             totalBalanceEuro: "1087653",
             bankAccount: bankAccount,
-            processState: EProcessState.SUCCESS
-          })
+            processState: EProcessState.SUCCESS,
+          }),
         )
-        .run()
-    })
-  })
-})
-;
-
+        .run();
+    });
+  });
+});

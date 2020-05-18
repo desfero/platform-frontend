@@ -3,14 +3,13 @@ import { EProcessState } from "../../utils/enums/processStates";
 import { actions } from "../actions";
 import { TWalletViewState } from "./types";
 
-
-const walletViewInitialState:TWalletViewState = {
+const walletViewInitialState: TWalletViewState = {
   processState: EProcessState.NOT_STARTED,
-}
+};
 
-export const walletViewReducer:AppReducer<TWalletViewState> = (
+export const walletViewReducer: AppReducer<TWalletViewState> = (
   state = walletViewInitialState,
-    action,
+  action,
 ) => {
   switch (action.type) {
     case actions.walletView.walletViewSetData.getType():

@@ -11,33 +11,33 @@ import { ECustomTooltipTextPosition, Tooltip } from "../shared/tooltips";
 import * as styles from "./Wallet.module.scss";
 
 const mapBalanceActionLevelToBtnProps = {
-  [EBalanceActionLevel.PRIMARY]:EButtonLayout.PRIMARY,
-  [EBalanceActionLevel.SECONDARY]:EButtonLayout.SECONDARY
-}
+  [EBalanceActionLevel.PRIMARY]: EButtonLayout.PRIMARY,
+  [EBalanceActionLevel.SECONDARY]: EButtonLayout.SECONDARY,
+};
 
-const BalanceActions: React.FunctionComponent<TBalance> = (props) => {
-  const { walletActions } = props
+const BalanceActions: React.FunctionComponent<TBalance> = props => {
+  const { walletActions } = props;
 
   const [isOn, toggle] = React.useState(false);
 
-  const toggleBalanceActionsRef = React.useRef<HTMLButtonElement>(null)
-  const balanceActionRefs = walletActions.map(_ => React.useRef<HTMLButtonElement>(null))
-  const allRefs = [toggleBalanceActionsRef, ...[...balanceActionRefs].reverse()] //reverse the button order to reflect the visual ordering
+  const toggleBalanceActionsRef = React.useRef<HTMLButtonElement>(null);
+  const balanceActionRefs = walletActions.map(_ => React.useRef<HTMLButtonElement>(null));
+  const allRefs = [toggleBalanceActionsRef, ...[...balanceActionRefs].reverse()]; //reverse the button order to reflect the visual ordering
 
-  const moveFocusOnTabKey = useCycleFocus(allRefs)
+  const moveFocusOnTabKey = useCycleFocus(allRefs);
 
   const onTabKey = (ref: React.RefObject<HTMLButtonElement>, e: React.KeyboardEvent) => {
     if (isOn) {
-      moveFocusOnTabKey(ref, e)
+      moveFocusOnTabKey(ref, e);
     }
-  }
+  };
 
   return (
     <>
       <div className={cn(styles.balanceActions, { [styles.active]: isOn })}>
-        {walletActions.map((balanceAction: TBalanceAction, i: number) =>
+        {walletActions.map((balanceAction: TBalanceAction, i: number) => (
           <Button
-            onKeyDown={(e) => onTabKey(balanceActionRefs[i], e)}
+            onKeyDown={e => onTabKey(balanceActionRefs[i], e)}
             ref={balanceActionRefs[i]}
             key={i}
             layout={mapBalanceActionLevelToBtnProps[balanceAction.level]}
@@ -47,12 +47,12 @@ const BalanceActions: React.FunctionComponent<TBalance> = (props) => {
           >
             {balanceAction.text}
           </Button>
-        )}
+        ))}
       </div>
 
       <Button
         ref={toggleBalanceActionsRef}
-        onKeyDown={(e) => onTabKey(toggleBalanceActionsRef, e)}
+        onKeyDown={e => onTabKey(toggleBalanceActionsRef, e)}
         layout={EButtonLayout.LINK}
         size={EButtonSize.SMALL}
         className={styles.balanceActionsButton}
@@ -60,21 +60,19 @@ const BalanceActions: React.FunctionComponent<TBalance> = (props) => {
       >
         {"•••"}
       </Button>
-
     </>
-  )
-}
+  );
+};
 
-
-export const Balance: React.FunctionComponent<TBalance> = (balance) => {
+export const Balance: React.FunctionComponent<TBalance> = balance => {
   const {
     balanceName,
     logo: Logo,
     amount,
     currency,
     euroEquivalentAmount,
-    balanceAdditionalInfo
-  } = balance
+    balanceAdditionalInfo,
+  } = balance;
   return (
     <ul className={styles.balanceListItem}>
       <div className={styles.currencyLogo}>
@@ -82,12 +80,14 @@ export const Balance: React.FunctionComponent<TBalance> = (balance) => {
       </div>
       <div className={styles.currency}>
         {balanceName}
-        {balanceAdditionalInfo && <Tooltip
-          data-test-id="transactions.info"
-          content={balanceAdditionalInfo}
-          textPosition={ECustomTooltipTextPosition.LEFT}
-          preventDefault={false}
-        />}
+        {balanceAdditionalInfo && (
+          <Tooltip
+            data-test-id="transactions.info"
+            content={balanceAdditionalInfo}
+            textPosition={ECustomTooltipTextPosition.LEFT}
+            preventDefault={false}
+          />
+        )}
       </div>
       <div className={styles.amount}>
         <Money
@@ -97,21 +97,16 @@ export const Balance: React.FunctionComponent<TBalance> = (balance) => {
           valueType={currency}
         />
         <span className={styles.euroEquivalent}>
-                    {"≈"}
+          {"≈"}
           <Money
             value={euroEquivalentAmount}
             inputFormat={ENumberInputFormat.ULPS}
             outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
             valueType={ECurrency.EUR}
           />
-                </span>
+        </span>
       </div>
-      {!!balance.walletActions.length &&
-      <BalanceActions
-        {...balance}
-      />
-      }
-
+      {!!balance.walletActions.length && <BalanceActions {...balance} />}
     </ul>
   );
-}
+};

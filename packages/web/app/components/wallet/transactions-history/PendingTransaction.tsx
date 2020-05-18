@@ -3,7 +3,7 @@ import * as React from "react";
 import { FormattedDate } from "react-intl";
 import { FormattedMessage } from "react-intl-phraseapp";
 
-import { TxPendingWithMetadata } from "../../../lib/api/users/interfaces";
+import { TxPendingWithMetadata } from "../../../lib/api/users-tx/interfaces";
 import { ETxSenderType } from "../../../modules/tx/types";
 import { TDataTestId } from "../../../types";
 import { Money } from "../../shared/formatters/Money";
@@ -13,27 +13,29 @@ import { TransactionData, TransactionName } from "../../shared/transaction";
 import txPending from "../../../assets/img/Pending.svg";
 import * as styles from "./TransactionsHistory.module.scss";
 
-const PendingTransactionLabel = () =>
+const PendingTransactionLabel = () => (
   <div className={styles.pendingTransactionLabel}>
     <FormattedMessage id="modals.shared.tx-status-label.pending" />
   </div>
+);
 
 type TPendingTransactionProps = {
-  transaction: TxPendingWithMetadata
-}
+  transaction: TxPendingWithMetadata;
+};
 
-const PendingTransactionIcon = () =>
+const PendingTransactionIcon = () => (
   <img src={txPending} className={styles.pendingTransactionIcon} alt="" />
+);
 
-
-export const PendingTransaction: React.FunctionComponent<TPendingTransactionProps & TDataTestId> = ({
-  transaction,
-  "data-test-id": dataTestId,
-}) => {
+export const PendingTransaction: React.FunctionComponent<TPendingTransactionProps &
+  TDataTestId> = ({ transaction, "data-test-id": dataTestId }) => {
   switch (transaction.transactionType) {
     case ETxSenderType.NOMINEE_THA_SIGN:
       return (
-        <ul className={cn(styles.transactionListItem,styles.pendingTransactionItem )} data-test-id={dataTestId}>
+        <ul
+          className={cn(styles.transactionListItem, styles.pendingTransactionItem)}
+          data-test-id={dataTestId}
+        >
           <div className={styles.transactionLogo}>
             <PendingTransactionIcon />
           </div>
@@ -46,7 +48,10 @@ export const PendingTransaction: React.FunctionComponent<TPendingTransactionProp
       );
     default:
       return (
-        <ul className={cn(styles.transactionListItem,styles.pendingTransactionItem )} data-test-id={dataTestId}>
+        <ul
+          className={cn(styles.transactionListItem, styles.pendingTransactionItem)}
+          data-test-id={dataTestId}
+        >
           <div className={styles.transactionLogo}>
             <PendingTransactionIcon />
           </div>

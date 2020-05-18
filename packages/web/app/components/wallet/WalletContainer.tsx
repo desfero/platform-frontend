@@ -10,7 +10,7 @@ import { ErrorBoundaryLayout } from "../shared/errorBoundary/ErrorBoundaryLayout
 
 import * as layoutStyles from "../layouts/WidgetGrid.module.scss";
 
-export const WalletContainerBase: React.FunctionComponent = ({children}) => (
+export const WalletContainerBase: React.FunctionComponent = ({ children }) => (
   <WidgetGrid data-test-id="wallet-start-container" className={layoutStyles.layoutOffset}>
     {children}
   </WidgetGrid>

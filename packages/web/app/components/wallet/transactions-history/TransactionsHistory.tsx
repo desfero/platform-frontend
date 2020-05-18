@@ -26,52 +26,14 @@ type TDispatchProps = {
   showTransactionDetails: (id: string) => void;
 };
 
-// const pendingTransactionGeneral = { //fixme
-//   transaction: {
-//     from: "0xA622f39780fC8722243b49ACF3bFFEEb9B9201F2",
-//     gas: "0x15dc0",
-//     gasPrice: "0x3a1d51c00",
-//     hash: "0xd5cd84e84ced9eccc8f80cd4e5b1d40e8cb42a76d9b0dfb9d575bb389c42fad8",
-//     input: "0x64663ea60000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000016345785d8a0000",
-//     nonce: "0x0",
-//     to: "0x8843fd9a6e5078ab538dd49f6e106e822508225a",
-//     value: "0x0"
-//   },
-//   transactionType: "WITHDRAW",
-//   "transactionAdditionalData": {
-//     "to": "0x0000000000000000000000000000000000000000",
-//     "amount": "100000000000000000",
-//     "total": "101396761600000000",
-//     "totalEur": "19470473800366460490.458112",
-//     "tokenSymbol": "eth",
-//     "tokenImage": "/images/1b0f8ccf.svg",
-//     "tokenDecimals": 18,
-//     "currency": "eth",
-//     "subType": "pending",
-//     "transactionDirection": "out",
-//     "amountFormat": "ulps",
-//     "type": "transfer"
-//   },
-//   "transactionStatus": "MINING",
-//   "transactionTimestamp": 1589738946289,
-// } as TxPendingWithMetadata
-//
-// const pendingTransactionThaSigning = {
-//     transactionType: ETxSenderType.NOMINEE_THA_SIGN,
-//   transaction: {
-//   },
-// } as TxPendingWithMetadata
-
-
-const TransactionListLayout: React.FunctionComponent<TStateProps & TDispatchProps> = ({
+export const TransactionListLayout: React.FunctionComponent<TStateProps & TDispatchProps> = ({
   transactionsHistoryPaginated,
   loadTxHistoryNext,
   pendingTransaction,
-  showTransactionDetails
+  showTransactionDetails,
 }) => (
   <PanelRounded>
-
-    {transactionsHistoryPaginated.transactions && (
+    {(transactionsHistoryPaginated.transactions || pendingTransaction) && (
       <li className={styles.transactionList}>
         {pendingTransaction && (
           <PendingTransaction
@@ -80,12 +42,14 @@ const TransactionListLayout: React.FunctionComponent<TStateProps & TDispatchProp
           />
         )}
 
-        {transactionsHistoryPaginated.transactions.map(transaction =>
-        <Transaction
-          transaction={transaction}
-          showTransactionDetails={showTransactionDetails}
-        />
-        )}
+        {transactionsHistoryPaginated.transactions &&
+          transactionsHistoryPaginated.transactions.map(transaction => (
+            <Transaction
+              key={transaction.id}
+              transaction={transaction}
+              showTransactionDetails={showTransactionDetails}
+            />
+          ))}
       </li>
     )}
     {transactionsHistoryPaginated.canLoadMore && (

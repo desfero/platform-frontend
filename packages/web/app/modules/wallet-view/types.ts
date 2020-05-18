@@ -5,11 +5,11 @@ import { EProcessState } from "../../utils/enums/processStates";
 import { TBankAccount } from "../kyc/types";
 
 export type TWalletData = {
-  name: EBalanceType,
-  hasFunds: boolean,
-  amount: string,
-  euroEquivalentAmount: string
-}
+  name: EBalanceType;
+  hasFunds: boolean;
+  amount: string;
+  euroEquivalentAmount: string;
+};
 
 export enum EBalanceType {
   ETH = "BALANCE_TYPE_ETH",
@@ -21,46 +21,47 @@ export enum EBalanceType {
 }
 
 export enum EBalanceActionLevel {
-  PRIMARY= "primary",
-  SECONDARY= "secondary"
+  PRIMARY = "primary",
+  SECONDARY = "secondary",
 }
 
 export type TBalanceData = {
-  name: EBalanceType
-  amount: string
-  euroEquivalentAmount:string
-}
+  name: EBalanceType;
+  amount: string;
+  euroEquivalentAmount: string;
+};
 
 export type TWalletViewReadyState = {
-  balanceData: TBalanceData[],
-  totalBalanceEuro: string
-  userAddress: EthereumAddressWithChecksum,
-  bankAccount: TBankAccount | undefined,
-  userIsFullyVerified: boolean
-}
+  balanceData: TBalanceData[];
+  totalBalanceEuro: string;
+  userAddress: EthereumAddressWithChecksum;
+  bankAccount: TBankAccount | undefined;
+  userIsFullyVerified: boolean;
+};
 
-export type TWalletViewState = ({
-  processState: EProcessState.SUCCESS,
-} & TWalletViewReadyState)
+export type TWalletViewState =
   | ({
-  processState: EProcessState.ERROR | EProcessState.NOT_STARTED | EProcessState.IN_PROGRESS,
-} & {})
+      processState: EProcessState.SUCCESS;
+    } & TWalletViewReadyState)
+  | ({
+      processState: EProcessState.ERROR | EProcessState.NOT_STARTED | EProcessState.IN_PROGRESS;
+    } & {});
 
 export type TBalance = {
-  logo: React.ComponentType,
-  balanceName: string,
-  balanceAdditionalInfo: TTranslatedString | undefined
-  amount: string,
-  currency: ECurrency,
-  euroEquivalentAmount: string,
-  walletActions: TBalanceAction[]
-}
+  logo: React.ComponentType;
+  balanceName: string;
+  balanceAdditionalInfo: TTranslatedString | undefined;
+  amount: string;
+  currency: ECurrency;
+  euroEquivalentAmount: string;
+  walletActions: TBalanceAction[];
+};
 
 export type TBalanceAction = {
-  dispatchAction: (x: unknown)=>void,
-  disableIf: (w: TBalance) => boolean,
-  text: TTranslatedString,
-  level: EBalanceActionLevel
-}
+  dispatchAction: (x: unknown) => void;
+  disableIf: (w: TBalance) => boolean;
+  text: TTranslatedString;
+  level: EBalanceActionLevel;
+};
 
-export type TBalanceActions = { [key in EBalanceType]: TBalanceAction[] }
+export type TBalanceActions = { [key in EBalanceType]: TBalanceAction[] };
