@@ -1,12 +1,11 @@
 import * as React from "react";
 
+import { IconWithBadge } from "../..";
 import { CommonHtmlProps } from "../../types";
-import { IconWithBadge, } from "../..";
 
-import ethIcon from "../../assets/img/ETH_32.svg"
-import lockIcon from "../../assets/img/Lock_ICBM.svg"
+import ethIcon from "../../assets/img/ETH_32.svg";
+import lockIcon from "../../assets/img/Lock_ICBM.svg";
 
-export const EthIconWithLock: React.FunctionComponent<CommonHtmlProps> = ({
-  className,
-}) =>
+export const EthIconWithLock: React.FunctionComponent<CommonHtmlProps> = ({ className }) => (
   <IconWithBadge icon={ethIcon} badge={lockIcon} className={className} />
+);

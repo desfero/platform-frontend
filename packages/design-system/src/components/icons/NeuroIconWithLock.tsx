@@ -1,12 +1,11 @@
 import * as React from "react";
 
+import { IconWithBadge } from "../..";
 import { CommonHtmlProps } from "../../types";
-import { IconWithBadge, } from "../..";
 
-import neuroIcon from "../../assets/img/nEUR_32.svg"
-import lockIcon from "../../assets/img/Lock_ICBM.svg"
+import lockIcon from "../../assets/img/Lock_ICBM.svg";
+import neuroIcon from "../../assets/img/nEUR_32.svg";
 
-export const NeuroIconWithLock: React.FunctionComponent<CommonHtmlProps> = ({
-  className,
-}) =>
+export const NeuroIconWithLock: React.FunctionComponent<CommonHtmlProps> = ({ className }) => (
   <IconWithBadge icon={neuroIcon} badge={lockIcon} className={className} />
+);

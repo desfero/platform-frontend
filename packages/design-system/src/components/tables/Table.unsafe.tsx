@@ -1,3 +1,5 @@
+import { CommonHtmlProps } from "@neufund/web/app/types";
+import * as cn from "classnames";
 import * as React from "react";
 import {
   Column,
@@ -7,9 +9,6 @@ import {
   TableBodyProps,
   useTable,
 } from "react-table";
-import * as cn from 'classnames'
-
-import { CommonHtmlProps } from "@neufund/web/app/types";
 
 import * as styles from "./Table.module.scss";
 
@@ -37,13 +36,13 @@ type TTableFooterProps = {
 
 const TableHeader: React.FunctionComponent<TTableHeaderProps> = ({ headerGroups }) => (
   <thead>
-  {headerGroups.map(headerGroup => (
-    <tr {...headerGroup.getHeaderGroupProps()}>
-      {headerGroup.headers.map(column => (
-        <th {...column.getHeaderProps()}>{column.render("Header")}</th>
-      ))}
-    </tr>
-  ))}
+    {headerGroups.map(headerGroup => (
+      <tr {...headerGroup.getHeaderGroupProps()}>
+        {headerGroup.headers.map(column => (
+          <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+        ))}
+      </tr>
+    ))}
   </thead>
 );
 
@@ -53,28 +52,28 @@ const TableBody: React.FunctionComponent<TTableBodyProps> = ({
   rows,
 }) => (
   <tbody {...getTableBodyProps()}>
-  {rows.map(row => {
-    prepareRow(row);
-    return (
-      <tr {...row.getRowProps()}>
-        {row.cells.map(cell => (
-          <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-        ))}
-      </tr>
-    );
-  })}
+    {rows.map(row => {
+      prepareRow(row);
+      return (
+        <tr {...row.getRowProps()}>
+          {row.cells.map(cell => (
+            <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+          ))}
+        </tr>
+      );
+    })}
   </tbody>
 );
 
 const TableFooter: React.FunctionComponent<TTableFooterProps> = ({ footerGroups }) => (
   <tfoot>
-  {footerGroups.map(group => (
-    <tr {...group.getFooterGroupProps()}>
-      {group.headers.map(column => (
-        <td {...column.getFooterProps()}>{column.render("Footer")}</td>
-      ))}
-    </tr>
-  ))}
+    {footerGroups.map(group => (
+      <tr {...group.getFooterGroupProps()}>
+        {group.headers.map(column => (
+          <td {...column.getFooterProps()}>{column.render("Footer")}</td>
+        ))}
+      </tr>
+    ))}
   </tfoot>
 );
 
@@ -84,7 +83,7 @@ const Table: React.FunctionComponent<TExternalProps & CommonHtmlProps> = ({
   withFooter,
   customFooter,
   CustomHeader,
-  className
+  className,
 }) => {
   const {
     getTableProps,
@@ -97,14 +96,10 @@ const Table: React.FunctionComponent<TExternalProps & CommonHtmlProps> = ({
     columns,
     data,
   });
-  console.log("className",className)
   return (
     <div className={styles.container}>
       <table className={cn(styles.table, className)} {...getTableProps()}>
-        {CustomHeader
-          ? <CustomHeader />
-          : <TableHeader headerGroups={headerGroups} />
-        }
+        {CustomHeader ? <CustomHeader /> : <TableHeader headerGroups={headerGroups} />}
         <TableBody rows={rows} getTableBodyProps={getTableBodyProps} prepareRow={prepareRow} />
         {withFooter && !customFooter && <TableFooter footerGroups={footerGroups} />}
         {!!customFooter && customFooter}
