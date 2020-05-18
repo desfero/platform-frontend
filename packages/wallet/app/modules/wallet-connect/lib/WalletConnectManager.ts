@@ -25,13 +25,23 @@ class WalletConnectManager {
     this.sessionStorage = sessionStorage;
   }
 
+  // TODO: Make sure we don't have a memory leak and events are cleaned up when disconnected
+  private subscribeToConnectionEvents(adapter: WalletConnectAdapter) {
+    adapter.on(EWalletConnectAdapterEvents.CONNECTED, async () => {
+      await this.sessionStorage.set(adapter.getSession());
+    });
+
+    adapter.on(EWalletConnectAdapterEvents.DISCONNECTED, async () => {
+      await this.sessionStorage.clear();
+    });
+  }
+
   async hasExistingSession(): Promise<boolean> {
     return !!(await this.sessionStorage.get());
   }
 
   async useExistingSession(): Promise<WalletConnectAdapter> {
     const sessionStorageItem = await this.sessionStorage.getStorageItem();
-
     invariant(sessionStorageItem, "No session in the storage");
 
     const adapter = new WalletConnectAdapter(
@@ -43,13 +53,11 @@ class WalletConnectManager {
     );
 
     this.subscribeToConnectionEvents(adapter);
-
     return adapter;
   }
 
   /**
    * Starts a handshake process between to peers
-   *
    * @returns A session details object with meta functions to approve or reject session request
    */
   async createSession(uri: TWalletConnectUri): Promise<TSessionDetails> {
@@ -61,19 +69,11 @@ class WalletConnectManager {
     );
 
     this.subscribeToConnectionEvents(walletConnectAdapter);
-
     return walletConnectAdapter.connect();
   }
 
-  // TODO: Make sure we don't have a memory leak and events are cleaned up when disconnected
-  private subscribeToConnectionEvents(adapter: WalletConnectAdapter) {
-    adapter.on(EWalletConnectAdapterEvents.CONNECTED, async () => {
-      await this.sessionStorage.set(adapter.getSession());
-    });
+  async clearSession(){
 
-    adapter.on(EWalletConnectAdapterEvents.DISCONNECTED, async () => {
-      await this.sessionStorage.clear();
-    });
   }
 }
 

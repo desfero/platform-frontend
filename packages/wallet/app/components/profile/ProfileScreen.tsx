@@ -45,7 +45,7 @@ const ProfileLayout: React.FunctionComponent<TStateProps & TDispatchProps> = ({
 
     // Switch account and logout are only useful with localhost artifacts
     if (Config.NF_CONTRACT_ARTIFACTS_VERSION === "localhost") {
-      return defaultItems.concat([
+      defaultItems.push(
         {
           id: "switch-account",
           type: EMenuItemType.NAVIGATION,
@@ -62,7 +62,7 @@ const ProfileLayout: React.FunctionComponent<TStateProps & TDispatchProps> = ({
           onPress: logout,
           color: baseRed,
         },
-      ]);
+      );
     }
 
     return defaultItems;

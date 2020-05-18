@@ -31,7 +31,6 @@ const promisifyEvent = <T extends EWalletConnectAdapterEvents>(emitter: EventEmi
 const mockWalletConnect = <T extends EventEmitter2>(walletConnectInstance: T): T => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (WalletConnectMock as any).mockReturnValue(walletConnectInstance);
-
   return walletConnectInstance;
 };
 
@@ -76,7 +75,6 @@ const approveSession = async <T extends ApproveSessionMock>(sessionMock: T) => {
   }, 1);
 
   const session = await wcAdapter.connect();
-
   session.approveSession(chainId, address);
 
   // emit connect event to connect at date is calculated
@@ -169,7 +167,6 @@ describe("WalletConnectAdapter", () => {
       }, 1);
 
       const session = await wcAdapter.connect();
-
       session.rejectSession();
 
       expect(session.peer).toEqual({

@@ -20,4 +20,4 @@ import { YellowBox } from "react-native";
 };
 
 // List of annoying warnings that we're ignoring
-YellowBox.ignoreWarnings(["Remote debugger is in a background tab"]);
+YellowBox.ignoreWarnings(["Remote debugger is in a background tab", "Setting a timer"]);

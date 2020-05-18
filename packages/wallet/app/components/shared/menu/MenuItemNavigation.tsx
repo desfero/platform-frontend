@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
   },
   helperText: {
     color: blueyGray,
-    lineHeight: 0,
+    lineHeight: 16,
   },
 });
 

@@ -5,7 +5,12 @@ import { IWalletConnectSession } from "@walletconnect/types";
 import { EventEmitter2 } from "eventemitter2";
 
 import { unwrapPromise } from "../../../utils/promiseUtils";
-import { WalletConnectModuleError } from "../errors";
+import {
+  InvalidJSONRPCPayloadError,
+  InvalidRPCMethodError,
+  NoPeerMetaError,
+  WalletConnectAdapterError,
+} from "./adapterErrors";
 import { TWalletConnectPeer } from "../types";
 import {
   CALL_REQUEST_EVENT,
@@ -29,30 +34,6 @@ import {
 } from "./types";
 import { parseRPCPayload } from "./utils";
 
-class WalletConnectAdapterError extends WalletConnectModuleError {
-  constructor(message: string) {
-    super(`WalletConnectAdapter: ${message}`);
-  }
-}
-
-class InvalidRPCMethodError extends WalletConnectAdapterError {
-  constructor(method: string) {
-    super(`Invalid RPC method received (${method})`);
-  }
-}
-
-class NoPeerMetaError extends WalletConnectAdapterError {
-  constructor() {
-    super("No peer meta provided");
-  }
-}
-
-class InvalidJSONRPCPayloadError extends WalletConnectAdapterError {
-  constructor(method: string) {
-    super(`Invalid json rpc payload received for ${method}`);
-  }
-}
-
 export type TSessionDetails = {
   peer: TWalletConnectPeer;
   approveSession: (chainId: number, address: EthereumAddress) => WalletConnectAdapter;
@@ -66,9 +47,7 @@ export type TSessionDetails = {
  */
 class WalletConnectAdapter extends EventEmitter2 {
   private readonly logger: ILogger;
-
   private readonly walletConnect: WalletConnect;
-
   private connectedAt: number | undefined = undefined;
 
   constructor(options: IWalletConnectOptions, logger: ILogger) {
@@ -95,105 +74,50 @@ class WalletConnectAdapter extends EventEmitter2 {
     this.initializeListeners();
   }
 
-  /**
-   * Gets connected peer id
-   */
-  getPeerId(): string {
-    return this.walletConnect.peerId;
-  }
+  private handleCallSigningError(id: number, error: Error) {
+    this.logger.error("Wallet connect call signing error", error);
 
-  /**
-   * Gets currently connected peer metadata
-   *
-   * @throws NoPeerMetaError - When no metadata found
-   */
-  getPeerMeta(): TPeerMeta {
-    if (!this.walletConnect.peerMeta) {
-      throw new NoPeerMetaError();
-    }
-
-    return this.walletConnect.peerMeta;
-  }
-
-  /**
-   * Get connected timestamp
-   **/
-  getConnectedAt(): number | undefined {
-    return this.connectedAt;
-  }
-
-  /**
-   * Starts a handshake process between to peers
-   *
-   * @returns A session details object with meta functions to approve or reject session request
-   */
-  async connect(): Promise<TSessionDetails> {
-    return new Promise((resolve, reject) => {
-      this.walletConnect.on(SESSION_REQUEST_EVENT, async (error, payload) => {
-        if (error) {
-          reject(error);
-
-          return;
-        }
-
-        try {
-          const parsedPayload = parseRPCPayload(WalletConnectSessionJSONRPCSchema, payload);
-
-          const peerData = parsedPayload.params[0];
-
-          const peer: TWalletConnectPeer = {
-            id: peerData.peerId,
-            meta: peerData.peerMeta,
-          };
-
-          const approveSession = (chainId: number, address: EthereumAddress) => {
-            this.walletConnect.approveSession({
-              chainId,
-              accounts: [address],
-            });
-
-            return this;
-          };
-
-          const rejectSession = () => {
-            this.walletConnect.rejectSession();
-          };
-
-          resolve({
-            peer,
-            approveSession,
-            rejectSession,
-          });
-        } catch {
-          reject(new InvalidJSONRPCPayloadError(SESSION_REQUEST_EVENT));
-
-          return;
-        }
-      });
+    this.walletConnect.rejectRequest({
+      id,
+      error: error ?? new Error("Request rejected"),
     });
   }
 
-  /**
-   * Get a current wallet connect session
-   */
-  getSession(): IWalletConnectSession {
-    return this.walletConnect.session;
-  }
+  private async handleCallSigningRequest<
+    T extends
+      | EWalletConnectAdapterEvents.SIGN_MESSAGE
+      | EWalletConnectAdapterEvents.SEND_TRANSACTION
+  >(type: T, id: number, payload: ExtractWalletConnectAdapterEmitData<T, "payload">) {
+    const {
+      promise: signRequest,
+      resolve: approveRequest,
+      reject: rejectRequest,
+    } = unwrapPromise();
 
-  /**
-   * Disconnects currently active session
-   */
-  async disconnectSession() {
-    this.logger.info(`Disconnecting wallet connect session with peer ${this.getPeerId()}`);
+    this.emit(type, undefined, payload, {
+      approveRequest,
+      rejectRequest,
+    });
 
-    await this.walletConnect.killSession();
+    try {
+      const result = await signRequest;
+
+      this.walletConnect.approveRequest({
+        id,
+        result,
+      });
+    } catch (error) {
+      this.walletConnect.rejectRequest({
+        id,
+        error: error ?? new Error("Request rejected"),
+      });
+    }
   }
 
   private initializeListeners() {
     this.walletConnect.on(CALL_REQUEST_EVENT, async (error, payload) => {
       if (error) {
         this.logger.error("Wallet connect call request error", error);
-
         return;
       }
 
@@ -241,7 +165,6 @@ class WalletConnectAdapter extends EventEmitter2 {
 
     this.walletConnect.on(CONNECT_EVENT, () => {
       this.connectedAt = Date.now();
-
       this.emit(EWalletConnectAdapterEvents.CONNECTED, undefined, undefined, undefined);
     });
 
@@ -250,44 +173,99 @@ class WalletConnectAdapter extends EventEmitter2 {
     });
   }
 
-  private handleCallSigningError(id: number, error: Error) {
-    this.logger.error("Wallet connect call signing error", error);
+  /**
+   * Gets connected peer id
+   */
+  getPeerId(): string {
+    return this.walletConnect.peerId;
+  }
 
-    this.walletConnect.rejectRequest({
-      id,
-      error: error ?? new Error("Request rejected"),
+  /**
+   * Gets currently connected peer metadata
+   * @throws NoPeerMetaError - When no metadata found
+   */
+  getPeerMeta(): TPeerMeta {
+    if (!this.walletConnect.peerMeta) {
+      throw new NoPeerMetaError();
+    }
+
+    return this.walletConnect.peerMeta;
+  }
+
+  /**
+   * Get connected timestamp
+   **/
+  getConnectedAt(): number | undefined {
+    return this.connectedAt;
+  }
+
+  /**
+   * Starts a handshake process between to peers
+   * @returns A session details object with meta functions to approve or reject session request
+   */
+  async connect(): Promise<TSessionDetails> {
+    return new Promise((resolve, reject) => {
+      const callback = async (error, payload) => {
+        if (error) {
+          reject(error);
+          return;
+        }
+
+        try {
+          const parsedPayload = parseRPCPayload(WalletConnectSessionJSONRPCSchema, payload);
+          const peerData = parsedPayload.params[0];
+
+          const peer: TWalletConnectPeer = {
+            id: peerData.peerId,
+            meta: peerData.peerMeta,
+          };
+
+          const approveSession = (chainId: number, address: EthereumAddress) => {
+            this.walletConnect.approveSession({
+              chainId,
+              accounts: [address],
+            });
+
+            return this;
+          };
+
+          const rejectSession = () => {
+            this.walletConnect.rejectSession();
+          };
+
+          resolve({
+            peer,
+            approveSession,
+            rejectSession,
+          });
+        } catch {
+          reject(new InvalidJSONRPCPayloadError(SESSION_REQUEST_EVENT));
+          return;
+        }
+      };
+
+      this.walletConnect.on(SESSION_REQUEST_EVENT, callback);
     });
   }
 
-  private async handleCallSigningRequest<
-    T extends
-      | EWalletConnectAdapterEvents.SIGN_MESSAGE
-      | EWalletConnectAdapterEvents.SEND_TRANSACTION
-  >(type: T, id: number, payload: ExtractWalletConnectAdapterEmitData<T, "payload">) {
-    const {
-      promise: signRequest,
-      resolve: approveRequest,
-      reject: rejectRequest,
-    } = unwrapPromise();
+  /**
+   * Get a current wallet connect session
+   */
+  getSession(): IWalletConnectSession {
+    return this.walletConnect.session;
+  }
 
-    this.emit(type, undefined, payload, {
-      approveRequest,
-      rejectRequest,
-    });
+  /**
+   * Disconnects currently active session
+   */
+  async disconnectSession() {
+    this.logger.info(`Disconnecting wallet connect session with peer ${this.getPeerId()}`);
+    await this.walletConnect.killSession();
+  }
 
-    try {
-      const result = await signRequest;
-
-      this.walletConnect.approveRequest({
-        id,
-        result,
-      });
-    } catch (error) {
-      this.walletConnect.rejectRequest({
-        id,
-        error: error ?? new Error("Request rejected"),
-      });
-    }
+  async clearSession() {
+    this.logger.info(`Clearing wallet connect session`);
+    await this.walletConnect.killSession();
   }
 }
 

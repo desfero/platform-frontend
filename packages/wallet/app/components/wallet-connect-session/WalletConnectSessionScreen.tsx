@@ -59,11 +59,12 @@ const WalletConnectLayout: React.FunctionComponent<TStateProps & TDispatchProps>
       ) : (
         <>
           <BodyText style={styles.noSessionTex}>
-            Browse to{" "}
+            Go to&nbsp;
             <Link url={externalRoutes.platformWalletConnect}>
               {externalRoutes.platformWalletConnect}
-            </Link>{" "}
-            on your desktop or tablet and scan the QR code to use Neufund Web with your account.
+            </Link>
+            &nbsp;on your desktop or tablet and scan the QR code to use Neufund Web with your
+            account.
           </BodyText>
 
           <Button
