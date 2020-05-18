@@ -3,13 +3,20 @@ import { ECurrency, EthereumAddressWithChecksum } from "@neufund/shared-utils";
 import { TBankAccount } from "../kyc/types";
 import { TTranslatedString } from "@neufund/design-system";
 
+export type TWalletData = {
+  name: EBalanceType,
+  hasFunds: boolean,
+  amount: string,
+  euroEquivalentAmount: string
+}
+
 export enum EBalanceType {
-  ETH = "WALLET_TYPE_ETH",
-  NEUR = "WALLET_TYPE_NEUR",
-  ICBM_ETH = "WALLET_TYPE_ICBM_ETH",
-  ICBM_NEUR = "WALLET_TYPE_ICBM_NEUR",
-  LOCKED_ICBM_ETH = "WALLET_TYPE_LOCKED_ICBM_ETH",
-  LOCKED_ICBM_NEUR = "WALLET_TYPE_LOCKED_ICBM_NEUR",
+  ETH = "BALANCE_TYPE_ETH",
+  NEUR = "BALANCE_TYPE_NEUR",
+  ICBM_ETH = "BALANCE_TYPE_ICBM_ETH",
+  ICBM_NEUR = "BALANCE_TYPE_ICBM_NEUR",
+  LOCKED_ICBM_ETH = "BALANCE_TYPE_LOCKED_ICBM_ETH",
+  LOCKED_ICBM_NEUR = "BALANCE_TYPE_LOCKED_ICBM_NEUR",
 }
 
 export enum EBalanceActionLevel {
@@ -25,7 +32,7 @@ export type TBalanceData = {
 
 export type TWalletViewReadyState = {
   balanceData: TBalanceData[],
-  walletBalanceEuro: string
+  totalBalanceEuro: string
   userAddress: EthereumAddressWithChecksum,
   bankAccount: TBankAccount | undefined,
   userIsFullyVerified: boolean

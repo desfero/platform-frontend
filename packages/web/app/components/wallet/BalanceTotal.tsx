@@ -7,10 +7,10 @@ import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "../shared/fo
 import * as styles from "./Wallet.module.scss";
 
 type TCommonBalanceProps = {
-  walletBalanceEuro: string
+  totalBalanceEuro: string
 }
 
-export const BalanceTotal: React.FunctionComponent<TCommonBalanceProps> = ({ walletBalanceEuro }) =>
+export const BalanceTotal: React.FunctionComponent<TCommonBalanceProps> = ({ totalBalanceEuro }) =>
   <>
     <div className={styles.totalBalanceTitle}><FormattedMessage id="wallet.total-balance"/></div>
     <span className={styles.totalBalance}>€
@@ -18,7 +18,7 @@ export const BalanceTotal: React.FunctionComponent<TCommonBalanceProps> = ({ wal
       currencySymbol={ECurrencySymbol.NONE}
       inputFormat={ENumberInputFormat.ULPS}
       outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
-      value={walletBalanceEuro}
+      value={totalBalanceEuro}
       valueType={ECurrency.EUR}
     />
   </span>

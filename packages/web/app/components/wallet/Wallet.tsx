@@ -42,7 +42,7 @@ type TDispatchProps = {
 
 export const WalletLayout: React.FunctionComponent<TReadyStateProps & TDispatchProps> = ({
   balances,
-  walletBalanceEuro,
+  totalBalanceEuro,
   userAddress,
   verifyBankAccount,
   bankAccount,
@@ -57,7 +57,7 @@ export const WalletLayout: React.FunctionComponent<TReadyStateProps & TDispatchP
       </Container>
 
       <Container columnSpan={EColumnSpan.TWO_COL}>
-        <BalanceTotal walletBalanceEuro={walletBalanceEuro} />
+        <BalanceTotal totalBalanceEuro={totalBalanceEuro} />
       </Container>
 
       <Container columnSpan={EColumnSpan.TWO_COL}>
