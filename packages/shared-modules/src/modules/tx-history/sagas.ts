@@ -54,9 +54,6 @@ export function* mapAnalyticsApiTransactionResponse(
 ): Generator<any, any, any> {
   // we can return tx in each case but then we will loose type safety
   let tx: TTxHistory | undefined = undefined;
-  const { logger } = yield* neuGetBindings({
-    logger: coreModuleApi.symbols.logger,
-  });
 
   switch (transaction.type) {
     case ETransactionType.ETO_INVESTMENT: {
@@ -302,6 +299,9 @@ export function* mapAnalyticsApiTransactionResponse(
       break;
     }
     default:
+      const { logger } = yield* neuGetBindings({
+        logger: coreModuleApi.symbols.logger,
+      });
       logger.warn(new Error(`Transaction with unknown type received ${transaction.type}`));
   }
 
