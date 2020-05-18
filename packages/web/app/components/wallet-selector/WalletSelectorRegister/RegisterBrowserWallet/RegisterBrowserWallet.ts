@@ -1,8 +1,8 @@
+import { EUserType } from "@neufund/shared-modules";
 import { withContainer } from "@neufund/shared-utils";
 import { Location } from "history";
 import { branch, compose, renderComponent, withProps } from "recompose";
 
-import { EUserType } from "../../../../lib/api/users/interfaces";
 import { actions } from "../../../../modules/actions";
 import { selectWalletSelectorData } from "../../../../modules/wallet-selector/selectors";
 import {

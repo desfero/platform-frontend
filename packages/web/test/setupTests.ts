@@ -16,6 +16,7 @@ interface IGlobalWithWindow extends NodeJS.Global {
 }
 
 // Adds random bytes for lightwallet generation
+// Note: we are forced to use `self` because one of the libraries that the light wallet uses, utilizes self
 (self as any).crypto = {
   getRandomValues: (n: Uint8Array) => {
     const length = n.length;

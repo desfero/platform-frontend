@@ -1,9 +1,9 @@
 import { AppError } from "../../classes/AppError";
 
-class NotificationsModuleErrror extends AppError {
+class NotificationsModuleError extends AppError {
   constructor(message: string) {
-    super(`NotificationsModuleErrror: ${message}`);
+    super(`NotificationsModuleError: ${message}`);
   }
 }
 
-export { NotificationsModuleErrror };
+export { NotificationsModuleError };

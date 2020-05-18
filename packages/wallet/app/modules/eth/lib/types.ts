@@ -1,4 +1,4 @@
-import { EthereumAddress, EthereumName } from "@neufund/shared-utils";
+import { EthereumAddressWithChecksum, EthereumName } from "@neufund/shared-utils";
 import { utils } from "ethers";
 
 export enum EBlockTag {
@@ -7,9 +7,7 @@ export enum EBlockTag {
 }
 
 export type TTransactionRequestRequired = {
-  to: EthereumAddress | EthereumName;
-  // TODO: Validate whether from is equal to the address associated with EthWallet
-  from: EthereumAddress;
+  to: EthereumAddressWithChecksum | EthereumName;
   // TODO: hide under `EthManager` so there is not need to pass it from saga
   gasLimit: string;
   // TODO: hide under `EthManager` so there is not need to pass it from saga
@@ -19,13 +17,13 @@ export type TTransactionRequestRequired = {
 };
 
 export type TUnsignedTransaction = {
-  to?: EthereumAddress;
-  nonce?: number;
-  gasLimit?: string;
-  gasPrice?: string;
+  to: EthereumAddressWithChecksum;
+  nonce: number;
+  gasLimit: string;
+  gasPrice: string;
   data?: string;
   value?: string;
-  chainId?: number;
+  chainId: number;
 };
 
 export interface ITransactionResponse extends utils.Transaction {
@@ -41,3 +39,14 @@ export enum EWalletType {
   HD_WALLET = "HD_WALLET",
   PRIVATE_KEY_WALLET = "PRIVATE_KEY_WALLET",
 }
+
+/**
+ * A reduced version of Eth wallet metadata to have only what we need to show on UI during
+ */
+export type TWalletUIMetadata = {
+  /**
+   * `name` represent a user defined custom wallet name (now only stores fixture name)
+   */
+  name: string | undefined;
+  address: EthereumAddressWithChecksum;
+};

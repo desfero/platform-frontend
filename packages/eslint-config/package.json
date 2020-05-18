@@ -1,0 +1,28 @@
+{
+  "name": "@neufund/eslint-config",
+  "version": "1.0.0",
+  "description": "Shared ESLint config",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "prepare": "echo Nothing to prepare"
+  },
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.29.0",
+    "@typescript-eslint/parser": "^2.29.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-eslint-comments": "^3.1.2",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-react-native-a11y": "^2.0.0",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^3.0.0",
+    "eslint-plugin-react-native": "^3.8.1"
+  },
+  "peerDependencies": {
+    "eslint": ">=6"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0"
+  }
+}

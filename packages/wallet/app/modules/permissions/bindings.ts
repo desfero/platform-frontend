@@ -1,7 +1,8 @@
-import { ContainerModule } from "inversify";
 import { TLibSymbolType } from "@neufund/shared-modules";
-import { symbols } from "./symbols";
+import { ContainerModule } from "inversify";
+
 import { Permissions } from "./Permissions";
+import { symbols } from "./symbols";
 
 export function setupBindings(): ContainerModule {
   return new ContainerModule(bind => {

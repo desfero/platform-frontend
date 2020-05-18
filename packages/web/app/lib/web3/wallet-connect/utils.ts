@@ -1,3 +1,4 @@
+import { EWalletSubType } from "@neufund/shared-modules";
 import { minutesToMs } from "@neufund/shared-utils";
 import { IClientMeta } from "@walletconnect/types";
 
@@ -6,7 +7,6 @@ import {
   WC_DEFAULT_SESSION_REQUEST_TIMEOUT,
   WC_DEFAULT_SIGN_TIMEOUT,
 } from "../../../config/constants";
-import { EWalletSubType } from "../../../modules/web3/types";
 import { ESignTransactionMethod } from "../types";
 
 export type TWcMeta = {

@@ -1,15 +1,20 @@
-import { EthereumPrivateKey, EthereumHDMnemonic, toEthereumHDPath } from "@neufund/shared-utils";
 import { coreModuleApi, ILogger } from "@neufund/shared-modules";
+import {
+  EthereumPrivateKey,
+  EthereumHDMnemonic,
+  toEthereumHDPath,
+  assertNever,
+} from "@neufund/shared-utils";
 import { inject, injectable } from "inversify";
-import { AppSingleKeyStorage } from "../../storage";
 
+import { AppSingleKeyStorage } from "../../storage";
 import { EthModuleError } from "../errors";
-import { THDWalletMetadata, TPrivateKeyWalletMetadata, TWalletMetadata } from "./schemas";
-import { TSecureReference } from "./SecureStorage";
-import { privateSymbols } from "./symbols";
 import { EthSecureEnclave } from "./EthSecureEnclave";
 import { EthWallet, TEthWalletProviderType } from "./EthWallet";
-import { EWalletType } from "./types";
+import { TSecureReference } from "./SecureStorage";
+import { THDWalletMetadata, TPrivateKeyWalletMetadata, TWalletMetadata } from "./schemas";
+import { privateSymbols } from "./symbols";
+import { EWalletType, TWalletUIMetadata } from "./types";
 
 class EthWalletFactoryError extends EthModuleError {
   constructor(message: string) {
@@ -26,7 +31,7 @@ class NoExistingWalletFoundError extends EthWalletFactoryError {
 /**
  * Default HD path used in lightwallet
  */
-const DEFAULT_HD_PATH = toEthereumHDPath("m/44'/60'/0'");
+const DEFAULT_HD_PATH = toEthereumHDPath("m/44'/60'/0'/0");
 
 /**
  * Abstracts the way wallet is created.
@@ -61,7 +66,7 @@ class EthWalletFactory {
    * @note Make sure to check for wallet before calling `createFromExisting`.
    */
   async hasExistingWallet() {
-    this.logger.info("Check if there is existing wallet");
+    this.logger.info("Checking if there is existing wallet");
 
     // TODO: Check if it's possible to make sure whether key exists for provided key reference
     //       without triggering presence confirmation screen
@@ -73,6 +78,24 @@ class EthWalletFactory {
   }
 
   /**
+   * Returns existing wallet metadata (without key references)
+   */
+  async getExistingWalletMetadata(): Promise<TWalletUIMetadata | undefined> {
+    this.logger.info("Getting existing wallet metadata");
+
+    const metadata = await this.walletStorage.get();
+
+    if (metadata) {
+      return {
+        name: metadata.name,
+        address: metadata.address,
+      };
+    }
+
+    return undefined;
+  }
+
+  /**
    * Creates a wallet from an existing metadata.
    *
    * @throws NoExistingWalletFoundError when no metadata available
@@ -81,7 +104,7 @@ class EthWalletFactory {
    */
   async createFromExisting(): Promise<EthWallet> {
     const walletMetadata = await this.walletStorage.get();
-    if (walletMetadata === null) {
+    if (!walletMetadata) {
       throw new NoExistingWalletFoundError();
     }
 
@@ -95,7 +118,7 @@ class EthWalletFactory {
    **
    * @returns A new EthWallet
    */
-  async createFromPrivateKey(privateKey: EthereumPrivateKey): Promise<EthWallet> {
+  async createFromPrivateKey(privateKey: EthereumPrivateKey, name?: string): Promise<EthWallet> {
     this.logger.info("Adding private key to the secure enclave");
 
     const privateKeyReference = await this.ethSecureEnclave.addSecret(privateKey);
@@ -104,6 +127,7 @@ class EthWalletFactory {
     const privateKeyWalletMetadata: TPrivateKeyWalletMetadata = {
       type: EWalletType.PRIVATE_KEY_WALLET,
       address,
+      name,
       privateKeyReference,
     };
 
@@ -136,12 +160,12 @@ class EthWalletFactory {
    *
    * @returns A new EthWallet
    */
-  async createFromMnemonic(mnemonic: EthereumHDMnemonic): Promise<EthWallet> {
+  async createFromMnemonic(mnemonic: EthereumHDMnemonic, name?: string): Promise<EthWallet> {
     this.logger.info("Adding mnemonic to the secure enclave");
 
     const mnemonicReference = await this.ethSecureEnclave.addSecret(mnemonic);
 
-    return this.createFromMnemonicReference(mnemonicReference);
+    return this.createFromMnemonicReference(mnemonicReference, name);
   }
 
   /**
@@ -163,12 +187,14 @@ class EthWalletFactory {
       case EWalletType.PRIVATE_KEY_WALLET:
         await this.ethSecureEnclave.unsafeDeleteSecret(walletMetadata.privateKeyReference);
         break;
+      default:
+        assertNever(walletMetadata);
     }
 
-    await this.walletStorage.remove();
+    await this.walletStorage.clear();
   }
 
-  private async createFromMnemonicReference(mnemonicReference: TSecureReference) {
+  private async createFromMnemonicReference(mnemonicReference: TSecureReference, name?: string) {
     this.logger.info(`Deriving private key for a default hd path ${DEFAULT_HD_PATH}`);
 
     const privateKeyReference = await this.ethSecureEnclave.deriveKey(
@@ -181,6 +207,7 @@ class EthWalletFactory {
     const hdWallet: THDWalletMetadata = {
       type: EWalletType.HD_WALLET,
       address,
+      name,
       mnemonicReference,
       privateKeyReference,
       derivationPath: DEFAULT_HD_PATH,

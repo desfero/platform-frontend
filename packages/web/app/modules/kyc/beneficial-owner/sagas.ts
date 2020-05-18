@@ -2,7 +2,7 @@ import { actionChannel, put, select, take } from "@neufund/sagas";
 import { IHttpResponse } from "@neufund/shared-modules";
 
 import { KycFlowMessage } from "../../../components/translatedMessages/messages";
-import { createMessage } from "../../../components/translatedMessages/utils";
+import { createNotificationMessage } from "../../../components/translatedMessages/utils";
 import { TGlobalDependencies } from "../../../di/setupBindings";
 import {
   IKycBeneficialOwner,
@@ -12,6 +12,7 @@ import {
 } from "../../../lib/api/kyc/KycApi.interfaces";
 import { TAppGlobalState } from "../../../store";
 import { actions, TActionFromCreator } from "../../actions";
+import { webNotificationUIModuleApi } from "../../notification-ui/module";
 import { neuCall } from "../../sagasUtils";
 import { selectEditingBeneficiaryId } from "../selectors";
 import { getBeneficialOwnerId } from "../utils";
@@ -38,7 +39,7 @@ export function* loadBeneficialOwners({
 }
 
 export function* updateBeneficialOwner(
-  { apiKycService, notificationCenter, logger }: TGlobalDependencies,
+  { apiKycService, logger }: TGlobalDependencies,
   action: TActionFromCreator<typeof actions.kyc.kycSubmitBeneficialOwner>,
 ): Generator<any, any, any> {
   const { owner, id } = action.payload;
@@ -61,14 +62,18 @@ export function* updateBeneficialOwner(
   } catch (e) {
     yield put(actions.kyc.kycUpdateBeneficialOwner(false));
 
-    notificationCenter.error(createMessage(KycFlowMessage.KYC_PROBLEM_SAVING_DATA));
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(KycFlowMessage.KYC_PROBLEM_SAVING_DATA),
+      ),
+    );
 
     logger.error("Failed to submit KYC beneficial owner", e);
   }
 }
 
 export function* deleteBeneficialOwner(
-  { apiKycService, notificationCenter, logger }: TGlobalDependencies,
+  { apiKycService, logger }: TGlobalDependencies,
   action: TActionFromCreator<typeof actions.kyc.kycDeleteBeneficialOwner>,
 ): Generator<any, any, any> {
   const beneficialOwnerId = action.payload.id;
@@ -80,14 +85,18 @@ export function* deleteBeneficialOwner(
   } catch (e) {
     yield put(actions.kyc.kycUpdateBeneficialOwner(false));
 
-    notificationCenter.error(createMessage(KycFlowMessage.KYC_PROBLEM_SENDING_DATA));
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(KycFlowMessage.KYC_PROBLEM_SENDING_DATA),
+      ),
+    );
 
     logger.error("Failed to delete KYC beneficial owner", e);
   }
 }
 
 export function* uploadBeneficialOwnerFile(
-  { apiKycService, notificationCenter, logger }: TGlobalDependencies,
+  { apiKycService, logger }: TGlobalDependencies,
   action: TActionFromCreator<typeof actions.kyc.kycUploadBeneficialOwnerDocument>,
 ): Generator<any, any, any> {
   const state: TAppGlobalState = yield* select();
@@ -112,11 +121,19 @@ export function* uploadBeneficialOwnerFile(
       file,
     );
     yield put(actions.kyc.kycUpdateBeneficialOwnerDocument(boId, false, result.body));
-    notificationCenter.info(createMessage(KycFlowMessage.KYC_UPLOAD_SUCCESSFUL));
+    yield put(
+      webNotificationUIModuleApi.actions.showInfo(
+        createNotificationMessage(KycFlowMessage.KYC_UPLOAD_SUCCESSFUL),
+      ),
+    );
   } catch (e) {
     yield put(actions.kyc.kycUpdateBeneficialOwnerDocument(boId, false));
 
-    notificationCenter.error(createMessage(KycFlowMessage.KYC_UPLOAD_FAILED));
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(KycFlowMessage.KYC_UPLOAD_FAILED),
+      ),
+    );
 
     logger.error("Failed to upload KYC beneficial owner file", e);
   }

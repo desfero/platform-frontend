@@ -1,4 +1,10 @@
-import { call, fork, put, select } from "@neufund/sagas";
+import { call, fork, put, SagaGenerator, select } from "@neufund/sagas";
+import {
+  authModuleAPI,
+  EWalletType,
+  IVerifyEmailUser,
+  neuGetBindings,
+} from "@neufund/shared-modules";
 import { includes } from "lodash/fp";
 
 import {
@@ -6,19 +12,17 @@ import {
   UnverifiedEmailReminderModal,
 } from "../../../components/modals/unverified-email-reminder/UnverifiedEmailReminderModal";
 import { AuthMessage } from "../../../components/translatedMessages/messages";
-import { createMessage } from "../../../components/translatedMessages/utils";
+import { createNotificationMessage } from "../../../components/translatedMessages/utils";
 import { USERS_WITH_ACCOUNT_SETUP } from "../../../config/constants";
 import { TGlobalDependencies } from "../../../di/setupBindings";
-import { IVerifyEmailUser } from "../../../lib/api/users/interfaces";
-import { EmailActivationCodeMismatch, EmailAlreadyExists } from "../../../lib/api/users/UsersApi";
 import { TStoredWalletMetadata } from "../../../lib/persistence/WalletStorage";
 import { TAppGlobalState } from "../../../store";
 import { actions } from "../../actions";
 import { userHasKycAndEmailVerified } from "../../eto-flow/selectors";
+import { webNotificationUIModuleApi } from "../../notification-ui/module";
 import { selectIsVerifyEmailRedirect } from "../../routing/selectors";
 import { neuCall, neuTakeEvery } from "../../sagasUtils";
 import { selectActivationCodeFromQueryString, selectWalletType } from "../../web3/selectors";
-import { EWalletType } from "../../web3/types";
 import {
   selectIsAgreementAccepted,
   selectUnverifiedUserEmail,
@@ -32,10 +36,9 @@ import { loadUser } from "../user/external/sagas";
  */
 export function* processVerifyEmailLink({
   walletStorage,
-  notificationCenter,
 }: TGlobalDependencies): Generator<any, any, any> {
   const walletMetadata = (yield* call(() => walletStorage.get()))!;
-  const unverifiedEmail = yield* select((s: TAppGlobalState) => selectUnverifiedUserEmail(s.auth));
+  const unverifiedEmail = yield* select(selectUnverifiedUserEmail);
   // we ignore everything in the activation link except the code. e-mails may be spoofed or mangled by mail clients
   const userCode = (yield* select(selectActivationCodeFromQueryString))!;
 
@@ -63,7 +66,11 @@ export function* processVerifyEmailLink({
   } else {
     // in case of other wallets say e-mail is already activated
     if (unverifiedEmail === undefined) {
-      yield notificationCenter.error(createMessage(AuthMessage.AUTH_EMAIL_ALREADY_VERIFIED));
+      yield put(
+        webNotificationUIModuleApi.actions.showError(
+          createNotificationMessage(AuthMessage.AUTH_EMAIL_ALREADY_VERIFIED),
+        ),
+      );
       yield* goHome();
       return;
     }
@@ -78,50 +85,64 @@ export function* processVerifyEmailLink({
   yield neuCall(loadUser);
   // Update metadata email only when wallet type is LightWallet
   if (walletMetadata.walletType === EWalletType.LIGHT) {
-    const verifiedEmail = yield* select((s: TAppGlobalState) => selectVerifiedUserEmail(s.auth));
+    const verifiedEmail = yield* select(selectVerifiedUserEmail);
     const updatedMetadata: TStoredWalletMetadata = { ...walletMetadata, email: verifiedEmail! };
     yield* call(() => walletStorage.set(updatedMetadata));
   }
   yield* goHome();
 }
 
-async function verifyUserEmailPromise(
-  { apiUserService, notificationCenter }: TGlobalDependencies,
+export function* verifyUserEmailPromise(
+  _: TGlobalDependencies,
   userCode: IVerifyEmailUser,
-): Promise<boolean> {
+): SagaGenerator<boolean> {
+  const { apiUserService } = yield* neuGetBindings({
+    apiUserService: authModuleAPI.symbols.apiUserService,
+  });
+
   try {
-    await apiUserService.verifyUserEmail(userCode);
-    await notificationCenter.info(createMessage(AuthMessage.AUTH_EMAIL_VERIFIED));
+    yield* call(apiUserService.verifyUserEmail, userCode);
+    yield put(
+      webNotificationUIModuleApi.actions.showInfo(
+        createNotificationMessage(AuthMessage.AUTH_EMAIL_VERIFIED),
+      ),
+    );
   } catch (e) {
-    const toast = (message: AuthMessage) =>
-      notificationCenter.error(createMessage(message), {
+    const getNotificationAction = (message: AuthMessage) =>
+      webNotificationUIModuleApi.actions.showError(createNotificationMessage(message), {
         "data-test-id": `modules.auth.sagas.verify-user-email.toast.verification-failed-${message}`,
       });
 
-    if (e instanceof EmailAlreadyExists) {
-      await toast(AuthMessage.AUTH_EMAIL_ALREADY_EXISTS);
-    } else if (e instanceof EmailActivationCodeMismatch) {
-      await toast(AuthMessage.AUTH_EMAIL_VERIFICATION_CODE_MISMATCH);
+    if (e instanceof authModuleAPI.error.EmailAlreadyExists) {
+      yield put(getNotificationAction(AuthMessage.AUTH_EMAIL_ALREADY_EXISTS));
+    } else if (e instanceof authModuleAPI.error.EmailActivationCodeMismatch) {
+      yield put(getNotificationAction(AuthMessage.AUTH_EMAIL_VERIFICATION_CODE_MISMATCH));
     } else {
-      await toast(AuthMessage.AUTH_EMAIL_VERIFICATION_FAILED);
+      yield put(getNotificationAction(AuthMessage.AUTH_EMAIL_VERIFICATION_FAILED));
     }
+
     return false;
   }
 
   return true;
 }
 
-export async function isEmailAvailablePromise(
-  { apiUserService }: TGlobalDependencies,
+export function* isEmailAvailablePromise(
+  _: TGlobalDependencies,
   email: string,
-): Promise<boolean> {
-  const emailStatus = await apiUserService.emailStatus(email);
+): SagaGenerator<boolean> {
+  const { apiUserService } = yield* neuGetBindings({
+    apiUserService: authModuleAPI.symbols.apiUserService,
+  });
+
+  const emailStatus = yield* call(() => apiUserService.emailStatus(email));
+
   return emailStatus.isAvailable;
 }
 
 export function* checkForPendingEmailVerification(): Generator<any, void, any> {
   const tosAccepted = yield* select(selectIsAgreementAccepted);
-  const unverifiedEmail = yield* select((s: TAppGlobalState) => selectUnverifiedUserEmail(s.auth));
+  const unverifiedEmail = yield* select(selectUnverifiedUserEmail);
 
   // this is a workaround for #3942 (see QA's comment).
   // this can be done in a much nicer way after implementing route-based saga approach

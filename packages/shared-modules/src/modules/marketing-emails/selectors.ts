@@ -1,5 +1,5 @@
 import { toCamelCase } from "@neufund/shared-utils";
-import * as queryString from "query-string";
+import queryString from "query-string";
 
 import { isValidLink } from "./utils";
 

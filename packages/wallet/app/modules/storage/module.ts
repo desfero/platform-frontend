@@ -1,5 +1,5 @@
 import { setupBindings } from "./bindings";
-import { symbols } from "./index";
+import { symbols } from "./symbols";
 
 const MODULE_ID = "storage";
 

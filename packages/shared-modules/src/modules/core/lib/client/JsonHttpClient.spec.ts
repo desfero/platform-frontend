@@ -1,6 +1,6 @@
 import { expectToBeRejected } from "@neufund/shared-utils/tests";
 import { expect } from "chai";
-import * as fetchMock from "fetch-mock";
+import fetchMock from "fetch-mock";
 import * as Yup from "yup";
 
 import { getSampleMalformedProducts, getSampleProducts, IProduct, productSchema } from "./fixtures";
@@ -8,8 +8,10 @@ import { NetworkingError, ResponseParsingError, ResponseStatusError } from "./Ht
 import { JsonHttpClient } from "./JsonHttpClient";
 
 describe("JsonHttpClient", () => {
+  const ROOT_URL = "https://platform.neufund.io";
   const API_URL = "v2/api";
-  const httpClient = new JsonHttpClient("https://platform.neufund.io/");
+
+  const httpClient = new JsonHttpClient(ROOT_URL);
 
   afterEach(() => {
     expect(fetchMock.done()).to.be.true;
@@ -19,7 +21,7 @@ describe("JsonHttpClient", () => {
   describe("get requests", () => {
     it("should make GET request and parse the response", async () => {
       const mockedResponse = getSampleProducts();
-      fetchMock.once(`${API_URL}products`, {
+      fetchMock.once(`${ROOT_URL}/${API_URL}/products`, {
         status: 200,
         body: mockedResponse,
       });
@@ -38,7 +40,7 @@ describe("JsonHttpClient", () => {
 
     it("should work with query parameters", async () => {
       const mockedResponse = getSampleProducts();
-      fetchMock.once(`${API_URL}products?some=param&some2=param2`, {
+      fetchMock.once(`${ROOT_URL}/${API_URL}/products?some=param&some2=param2`, {
         status: 200,
         body: mockedResponse,
       });
@@ -58,13 +60,13 @@ describe("JsonHttpClient", () => {
 
     it("should work without baseUrl param", async () => {
       const mockedResponse = getSampleProducts();
-      fetchMock.once(`${API_URL}products`, {
+      fetchMock.once(`${ROOT_URL}/${API_URL}/products`, {
         status: 200,
         body: mockedResponse,
       });
 
       const actualResponse = await httpClient.get<IProduct[]>({
-        url: `${API_URL}products`,
+        url: `${API_URL}/products`,
         responseSchema: Yup.array()
           .required()
           .of(productSchema),
@@ -80,7 +82,7 @@ describe("JsonHttpClient", () => {
       };
       const mockedResponse = getSampleProducts();
       const requestMatcher: fetchMock.MockMatcherFunction = (url, opts) => {
-        if (url !== `${API_URL}products`) {
+        if (url !== `${ROOT_URL}/${API_URL}/products`) {
           return false;
         }
         if (opts.method !== "GET") {
@@ -97,7 +99,7 @@ describe("JsonHttpClient", () => {
       });
 
       const actualResponse = await httpClient.get<IProduct[]>({
-        url: `${API_URL}products`,
+        url: `${API_URL}/products`,
         headers: customHeaders,
       });
 
@@ -107,7 +109,7 @@ describe("JsonHttpClient", () => {
 
     it("should throw an error on malformed response (missing fields)", async () => {
       const expectedResponse = getSampleMalformedProducts();
-      fetchMock.mock(`${API_URL}products`, {
+      fetchMock.mock(`${ROOT_URL}/${API_URL}/products`, {
         status: 200,
         body: expectedResponse,
       });
@@ -121,12 +123,12 @@ describe("JsonHttpClient", () => {
               .required()
               .of(productSchema),
           }),
-        new ResponseParsingError("full url", "[0].quantity is a required field"),
+        new ResponseParsingError(`/${API_URL}/products`, "[0].quantity is a required field"),
       );
     });
 
     it("should throw an error on malformed response (non json)", async () => {
-      fetchMock.mock(`${API_URL}products`, {
+      fetchMock.mock(`${ROOT_URL}/${API_URL}/products`, {
         status: 200,
         body: "not a json",
         sendAsJson: false,
@@ -141,12 +143,12 @@ describe("JsonHttpClient", () => {
               .required()
               .of(productSchema),
           }),
-        new ResponseParsingError("full url", "Response is not a json"),
+        new ResponseParsingError(`/${API_URL}/products`, "Response is not a json"),
       );
     });
 
     it("should not validate schema on non 2xx response", async () => {
-      fetchMock.mock(`${API_URL}products`, {
+      fetchMock.mock(`${ROOT_URL}/${API_URL}/products`, {
         status: 404,
         body: { error: "missing" },
       });
@@ -169,7 +171,7 @@ describe("JsonHttpClient", () => {
     });
 
     it("should throw an error on malformed response totally different objects", async () => {
-      fetchMock.mock(`${API_URL}products`, {
+      fetchMock.mock(`${ROOT_URL}/${API_URL}/products`, {
         status: 200,
         body: {
           new_user: {
@@ -202,7 +204,7 @@ describe("JsonHttpClient", () => {
     it("should throw an error on non 20x response", async () => {
       const expectedErrorMessage = "error message";
       const expectedStatusCode = 500;
-      fetchMock.mock(`${API_URL}products`, {
+      fetchMock.mock(`${ROOT_URL}/${API_URL}/products`, {
         status: expectedStatusCode,
         body: { errorMessage: expectedErrorMessage },
       });
@@ -216,14 +218,14 @@ describe("JsonHttpClient", () => {
               .required()
               .of(productSchema),
           }),
-        new ResponseStatusError(API_URL + "products", 500),
+        new ResponseStatusError(`/${API_URL}/products`, 500),
       );
     });
 
     it("should not throw when status code is on allowed list", async () => {
       const expectedErrorMessage = { msg: "not-found!" };
       const expectedStatusCode = 404;
-      fetchMock.mock(`${API_URL}products`, {
+      fetchMock.mock(`${ROOT_URL}/${API_URL}/products`, {
         status: expectedStatusCode,
         body: JSON.stringify(expectedErrorMessage),
       });
@@ -241,7 +243,7 @@ describe("JsonHttpClient", () => {
     });
 
     it("should throw an error on networking problems", async () => {
-      fetchMock.mock(`${API_URL}products`, {
+      fetchMock.mock(`${ROOT_URL}/${API_URL}/products`, {
         throws: true,
       });
 
@@ -254,7 +256,7 @@ describe("JsonHttpClient", () => {
               .required()
               .of(productSchema),
           }),
-        new NetworkingError(API_URL + "products"),
+        new NetworkingError(`/${API_URL}/products`),
       );
     });
   });
@@ -267,7 +269,7 @@ describe("JsonHttpClient", () => {
       };
       const mockedResponse = getSampleProducts();
       const requestMatcher: fetchMock.MockMatcherFunction = (url, opts) => {
-        if (url !== `${API_URL}products`) {
+        if (url !== `${ROOT_URL}/${API_URL}/products`) {
           return false;
         }
         if (opts.method !== "POST") {
@@ -305,7 +307,7 @@ describe("JsonHttpClient", () => {
       };
       const mockedResponse = getSampleProducts();
       const requestMatcher: fetchMock.MockMatcherFunction = (url, opts) => {
-        if (url !== `${API_URL}products`) {
+        if (url !== `${ROOT_URL}/${API_URL}/products`) {
           return false;
         }
         if (opts.method !== "PUT") {
@@ -343,7 +345,7 @@ describe("JsonHttpClient", () => {
       };
       const mockedResponse = getSampleProducts();
       const requestMatcher: fetchMock.MockMatcherFunction = (url, opts) => {
-        if (url !== `${API_URL}products`) {
+        if (url !== `${ROOT_URL}/${API_URL}/products`) {
           return false;
         }
         if (opts.method !== "PATCH") {
@@ -376,7 +378,7 @@ describe("JsonHttpClient", () => {
   describe("delete requests", () => {
     it("should make DELETE request", async () => {
       const requestMatcher: fetchMock.MockMatcherFunction = (url, opts) => {
-        if (url !== `${API_URL}products`) {
+        if (url !== `${ROOT_URL}/${API_URL}/products`) {
           return false;
         }
         if (opts.method !== "DELETE") {
@@ -431,7 +433,7 @@ describe("JsonHttpClient", () => {
     });
   });
 
-  describe("Subitting of files as formdata", () => {
+  describe("Submitting of files as formdata", () => {
     it("should transform request body object props to snake case and vice versa", async () => {
       const file = new File(["first line", "second line"], "stuff.txt");
       const formData = new FormData();

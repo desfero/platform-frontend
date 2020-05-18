@@ -4,7 +4,6 @@ import * as React from "react";
 import { View } from "react-native";
 
 import { LineBreak } from "../LineBreak";
-
 import { Button, EButtonLayout } from "./Button";
 
 storiesOf("Atoms|Button", module)
@@ -20,6 +19,12 @@ storiesOf("Atoms|Button", module)
       <Button layout={EButtonLayout.PRIMARY} disabled={true} onPress={action("onPress")}>
         Disabled
       </Button>
+
+      <LineBreak />
+
+      <Button layout={EButtonLayout.PRIMARY} loading={true} onPress={action("onPress")}>
+        Default
+      </Button>
     </>
   ))
   .add("secondary", () => (
@@ -33,6 +38,12 @@ storiesOf("Atoms|Button", module)
       <Button layout={EButtonLayout.SECONDARY} disabled={true} onPress={action("onPress")}>
         Disabled
       </Button>
+
+      <LineBreak />
+
+      <Button layout={EButtonLayout.SECONDARY} loading={true} onPress={action("onPress")}>
+        Default
+      </Button>
     </>
   ))
   .add("text", () => (
@@ -45,6 +56,31 @@ storiesOf("Atoms|Button", module)
 
       <Button layout={EButtonLayout.TEXT} disabled={true} onPress={action("onPress")}>
         Disabled
+      </Button>
+
+      <LineBreak />
+
+      <Button layout={EButtonLayout.TEXT} loading={true} onPress={action("onPress")}>
+        Default
+      </Button>
+    </>
+  ))
+  .add("text dark", () => (
+    <>
+      <Button layout={EButtonLayout.TEXT_DARK} onPress={action("onPress")}>
+        Default
+      </Button>
+
+      <LineBreak />
+
+      <Button layout={EButtonLayout.TEXT_DARK} disabled={true} onPress={action("onPress")}>
+        Disabled
+      </Button>
+
+      <LineBreak />
+
+      <Button layout={EButtonLayout.TEXT_DARK} loading={true} onPress={action("onPress")}>
+        Default
       </Button>
     </>
   ));

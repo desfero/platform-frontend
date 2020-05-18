@@ -2,7 +2,7 @@ import { call, fork, put } from "@neufund/sagas";
 import { match } from "react-router";
 
 import { EtoMessage } from "../../../components/translatedMessages/messages";
-import { createMessage } from "../../../components/translatedMessages/utils";
+import { createNotificationMessage } from "../../../components/translatedMessages/utils";
 import { TGlobalDependencies } from "../../../di/setupBindings";
 import { EJurisdiction } from "../../../lib/api/eto/EtoProductsApi.interfaces";
 import { actions, TActionFromCreator } from "../../actions";
@@ -12,6 +12,7 @@ import {
   verifyEtoAccess,
 } from "../../eto/sagas";
 import { TEtoWithCompanyAndContractReadonly } from "../../eto/types";
+import { webNotificationUIModuleApi } from "../../notification-ui/module";
 import { ensureEtoJurisdiction } from "../../routing/eto-view/sagas";
 import { neuCall, neuTakeEvery } from "../../sagasUtils";
 import {
@@ -44,7 +45,7 @@ function* loadNotAuthorizedEtoViewInternal(
 }
 
 export function* loadNotAuthorizedEtoView(
-  { logger, notificationCenter }: TGlobalDependencies,
+  { logger }: TGlobalDependencies,
   { payload }: TActionFromCreator<typeof actions.etoView.loadInvestorEtoView>,
 ): Generator<any, void, any> {
   yield put(actions.etoView.resetEtoViewData());
@@ -60,13 +61,17 @@ export function* loadNotAuthorizedEtoView(
     yield put(actions.etoView.setEtoViewData(etoData));
   } catch (e) {
     logger.error("Could not load eto by preview code", e);
-    notificationCenter.error(createMessage(EtoMessage.COULD_NOT_LOAD_ETO_PREVIEW));
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(EtoMessage.COULD_NOT_LOAD_ETO_PREVIEW),
+      ),
+    );
     yield put(actions.routing.goHome());
   }
 }
 
 export function* loadNotAuthorizedEtoViewById(
-  { logger, notificationCenter }: TGlobalDependencies,
+  { logger }: TGlobalDependencies,
   { payload }: TActionFromCreator<typeof actions.etoView.loadNotAuthorizedEtoViewById>,
 ): Generator<any, void, any> {
   yield put(actions.etoView.resetEtoViewData());
@@ -80,7 +85,11 @@ export function* loadNotAuthorizedEtoViewById(
     yield put(actions.etoView.setEtoViewData(etoData));
   } catch (e) {
     logger.error("Could not load eto by preview code", e);
-    notificationCenter.error(createMessage(EtoMessage.COULD_NOT_LOAD_ETO));
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(EtoMessage.COULD_NOT_LOAD_ETO),
+      ),
+    );
     yield put(actions.routing.goHome());
   }
 }

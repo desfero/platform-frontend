@@ -4,11 +4,12 @@ import BigNumber from "bignumber.js";
 
 import { hashFromIpfsLink } from "../../components/documents/utils";
 import { BankTransferFlowMessage } from "../../components/translatedMessages/messages";
-import { createMessage } from "../../components/translatedMessages/utils";
+import { createNotificationMessage } from "../../components/translatedMessages/utils";
 import { TGlobalDependencies } from "../../di/setupBindings";
 import { TKycBankTransferPurpose } from "../../lib/api/kyc/KycApi.interfaces";
 import { actions, TActionFromCreator } from "../actions";
 import { selectIsUserFullyVerified } from "../auth/selectors";
+import { webNotificationUIModuleApi } from "../notification-ui/module";
 import { neuCall, neuTakeEvery } from "../sagasUtils";
 import {
   selectBankTransferFlowReference,
@@ -23,7 +24,7 @@ function* generateReference({ apiKycService }: TGlobalDependencies): Generator<a
 }
 
 function* start(
-  { logger, notificationCenter, contractsService }: TGlobalDependencies,
+  { logger, contractsService }: TGlobalDependencies,
   action: TActionFromCreator<typeof actions.bankTransferFlow.startBankTransfer>,
 ): any {
   try {
@@ -54,7 +55,11 @@ function* start(
   } catch (e) {
     yield put(actions.bankTransferFlow.stopBankTransfer());
 
-    notificationCenter.error(createMessage(BankTransferFlowMessage.BANK_TRANSFER_FLOW_ERROR));
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(BankTransferFlowMessage.BANK_TRANSFER_FLOW_ERROR),
+      ),
+    );
 
     logger.error(`Failed to start bank transfer flow`, e);
   }

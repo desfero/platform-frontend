@@ -1,4 +1,5 @@
 import { select } from "@neufund/sagas";
+import { EWalletType } from "@neufund/shared-modules";
 
 import { TGlobalDependencies } from "../../../../di/setupBindings";
 import { LightWalletWrongPassword } from "../../../../lib/web3/light-wallet/LightWallet";
@@ -8,11 +9,7 @@ import {
   selectLightWalletFromQueryString,
   selectPreviousConnectedWallet,
 } from "../../../web3/selectors";
-import {
-  EWalletType,
-  ILightWalletMetadata,
-  ILightWalletRetrieveMetadata,
-} from "../../../web3/types";
+import { ILightWalletMetadata, ILightWalletRetrieveMetadata } from "../../../web3/types";
 import { getVaultKey } from "../utils";
 
 export async function retrieveMetadataFromVaultAPI(

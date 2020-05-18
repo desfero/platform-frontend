@@ -1,4 +1,5 @@
 import {
+  DeepPartial,
   DeepReadonly,
   Dictionary,
   EquityToken,
@@ -30,7 +31,6 @@ import {
   ValidationMessage,
 } from "../../../components/translatedMessages/messages";
 import { createMessage } from "../../../components/translatedMessages/utils";
-import { DeepPartial } from "../../../types";
 import * as YupTS from "../../yup-ts.unsafe";
 import { currencyCodeSchema, dateSchema, percentage } from "../util/customSchemas";
 import { TEtoDocumentTemplates } from "./EtoFileApi.interfaces";

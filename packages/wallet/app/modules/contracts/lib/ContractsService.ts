@@ -16,10 +16,10 @@ import { Neumark } from "../../../lib/contracts/Neumark";
 import { NeumarkFactory } from "../../../lib/contracts/NeumarkFactory";
 import { Universe } from "../../../lib/contracts/Universe";
 import { UniverseFactory } from "../../../lib/contracts/UniverseFactory";
+import * as knownInterfaces from "../../../lib/contracts/knownInterfaces.json";
 import { walletEthModuleApi } from "../../eth/module";
 import { RateOracleAdapterFactory } from "./RateOracleAdapter";
 import { privateSymbols } from "./symbols";
-import * as knownInterfaces from "../../../lib/contracts/knownInterfaces.json";
 
 /**
  * Initiates neufund smart contracts instances

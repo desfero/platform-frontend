@@ -4,6 +4,7 @@ import "./rn-addons";
 
 // import stories
 configure(() => {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   require("./stories");
 }, module);
 

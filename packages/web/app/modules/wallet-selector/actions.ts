@@ -1,7 +1,7 @@
+import { EUserType } from "@neufund/shared-modules";
 import { createActionFactory } from "@neufund/shared-utils";
 
 import { TMessage } from "../../components/translatedMessages/utils";
-import { EUserType } from "../../lib/api/users/interfaces";
 import { browserWizardActions } from "./browser-wizard/actions";
 import { ledgerWizardActions } from "./ledger-wizard/actions";
 import { lightWizardActions } from "./light-wizard/actions";

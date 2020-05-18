@@ -14,7 +14,7 @@
     "lint:fix": "concurrently -p \"[{name}]\" -n \"TSLINT/PRETTIER,TSC\" -c \"bgYellow.bold,bgMagenta.bold\" \"yarn tslint:fix && yarn format:fix\" \"yarn tsc\"",
     "prepare": "yarn build",
     "start": "tsc --watch",
-    "test": "NF_MOCHA_RUN=1 TS_NODE_PROJECT=tsconfig.spec.json mocha --require ts-node/register/transpile-only --require './config/setupTests.ts' './src/**/*.spec.ts?(x)'",
+    "test": "NF_MOCHA_RUN=1 TS_NODE_PROJECT=tsconfig.spec.json mocha --require ts-node/register/transpile-only --require jsdom-global/register --require './config/setupTests.ts' './src/**/*.spec.ts?(x)'",
     "test:watch": "yarn test --watch --watch-extensions ts,tsx",
     "tsc": "tsc --noEmit",
     "tslint": "tslint --project ./tsconfig.json --format stylish",
@@ -32,6 +32,8 @@
     "@types/react-redux": "^6.0.11",
     "@types/sinon": "^5.0.5",
     "@types/sinon-chai": "^3.2.0",
+    "@types/yup": "^0.26.0",
+    "@types/jsdom": "^12.2.3",
     "bignumber.js": "^5.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
@@ -43,11 +45,19 @@
     "react-redux": "^6.0.0",
     "sinon-chai": "^3.2.0",
     "ts-node": "6.2.0",
+    "eth-lightwallet": "https://github.com/Neufund/eth-lightwallet#eb174e6831d3b62adfde396f26d15c1b7e1ab30f",
+    "web3-utils": "^1.2.4",
+    "types-ethereumjs-util": "^0.0.5",
+    "ethereumjs-util": "^5.1.4",
+    "eth-sig-util": "^1.4.2",
     "tslib": "^1.10.0",
     "tslint": "^5.14.0",
     "tslint-eslint-rules": "^5.4.0",
     "typescript": "^3.7.3",
-    "typestrict": "^1.0.2"
+    "typestrict": "^1.0.2",
+    "jsdom": "^16.2.2",
+    "jsdom-global": "^3.0.2",
+    "yup": "^0.26.7"
   },
   "peerDependencies": {
     "@neufund/sagas": "^1.0.0",
@@ -55,6 +65,7 @@
     "bignumber.js": "^5.0.0",
     "redux": "^4.0.5",
     "tslib": "^1.10.0",
-    "react-redux": "^6.0.0"
+    "react-redux": "^6.0.0",
+    "yup": "^0.26.7"
   }
 }

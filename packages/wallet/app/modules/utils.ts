@@ -20,8 +20,10 @@ const reduxify = <T extends TReduxifyAction>(eventEmitter: EventEmitter2) => {
       error: Error | undefined,
       payload: object | undefined,
       meta: object | undefined,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ) => emitter({ type, payload, error, meta } as any);
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     eventEmitter.onAny(listener as any);
 
     return () => eventEmitter.offAny(listener);

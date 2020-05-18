@@ -26,6 +26,7 @@ import { symbols } from "./di/symbols";
 import { reduxLogger } from "./middlewares/redux-logger";
 import { actions, TAction } from "./modules/actions";
 import { initInitialState } from "./modules/init/reducer";
+import { setupWebNotificationUIModule } from "./modules/notification-ui/module";
 import { appReducers } from "./modules/reducer";
 import { rootSaga } from "./modules/sagas";
 import { IDisconnectedWeb3State, web3InitialState } from "./modules/web3/reducer";
@@ -71,6 +72,7 @@ export const setupAppModule = ({ history, config, container }: TAppModuleConfig)
     setupTokenPriceModule({
       refreshOnAction: actions.web3.newBlockArrived,
     }),
+    setupWebNotificationUIModule(),
     appModule,
   ];
 };

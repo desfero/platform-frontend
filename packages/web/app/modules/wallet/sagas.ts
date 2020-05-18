@@ -1,5 +1,5 @@
 import { delay, fork, put, select, take } from "@neufund/sagas";
-import { contractsModuleApi } from "@neufund/shared-modules";
+import { authModuleAPI, contractsModuleApi } from "@neufund/shared-modules";
 import { EthereumAddress } from "@neufund/shared-utils";
 import * as promiseAll from "promise-all";
 
@@ -88,7 +88,7 @@ function* walletBalanceWatcher(): any {
 export function* walletSagas(): any {
   yield fork(neuTakeEvery, "WALLET_LOAD_WALLET_DATA", loadWalletDataSaga);
   yield neuTakeUntil(
-    actions.auth.setUser,
+    authModuleAPI.actions.setUser,
     actions.wallet.stopWalletBalanceWatcher,
     walletBalanceWatcher,
   );

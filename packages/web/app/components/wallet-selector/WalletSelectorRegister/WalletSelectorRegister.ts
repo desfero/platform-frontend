@@ -1,7 +1,7 @@
+import { EWalletType } from "@neufund/shared-modules";
 import { branch, compose, renderComponent } from "recompose";
 
 import { selectRegisterWalletType } from "../../../modules/wallet-selector/selectors";
-import { EWalletType } from "../../../modules/web3/types";
 import { appConnect } from "../../../store";
 import { createErrorBoundary } from "../../shared/errorBoundary/ErrorBoundary.unsafe";
 import { ErrorBoundaryLayout } from "../../shared/errorBoundary/ErrorBoundaryLayout";

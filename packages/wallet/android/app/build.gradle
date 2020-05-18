@@ -206,6 +206,9 @@ dependencies {
         implementation jscFlavor
     }
 
+    implementation project(':react-native-keychain')
+    implementation project(':react-native-device-info')
+
     // `com.wix:detox:+` and `junit:junit:4.12` are used in `detox`
     androidTestImplementation('com.wix:detox:+') { transitive = true }
     androidTestImplementation 'junit:junit:4.12'

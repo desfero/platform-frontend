@@ -1,7 +1,15 @@
+import { IUser } from "@neufund/shared-modules";
+import {
+  createLightWalletWithKeyPair,
+  createUser,
+  getJWT,
+  TUserType,
+  wrappedFetch,
+} from "@neufund/shared-modules/tests";
 import { toCamelCase } from "@neufund/shared-utils";
 
 import { TEtoDataWithCompany } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
-import { IUser, OOO_TRANSACTION_TYPE, TxPendingWithMetadata } from "../../lib/api/users/interfaces";
+import { OOO_TRANSACTION_TYPE, TxPendingWithMetadata } from "../../lib/api/users-tx/interfaces";
 import { getVaultKey } from "../../modules/wallet-selector/light-wizard/utils";
 import { assertLanding } from "./assertions";
 import {
@@ -11,13 +19,9 @@ import {
   VAULT_API_ROOT,
   WALLET_STORAGE_KEY,
 } from "./constants";
-import { createLightWalletWithKeyPair } from "./createLightWalletWithKeyPair";
-import { createUser, TUserType } from "./createUser";
 import { getAgreementHash } from "./getAgreementHash";
-import { getJWT } from "./getJWT";
 import { accountFixtureByName, removePendingExternalTransaction } from "./index";
 import { tid } from "./selectors";
-import { wrappedFetch } from "./wrappedFetch";
 
 export const generateRandomEmailAddress = () =>
   `${Math.random()
@@ -69,7 +73,7 @@ export const createAndLoginNewUser = ({
       address,
       privateKey,
       walletKey,
-    } = await createLightWalletWithKeyPair(seed, hdPath);
+    } = await createLightWalletWithKeyPair(DEFAULT_PASSWORD, seed, hdPath);
 
     // set wallet data on local storage
     ls.setItem(

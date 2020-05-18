@@ -1,9 +1,9 @@
+import { EWalletSubType } from "@neufund/shared-modules";
 import { assertNever } from "@neufund/shared-utils";
 import * as React from "react";
 import { FormattedHTMLMessage, FormattedMessage } from "react-intl-phraseapp";
 
 import { externalRoutes } from "../../config/externalRoutes";
-import { EWalletSubType } from "../../modules/web3/types";
 import { TTranslatedString } from "../../types";
 import { Money } from "../shared/formatters/Money";
 import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "../shared/formatters/utils";

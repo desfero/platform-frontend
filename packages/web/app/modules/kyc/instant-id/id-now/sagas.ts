@@ -1,17 +1,14 @@
 import { fork, put } from "@neufund/sagas";
 
 import { KycFlowMessage } from "../../../../components/translatedMessages/messages";
-import { createMessage } from "../../../../components/translatedMessages/utils";
+import { createNotificationMessage } from "../../../../components/translatedMessages/utils";
 import { TGlobalDependencies } from "../../../../di/setupBindings";
 import { TKycIdNowIdentification } from "../../../../lib/api/kyc/KycApi.interfaces";
 import { actions } from "../../../actions";
+import { webNotificationUIModuleApi } from "../../../notification-ui/module";
 import { neuTakeEvery } from "../../../sagasUtils";
 
-function* startIdNow({
-  apiKycService,
-  notificationCenter,
-  logger,
-}: TGlobalDependencies): Generator<any, any, any> {
+function* startIdNow({ apiKycService, logger }: TGlobalDependencies): Generator<any, any, any> {
   try {
     const { redirectUrl }: TKycIdNowIdentification = yield apiKycService.startInstantId();
 
@@ -22,7 +19,11 @@ function* startIdNow({
   } catch (e) {
     logger.error("KYC instant id-now failed to start", e);
 
-    notificationCenter.error(createMessage(KycFlowMessage.KYC_SUBMIT_FAILED));
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(KycFlowMessage.KYC_SUBMIT_FAILED),
+      ),
+    );
   }
 }
 export function* kycIdNowSagas(): Generator<any, any, any> {

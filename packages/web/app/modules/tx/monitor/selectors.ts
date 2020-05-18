@@ -2,7 +2,7 @@ import { createSelector } from "reselect";
 
 import { ENumberInputFormat } from "../../../components/shared/formatters/utils";
 import { ETransactionDirection } from "../../../lib/api/analytics-api/interfaces";
-import { TxPendingWithMetadata, TxWithMetadata } from "../../../lib/api/users/interfaces";
+import { TxPendingWithMetadata, TxWithMetadata } from "../../../lib/api/users-tx/interfaces";
 import { TAppGlobalState } from "../../../store";
 import { ETransactionStatus } from "../../tx-history/types";
 import { ETxSenderState } from "../sender/reducer";

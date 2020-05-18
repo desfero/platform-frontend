@@ -1,12 +1,11 @@
 import { select } from "@neufund/sagas";
+import { EUserType, EWalletType } from "@neufund/shared-modules";
 
 import { userMayChooseWallet } from "../../../../components/wallet-selector/WalletSelectorLogin/utils";
 import { TGlobalDependencies } from "../../../../di/setupBindings";
-import { EUserType } from "../../../../lib/api/users/interfaces";
 import { actions, TActionFromCreator } from "../../../actions";
 import { signInUser } from "../../../auth/user/sagas";
 import { neuCall } from "../../../sagasUtils";
-import { EWalletType } from "../../../web3/types";
 import { registerForm } from "../../forms/sagas";
 import { resetWalletSelectorState } from "../../sagas";
 import { selectRegisterWalletDefaultFormValues } from "../../selectors";

@@ -1,10 +1,10 @@
-import * as yup from "yup";
 import { ILogger, noopLogger } from "@neufund/shared-modules";
+import * as yup from "yup";
 
 import { AppStorage } from "./AppStorage";
 import { AsyncStorageProvider } from "./AsyncStorageProvider";
-import { StorageSchema } from "./StorageSchema";
 import { StorageItem } from "./StorageItem";
+import { StorageSchema } from "./StorageSchema";
 
 describe("AppStorage", () => {
   const PersonSchema = yup.object().shape({
@@ -52,8 +52,12 @@ describe("AppStorage", () => {
       name: "Clark Kent",
       age: 33,
     };
-    const item: StorageItem<Person> = await storage.setItem(key, value);
-    expect(item.data).toEqual(value);
+
+    await storage.setItem(key, value);
+
+    const item = await storage.getItem(key);
+
+    expect(item?.data).toEqual(value);
   });
 
   it("should get data item in storage", async () => {
@@ -65,7 +69,7 @@ describe("AppStorage", () => {
 
     await storage.setItem(key, value);
     const item = await storage.getItem(key);
-    expect(item && item.data).toEqual(value);
+    expect(item?.data).toEqual(value);
   });
 
   it("should remove data item from the storage", async () => {
@@ -74,14 +78,17 @@ describe("AppStorage", () => {
       name: "Clark Kent",
       age: 33,
     };
+
     await storage.setItem(key, value);
+
     const item = await storage.getItem(key);
 
-    expect(item && item.data).toEqual(value);
+    expect(item?.data).toEqual(value);
 
     await storage.removeItem(key);
 
     const removedItem = await storage.getItem(key);
-    expect(removedItem).toBeNull();
+
+    expect(removedItem).toBeUndefined();
   });
 });

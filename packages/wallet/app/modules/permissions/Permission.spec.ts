@@ -1,6 +1,7 @@
-import { Permissions } from "./Permissions";
 import { noopLogger } from "@neufund/shared-modules";
 import { RESULTS } from "react-native-permissions/lib/commonjs/constants";
+
+import { Permissions } from "./Permissions";
 
 describe("Permissions", () => {
   let permissions: Permissions;

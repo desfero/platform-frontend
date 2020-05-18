@@ -1,4 +1,5 @@
-import { EUserType } from "../../../lib/api/users/interfaces";
+import { EUserType } from "@neufund/shared-modules";
+
 import { appRoutes } from "../../appRoutes";
 
 export const userMayChooseWallet = (userType: EUserType) =>

@@ -1,8 +1,8 @@
+import { EWalletSubType } from "@neufund/shared-modules";
 import { EthereumNetworkId, promisify } from "@neufund/shared-utils";
 import { injectable } from "inversify";
 import * as Web3 from "web3";
 
-import { EWalletSubType } from "../../../modules/web3/types";
 import { Web3Adapter } from "../Web3Adapter";
 import {
   BrowserWallet,

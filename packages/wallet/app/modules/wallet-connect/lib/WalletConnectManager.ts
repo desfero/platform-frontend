@@ -1,9 +1,9 @@
 import { coreModuleApi, ILogger } from "@neufund/shared-modules";
 import { EthereumAddress } from "@neufund/shared-utils";
-import { interfaces } from "inversify";
 import WalletConnect from "@walletconnect/react-native";
 import { IClientMeta } from "@walletconnect/types";
 import { EventEmitter2 } from "eventemitter2";
+import { interfaces } from "inversify";
 
 import { unwrapPromise } from "../../../utils/promiseUtils";
 import { WalletConnectModuleError } from "../errors";
@@ -26,6 +26,7 @@ import {
   ExtractWalletConnectManagerEmitData,
   TWalletConnectUri,
 } from "./types";
+import { parseRPCPayload } from "./utils";
 
 class WalletConnectManagerError extends WalletConnectModuleError {
   constructor(message: string) {
@@ -118,37 +119,39 @@ class WalletConnectManager extends EventEmitter2 {
           return;
         }
 
-        if (!WalletConnectSessionJSONRPCSchema.isValidSync(payload)) {
+        try {
+          const parsedPayload = parseRPCPayload(WalletConnectSessionJSONRPCSchema, payload);
+
+          const peerData = parsedPayload.params[0];
+
+          const peer: TWalletConnectPeer = {
+            id: peerData.peerId,
+            meta: peerData.peerMeta,
+          };
+
+          const approveSession = (chainId: number, address: EthereumAddress) => {
+            this.walletConnect.approveSession({
+              chainId,
+              accounts: [address],
+            });
+
+            this.initializeListeners();
+          };
+
+          const rejectSession = () => {
+            this.walletConnect.rejectSession();
+          };
+
+          resolve({
+            peer,
+            approveSession,
+            rejectSession,
+          });
+        } catch {
           reject(new InvalidJSONRPCPayloadError(SESSION_REQUEST_EVENT));
 
           return;
         }
-
-        const peerData = payload.params[0];
-
-        const peer: TWalletConnectPeer = {
-          id: peerData.peerId,
-          meta: peerData.peerMeta,
-        };
-
-        const approveSession = (chainId: number, address: EthereumAddress) => {
-          this.walletConnect.approveSession({
-            chainId,
-            accounts: [address],
-          });
-
-          this.initializeListeners();
-        };
-
-        const rejectSession = () => {
-          this.walletConnect.rejectSession();
-        };
-
-        resolve({
-          peer,
-          approveSession,
-          rejectSession,
-        });
       });
     });
   }
@@ -171,33 +174,40 @@ class WalletConnectManager extends EventEmitter2 {
       }
 
       switch (payload.method) {
-        case ETH_SIGN_RPC_METHOD: {
-          if (!WalletConnectEthSignJSONRPCSchema.isValidSync(payload)) {
+        case ETH_SIGN_RPC_METHOD:
+          try {
+            const parsedPayload = parseRPCPayload(WalletConnectEthSignJSONRPCSchema, payload);
+
+            await this.handleCallSigningRequest(
+              EWalletConnectManagerEvents.SIGN_MESSAGE,
+              parsedPayload.id,
+              {
+                digest: parsedPayload.params[1],
+              },
+            );
+          } catch (e) {
             this.handleCallSigningError(payload.id, new InvalidJSONRPCPayloadError(payload.method));
-
-            return;
           }
-
-          this.handleCallSigningRequest(EWalletConnectManagerEvents.SIGN_MESSAGE, payload.id, {
-            digest: payload.params[1],
-          });
-
           break;
-        }
 
-        case ETH_SEND_TRANSACTION_RPC_METHOD: {
-          if (!WalletConnectEthSendTransactionJSONRPCSchema.isValidSync(payload)) {
+        case ETH_SEND_TRANSACTION_RPC_METHOD:
+          try {
+            const parsedPayload = parseRPCPayload(
+              WalletConnectEthSendTransactionJSONRPCSchema,
+              payload,
+            );
+
+            await this.handleCallSigningRequest(
+              EWalletConnectManagerEvents.SEND_TRANSACTION,
+              parsedPayload.id,
+              {
+                transaction: parsedPayload.params[0],
+              },
+            );
+          } catch (e) {
             this.handleCallSigningError(payload.id, new InvalidJSONRPCPayloadError(payload.method));
-
-            return;
           }
-
-          this.handleCallSigningRequest(EWalletConnectManagerEvents.SEND_TRANSACTION, payload.id, {
-            transaction: payload.params[0],
-          });
-
           break;
-        }
 
         default:
           this.handleCallSigningError(payload.id, new InvalidRPCMethodError(payload.method));

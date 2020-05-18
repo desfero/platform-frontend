@@ -314,9 +314,9 @@ const EtoDashboard = compose<React.FunctionComponent>(
   createErrorBoundary(ErrorBoundaryLayout),
   appConnect<IStateProps, IDispatchProps>({
     stateToProps: s => ({
-      verifiedEmail: selectVerifiedUserEmail(s.auth),
+      verifiedEmail: selectVerifiedUserEmail(s),
       backupCodesVerified: selectBackupCodesVerified(s),
-      isLightWallet: selectIsLightWallet(s.web3),
+      isLightWallet: selectIsLightWallet(s),
       userHasKycAndEmailVerified: userHasKycAndEmailVerified(s),
       requestStatus: selectKycRequestStatus(s),
       eto: selectIssuerEtoWithCompanyAndContract(s),

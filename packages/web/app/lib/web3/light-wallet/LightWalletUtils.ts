@@ -28,12 +28,12 @@ export interface ILightWalletInstance {
   getAddresses: () => string[];
 }
 
-export const deserializeLightWalletVault = async (
+export const deserializeLightWalletVault = (
   serializedWallet: string,
   salt: string,
-): Promise<ILightWalletInstance> => {
+): ILightWalletInstance => {
   try {
-    return await LightWalletProvider.keystore.deserialize(serializedWallet, salt);
+    return LightWalletProvider.keystore.deserialize(serializedWallet, salt);
   } catch (e) {
     throw new LightDeserializeError();
   }
@@ -101,7 +101,7 @@ export const getWalletKeyFromSaltAndPassword = async (
     const keyFromSaltAndPassword = promisify<Uint8Array>(
       LightWalletProvider.keystore.deriveKeyFromPasswordAndSalt,
     );
-    return await keyFromSaltAndPassword(password, salt, keySize);
+    return keyFromSaltAndPassword(password, salt, keySize);
   } catch (e) {
     throw new LightWrongPasswordSaltError();
   }
@@ -126,10 +126,8 @@ export const getWalletSeed = async (
   password: string,
 ): Promise<string> => {
   try {
-    const keyFromPassword = promisify<Uint8Array>(
-      lightWalletInstance.keyFromPassword.bind(lightWalletInstance),
-    );
-    return lightWalletInstance.getSeed(await keyFromPassword(password));
+    const key = await getWalletKey(lightWalletInstance, password);
+    return lightWalletInstance.getSeed(key);
   } catch (e) {
     throw new LightWrongPasswordSaltError();
   }
@@ -166,7 +164,7 @@ export const signMessage = async (
     customSalt,
   });
 
-  const deserializedInstance = await deserializeLightWalletVault(walletInstance, customSalt);
+  const deserializedInstance = deserializeLightWalletVault(walletInstance, customSalt);
   const addresses = deserializedInstance.getAddresses();
   const msgHash = hashPersonalMessage(toBuffer(addHexPrefix(data)));
   const rawSignedMsg = await LightWalletProvider.signing.signMsgHash(
@@ -221,7 +219,7 @@ export const getWalletAddress = async (
       recoverSeed,
       customSalt,
     });
-    const deserializedVault = await deserializeLightWalletVault(walletInstance, customSalt);
+    const deserializedVault = deserializeLightWalletVault(walletInstance, customSalt);
     return Web3Utils.toChecksumAddress(`0x${deserializedVault.addresses[0]}`);
   } catch (e) {
     throw new LightWrongPasswordSaltError();

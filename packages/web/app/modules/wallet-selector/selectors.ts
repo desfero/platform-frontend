@@ -1,10 +1,10 @@
+import { EUserType } from "@neufund/shared-modules";
 import { DeepReadonly, DeepReadonlyObject } from "@neufund/shared-utils";
 import { RouterState } from "connected-react-router";
 import { createSelector } from "reselect";
 
 import { appRoutes } from "../../components/appRoutes";
 import { TMessage } from "../../components/translatedMessages/utils";
-import { EUserType } from "../../lib/api/users/interfaces";
 import { TAppGlobalState } from "../../store";
 import {
   ECommonWalletRegistrationFlowState,

@@ -28,7 +28,7 @@ describe("StorageSchema", () => {
       name: yup.string().required(),
     });
     const testValue = {
-      name: {} as string,
+      name: "foo",
     };
     const schema = new StorageSchema(1, "Test", yupSchema);
 

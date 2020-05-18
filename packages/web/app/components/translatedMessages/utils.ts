@@ -1,6 +1,7 @@
 import { DeepReadonly } from "@neufund/shared-utils";
 
-import { TranslatedMessageType } from "./messages";
+import { TTranslatedString } from "../../types";
+import { getMessageTranslation, TranslatedMessageType } from "./messages";
 
 export type TMessage = DeepReadonly<{
   messageType: TranslatedMessageType;
@@ -11,6 +12,18 @@ export const createMessage = (messageType: TranslatedMessageType, messageData?: 
   messageType,
   messageData,
 });
+
+/**
+ * Used to create message part of the payload for notification module actions
+ */
+export const createNotificationMessage = (
+  messageType: TranslatedMessageType,
+  messageData?: any,
+): TTranslatedString =>
+  getMessageTranslation({
+    messageType,
+    messageData,
+  });
 
 export const formatMatchingFieldNames = (messageData: string[]) => {
   if (messageData.length < 2) {

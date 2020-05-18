@@ -7,7 +7,6 @@ import { TTranslatedString } from "../../../types";
 import { FormDeprecated, FormField } from "../../shared/forms";
 
 interface IStateProps {
-  isUnlocked: boolean;
   inputLabel?: TTranslatedString;
 }
 
@@ -49,20 +48,9 @@ const EnhancedForm = withFormik<IProps, IFormValues>({
   handleSubmit: (values, { props }) => props.onAccept(values.password),
 })(AccessLightWalletForm);
 
-export const AccessLightWalletPrompt: React.FunctionComponent<IProps> = props =>
-  props.isUnlocked ? (
-    <div className="mt-3">
-      <Button
-        onClick={() => props.onAccept()}
-        layout={EButtonLayout.LINK}
-        data-test-id="access-light-wallet-prompt-accept-button"
-      >
-        <FormattedMessage id="modal.light-wallet.button.accept" />
-      </Button>
-    </div>
-  ) : (
-    <div data-test-id="access-light-wallet-locked">
-      <p>{props.inputLabel || <FormattedMessage id="modal.light-wallet.message" />}</p>
-      <EnhancedForm {...props} />
-    </div>
-  );
+export const AccessLightWalletPrompt: React.FunctionComponent<IProps> = props => (
+  <div data-test-id="access-light-wallet-locked">
+    <p>{props.inputLabel || <FormattedMessage id="modal.light-wallet.message" />}</p>
+    <EnhancedForm {...props} />
+  </div>
+);

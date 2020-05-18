@@ -1,10 +1,22 @@
-import { EthereumHDPath, EthereumAddress, toEthereumAddress } from "@neufund/shared-utils";
+import { coreModuleApi, ILogger } from "@neufund/shared-modules";
+import {
+  EthereumHDPath,
+  EthereumAddressWithChecksum,
+  toEthereumChecksumAddress,
+} from "@neufund/shared-utils";
 import { utils } from "ethers";
 import { KeyPair } from "ethers/utils/secp256k1";
-import { injectable } from "inversify";
+import { injectable, inject } from "inversify";
 
+import { DeviceInformation } from "../../device-information/DeviceInformation";
+import { deviceInformationModuleApi } from "../../device-information/module";
 import { EthModuleError } from "../errors";
-import { SecureStorage, TSecureReference } from "./SecureStorage";
+import {
+  ISecureStorage,
+  TSecureReference,
+  AsyncSecureStorage,
+  KeychainSecureStorage,
+} from "./SecureStorage";
 import { isMnemonic, isPrivateKey } from "./utils";
 
 class EthSecureEnclaveError extends EthModuleError {
@@ -44,14 +56,52 @@ class FailedToDerivePrivateKey extends EthSecureEnclaveError {
  */
 @injectable()
 class EthSecureEnclave {
-  private readonly secureStorage: SecureStorage;
+  private secureStorage: ISecureStorage | null = null;
+  private readonly logger: ILogger;
+  private readonly deviceInformation: DeviceInformation;
 
-  constructor() {
-    this.secureStorage = new SecureStorage();
+  constructor(
+    @inject(coreModuleApi.symbols.logger) logger: ILogger,
+    @inject(deviceInformationModuleApi.symbols.deviceInformation)
+    deviceInformation: DeviceInformation,
+  ) {
+    this.logger = logger;
+    this.deviceInformation = deviceInformation;
   }
 
   /**
-   * Get's the secret from the SecureStorage.
+   * Gets or creates the secures storage
+   */
+  async getStorage(): Promise<ISecureStorage> {
+    if (this.secureStorage) {
+      return this.secureStorage;
+    }
+
+    const platform = this.deviceInformation.getPlatform();
+    // on the iOS simulator we have to simulate the storage, real devices and the android emulator
+    // can emulate this
+    const useAsyncStorageFallback =
+      __DEV__ && (await this.deviceInformation.isEmulator()) && platform === "ios";
+
+    if (useAsyncStorageFallback) {
+      this.logger.info("Creating a non secure async storage");
+
+      this.secureStorage = new AsyncSecureStorage();
+    } else {
+      this.logger.info("Creating a secure storage");
+
+      // on android we can't use biometry at this moment, as there is a bug in react-native-keychain which
+      // prevents it from working with the android face recognition. Once this is solved, biometry should
+      // always be used.
+      // https://github.com/oblador/react-native-keychain/issues/318
+      const useBiometry = platform !== "android";
+      this.secureStorage = new KeychainSecureStorage(useBiometry);
+    }
+    return this.secureStorage;
+  }
+
+  /**
+   * Gets the secret from the SecureStorage.
    *
    * @note This operation is unsafe as it exposes secret to the device memory
    *
@@ -59,8 +109,10 @@ class EthSecureEnclave {
    *
    * @returns A secret value saved under the provided reference
    */
-  unsafeGetSecret(reference: TSecureReference): Promise<string | null> {
-    return this.secureStorage.getSecret(reference);
+  async unsafeGetSecret(reference: TSecureReference): Promise<string | null> {
+    this.logger.info(`Retrieving secret for ref ${reference.substring(0, 4)}`);
+    const storage = await this.getStorage();
+    return storage.getSecret(reference);
   }
 
   /**
@@ -68,7 +120,9 @@ class EthSecureEnclave {
    * @param reference - A reference to the secret
    */
   async unsafeDeleteSecret(reference: TSecureReference): Promise<void> {
-    await this.secureStorage.deleteSecret(reference);
+    this.logger.info(`Deleting secret for ref ${reference.substring(0, 4)}`);
+    const storage = await this.getStorage();
+    await storage.deleteSecret(reference);
   }
 
   /**
@@ -79,7 +133,10 @@ class EthSecureEnclave {
    * @returns A reference to the secret
    */
   async addSecret(secret: string): Promise<TSecureReference> {
-    return await this.secureStorage.setSecret(secret);
+    const storage = await this.getStorage();
+    const reference = await storage.setSecret(secret);
+    this.logger.info(`Added secret for ref ${reference.substring(0, 4)}`);
+    return reference;
   }
 
   /**
@@ -91,7 +148,8 @@ class EthSecureEnclave {
    * @param reference - Secret reference to the private key
    *
    */
-  async getAddress(reference: TSecureReference): Promise<EthereumAddress> {
+  async getAddress(reference: TSecureReference): Promise<EthereumAddressWithChecksum> {
+    this.logger.info(`Getting address for ref ${reference.substring(0, 4)}`);
     const secret = await this.unsafeGetSecret(reference);
 
     if (secret === null) {
@@ -102,7 +160,7 @@ class EthSecureEnclave {
       throw new SecretNotAPrivateKeyError();
     }
 
-    return toEthereumAddress(utils.computeAddress(secret));
+    return toEthereumChecksumAddress(utils.computeAddress(secret));
   }
 
   /**
@@ -173,7 +231,8 @@ class EthSecureEnclave {
    */
   async createRandomMnemonic(): Promise<TSecureReference> {
     // 32 bytes equals to 24 words
-    const bytes = utils.randomBytes(32);
+    const BYTES_IN_WORDS = 32;
+    const bytes = utils.randomBytes(BYTES_IN_WORDS);
 
     const randomMnemonic = utils.HDNode.entropyToMnemonic(bytes);
 

@@ -1,14 +1,14 @@
-import { injectable, inject } from "inversify";
 import { coreModuleApi, ILogger } from "@neufund/shared-modules";
+import { injectable, inject } from "inversify";
 
 import { symbols } from "../symbols";
 import { IStorageItem } from "../types/IStorageItem";
+import { IStorageSchema } from "../types/IStorageSchema";
+import { ApplicationStorageError } from "./ApplicationStorageError";
 import { AsyncStorageProvider } from "./AsyncStorageProvider";
 import { SchemaMismatchError } from "./SchemaMismatchError";
 import { StorageItem } from "./StorageItem";
 import { StorageMetaData } from "./StorageMetaData";
-import { ApplicationStorageError } from "./ApplicationStorageError";
-import { IStorageSchema } from "../types/IStorageSchema";
 
 /**
  * A class representing an application storage
@@ -61,7 +61,7 @@ class AppStorage<DataType> {
    * @param {string} key - Key to access the value.
    * @param {string} value - Value to save.
    */
-  async setItem(key: string, value: DataType): Promise<IStorageItem<DataType>> {
+  async setItem(key: string, value: DataType): Promise<void> {
     this.logger.info(`Setting a storage item for: ${key}`);
 
     // get the schema by id
@@ -96,7 +96,6 @@ class AppStorage<DataType> {
     // save data to the storage provider
     try {
       await this.provider.setItem(`${this.storageKey}:${key}`, data);
-      return storageItem;
     } catch (error) {
       throw new ApplicationStorageError(error);
     }
@@ -106,14 +105,17 @@ class AppStorage<DataType> {
    * Get item from storage.
    * @param {string} key - Key to access the value.
    */
-  async getItem(key: string): Promise<IStorageItem<DataType> | null> {
+  async getItem(key: string): Promise<IStorageItem<DataType> | undefined> {
     this.logger.info(`Getting a storage item for: ${key}`);
 
     let value;
     try {
       // get a raw json string from the storage provider
       value = await this.provider.getItem(`${this.storageKey}:${key}`);
-      if (!value) return null;
+
+      if (!value) {
+        return undefined;
+      }
     } catch (error) {
       throw new ApplicationStorageError(error);
     }
@@ -154,11 +156,7 @@ class AppStorage<DataType> {
   async removeItem(key: string): Promise<void> {
     this.logger.info(`Removing a storage item for: ${key}`);
 
-    try {
-      await this.provider.removeItem(`${this.storageKey}:${key}`);
-    } catch (error) {
-      throw error;
-    }
+    await this.provider.removeItem(`${this.storageKey}:${key}`);
   }
 
   /**
@@ -167,11 +165,7 @@ class AppStorage<DataType> {
   async clear(): Promise<void> {
     this.logger.info(`Cleaning the storage`);
 
-    try {
-      await this.provider.clear();
-    } catch (error) {
-      throw error;
-    }
+    await this.provider.clear();
   }
 }
 

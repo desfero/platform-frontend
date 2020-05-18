@@ -50,7 +50,7 @@ const Kyc = compose<IStateProps & IDispatchProps, {}>(
       instantIdStatus: selectKycInstantIdStatus(state),
       idNowRedirectUrl: selectKycIdNowRedirectUrl(state),
       requestType: selectKycRequestType(state),
-      hasVerifiedEmail: selectIsUserEmailVerified(state.auth),
+      hasVerifiedEmail: selectIsUserEmailVerified(state),
       isKycFlowBlockedByRegion: selectIsKycFlowBlockedByRegion(state),
     }),
     dispatchToProps: dispatch => ({

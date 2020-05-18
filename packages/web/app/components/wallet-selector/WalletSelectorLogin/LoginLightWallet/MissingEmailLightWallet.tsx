@@ -1,8 +1,8 @@
 import { ButtonInline } from "@neufund/design-system";
+import { EWalletType } from "@neufund/shared-modules";
 import * as React from "react";
 import { FormattedHTMLMessage, FormattedMessage } from "react-intl-phraseapp";
 
-import { EWalletType } from "../../../../modules/web3/types";
 import { WalletChooser } from "../../shared/WalletChooser";
 
 import mailLink from "../../../../assets/img/login-link.svg";

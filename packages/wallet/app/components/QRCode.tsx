@@ -1,5 +1,6 @@
 import React from "react";
 import { compose } from "recompose";
+
 import { walletConnectActions } from "../modules/wallet-connect/actions";
 import { appConnect } from "../store/utils";
 import { QRCodeScanner } from "./shared/qr-code-scanner/QRCodeScanner";

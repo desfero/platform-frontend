@@ -6,6 +6,7 @@ import {
   View,
   TouchableHighlight,
 } from "react-native";
+
 import { ANDROID_VERSION_LOLLIPOP } from "../../config/constants";
 
 type TExternalProps = React.ComponentProps<typeof TouchableWithoutFeedback> & {
@@ -36,8 +37,11 @@ const Touchable = React.forwardRef<TouchableHighlight, TExternalProps>(
       );
     }
 
+    // TODO: There is a bug in react-native were active styles are not removed until animation is done when button is moving from enabled to disabled state
+    //       Therefore for now we just force to remount component
     return (
       <TouchableHighlight
+        key={props.disabled ? "refresh" : undefined}
         ref={ref}
         activeOpacity={1}
         underlayColor={activeColor}

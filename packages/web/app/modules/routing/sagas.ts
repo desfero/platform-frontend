@@ -1,9 +1,9 @@
 import { Effect, fork, put, select } from "@neufund/sagas";
+import { EUserType } from "@neufund/shared-modules";
 import { LocationChangeAction, RouterState } from "connected-react-router";
 import { match } from "react-router";
 
 import { TGlobalDependencies } from "../../di/setupBindings";
-import { EUserType } from "../../lib/api/users/interfaces";
 import { actions, TActionFromCreator } from "../actions";
 import { selectIsAuthorized, selectUserType } from "../auth/selectors";
 import { waitForAppInit } from "../init/sagas";

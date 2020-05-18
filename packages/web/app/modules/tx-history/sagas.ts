@@ -3,7 +3,7 @@ import { EthereumAddressWithChecksum, subtractBigNumbers } from "@neufund/shared
 
 import { ECurrency } from "../../components/shared/formatters/utils";
 import { ETxHistoryMessage } from "../../components/translatedMessages/messages";
-import { createMessage } from "../../components/translatedMessages/utils";
+import { createNotificationMessage } from "../../components/translatedMessages/utils";
 import { TransactionDetailsModal } from "../../components/wallet/transactions-history/TransactionDetailsModal";
 import { TGlobalDependencies } from "../../di/setupBindings";
 import {
@@ -13,6 +13,7 @@ import {
 } from "../../lib/api/analytics-api/interfaces";
 import { TAppGlobalState } from "../../store";
 import { actions, TActionFromCreator } from "../actions";
+import { webNotificationUIModuleApi } from "../notification-ui/module";
 import { neuCall, neuTakeLatest, neuTakeUntil } from "../sagasUtils";
 import { selectEurEquivalent } from "../shared/tokenPrice/selectors";
 import { selectEthereumAddress } from "../web3/selectors";
@@ -295,7 +296,6 @@ export function* mapAnalyticsApiTransactionsResponse(
 }
 
 export function* loadTransactionsHistoryNext({
-  notificationCenter,
   logger,
   analyticsApi,
 }: TGlobalDependencies): Generator<any, any, any> {
@@ -317,14 +317,17 @@ export function* loadTransactionsHistoryNext({
 
     yield put(actions.txHistory.appendTransactions(processedTransactions, newLastTransactionId));
   } catch (e) {
-    notificationCenter.error(createMessage(ETxHistoryMessage.TX_HISTORY_FAILED_TO_LOAD_NEXT));
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(ETxHistoryMessage.TX_HISTORY_FAILED_TO_LOAD_NEXT),
+      ),
+    );
 
     logger.error("Error while loading next page of transaction history", e);
   }
 }
 
 export function* loadTransactionsHistory({
-  notificationCenter,
   logger,
   analyticsApi,
 }: TGlobalDependencies): Generator<any, any, any> {
@@ -347,7 +350,11 @@ export function* loadTransactionsHistory({
 
     yield put(actions.txHistory.startWatchingForNewTransactions());
   } catch (e) {
-    notificationCenter.error(createMessage(ETxHistoryMessage.TX_HISTORY_FAILED_TO_LOAD));
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(ETxHistoryMessage.TX_HISTORY_FAILED_TO_LOAD),
+      ),
+    );
 
     logger.error("Error while loading transaction history", e);
 

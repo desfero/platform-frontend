@@ -1,7 +1,7 @@
 import {
   baseGray,
   baseWhite,
-  blueyGrey,
+  blueyGray,
   baseIron,
   baseSilver,
   baseYellow,
@@ -14,6 +14,8 @@ import {
   baseOrange,
   silverLighter1,
   silverLighter2,
+  darkBlueGray2,
+  darkBlueGray1,
 } from "../../styles/colors";
 import { IColorSystem } from "../types";
 
@@ -27,6 +29,7 @@ const lightColorSystem: IColorSystem = {
     white: baseWhite,
     green: baseGreen,
     red: baseRed,
+    blueGray: blueyGray,
   },
   accent: {
     yellowDarker: yellowDarker1,
@@ -35,7 +38,8 @@ const lightColorSystem: IColorSystem = {
     grayLighter4: grayLighter4,
     silverLighter: silverLighter1,
     silverLighter2: silverLighter2,
-    blueGray: blueyGrey,
+    blueGrayDarker: darkBlueGray1,
+    blueGrayDarker2: darkBlueGray2,
   },
 };
 

@@ -1,22 +1,23 @@
-import { toEthereumAddress } from "@neufund/shared-utils";
 import { noopLogger } from "@neufund/shared-modules";
+import { toEthereumAddress } from "@neufund/shared-utils";
 import WalletConnectMock from "@walletconnect/react-native";
 import { EventEmitter2 } from "eventemitter2";
 import { EventEmitter } from "events";
-import { EWalletConnectManagerEvents, TWalletConnectManagerEmit } from "./types";
 
-import { toWalletConnectUri } from "./utils";
 import {
   InvalidJSONRPCPayloadError,
   InvalidRPCMethodError,
   WalletConnectManager,
 } from "./WalletConnectManager";
+import { EWalletConnectManagerEvents, TWalletConnectManagerEmit } from "./types";
+import { toWalletConnectUri } from "./utils";
 
 const promisifyEvent = <T extends EWalletConnectManagerEvents>(emitter: EventEmitter2, type: T) => {
   return new Promise<Extract<TWalletConnectManagerEmit, { type: T }>>(resolve => {
     emitter.once(type, (error, payload, meta) => {
       // given that we don't have a proper typings for connected keys
       // for tests purpose we can just force cast
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       resolve({
         type,
         payload,
@@ -28,6 +29,7 @@ const promisifyEvent = <T extends EWalletConnectManagerEvents>(emitter: EventEmi
 };
 
 const mockWalletConnect = <T extends EventEmitter>(walletConnectInstance: T): T => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (WalletConnectMock as any).mockReturnValue(walletConnectInstance);
 
   return walletConnectInstance;
@@ -307,7 +309,7 @@ describe("WalletConnectManager", () => {
       });
     });
 
-    it("should approve eth_sendTransaction method", async done => {
+    it("should strip unknown properties and approve eth_sendTransaction method", async done => {
       const { mockInstance, walletConnectManager } = await approveSession(new ApproveRequestMock());
 
       const transactionHash = "tx hash";
@@ -320,11 +322,17 @@ describe("WalletConnectManager", () => {
         data: "0x",
       };
 
+      const transactionFromRpc = {
+        ...transaction,
+        foo: "bar",
+        quiz: "baz",
+      };
+
       const validEthSignJsonRpc = {
         id: 1,
         jsonrpc: "2.0",
         method: "eth_sendTransaction",
-        params: [transaction],
+        params: [transactionFromRpc],
       };
 
       setTimeout(() => {

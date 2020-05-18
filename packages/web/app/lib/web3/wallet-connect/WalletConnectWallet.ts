@@ -1,11 +1,11 @@
-import { ESignerType } from "@neufund/shared-modules";
+import { ESignerType, EWalletSubType, EWalletType } from "@neufund/shared-modules";
 import { EthereumAddressWithChecksum, safeSetTimeout } from "@neufund/shared-utils";
 import { IClientMeta, IConnector } from "@walletconnect/types";
 import { addHexPrefix, hashPersonalMessage, toBuffer } from "ethereumjs-util";
 import * as hex2ascii from "hex2ascii";
 import { TxData } from "web3";
 
-import { EWalletSubType, EWalletType, IWalletConnectMetadata } from "../../../modules/web3/types";
+import { IWalletConnectMetadata } from "../../../modules/web3/types";
 import { WalletError } from "../errors";
 import { IPersonalWallet } from "../PersonalWeb3";
 import { Web3Adapter } from "../Web3Adapter";
@@ -114,6 +114,8 @@ export class WalletConnectWallet implements IPersonalWallet {
   public isUnlocked(): boolean {
     return true;
   }
+
+  public unlock = (_: string) => Promise.reject();
 
   public async unplug(): Promise<void> {
     if (this.walletConnect) {

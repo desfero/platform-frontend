@@ -1,7 +1,7 @@
 import { all, call, fork, put, select, take } from "@neufund/sagas";
 
 import { EtoMessage } from "../../../components/translatedMessages/messages";
-import { createMessage } from "../../../components/translatedMessages/utils";
+import { createNotificationMessage } from "../../../components/translatedMessages/utils";
 import { TGlobalDependencies } from "../../../di/setupBindings";
 import { actions } from "../../actions";
 import { selectIsUserVerifiedOnBlockchain } from "../../kyc/selectors";
@@ -10,6 +10,7 @@ import {
   selectActiveNomineeEto,
   selectNomineeActiveEtoPreviewCode,
 } from "../../nominee-flow/selectors";
+import { webNotificationUIModuleApi } from "../../notification-ui/module";
 import { neuCall, neuTakeEvery } from "../../sagasUtils";
 import {
   calculateCampaignOverviewDataIssuerNominee,
@@ -17,10 +18,7 @@ import {
 } from "../shared/sagas";
 import { EEtoViewType, TCampaignOverviewData } from "../shared/types";
 
-export function* loadNomineeEtoView({
-  logger,
-  notificationCenter,
-}: TGlobalDependencies): Generator<any, void, any> {
+export function* loadNomineeEtoView({ logger }: TGlobalDependencies): Generator<any, void, any> {
   yield put(actions.etoView.resetEtoViewData());
   try {
     let activeNomineeEtoPreviewCode = yield select(selectNomineeActiveEtoPreviewCode);
@@ -61,7 +59,11 @@ export function* loadNomineeEtoView({
     }
   } catch (e) {
     logger.error("Could not load nominee eto", e);
-    notificationCenter.error(createMessage(EtoMessage.COULD_NOT_LOAD_ETO_PREVIEW));
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(EtoMessage.COULD_NOT_LOAD_ETO_PREVIEW),
+      ),
+    );
     yield put(actions.routing.goToDashboard());
   }
 }

@@ -1,8 +1,8 @@
+import { EWalletType } from "@neufund/shared-modules";
 import * as cn from "classnames";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
-import { EWalletType } from "../../../../../modules/web3/types";
 import { WalletChooser } from "../../../shared/WalletChooser";
 import { TStateProps } from "./RestoreLightWallet";
 

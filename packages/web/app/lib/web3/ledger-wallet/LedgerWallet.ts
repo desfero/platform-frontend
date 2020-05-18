@@ -1,9 +1,9 @@
-import { ESignerType } from "@neufund/shared-modules";
+import { ESignerType, EWalletSubType, EWalletType } from "@neufund/shared-modules";
 import { EthereumAddressWithChecksum } from "@neufund/shared-utils";
 import { addHexPrefix, toBuffer } from "ethereumjs-util";
 import * as Web3 from "web3";
 
-import { EWalletSubType, EWalletType, ILedgerWalletMetadata } from "../../../modules/web3/types";
+import { ILedgerWalletMetadata } from "../../../modules/web3/types";
 import { IPersonalWallet } from "../PersonalWeb3";
 import { Web3Adapter } from "../Web3Adapter";
 import { SignerRejectConfirmationError, SignerTimeoutError } from "../Web3Manager/Web3Manager";
@@ -95,4 +95,7 @@ export class LedgerWallet implements IPersonalWallet {
   public isUnlocked = (): boolean => true;
 
   public unplug = () => Promise.resolve();
+
+  // ledger wallet is by default unlocked
+  public unlock = (_: string) => Promise.reject();
 }

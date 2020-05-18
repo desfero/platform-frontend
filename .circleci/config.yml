@@ -76,6 +76,8 @@ jobs:
       # Unit Tests
       - run: yarn workspace @neufund/shared-utils test
       - run: yarn workspace @neufund/web test
+      - run: yarn workspace @neufund/shared-modules test
+      - run: yarn workspace @neufund/shared-utils test
 
       - persist_to_workspace:
           root: /home/circleci/app/packages/web

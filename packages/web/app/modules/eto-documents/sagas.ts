@@ -3,7 +3,10 @@ import { EJwtPermissions } from "@neufund/shared-modules";
 import { nonNullable } from "@neufund/shared-utils";
 
 import { EtoDocumentsMessage, IpfsMessage } from "../../components/translatedMessages/messages";
-import { createMessage } from "../../components/translatedMessages/utils";
+import {
+  createMessage,
+  createNotificationMessage,
+} from "../../components/translatedMessages/utils";
 import { TGlobalDependencies } from "../../di/setupBindings";
 import { EEtoState } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { FileAlreadyExists } from "../../lib/api/eto/EtoFileApi";
@@ -23,13 +26,14 @@ import {
 } from "../eto-flow/selectors";
 import { TEtoWithCompanyAndContractReadonly } from "../eto/types";
 import { downloadLink } from "../immutable-file/utils";
+import { webNotificationUIModuleApi } from "../notification-ui/module";
 import { neuCall, neuTakeEvery } from "../sagasUtils";
 import { selectEthereumAddress } from "../web3/selectors";
 import { selectEtoState } from "./selectors";
 import { getDocumentByType } from "./utils";
 
 export function* generateDocumentFromTemplate(
-  { apiImmutableStorage, notificationCenter, logger, apiEtoFileService }: TGlobalDependencies,
+  { apiImmutableStorage, logger, apiEtoFileService }: TGlobalDependencies,
   action: TActionFromCreator<typeof actions.etoDocuments.generateTemplate>,
 ): Generator<any, any, any> {
   try {
@@ -69,14 +73,18 @@ export function* generateDocumentFromTemplate(
     yield call(downloadLink, generatedDocument, document.name, ".doc");
   } catch (e) {
     logger.error("Failed to generate ETO template", e);
-    notificationCenter.error(createMessage(IpfsMessage.IPFS_FAILED_TO_DOWNLOAD_IPFS_FILE));
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(IpfsMessage.IPFS_FAILED_TO_DOWNLOAD_IPFS_FILE),
+      ),
+    );
   } finally {
     yield put(actions.immutableStorage.downloadImmutableFileDone(action.payload.document.ipfsHash));
   }
 }
 
 export function* generateDocumentFromTemplateByEtoId(
-  { apiImmutableStorage, notificationCenter, logger, apiEtoFileService }: TGlobalDependencies,
+  { apiImmutableStorage, logger, apiEtoFileService }: TGlobalDependencies,
   action: TActionFromCreator<typeof actions.etoDocuments.generateTemplateByEtoId>,
 ): Generator<any, any, any> {
   try {
@@ -110,14 +118,18 @@ export function* generateDocumentFromTemplateByEtoId(
     yield call(downloadLink, generatedDocument, document.name, extension);
   } catch (e) {
     logger.error("Failed to generate ETO template", e);
-    notificationCenter.error(createMessage(IpfsMessage.IPFS_FAILED_TO_DOWNLOAD_IPFS_FILE));
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(IpfsMessage.IPFS_FAILED_TO_DOWNLOAD_IPFS_FILE),
+      ),
+    );
   } finally {
     yield put(actions.immutableStorage.downloadImmutableFileDone(action.payload.document.ipfsHash));
   }
 }
 
 export function* downloadDocumentStart(
-  { apiImmutableStorage, notificationCenter, logger }: TGlobalDependencies,
+  { apiImmutableStorage, logger }: TGlobalDependencies,
   action: TActionFromCreator<typeof actions.etoDocuments.downloadDocumentStart>,
 ): Generator<any, any, any> {
   try {
@@ -130,8 +142,10 @@ export function* downloadDocumentStart(
     yield call(downloadLink, downloadedDocument, matchingDocument.name, "");
   } catch (e) {
     logger.error("Download document by type failed", e);
-    notificationCenter.error(
-      createMessage(EtoDocumentsMessage.ETO_DOCUMENTS_FAILED_TO_DOWNLOAD_FILE),
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(EtoDocumentsMessage.ETO_DOCUMENTS_FAILED_TO_DOWNLOAD_FILE),
+      ),
     );
   } finally {
     yield put(actions.etoDocuments.downloadDocumentFinish(action.payload.documentType));
@@ -139,7 +153,6 @@ export function* downloadDocumentStart(
 }
 
 export function* loadEtoFilesInfo({
-  notificationCenter,
   apiEtoFileService,
   apiEtoProductService,
   logger,
@@ -167,8 +180,12 @@ export function* loadEtoFilesInfo({
     );
   } catch (e) {
     logger.error("Load ETO data failed", e);
-    notificationCenter.error(
-      createMessage(EtoDocumentsMessage.ETO_DOCUMENTS_FAILED_TO_ACCESS_ETO_FILES_DATA),
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(
+          EtoDocumentsMessage.ETO_DOCUMENTS_FAILED_TO_ACCESS_ETO_FILES_DATA,
+        ),
+      ),
     );
     yield put(actions.routing.goToDashboard());
   }
@@ -181,7 +198,7 @@ function* getDocumentOfType(documentType: EEtoDocumentType): Generator<any, any,
 }
 
 function* uploadEtoFileEffect(
-  { apiEtoFileService, notificationCenter }: TGlobalDependencies,
+  { apiEtoFileService }: TGlobalDependencies,
   file: File,
   documentType: EEtoDocumentType,
 ): Generator<any, any, any> {
@@ -193,26 +210,38 @@ function* uploadEtoFileEffect(
 
   yield apiEtoFileService.uploadEtoDocument(file, documentType);
 
-  notificationCenter.info(createMessage(EtoDocumentsMessage.ETO_DOCUMENTS_FILE_UPLOADED));
+  yield put(
+    webNotificationUIModuleApi.actions.showInfo(
+      createNotificationMessage(EtoDocumentsMessage.ETO_DOCUMENTS_FILE_UPLOADED),
+    ),
+  );
 }
 
 function* removeEtoFileEffect(
-  { apiEtoFileService, notificationCenter, logger }: TGlobalDependencies,
+  { apiEtoFileService, logger }: TGlobalDependencies,
   documentType: EEtoDocumentType,
 ): Generator<any, any, any> {
   const matchingDocument = yield getDocumentOfType(documentType);
 
   if (matchingDocument) {
     yield apiEtoFileService.deleteSpecificEtoDocument(matchingDocument.ipfsHash);
-    notificationCenter.info(createMessage(EtoDocumentsMessage.ETO_DOCUMENTS_FILE_REMOVED));
+    yield put(
+      webNotificationUIModuleApi.actions.showInfo(
+        createNotificationMessage(EtoDocumentsMessage.ETO_DOCUMENTS_FILE_REMOVED),
+      ),
+    );
   } else {
     logger.error("Could not remove, missing ETO document", documentType);
-    notificationCenter.error(createMessage(EtoDocumentsMessage.ETO_DOCUMENTS_FILE_REMOVE_FAILED));
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(EtoDocumentsMessage.ETO_DOCUMENTS_FILE_REMOVE_FAILED),
+      ),
+    );
   }
 }
 
 function* uploadEtoFile(
-  { notificationCenter, logger }: TGlobalDependencies,
+  { logger }: TGlobalDependencies,
   action: TActionFromCreator<typeof actions.etoDocuments.etoUploadDocumentStart>,
 ): Generator<any, any, any> {
   const { file, documentType } = action.payload;
@@ -228,10 +257,18 @@ function* uploadEtoFile(
     );
   } catch (e) {
     if (e instanceof FileAlreadyExists) {
-      notificationCenter.error(createMessage(EtoDocumentsMessage.ETO_DOCUMENTS_FILE_EXISTS));
+      yield put(
+        webNotificationUIModuleApi.actions.showError(
+          createNotificationMessage(EtoDocumentsMessage.ETO_DOCUMENTS_FILE_EXISTS),
+        ),
+      );
     } else {
       logger.error("Failed to send ETO data", e);
-      notificationCenter.error(createMessage(EtoDocumentsMessage.ETO_DOCUMENTS_FILE_UPLOAD_FAILED));
+      yield put(
+        webNotificationUIModuleApi.actions.showError(
+          createNotificationMessage(EtoDocumentsMessage.ETO_DOCUMENTS_FILE_UPLOAD_FAILED),
+        ),
+      );
     }
   } finally {
     yield neuCall(loadIssuerEto);
@@ -250,7 +287,7 @@ function* uploadEtoFile(
 }
 
 function* removeEtoFile(
-  { notificationCenter, logger }: TGlobalDependencies,
+  { logger }: TGlobalDependencies,
   action: TActionFromCreator<typeof actions.etoDocuments.etoUploadDocumentStart>,
 ): Generator<any, any, any> {
   const { documentType } = action.payload;
@@ -266,10 +303,18 @@ function* removeEtoFile(
     );
   } catch (e) {
     if (e instanceof FileAlreadyExists) {
-      notificationCenter.error(createMessage(EtoDocumentsMessage.ETO_DOCUMENTS_FILE_EXISTS));
+      yield put(
+        webNotificationUIModuleApi.actions.showError(
+          createNotificationMessage(EtoDocumentsMessage.ETO_DOCUMENTS_FILE_EXISTS),
+        ),
+      );
     } else {
       logger.error("Failed to remove ETO file data", e);
-      notificationCenter.error(createMessage(EtoDocumentsMessage.ETO_DOCUMENTS_FILE_UPLOAD_FAILED));
+      yield put(
+        webNotificationUIModuleApi.actions.showError(
+          createNotificationMessage(EtoDocumentsMessage.ETO_DOCUMENTS_FILE_UPLOAD_FAILED),
+        ),
+      );
     }
   } finally {
     yield neuCall(loadIssuerEto);

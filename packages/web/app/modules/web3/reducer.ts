@@ -15,7 +15,6 @@ export interface IWalletPrivateData {
 export interface IConnectedWeb3State {
   connected: true;
   wallet: TWalletMetadata;
-  isUnlocked: boolean; // this is important only for light wallet
   walletPrivateData?: {
     seed: string;
     privateKey: string;
@@ -39,7 +38,6 @@ export const web3Reducer: AppReducer<IWeb3State> = (
       return {
         connected: true,
         wallet: action.payload.walletMetadata,
-        isUnlocked: action.payload.isUnlocked,
         web3Available: state.web3Available,
       };
     case actions.web3.personalWalletDisconnected.getType():
@@ -48,24 +46,6 @@ export const web3Reducer: AppReducer<IWeb3State> = (
         previousConnectedWallet: state.connected ? state.wallet : state.previousConnectedWallet,
         web3Available: state.web3Available,
       };
-    case "WEB3_WALLET_UNLOCKED":
-      if (state.connected) {
-        return {
-          ...state,
-          isUnlocked: true,
-        };
-      } else {
-        return state;
-      }
-    case "WEB3_WALLET_LOCKED":
-      if (state.connected) {
-        return {
-          ...state,
-          isUnlocked: false,
-        };
-      } else {
-        return state;
-      }
     case "LOAD_PREVIOUS_WALLET":
       if (!state.connected) {
         return {

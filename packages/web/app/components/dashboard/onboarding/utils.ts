@@ -1,5 +1,6 @@
+import { EWalletType } from "@neufund/shared-modules";
+
 import { EKycRequestStatus } from "../../../lib/api/kyc/KycApi.interfaces";
-import { EWalletType } from "../../../modules/web3/types";
 import { lightWalletOnboardingSteps, onboardingSteps } from "./onboardingData";
 import { EOnboardingStepState, TOnboardingStepData, TStepComponentProps } from "./types";
 

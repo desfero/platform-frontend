@@ -1,5 +1,5 @@
 import { call, SagaGenerator } from "@neufund/sagas";
-import * as cryptoRandomString from "crypto-random-string";
+import cryptoRandomString from "crypto-random-string";
 
 import { neuGetBindings } from "../../../utils";
 import { coreModuleApi } from "../../core/module";

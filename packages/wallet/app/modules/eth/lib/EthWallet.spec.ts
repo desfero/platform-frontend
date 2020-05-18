@@ -1,5 +1,5 @@
 import { noopLogger } from "@neufund/shared-modules";
-import { toEthereumAddress, toEthereumHDPath } from "@neufund/shared-utils";
+import { toEthereumChecksumAddress, toEthereumHDPath } from "@neufund/shared-utils";
 
 import { createMock } from "../../../utils/testUtils.specUtils";
 import { EthSecureEnclave } from "./EthSecureEnclave";
@@ -15,16 +15,16 @@ import { EWalletType } from "./types";
 describe("EthWallet", () => {
   const privateKeyWalletMetadata = {
     type: EWalletType.PRIVATE_KEY_WALLET,
-    address: toEthereumAddress("0x429123b08DF32b0006fd1F3b0Ef893A8993802f3"),
+    address: toEthereumChecksumAddress("0x429123b08DF32b0006fd1F3b0Ef893A8993802f3"),
     privateKeyReference: toSecureReference("1"),
   } as const;
 
   const hdWalletMetadata = {
     type: EWalletType.HD_WALLET,
-    address: toEthereumAddress("0x429123b08DF32b0006fd1F3b0Ef893A8993802f3"),
+    address: toEthereumChecksumAddress("0x429123b08DF32b0006fd1F3b0Ef893A8993802f3"),
     mnemonicReference: toSecureReference("0"),
     privateKeyReference: toSecureReference("1"),
-    derivationPath: toEthereumHDPath("m/44'/60'/0'"),
+    derivationPath: toEthereumHDPath("m/44'/60'/0'/0"),
   } as const;
 
   describe("signMessageHash", () => {
@@ -51,8 +51,8 @@ describe("EthWallet", () => {
 
   describe("signMessage", () => {
     it("should sign a message with a given private key reference", async () => {
-      const message = "A message to sign";
-      const messageHash = "0xc7595adb6684bd03eb6ee54f10b0224e4bcfdaa5d393187583eb1777ae169d80";
+      const message = "c7595adb6684bd03eb6ee54f10b0224e4bcfdaa5d393187583eb1777ae169d80";
+      const messageHash = "0xca520013afb08162550e1d69209e422b224c3a27432890f47bd515c328cda2e5";
       const expectedSignedMessage =
         "0x96a06a251fe4e064c8e094613879fea327023dc4937ead182e83697b…91cdfd86d14a1845b5a2231529f1355c1a9f5f85bee657a91a700d01b";
 

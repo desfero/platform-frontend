@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Modal, Text, View } from "react-native";
+import { Modal, StyleSheet, Text, View } from "react-native";
 import { compose } from "recompose";
 
 import {
@@ -27,7 +27,7 @@ const SignerModalLayout: React.FunctionComponent<TStateProps & TDispatchProps> =
   reject,
 }) => (
   <Modal animationType="slide" transparent={false} visible={state !== ESignerUIState.IDLE}>
-    <View style={{ paddingVertical: 40, paddingHorizontal: 20, flex: 1, justifyContent: "center" }}>
+    <View style={styles.container}>
       <Text>
         Signing state: {state}
         {"\n"}
@@ -43,6 +43,10 @@ const SignerModalLayout: React.FunctionComponent<TStateProps & TDispatchProps> =
     </View>
   </Modal>
 );
+
+const styles = StyleSheet.create({
+  container: { paddingVertical: 40, paddingHorizontal: 20, flex: 1, justifyContent: "center" },
+});
 
 const SignerModal = compose<TStateProps & TDispatchProps, {}>(
   appConnect<TStateProps, TDispatchProps, {}, typeof setupSignerUIModule>({

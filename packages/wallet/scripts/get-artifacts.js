@@ -14,8 +14,13 @@ const getArtifactsMeta = artifactsVersion => {
   return require(`${getArtifactsRelativePath(artifactsVersion)}/meta.json`);
 };
 
+const getArtifactsFixtures = artifactsVersion => {
+  return require(`${getArtifactsRelativePath(artifactsVersion)}/fixtures.json`);
+};
+
 module.exports = {
   getArtifactsRelativePath,
   getArtifactsSubmoduleRelativePath,
+  getArtifactsFixtures,
   getArtifactsMeta,
 };

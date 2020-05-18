@@ -9,7 +9,7 @@
 
 To run the app locally we need to provide a couple of native dependencies (XCode, AndroidStudio).
 Setup differs between platform therefore the best place to follow is
-[Getting Started](https://facebook.github.io/react-native/docs/getting-started) guide for
+[Setting up the development environment](https://reactnative.dev/docs/environment-setup) guide for
 `React Native CLI Quickstart` (sections **Installing dependencies** and **Preparing the Android
 device** (just for android development).
 

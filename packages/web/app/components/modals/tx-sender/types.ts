@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Tx } from "../../../lib/api/users/interfaces";
+import { Tx } from "../../../lib/api/users-tx/interfaces";
 import { ITxData } from "../../../lib/web3/types";
 import { ETxSenderType, TAdditionalDataByType } from "../../../modules/tx/types";
 import { CommonHtmlProps } from "../../../types";

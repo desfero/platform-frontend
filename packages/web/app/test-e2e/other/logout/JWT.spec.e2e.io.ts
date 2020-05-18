@@ -57,7 +57,7 @@ describe("JWT Refreshing and Escalation", () => {
 
       const jwtExpiryDate = getJwtExpiryDate(getJwtToken());
 
-      const diff = jwtExpiryDate.diff(now, "milliseconds");
+      const diff = jwtExpiryDate.getTime() - now;
       const expectedTokenRefreshTimeFromNow = diff - AUTH_TOKEN_REFRESH_THRESHOLD;
 
       // add one second to simulate inactivity (for e.g. hibernation)
@@ -87,9 +87,9 @@ describe("JWT Refreshing and Escalation", () => {
 
         const jwtExpiryDate = getJwtExpiryDate(jwtToken);
 
-        const diff = jwtExpiryDate.diff(now, "milliseconds");
+        const diff = jwtExpiryDate.getTime() - now;
 
-        let expectedTokenRefreshTimeFromNow = diff - AUTH_TOKEN_REFRESH_THRESHOLD;
+        const expectedTokenRefreshTimeFromNow = diff - AUTH_TOKEN_REFRESH_THRESHOLD;
 
         keepSessionActive(expectedTokenRefreshTimeFromNow);
 
@@ -133,7 +133,7 @@ describe("JWT Refreshing and Escalation", () => {
 
         routeJwtRefresh().as("jwtRefresh");
 
-        const diff = jwtExpiryDate.diff(now, "milliseconds");
+        const diff = jwtExpiryDate.getTime() - now;
 
         const expectedTokenRefreshTimeFromNow = diff - AUTH_TOKEN_REFRESH_THRESHOLD;
 
@@ -150,7 +150,7 @@ describe("JWT Refreshing and Escalation", () => {
       loginFixtureAccount(fixture).then(() => {
         goToDashboard();
 
-        let now = Date.now();
+        const now = Date.now();
 
         cy.clock(now).then(clock => {
           clock.tick(AUTH_INACTIVITY_THRESHOLD / 2);
@@ -170,14 +170,14 @@ describe("JWT Refreshing and Escalation", () => {
       loginFixtureAccount(fixture).then(() => {
         goToDashboard();
 
-        let now = Date.now();
+        const now = Date.now();
 
         cy.clock(now, ["Date"]);
 
-        let jwtToken = getJwtToken();
-        let jwtExpiryDate = getJwtExpiryDate(jwtToken);
-        let diff = jwtExpiryDate.diff(now, "milliseconds");
-        let expectedTokenRefreshTimeFromNow = diff - AUTH_TOKEN_REFRESH_THRESHOLD;
+        const jwtToken = getJwtToken();
+        const jwtExpiryDate = getJwtExpiryDate(jwtToken);
+        const diff = jwtExpiryDate.getTime() - now;
+        const expectedTokenRefreshTimeFromNow = diff - AUTH_TOKEN_REFRESH_THRESHOLD;
 
         keepSessionActive(expectedTokenRefreshTimeFromNow);
 

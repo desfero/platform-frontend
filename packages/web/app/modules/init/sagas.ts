@@ -1,5 +1,5 @@
 import { call, fork, put, SagaGenerator, select } from "@neufund/sagas";
-import { authModuleAPI, tokenPriceModuleApi } from "@neufund/shared-modules";
+import { authModuleAPI, EWalletType, tokenPriceModuleApi } from "@neufund/shared-modules";
 import { isJwtExpiringLateEnough } from "@neufund/shared-utils";
 
 import { TGlobalDependencies } from "../../di/setupBindings";
@@ -12,7 +12,6 @@ import { neuCall, neuTakeEvery, neuTakeOnly } from "../sagasUtils";
 import { detectUserAgent } from "../user-agent/sagas";
 import { initWeb3ManagerEvents } from "../web3/sagas";
 import { selectWalletType } from "../web3/selectors";
-import { EWalletType } from "../web3/types";
 import { WalletMetadataNotFoundError } from "./errors";
 import { EInitType } from "./reducer";
 import { selectIsAppReady, selectIsSmartContractInitDone } from "./selectors";

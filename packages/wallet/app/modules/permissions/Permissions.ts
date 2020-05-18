@@ -1,7 +1,6 @@
-import { NotificationsResponse, requestNotifications } from "react-native-permissions";
+import { coreModuleApi, ILogger } from "@neufund/shared-modules";
 import { inject, injectable } from "inversify";
-import { symbols as globalSymbols } from "../../di/symbols";
-import { ILogger } from "@neufund/shared-modules";
+import { NotificationsResponse, requestNotifications } from "react-native-permissions";
 
 /**
  * @class Permissions
@@ -12,7 +11,7 @@ import { ILogger } from "@neufund/shared-modules";
 @injectable()
 export class Permissions {
   private readonly logger: ILogger;
-  constructor(@inject(globalSymbols.logger) logger: ILogger) {
+  constructor(@inject(coreModuleApi.symbols.logger) logger: ILogger) {
     this.logger = logger;
 
     this.logger.info("Setup permissions module");

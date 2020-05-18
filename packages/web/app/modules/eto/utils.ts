@@ -1,4 +1,4 @@
-import { EthereumAddressWithChecksum, Overwrite } from "@neufund/shared-utils";
+import { DeepPartial, EthereumAddressWithChecksum, Overwrite } from "@neufund/shared-utils";
 import BigNumber from "bignumber.js";
 
 import {
@@ -11,7 +11,6 @@ import {
   calculateCurrentInvestmentProgressPercentage,
   calculateTarget,
 } from "../../lib/api/eto/EtoUtils";
-import { DeepPartial } from "../../types";
 import { isPastInvestment } from "../investor-portfolio/utils";
 import {
   EETOStateOnChain,

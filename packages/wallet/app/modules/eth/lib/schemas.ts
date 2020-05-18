@@ -1,12 +1,12 @@
 import { EthereumHDPath } from "@neufund/shared-utils";
-import * as yup from "yup";
 import isString from "lodash/fp/isString";
+import * as yup from "yup";
 
 import { oneOfSchema, singleValue, typedValue } from "../../../utils/yupSchemas";
 import { StorageSchema } from "../../storage";
 import { TSecureReference } from "./SecureStorage";
 import { EWalletType } from "./types";
-import { isAddress } from "./utils";
+import { isAddress, isChecksumAddress, isMnemonic, isPrivateKey } from "./utils";
 
 /**
  * A typed schema to validate secure reference
@@ -17,7 +17,12 @@ const secureReference = () =>
 /**
  * A typed schema to validate eth address
  */
-const ethereumAddress = () => typedValue(isAddress);
+const ethereumAddressNoChecksum = () => typedValue(isAddress);
+
+/**
+ * A typed schema to validate eth address
+ */
+const ethereumAddress = () => typedValue(isChecksumAddress);
 
 /**
  * A typed schema to validate hd path
@@ -25,9 +30,20 @@ const ethereumAddress = () => typedValue(isAddress);
 const ethereumHdPath = () =>
   typedValue((value: unknown): value is EthereumHDPath => isString(value));
 
+/**
+ * A typed schema to validate hd mnemonic
+ */
+const ethereumMnemonic = () => typedValue(isMnemonic);
+
+/**
+ * A typed schema to validate private key
+ */
+const ethereumPrivateKey = () => typedValue(isPrivateKey);
+
 const HDWalletMetadataSchema = yup.object({
   type: singleValue<EWalletType.HD_WALLET>(EWalletType.HD_WALLET).required(),
   address: ethereumAddress().required(),
+  name: yup.string().notRequired(),
   derivationPath: ethereumHdPath().required(),
   mnemonicReference: secureReference().required(),
   privateKeyReference: secureReference().required(),
@@ -36,6 +52,7 @@ const HDWalletMetadataSchema = yup.object({
 const PrivateKeyWalletMetadataSchema = yup.object({
   type: singleValue<EWalletType.PRIVATE_KEY_WALLET>(EWalletType.PRIVATE_KEY_WALLET).required(),
   address: ethereumAddress().required(),
+  name: yup.string().notRequired(),
   privateKeyReference: secureReference().required(),
 });
 
@@ -53,4 +70,11 @@ const WalletMetadataStorageSchema = new StorageSchema<TWalletMetadata>(
   WalletMetadataSchema,
 );
 
-export { WalletMetadataStorageSchema, ethereumAddress, ethereumHdPath };
+export {
+  WalletMetadataStorageSchema,
+  ethereumAddress,
+  ethereumAddressNoChecksum,
+  ethereumHdPath,
+  ethereumPrivateKey,
+  ethereumMnemonic,
+};

@@ -1,6 +1,7 @@
 import {
   EquityToken,
   EthereumAddress,
+  EthereumAddressWithChecksum,
   EthereumHDMnemonic,
   EthereumHDPath,
   EthereumPrivateKey,
@@ -8,7 +9,13 @@ import {
 
 const toEquityTokenSymbol = (symbol: string) => symbol as EquityToken;
 
+/**
+ * @deprecated Prefer always checksum address for consistency (`toEthereumChecksumAddress` method).
+ * @todo When we migrate to checksum address rename method to `toEthereumAddressNoChecksum` and `toEthereumChecksumAddress` to `toEthereumAddress`
+ */
 const toEthereumAddress = (address: string) => address as EthereumAddress;
+
+const toEthereumChecksumAddress = (address: string) => address as EthereumAddressWithChecksum;
 
 const toEthereumHDPath = (path: string) => path as EthereumHDPath;
 
@@ -22,4 +29,5 @@ export {
   toEthereumHDPath,
   toEthereumPrivateKey,
   toEthereumHDMnemonic,
+  toEthereumChecksumAddress,
 };

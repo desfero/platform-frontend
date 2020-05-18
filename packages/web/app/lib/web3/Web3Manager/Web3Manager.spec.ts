@@ -1,4 +1,4 @@
-import { noopLogger } from "@neufund/shared-modules";
+import { EWalletSubType, EWalletType, noopLogger } from "@neufund/shared-modules";
 import { createMock } from "@neufund/shared-utils/tests";
 import { expect } from "chai";
 import { spy } from "sinon";
@@ -9,7 +9,7 @@ import {
   dummyEthereumAddressWithChecksum,
   dummyNetworkId,
 } from "../../../../test/fixtures";
-import { EWalletSubType, EWalletType, ILedgerWalletMetadata } from "../../../modules/web3/types";
+import { ILedgerWalletMetadata } from "../../../modules/web3/types";
 import { LedgerWallet } from "../ledger-wallet/LedgerWallet";
 import { EWeb3ManagerEvents, Web3Manager } from "./Web3Manager";
 
