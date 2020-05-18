@@ -2,6 +2,7 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  align-self: center;
 
   // force to not overflow
   max-width: 100%;
@@ -72,7 +73,6 @@
     background-color: $neu-pale-grey-three;
     padding: px-to-rem(12);
     border-radius: 4px;
-
   }
 
   .address {
@@ -81,6 +81,15 @@
     font-family: $font-family-roboto;
     font-size: px-to-rem(14);
     font-weight: normal;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+
+    span {
+      border: none;
+      margin: auto 0;
+      max-width: 100%;
+    }
   }
 
   .avatar {

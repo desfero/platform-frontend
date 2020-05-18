@@ -76,7 +76,7 @@ export const WalletLayout: React.FunctionComponent<TReadyStateProps & TDispatchP
         <h2 className={styles.subtitle}>
           <FormattedMessage id="wallet.wallet-address" />
         </h2>
-        <WalletAddress address={userAddress} />
+        <WalletAddress address={userAddress} data-test-id="wallet.wallet-address" />
       </Container>
 
       <Container className={styles.walletAddressWrapper} columnSpan={EColumnSpan.ONE_COL}>
