@@ -52,10 +52,10 @@ export const balanceSymbols: { [key in EBalanceType]: React.ComponentType } = {
 export const balanceDataTestIds: { [key in EBalanceType]: string | undefined } = {
   [EBalanceType.ETH]: "wallet-balance.eth.balance-value",
   [EBalanceType.NEUR]: "wallet-balance.neur.balance-value",
-  [EBalanceType.ICBM_ETH]: undefined,
-  [EBalanceType.ICBM_NEUR]: undefined,
-  [EBalanceType.LOCKED_ICBM_ETH]: undefined,
-  [EBalanceType.LOCKED_ICBM_NEUR]: undefined,
+  [EBalanceType.ICBM_ETH]: "icbm-wallet.eth.balance-value",
+  [EBalanceType.ICBM_NEUR]: "icbm-wallet.neur.balance-value",
+  [EBalanceType.LOCKED_ICBM_ETH]: "icbm-wallet.eth.balance-value",
+  [EBalanceType.LOCKED_ICBM_NEUR]: "icbm-wallet.neur.balance-value",
 };
 
 export const createBalanceActions = (dispatch: Function): TBalanceActions => ({
@@ -100,6 +100,7 @@ export const createBalanceActions = (dispatch: Function): TBalanceActions => ({
       disableIf: () => false,
       text: <FormattedMessage id="wallet.enable-icbm" />,
       level: EBalanceActionLevel.SECONDARY,
+      dataTestId: "wallet.icbm-eth.upgrade-button",
     },
   ],
   [EBalanceType.LOCKED_ICBM_NEUR]: [
@@ -108,6 +109,7 @@ export const createBalanceActions = (dispatch: Function): TBalanceActions => ({
       disableIf: () => false,
       text: <FormattedMessage id="wallet.enable-icbm" />,
       level: EBalanceActionLevel.SECONDARY,
+      dataTestId: "wallet.icbm-euro.upgrade-button",
     },
   ],
 });

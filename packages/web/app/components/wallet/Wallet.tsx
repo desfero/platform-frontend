@@ -88,7 +88,10 @@ export const WalletLayout: React.FunctionComponent<TReadyStateProps & TDispatchP
             userIsFullyVerified={userIsFullyVerified}
           />
         ) : (
-          <NoBankAccount verifyBankAccount={verifyBankAccount} />
+          <NoBankAccount
+            verifyBankAccount={verifyBankAccount}
+            userIsFullyVerified={userIsFullyVerified}
+          />
         )}
       </Container>
     </Container>

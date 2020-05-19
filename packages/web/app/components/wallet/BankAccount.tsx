@@ -23,6 +23,7 @@ type TBankAccountProps = {
 
 type TNobankAccountProps = {
   verifyBankAccount: () => void;
+  userIsFullyVerified: boolean;
 };
 
 export const BankAccount: React.FunctionComponent<TBankAccountProps> = ({
@@ -50,6 +51,7 @@ export const BankAccount: React.FunctionComponent<TBankAccountProps> = ({
 
 export const NoBankAccount: React.FunctionComponent<TNobankAccountProps> = ({
   verifyBankAccount,
+  userIsFullyVerified,
 }) => (
   <Container className={styles.noLinkedBankAccountWrapper} columnSpan={EColumnSpan.ONE_COL}>
     <div className={styles.subtitle}>
@@ -66,6 +68,8 @@ export const NoBankAccount: React.FunctionComponent<TNobankAccountProps> = ({
         size={EButtonSize.SMALL}
         layout={EButtonLayout.SECONDARY}
         className={styles.linkButton}
+        data-test-id="locked-wallet.neur.bank-account.link-account"
+        disabled={!userIsFullyVerified}
       >
         <InlineIcon svgIcon={linkIcon} alt="" className={styles.linkButtonIcon} />
         <FormattedMessage id="wallet.link-bank-account" />

@@ -217,7 +217,7 @@ export const getWalletEthAmount = (navigateToWallet: boolean = true) => {
   }
 
   return cy
-    .get(tid("wallet-balance.ether.balance-value"))
+    .get(tid("wallet-balance.eth.balance-value"))
     .find(tid("value"))
     .then($element => parseAmount($element.text()));
 };
