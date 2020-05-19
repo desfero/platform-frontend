@@ -18,9 +18,11 @@ class ERC20TokenAdapterFactory {
  * An adapter for ERC20 Tokens to hide implementation differences between web3 and ethers generated contracts interfaces
  */
 class ERC20TokenAdapter implements IERC20TokenAdapter {
-  constructor(private readonly tokenContract: IERC20Token) {}
+  readonly address: string;
 
-  address = this.tokenContract.address;
+  constructor(private readonly tokenContract: IERC20Token) {
+    this.address = tokenContract.address;
+  }
 
   async balanceOf(address: string): Promise<BigNumber> {
     const result = await this.tokenContract.balanceOf(address);

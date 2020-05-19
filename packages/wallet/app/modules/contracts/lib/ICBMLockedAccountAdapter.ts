@@ -20,9 +20,13 @@ class ICBMLockedAccountAdapterFactory {
  * An adapter for ERC20 Tokens to hide implementation differences between web3 and ethers generated contracts interfaces
  */
 class ICBMLockedAccountAdapter implements IICBMLockedAccountAdapter {
-  constructor(private readonly accountContract: ICBMLockedAccount) {}
+  readonly address: string;
+  readonly currentMigrationTarget: Promise<string>;
 
-  address = this.accountContract.address;
+  constructor(private readonly accountContract: ICBMLockedAccount) {
+    this.address = accountContract.address;
+    this.currentMigrationTarget = accountContract.currentMigrationTarget();
+  }
 
   async balanceOf(address: string): Promise<[BigNumber, BigNumber, BigNumber]> {
     const result = await this.accountContract.balanceOf(address);
@@ -32,8 +36,6 @@ class ICBMLockedAccountAdapter implements IICBMLockedAccountAdapter {
       new BigNumber(result[2].toString()),
     ];
   }
-
-  readonly currentMigrationTarget: Promise<string> = this.accountContract.currentMigrationTarget();
 }
 
 export { ICBMLockedAccountAdapterFactory };

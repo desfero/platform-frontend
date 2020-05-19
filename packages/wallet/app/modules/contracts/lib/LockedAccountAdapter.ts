@@ -18,9 +18,11 @@ class LockedAccountAdapterFactory {
  * An adapter for ERC20 Tokens to hide implementation differences between web3 and ethers generated contracts interfaces
  */
 class LockedAccountAdapter implements ILockedAccountAdapter {
-  constructor(private readonly accountContract: LockedAccount) {}
+  readonly address: string;
 
-  address = this.accountContract.address;
+  constructor(private readonly accountContract: LockedAccount) {
+    this.address = accountContract.address;
+  }
 
   async balanceOf(address: string): Promise<[BigNumber, BigNumber, BigNumber]> {
     const result = await this.accountContract.balanceOf(address);

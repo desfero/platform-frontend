@@ -8,21 +8,20 @@ import {
   IICBMLockedAccountAdapter,
   TLibSymbolType,
 } from "@neufund/shared-modules";
-import { Signer, providers } from "ethers";
-import { inject, injectable } from "inversify";
 import { EthereumAddressWithChecksum } from "@neufund/shared-utils";
 import { BigNumber } from "bignumber.js";
+import { Signer, providers } from "ethers";
+import { inject, injectable } from "inversify";
 
 import { Universe } from "../../../lib/contracts/Universe";
 import { UniverseFactory } from "../../../lib/contracts/UniverseFactory";
 import * as knownInterfaces from "../../../lib/contracts/knownInterfaces.json";
 import { walletEthModuleApi } from "../../eth/module";
+import { ERC20TokenAdapterFactory } from "./ERC20TokenAdapter";
+import { ICBMLockedAccountAdapterFactory } from "./ICBMLockedAccountAdapter";
+import { LockedAccountAdapterFactory } from "./LockedAccountAdapter";
 import { RateOracleAdapterFactory } from "./RateOracleAdapter";
 import { privateSymbols } from "./symbols";
-import * as knownInterfaces from "../../../lib/contracts/knownInterfaces.json";
-import { ERC20TokenAdapterFactory } from "./ERC20TokenAdapter";
-import { LockedAccountAdapterFactory } from "./LockedAccountAdapter";
-import { ICBMLockedAccountAdapterFactory } from "./ICBMLockedAccountAdapter";
 
 /**
  * Initiates neufund smart contracts instances
@@ -61,7 +60,7 @@ export class ContractsService implements IContractsService {
 
     // TODO: move to new eth module
     this.balanceOf = async (address: EthereumAddressWithChecksum) => {
-      const balance = await this.ethManager.getBalance(address as any);
+      const balance = await this.ethManager.getBalance(address);
       return new BigNumber(balance.toString());
     };
   }
