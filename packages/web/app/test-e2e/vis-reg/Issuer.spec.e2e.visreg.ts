@@ -34,7 +34,7 @@ describe("Issuer", () => {
   it("should render wallet", () => {
     goToWallet();
 
-    cy.awaitedScreenshot('[aria-describedby="transactions-history-heading"]');
+    cy.awaitedScreenshot(tid("transactions-history"));
   });
 
   it("should render profile", () => {
