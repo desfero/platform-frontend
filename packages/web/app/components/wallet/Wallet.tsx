@@ -28,7 +28,7 @@ import { BankAccount, NoBankAccount } from "./BankAccount";
 import { TransactionsHistory } from "./transactions-history/TransactionsHistory";
 import {
   balanceAdditionalInfo,
-  balanceCurrencies,
+  balanceCurrencies, balanceDataTestIds,
   balanceNames,
   balanceSymbols,
   createBalanceActions,
@@ -76,7 +76,7 @@ export const WalletLayout: React.FunctionComponent<TReadyStateProps & TDispatchP
         <h2 className={styles.subtitle}>
           <FormattedMessage id="wallet.wallet-address" />
         </h2>
-        <WalletAddress address={userAddress} data-test-id="wallet.wallet-address" />
+        <WalletAddress address={userAddress} />
       </Container>
 
       <Container className={styles.walletAddressWrapper} columnSpan={EColumnSpan.ONE_COL}>
@@ -139,6 +139,7 @@ export const Wallet = compose<React.FunctionComponent>(
         currency: balanceCurrencies[wallet.name],
         euroEquivalentAmount: wallet.euroEquivalentAmount,
         walletActions: balanceActions[wallet.name],
+        dataTestId: balanceDataTestIds[wallet.name]
       })),
     }),
   ),

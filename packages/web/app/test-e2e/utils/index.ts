@@ -217,7 +217,8 @@ export const getWalletEthAmount = (navigateToWallet: boolean = true) => {
   }
 
   return cy
-    .get(tid("wallet-balance.ether.balance-values.large-value"))
+    .get(tid("wallet-balance.ether.balance-value"))
+    .find(tid("value"))
     .then($element => parseAmount($element.text()));
 };
 
@@ -241,7 +242,8 @@ export const getWalletNEurAmount = (navigate: boolean = true) => {
   }
 
   return cy
-    .get(tid("wallet-balance.neur.balance-values.large-value"))
+    .get(tid("wallet-balance.neur.balance-value"))
+    .find(tid("value"))
     .then($element => parseAmount(stripNumberFormatting($element.text())));
 };
 

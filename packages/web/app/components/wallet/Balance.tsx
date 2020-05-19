@@ -44,6 +44,7 @@ const BalanceActions: React.FunctionComponent<TBalance> = props => {
             size={EButtonSize.SMALL}
             onClick={balanceAction.dispatchAction}
             disabled={balanceAction.disableIf(props)}
+            data-test-id={balanceAction.dataTestId}
           >
             {balanceAction.text}
           </Button>
@@ -72,6 +73,7 @@ export const Balance: React.FunctionComponent<TBalance> = balance => {
     currency,
     euroEquivalentAmount,
     balanceAdditionalInfo,
+    dataTestId,
   } = balance;
   return (
     <ul className={styles.balanceListItem}>
@@ -95,6 +97,7 @@ export const Balance: React.FunctionComponent<TBalance> = balance => {
           inputFormat={ENumberInputFormat.ULPS}
           outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
           valueType={currency}
+          data-test-id={dataTestId}
         />
         <span className={styles.euroEquivalent}>
           {"≈"}

@@ -5,15 +5,13 @@ import {
   EButtonSize,
   InlineIcon,
 } from "@neufund/design-system";
-import * as cn from "classnames";
 import * as React from "react";
 import { FormattedHTMLMessage, FormattedMessage } from "react-intl-phraseapp";
 
 import { KycBankVerifiedBankAccount } from "../../lib/api/kyc/KycApi.interfaces";
 import { Container, EColumnSpan } from "../layouts/Container";
-import { BankNumber } from "./bank-account/BankAccount";
+import { BankAccountDetails } from "./bank-account/BankAccount";
 
-import bankIcon from "../../assets/img/bank-transfer/bank-icon.svg";
 import linkIcon from "../../assets/img/inline_icons/social_link.svg";
 import * as styles from "./Wallet.module.scss";
 
@@ -45,15 +43,7 @@ export const BankAccount: React.FunctionComponent<TBankAccountProps> = ({
       <FormattedMessage id="shared-component.wallet-verified-bank-account.link-account" />
     </ButtonInline>
     <div className={styles.linkedBankAccount}>
-      <img className={styles.bankIcon} src={bankIcon} alt="" />
-      <div>
-        <p className={cn(styles.bankNumber, "m-0")} data-test-id="wallet.bank-account.details">
-          <BankNumber
-            last4={bankAccountData.bankAccountNumberLast4}
-            bank={bankAccountData.bankName}
-          />
-        </p>
-      </div>
+      <BankAccountDetails details={bankAccountData}/>
     </div>
   </Container>
 );

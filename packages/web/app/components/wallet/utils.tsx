@@ -49,6 +49,15 @@ export const balanceSymbols: { [key in EBalanceType]: React.ComponentType } = {
   [EBalanceType.LOCKED_ICBM_NEUR]: EthIconWithLock,
 };
 
+export const balanceDataTestIds: { [key in EBalanceType]: string | undefined } = {
+  [EBalanceType.ETH]: "wallet-balance.eth.balance-value",
+  [EBalanceType.NEUR]: "wallet-balance.neur.balance-value",
+  [EBalanceType.ICBM_ETH]: undefined,
+  [EBalanceType.ICBM_NEUR]: undefined,
+  [EBalanceType.LOCKED_ICBM_ETH]: undefined,
+  [EBalanceType.LOCKED_ICBM_NEUR]: undefined,
+};
+
 export const createBalanceActions = (dispatch: Function): TBalanceActions => ({
   [EBalanceType.ETH]: [
     {
@@ -56,12 +65,14 @@ export const createBalanceActions = (dispatch: Function): TBalanceActions => ({
       disableIf: data => !hasBalance(data.amount),
       text: <FormattedMessage id="shared-component.account-balance.send" />,
       level: EBalanceActionLevel.PRIMARY,
+      dataTestId: "wallet.eth.withdraw.button"
     },
     {
       dispatchAction: () => dispatch(actions.depositEthModal.showDepositEthModal()),
       disableIf: () => false,
       text: <FormattedMessage id="shared-component.account-balance.receive" />,
       level: EBalanceActionLevel.PRIMARY,
+      dataTestId: "wallet-balance.eth.transfer-button"
     },
   ],
   [EBalanceType.NEUR]: [
@@ -70,6 +81,7 @@ export const createBalanceActions = (dispatch: Function): TBalanceActions => ({
       disableIf: data => !hasBalance(data.amount),
       text: <FormattedMessage id="components.wallet.start.neur-wallet.redeem" />,
       level: EBalanceActionLevel.PRIMARY,
+      dataTestId: "wallet-balance.neur.redeem-button"
     },
     {
       dispatchAction: () =>
@@ -77,6 +89,7 @@ export const createBalanceActions = (dispatch: Function): TBalanceActions => ({
       disableIf: () => false,
       text: <FormattedMessage id="components.wallet.start.neur-wallet.purchase" />,
       level: EBalanceActionLevel.PRIMARY,
+      dataTestId: "wallet-balance.neur.purchase-button"
     },
   ],
   [EBalanceType.ICBM_ETH]: [],

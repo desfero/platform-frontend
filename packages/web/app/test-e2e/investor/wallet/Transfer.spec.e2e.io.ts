@@ -9,7 +9,7 @@ describe("Wallet Transfer", () => {
 
     cy.get(tid("authorized-layout-wallet-button")).awaitedClick();
 
-    cy.get(tid("wallet.eth.transfer.button")).awaitedClick();
+    cy.get(tid("wallet-balance.eth.transfer-button")).awaitedClick();
 
     cy.fixture("INV_EUR_ICBM_HAS_KYC_ADDRESS.svg", "base64").then((qrCode: string) => {
       cy.get(tid("wallet-balance.ether.deposit.qr-code")).should(

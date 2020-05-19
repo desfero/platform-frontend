@@ -55,6 +55,7 @@ export type TBalance = {
   currency: ECurrency;
   euroEquivalentAmount: string;
   walletActions: TBalanceAction[];
+  dataTestId?:string
 };
 
 export type TBalanceAction = {
@@ -62,6 +63,7 @@ export type TBalanceAction = {
   disableIf: (w: TBalance) => boolean;
   text: TTranslatedString;
   level: EBalanceActionLevel;
+  dataTestId?: string
 };
 
 export type TBalanceActions = { [key in EBalanceType]: TBalanceAction[] };

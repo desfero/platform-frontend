@@ -89,7 +89,7 @@ export const typeWithdrawForm = (testAddress: string, testValue: string) => {
 };
 
 export const continueWithdrawFlow = (testAddress: string, testValue: string) => {
-  cy.get(tid("account-address.your.ether-address.from-div"))
+  cy.get(tid("account-address.your.ether-address.from-div.trigger"))
     .then(address => address.text())
     .as("accountAddress");
 
