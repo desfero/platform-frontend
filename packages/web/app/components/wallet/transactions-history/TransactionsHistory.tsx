@@ -26,6 +26,12 @@ type TDispatchProps = {
   showTransactionDetails: (id: string) => void;
 };
 
+export const NoTransactions = () => (
+  <PanelRounded className={styles.noTransactions}>
+    <FormattedMessage id="wallet.tx-list.no-transaction" />
+  </PanelRounded>
+);
+
 export const TransactionListLayout: React.FunctionComponent<TStateProps & TDispatchProps> = ({
   transactionsHistoryPaginated,
   loadTxHistoryNext,
@@ -92,6 +98,13 @@ const TransactionsHistory = compose<TStateProps & TDispatchProps, {}>(
       props.transactionsHistoryPaginated.transactions === undefined &&
       props.transactionsHistoryPaginated.isLoading,
     renderComponent(LoadingIndicator),
+  ),
+  branch<TStateProps>(
+    props =>
+      props.transactionsHistoryPaginated.transactions !== undefined &&
+      props.transactionsHistoryPaginated.transactions.length === 0 &&
+      props.pendingTransaction === null,
+    renderComponent(NoTransactions),
   ),
 )(TransactionListLayout);
 

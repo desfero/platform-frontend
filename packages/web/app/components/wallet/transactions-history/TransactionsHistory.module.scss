@@ -1,12 +1,8 @@
 @import "../../shared/Panel.module";
 
 @keyframes rotation {
-  0% {
-    transform: rotate(0deg);
-  }
-
   100% {
-    transform: rotate(180deg);
+    transform: rotate(360deg);
   }
 }
 
@@ -121,3 +117,8 @@ $vertical-margin: px-to-rem(18);
   animation: rotation 1s linear 0s infinite;
 }
 
+.no-transactions {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}
