@@ -43,7 +43,7 @@ export const BankAccount: React.FunctionComponent<TBankAccountProps> = ({
       <FormattedMessage id="shared-component.wallet-verified-bank-account.link-account" />
     </ButtonInline>
     <div className={styles.linkedBankAccount}>
-      <BankAccountDetails details={bankAccountData}/>
+      <BankAccountDetails details={bankAccountData} />
     </div>
   </Container>
 );

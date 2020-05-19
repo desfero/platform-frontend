@@ -104,9 +104,7 @@ export function* loadWalletView(): Generator<any, void, any> {
     const bankAccount = yield* select(selectBankAccount);
 
     const balanceData = (yield call(populateWalletData)).filter(
-      (balance: TBasicBalanceData) => {
-        return isMainBalance(balance) || hasFunds(balance)
-      },
+      (balance: TBasicBalanceData) => isMainBalance(balance) || hasFunds(balance),
     );
 
     const totalBalanceEuro = addBigNumbers(

@@ -23,7 +23,7 @@ const BankNumber: React.FunctionComponent<IBankNumber> = ({ last4, bank }) => (
   </>
 );
 
-export const BankAccountDetails:React.FunctionComponent<IExternalProps> = ({details}) =>
+export const BankAccountDetails: React.FunctionComponent<IExternalProps> = ({ details }) => (
   <>
     <img className={styles.icon} src={bankIcon} alt="" />
     <div>
@@ -35,10 +35,11 @@ export const BankAccountDetails:React.FunctionComponent<IExternalProps> = ({deta
       </p>
     </div>
   </>
+);
 
 const BankAccount: React.FunctionComponent<IExternalProps> = ({ details, withBorder }) => (
   <section className={cn(styles.bankDetails, { [styles.framed]: withBorder })}>
-    <BankAccountDetails details={details}/>
+    <BankAccountDetails details={details} />
   </section>
 );
 

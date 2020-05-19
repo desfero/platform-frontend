@@ -65,14 +65,14 @@ export const createBalanceActions = (dispatch: Function): TBalanceActions => ({
       disableIf: data => !hasBalance(data.amount),
       text: <FormattedMessage id="shared-component.account-balance.send" />,
       level: EBalanceActionLevel.PRIMARY,
-      dataTestId: "wallet.eth.withdraw.button"
+      dataTestId: "wallet.eth.withdraw.button",
     },
     {
       dispatchAction: () => dispatch(actions.depositEthModal.showDepositEthModal()),
       disableIf: () => false,
       text: <FormattedMessage id="shared-component.account-balance.receive" />,
       level: EBalanceActionLevel.PRIMARY,
-      dataTestId: "wallet-balance.eth.transfer-button"
+      dataTestId: "wallet-balance.eth.transfer-button",
     },
   ],
   [EBalanceType.NEUR]: [
@@ -81,7 +81,7 @@ export const createBalanceActions = (dispatch: Function): TBalanceActions => ({
       disableIf: data => !hasBalance(data.amount),
       text: <FormattedMessage id="components.wallet.start.neur-wallet.redeem" />,
       level: EBalanceActionLevel.PRIMARY,
-      dataTestId: "wallet-balance.neur.redeem-button"
+      dataTestId: "wallet-balance.neur.redeem-button",
     },
     {
       dispatchAction: () =>
@@ -89,7 +89,7 @@ export const createBalanceActions = (dispatch: Function): TBalanceActions => ({
       disableIf: () => false,
       text: <FormattedMessage id="components.wallet.start.neur-wallet.purchase" />,
       level: EBalanceActionLevel.PRIMARY,
-      dataTestId: "wallet-balance.neur.purchase-button"
+      dataTestId: "wallet-balance.neur.purchase-button",
     },
   ],
   [EBalanceType.ICBM_ETH]: [],

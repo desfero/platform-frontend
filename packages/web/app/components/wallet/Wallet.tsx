@@ -28,7 +28,8 @@ import { BankAccount, NoBankAccount } from "./BankAccount";
 import { TransactionsHistory } from "./transactions-history/TransactionsHistory";
 import {
   balanceAdditionalInfo,
-  balanceCurrencies, balanceDataTestIds,
+  balanceCurrencies,
+  balanceDataTestIds,
   balanceNames,
   balanceSymbols,
   createBalanceActions,
@@ -139,7 +140,7 @@ export const Wallet = compose<React.FunctionComponent>(
         currency: balanceCurrencies[wallet.name],
         euroEquivalentAmount: wallet.euroEquivalentAmount,
         walletActions: balanceActions[wallet.name],
-        dataTestId: balanceDataTestIds[wallet.name]
+        dataTestId: balanceDataTestIds[wallet.name],
       })),
     }),
   ),
