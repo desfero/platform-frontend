@@ -1,4 +1,4 @@
-import { all, fork, put, race, select, take } from "@neufund/sagas";
+import { all, fork, put, race, SagaGenerator, select, take } from "@neufund/sagas";
 import { EUserType } from "@neufund/shared-modules";
 import {
   convertFromUlps,
@@ -22,18 +22,6 @@ import { JurisdictionDisclaimerModal } from "../../components/modals/jurisdictio
 import { EtoMessage } from "../../components/translatedMessages/messages";
 import { createNotificationMessage } from "../../components/translatedMessages/utils";
 import { TGlobalDependencies } from "../../di/setupBindings";
-import {
-  EEtoState,
-  TCompanyEtoData,
-  TEtoDataWithCompany,
-  TEtoSpecsData,
-} from "../../lib/api/eto/EtoApi.interfaces.unsafe";
-import {
-  EEtoDocumentType,
-  IEtoDocument,
-  immutableDocumentName,
-} from "../../lib/api/eto/EtoFileApi.interfaces";
-import { canShowDocument } from "../../lib/api/eto/EtoFileUtils";
 import { EtherToken } from "../../lib/contracts/EtherToken";
 import { ETOCommitment } from "../../lib/contracts/ETOCommitment";
 import { ETOTerms } from "../../lib/contracts/ETOTerms";
@@ -57,6 +45,18 @@ import { ETxSenderType, TAdditionalDataByType } from "../tx/types";
 import { selectEthereumAddress } from "../web3/selectors";
 import { generateRandomEthereumAddress } from "../web3/utils";
 import { InvalidETOStateError } from "./errors";
+import {
+  EEtoState,
+  TCompanyEtoData,
+  TEtoDataWithCompany,
+  TEtoSpecsData,
+} from "./lib/http/eto-api/EtoApi.interfaces.unsafe";
+import {
+  EEtoDocumentType,
+  IEtoDocument,
+  immutableDocumentName,
+} from "./lib/http/eto-api/EtoFileApi.interfaces";
+import { canShowDocument } from "./lib/http/eto-api/EtoFileUtils";
 import { watchEtosSetActionSaga } from "./sagas/watchEtosSetActionSaga";
 import {
   selectEtoById,
@@ -768,24 +768,26 @@ export function* loadEtoGeneralTokenDiscounts(
   );
 }
 
-export function* etoSagas(): Generator<any, any, any> {
-  yield fork(neuTakeEvery, actions.eto.loadEtoPreview, loadEtoPreview);
-  yield fork(neuTakeEvery, actions.eto.loadEto, loadEto);
-  yield fork(neuTakeEvery, actions.eto.loadEtos, loadEtos);
-  yield fork(neuTakeEvery, actions.eto.loadEtoAgreementsStatus, issuerFlowLoadAgreementsStatus);
-  yield fork(neuTakeLatest, actions.eto.loadTokenTerms, loadEtoGeneralTokenDiscounts);
+export function setupEtoSagas(): () => SagaGenerator<void> {
+  return function* etoSagas(): Generator<any, any, any> {
+    yield fork(neuTakeEvery, actions.eto.loadEtoPreview, loadEtoPreview);
+    yield fork(neuTakeEvery, actions.eto.loadEto, loadEto);
+    yield fork(neuTakeEvery, actions.eto.loadEtos, loadEtos);
+    yield fork(neuTakeEvery, actions.eto.loadEtoAgreementsStatus, issuerFlowLoadAgreementsStatus);
+    yield fork(neuTakeLatest, actions.eto.loadTokenTerms, loadEtoGeneralTokenDiscounts);
 
-  yield fork(neuTakeEvery, actions.eto.downloadEtoDocument, downloadDocument);
-  yield fork(neuTakeEvery, actions.eto.downloadEtoTemplateByType, downloadTemplateByType);
+    yield fork(neuTakeEvery, actions.eto.downloadEtoDocument, downloadDocument);
+    yield fork(neuTakeEvery, actions.eto.downloadEtoTemplateByType, downloadTemplateByType);
 
-  yield fork(
-    neuTakeLatest,
-    actions.eto.loadSignedInvestmentAgreement,
-    issuerFlowLoadInvestmentAgreement,
-  );
+    yield fork(
+      neuTakeLatest,
+      actions.eto.loadSignedInvestmentAgreement,
+      issuerFlowLoadInvestmentAgreement,
+    );
 
-  yield fork(neuTakeUntil, actions.eto.setEtos, LOCATION_CHANGE, watchEtosSetActionSaga);
+    yield fork(neuTakeUntil, actions.eto.setEtos, LOCATION_CHANGE, watchEtosSetActionSaga);
 
-  // Update  eto and token data on successfully mined transaction
-  yield fork(neuTakeEvery, actions.txSender.txSenderTxMined, updateEtoAndTokenData);
+    // Update  eto and token data on successfully mined transaction
+    yield fork(neuTakeEvery, actions.txSender.txSenderTxMined, updateEtoAndTokenData);
+  };
 }

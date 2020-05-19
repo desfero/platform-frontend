@@ -1,6 +1,10 @@
-import { convertFromUlps, divideBigNumbers, multiplyBigNumbers } from "@neufund/shared-utils";
+import {
+  convertFromUlps,
+  divideBigNumbers,
+  multiplyBigNumbers,
+  TBigNumberVariants,
+} from "@neufund/shared-utils";
 
-import { TBigNumberVariants } from "../../web3/types";
 import { TPartialEtoSpecData } from "./EtoApi.interfaces.unsafe";
 
 export const calcInvestmentAmount = (eto: TPartialEtoSpecData, sharePrice: number | undefined) => ({

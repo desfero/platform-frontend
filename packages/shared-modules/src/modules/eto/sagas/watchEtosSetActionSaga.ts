@@ -4,10 +4,10 @@ import { LOCATION_CHANGE } from "connected-react-router";
 import { map } from "lodash/fp";
 
 import { TGlobalDependencies } from "../../../di/setupBindings";
-import { EEtoState, TEtoSpecsData } from "../../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { TAppGlobalState } from "../../../store";
 import { actions, TActionFromCreator } from "../../actions";
 import { neuCall, neuFork, neuTakeEveryUntil } from "../../sagasUtils";
+import { EEtoState, TEtoSpecsData } from ".././lib/http/eto-api/EtoApi.interfaces.unsafe";
 import { etoInProgressPollingDelay, etoNormalPollingDelay } from "../constants";
 import { selectInvestorEtoWithCompanyAndContract } from "../selectors";
 import { EETOStateOnChain, TEtoWithCompanyAndContractReadonly } from "../types";

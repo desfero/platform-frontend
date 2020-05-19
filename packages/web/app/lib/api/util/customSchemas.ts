@@ -12,33 +12,7 @@ import { createMessage } from "../../../components/translatedMessages/utils";
 /**
  * Date schema
  */
-export const DATE_SCHEME = "YYYY-M-D";
-export const parseStringToMomentDate = (s: string) => moment(s, DATE_SCHEME, true);
 
-export const currencyCodeSchema = (v: Yup.StringSchema) =>
-  v.matches(/^[A-Z]{3}$/, {
-    message: getMessageTranslation(
-      createMessage(ValidationMessage.VALIDATION_CURRENCY_CODE),
-    ) as string,
-  });
-
-export const dateSchema = (v: Yup.StringSchema) =>
-  v
-    .transform((_value: unknown, originalValue: string): string | undefined => {
-      if (originalValue === undefined) {
-        return undefined;
-      }
-      const date = parseStringToMomentDate(originalValue);
-      if (!date.isValid()) {
-        return undefined;
-      }
-      return date.format(DATE_SCHEME);
-    })
-    .test(
-      "is-valid",
-      getMessageTranslation(createMessage(ValidationMessage.VALIDATION_INVALID_DATE)),
-      s => (s !== undefined ? parseStringToMomentDate(s).isValid() : true),
-    );
 
 export const date = dateSchema(Yup.string());
 
@@ -108,11 +82,3 @@ export const restrictedCountry = countryCode.test(
   getMessageTranslation(createMessage(ValidationMessage.VALIDATION_RESTRICTED_COUNTRY)),
   response => !includes(RESTRICTED_COUNTRIES, response),
 );
-
-export const percentage = Yup.number()
-  .max(100, (values: unknown) =>
-    getMessageTranslation(createMessage(ValidationMessage.VALIDATION_PECENTAGE_MAX, values)),
-  )
-  .min(0, (values: unknown) =>
-    getMessageTranslation(createMessage(ValidationMessage.VALIDATION_PERCENTAGE_MIN, values)),
-  );

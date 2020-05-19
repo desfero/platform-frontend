@@ -1,4 +1,4 @@
-import { ETxHistoryMessage, EWalletSubType } from "@neufund/shared-modules";
+import { ETxHistoryMessage, EWalletSubType, ValidationMessage } from "@neufund/shared-modules";
 import { assertNever } from "@neufund/shared-utils";
 import * as React from "react";
 import { FormattedHTMLMessage, FormattedMessage } from "react-intl-phraseapp";
@@ -253,25 +253,6 @@ export enum ProfileMessage {
 export enum Web3Message {
   WEB3_ERROR_BROWSER = "web3ErrorBrowser",
   WEB3_ERROR_LEDGER = "web3ErrorLedger",
-}
-
-export enum ValidationMessage {
-  VALIDATION_INTEGER = "validationInteger",
-  VALIDATION_MIN_PLEDGE = "validationMinPledge",
-  VALIDATION_MAX_PLEDGE = "validationMaxPledge",
-  VALIDATION_MAX_NEW_SHARES_LESS_THAN_MINIMUM = "validationMaxNewSharesLessThanMinimum",
-  VALIDATION_TICKET_LESS_THAN_ACCEPTED = "validationTicketLessThanAccepted",
-  VALIDATION_TICKET_LESS_THAN_MINIMUM = "validationTicketLessThanMinimum",
-  VALIDATION_INVALID_DATE = "validationInvalidDate",
-  VALIDATION_MIN_AGE = "validationMinAge",
-  VALIDATION_MAX_AGE = "validationMaxAge",
-  VALIDATION_DATE_IN_THE_FUTURE = "validationDateInTheFuture",
-  VALIDATION_US_CITIZEN = "validationUsCitizen",
-  VALIDATION_RESTRICTED_COUNTRY = "validationRestrictedCountry",
-  VALIDATION_PECENTAGE_MAX = "validationPecentageMax",
-  VALIDATION_PERCENTAGE_MIN = "validationPercentageMin",
-  VALIDATION_CURRENCY_CODE = "validationCurrencyCode",
-  VALIDATION_FIELDS_SHOULD_MATCH = "validationFieldsShouldMatch",
 }
 
 export enum MarketingEmailsMessage {

@@ -2,6 +2,7 @@ import {
   DeepPartial,
   DeepReadonly,
   Dictionary,
+  ECurrency,
   EquityToken,
   EthereumAddressWithChecksum,
   MAX_PERCENTAGE,
@@ -25,14 +26,9 @@ import {
 } from "@neufund/shared-utils";
 import { NumberSchema, StringSchema } from "yup";
 
-import { ECurrency } from "../../../components/shared/formatters/utils";
-import {
-  getMessageTranslation,
-  ValidationMessage,
-} from "../../../components/translatedMessages/messages";
-import { createMessage } from "../../../components/translatedMessages/utils";
-import * as YupTS from "../../yup-ts.unsafe";
-import { currencyCodeSchema, dateSchema, percentage } from "../util/customSchemas";
+import { TypeOfYTS, YupTS } from "../../../../../lib/yup-ts.unsafe";
+import { createMessage, getMessageTranslation, ValidationMessage } from "../../../../../messages";
+import { EtoMessage } from "../../../messages";
 import { TEtoDocumentTemplates } from "./EtoFileApi.interfaces";
 import { IBookBuildingStats } from "./EtoPledgeApi.interfaces.unsafe";
 import { TEtoProduct } from "./EtoProductsApi.interfaces";
@@ -41,14 +37,14 @@ import { TEtoProduct } from "./EtoProductsApi.interfaces";
  *  only deals with "/companies/me"
  */
 
-export const CurrencyCodeType = YupTS.string().enhance(currencyCodeSchema);
+export const CurrencyCodeType = YupTS.string().enhance(YupTS.currencyCodeSchema);
 
 const EtoFounderType = YupTS.object({
   fullName: YupTS.string(),
   role: YupTS.string(),
   bio: YupTS.string(),
 });
-export type TEtoFounder = YupTS.TypeOf<typeof EtoFounderType>;
+export type TEtoFounder = TypeOfYTS<typeof EtoFounderType>;
 
 const tagsType = YupTS.string();
 
@@ -56,7 +52,7 @@ const EtoCapitalListType = YupTS.object({
   description: YupTS.string().optional(),
   percent: YupTS.number()
     .optional()
-    .enhance(() => percentage),
+    .enhance(() => YupTS.percentage),
 }).optional();
 
 export const EtoCompanyInformationType = YupTS.object({
@@ -71,7 +67,7 @@ export const EtoCompanyInformationType = YupTS.object({
   companyBanner: YupTS.string().optional(),
   companyPreviewCardBanner: YupTS.string(),
 });
-type TEtoTeamData = YupTS.TypeOf<typeof EtoCompanyInformationType>;
+type TEtoTeamData = TypeOfYTS<typeof EtoCompanyInformationType>;
 
 export const EtoPitchType = YupTS.object({
   problemSolved: YupTS.wysiwygString().optional(),
@@ -92,7 +88,7 @@ export const EtoPitchType = YupTS.object({
   businessModel: YupTS.wysiwygString().optional(),
 });
 
-type TEtoProductVision = YupTS.TypeOf<typeof EtoPitchType>;
+type TEtoProductVision = TypeOfYTS<typeof EtoPitchType>;
 
 export const EtoRiskAssessmentType = YupTS.object({
   riskNotRegulatedBusiness: YupTS.onlyTrue(),
@@ -105,7 +101,7 @@ export const EtoRiskAssessmentType = YupTS.object({
   riskMaxDescription: YupTS.string().optional(),
 });
 
-type TEtoRiskAssessment = YupTS.TypeOf<typeof EtoRiskAssessmentType>;
+type TEtoRiskAssessment = TypeOfYTS<typeof EtoRiskAssessmentType>;
 
 export enum ESocialChannelType {
   FACEBOOK = "facebook",
@@ -128,11 +124,11 @@ const socialChannelType = YupTS.object({
   url: YupTS.url().optional(),
 });
 
-export type TSocialChannelType = YupTS.TypeOf<typeof socialChannelType>;
+export type TSocialChannelType = TypeOfYTS<typeof socialChannelType>;
 
 const socialChannelsType = YupTS.array(socialChannelType);
 
-export type TSocialChannelsType = YupTS.TypeOf<typeof socialChannelsType>;
+export type TSocialChannelsType = TypeOfYTS<typeof socialChannelsType>;
 
 export const EtoKeyIndividualType = YupTS.object({
   members: YupTS.array(
@@ -147,7 +143,7 @@ export const EtoKeyIndividualType = YupTS.object({
   ).optional(),
 });
 
-export type TEtoKeyIndividualType = YupTS.TypeOf<typeof EtoKeyIndividualType>;
+export type TEtoKeyIndividualType = TypeOfYTS<typeof EtoKeyIndividualType>;
 
 export const EtoKeyIndividualsType = YupTS.object({
   team: EtoKeyIndividualType.optional(),
@@ -159,7 +155,7 @@ export const EtoKeyIndividualsType = YupTS.object({
   keyAlliances: EtoKeyIndividualType.optional(),
 });
 
-type TEtoKeyIndividualsType = YupTS.TypeOf<typeof EtoKeyIndividualsType>;
+type TEtoKeyIndividualsType = TypeOfYTS<typeof EtoKeyIndividualsType>;
 
 const EtoLegalShareholderType = YupTS.object({
   fullName: YupTS.string().optional(),
@@ -168,7 +164,7 @@ const EtoLegalShareholderType = YupTS.object({
     .enhance(v => v.moreThan(0)),
 });
 
-export type TEtoLegalShareholderType = YupTS.TypeOf<typeof EtoLegalShareholderType>;
+export type TEtoLegalShareholderType = TypeOfYTS<typeof EtoLegalShareholderType>;
 
 export enum EFundingRound {
   PRE_SEED = "pre_seed",
@@ -190,7 +186,7 @@ export const EtoLegalInformationType = YupTS.object({
   country: YupTS.string(),
   vatNumber: YupTS.string().optional(),
   registrationNumber: YupTS.string(),
-  foundingDate: YupTS.string().enhance((v: StringSchema) => dateSchema(v)),
+  foundingDate: YupTS.string().enhance((v: StringSchema) => YupTS.dateSchema(v)),
   numberOfEmployees: YupTS.string().optional(),
   companyStage: YupTS.string<EFundingRound>().optional(),
   numberOfFounders: YupTS.number().optional(),
@@ -199,7 +195,7 @@ export const EtoLegalInformationType = YupTS.object({
   shareCapitalCurrencyCode: CurrencyCodeType,
   shareholders: YupTS.array(EtoLegalShareholderType),
 });
-type TEtoLegalData = YupTS.TypeOf<typeof EtoLegalInformationType>;
+type TEtoLegalData = TypeOfYTS<typeof EtoLegalInformationType>;
 
 const marketingLinksType = YupTS.array(
   YupTS.object({
@@ -235,7 +231,7 @@ export const EtoMediaType = YupTS.object({
   disableTwitterFeed: YupTS.boolean().optional(),
 });
 
-export type TEtoMediaData = YupTS.TypeOf<typeof EtoMediaType>;
+export type TEtoMediaData = TypeOfYTS<typeof EtoMediaType>;
 
 type TEtoCompanyBase = {
   companyId: string;
@@ -375,9 +371,9 @@ export const EtoInvestmentCalculatedValues = YupTS.object({
   canGoOnChain: YupTS.boolean(),
 });
 
-export type TEtoInvestmentCalculatedValues = YupTS.TypeOf<typeof EtoInvestmentCalculatedValues>;
+export type TEtoInvestmentCalculatedValues = TypeOfYTS<typeof EtoInvestmentCalculatedValues>;
 
-export type TEtoTermsType = YupTS.TypeOf<ReturnType<typeof getEtoTermsSchema>>;
+export type TEtoTermsType = TypeOfYTS<ReturnType<typeof getEtoTermsSchema>>;
 
 export const EtoEquityTokenInfoType = YupTS.object({
   equityTokenName: YupTS.string(),
@@ -385,7 +381,7 @@ export const EtoEquityTokenInfoType = YupTS.object({
   equityTokenImage: YupTS.string(),
 });
 
-export type TEtoEquityTokenInfoType = YupTS.TypeOf<typeof EtoEquityTokenInfoType>;
+export type TEtoEquityTokenInfoType = TypeOfYTS<typeof EtoEquityTokenInfoType>;
 
 export enum ETagAlongVotingRule {
   NO_VOTING_RIGHTS = "no_voting_rights",
@@ -429,7 +425,7 @@ export const EtoVotingRightsType = YupTS.object({
   nominee: YupTS.string(),
 });
 
-export type TEtoVotingRightsType = YupTS.TypeOf<typeof EtoVotingRightsType>;
+export type TEtoVotingRightsType = TypeOfYTS<typeof EtoVotingRightsType>;
 
 export const EtoInvestmentTermsType = YupTS.object({
   equityTokensPerShare: YupTS.number(),
@@ -494,7 +490,7 @@ export const EtoInvestmentTermsType = YupTS.object({
   discountScheme: YupTS.string().optional(),
 });
 
-export type TEtoInvestmentTermsType = YupTS.TypeOf<typeof EtoInvestmentTermsType>;
+export type TEtoInvestmentTermsType = TypeOfYTS<typeof EtoInvestmentTermsType>;
 
 interface IAdditionalEtoType {
   etoId: EthereumAddressWithChecksum;
@@ -568,4 +564,17 @@ export type TNomineeRequestResponse = {
     street: string;
     zipCode: string;
   };
+};
+
+export const FUNDING_ROUNDS: Dictionary<string, EFundingRound | "NONE_KEY"> = {
+  NONE_KEY: getMessageTranslation(createMessage(EtoMessage.SELECT_FUNDING_ROUND)),
+  [EFundingRound.PRE_SEED]: "Pre-Seed",
+  [EFundingRound.SEED]: "Seed",
+  [EFundingRound.A_ROUND]: "Series A",
+  [EFundingRound.B_ROUND]: "Series B",
+  [EFundingRound.C_ROUND]: "Series C",
+  [EFundingRound.D_ROUND]: "Series D",
+  [EFundingRound.E_ROUND]: "Series E",
+  [EFundingRound.PRE_IPO]: "Pre-IPO",
+  [EFundingRound.PUBLIC]: "PUBLIC",
 };

@@ -1,9 +1,9 @@
 import { authModuleAPI, coreModuleApi, IHttpClient, IHttpResponse } from "@neufund/shared-modules";
 import { Dictionary, EthereumAddress, withParams } from "@neufund/shared-utils";
 import { inject, injectable } from "inversify";
+import { toChecksumAddress } from "web3-utils";
 
-import { amendEtoToCompatibleFormat } from "../../../modules/eto/utils";
-import { makeEthereumAddressChecksummed } from "../../../modules/web3/utils";
+import { amendEtoToCompatibleFormat } from "../../../utils";
 import {
   TBookBuildingsStatsList,
   TEtoDataWithCompany,
@@ -161,7 +161,7 @@ export class EtoApi {
         const etosStatsResponse: Dictionary<IBookBuildingStats> = response.body.bookbuildingStats;
         const etoStats: any = {};
         for (let key in etosStatsResponse) {
-          etoStats[makeEthereumAddressChecksummed(key as EthereumAddress)] = etosStatsResponse[key];
+          etoStats[toChecksumAddress(key as EthereumAddress)] = etosStatsResponse[key];
         }
         return etoStats;
       });

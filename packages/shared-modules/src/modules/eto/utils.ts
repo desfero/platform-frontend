@@ -1,17 +1,17 @@
 import { DeepPartial, EthereumAddressWithChecksum, Overwrite } from "@neufund/shared-utils";
 import BigNumber from "bignumber.js";
+import { includes } from "lodash/fp";
 
 import {
   EEtoMarketingDataVisibleInPreview,
   EEtoState,
   TEtoSpecsData,
-} from "../../lib/api/eto/EtoApi.interfaces.unsafe";
-import { EJurisdiction } from "../../lib/api/eto/EtoProductsApi.interfaces";
+} from "./lib/http/eto-api/EtoApi.interfaces.unsafe";
+import { EJurisdiction } from "./lib/http/eto-api/EtoProductsApi.interfaces";
 import {
   calculateCurrentInvestmentProgressPercentage,
   calculateTarget,
-} from "../../lib/api/eto/EtoUtils";
-import { isPastInvestment } from "../investor-portfolio/utils";
+} from "./lib/http/eto-api/EtoUtils";
 import {
   EETOStateOnChain,
   EEtoSubState,
@@ -20,6 +20,9 @@ import {
   TEtoStartOfStates,
   TEtoWithCompanyAndContractReadonly,
 } from "./types";
+
+export const isPastInvestment = (etoState: EETOStateOnChain) =>
+  includes(etoState, [EETOStateOnChain.Payout, EETOStateOnChain.Refund, EETOStateOnChain.Claim]);
 
 export const amendEtoToCompatibleFormat = (
   eto: DeepPartial<TEtoSpecsData>,

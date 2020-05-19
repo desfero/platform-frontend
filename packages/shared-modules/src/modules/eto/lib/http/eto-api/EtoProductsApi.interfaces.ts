@@ -1,4 +1,4 @@
-import * as YupTS from "../../yup-ts.unsafe";
+import { TypeOfYTS, YupTS } from "../../../../../lib/yup-ts.unsafe";
 
 export enum EAssetType {
   SECURITY = "security",
@@ -60,5 +60,5 @@ export const EtoProductSchema = YupTS.object({
 
 export const EtoProductsSchema = YupTS.array(EtoProductSchema);
 
-export type TEtoProducts = YupTS.TypeOf<typeof EtoProductsSchema>;
-export type TEtoProduct = YupTS.TypeOf<typeof EtoProductSchema>;
+export type TEtoProducts = TypeOfYTS<typeof EtoProductsSchema>;
+export type TEtoProduct = TypeOfYTS<typeof EtoProductSchema>;

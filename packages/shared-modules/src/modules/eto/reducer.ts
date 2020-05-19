@@ -1,8 +1,8 @@
+import { AppReducer } from "@neufund/sagas";
 import { DeepReadonly } from "@neufund/shared-utils";
 
-import { TCompanyEtoData, TEtoSpecsData } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
-import { AppReducer } from "../../store";
-import { actions } from "../actions";
+import { etoActions } from "./actions";
+import { TCompanyEtoData, TEtoSpecsData } from "./lib/http/eto-api/EtoApi.interfaces.unsafe";
 import {
   IEtoTokenData,
   IEtoTokenGeneralDiscounts,
@@ -41,12 +41,12 @@ export const etoFlowInitialState: IEtoState = {
   tokensLoading: false,
 };
 
-export const etoReducer: AppReducer<IEtoState> = (
+export const etoReducer: AppReducer<IEtoState, typeof etoActions> = (
   state = etoFlowInitialState,
   action,
 ): DeepReadonly<IEtoState> => {
   switch (action.type) {
-    case actions.eto.setEtos.getType():
+    case etoActions.setEtos.getType():
       return {
         ...state,
         etos: {
@@ -59,7 +59,7 @@ export const etoReducer: AppReducer<IEtoState> = (
         },
         etosError: false,
       };
-    case actions.eto.setEto.getType():
+    case etoActions.setEto.getType():
       return {
         ...state,
         etos: {
@@ -73,12 +73,12 @@ export const etoReducer: AppReducer<IEtoState> = (
             : {}),
         },
       };
-    case actions.eto.setEtosDisplayOrder.getType():
+    case etoActions.setEtosDisplayOrder.getType():
       return {
         ...state,
         displayOrder: action.payload.order,
       };
-    case actions.eto.setEtoDataFromContract.getType():
+    case etoActions.setEtoDataFromContract.getType():
       return {
         ...state,
         contracts: {
@@ -86,12 +86,12 @@ export const etoReducer: AppReducer<IEtoState> = (
           [action.payload.previewCode]: action.payload.data,
         },
       };
-    case actions.eto.setEtoWidgetError.getType():
+    case etoActions.setEtoWidgetError.getType():
       return {
         ...state,
         etoWidgetError: true,
       };
-    case actions.eto.setTokenData.getType():
+    case etoActions.setTokenData.getType():
       return {
         ...state,
         tokenData: {
@@ -99,7 +99,7 @@ export const etoReducer: AppReducer<IEtoState> = (
           [action.payload.previewCode]: action.payload.tokenData,
         },
       };
-    case actions.eto.setTokenGeneralDiscounts.getType():
+    case etoActions.setTokenGeneralDiscounts.getType():
       return {
         ...state,
         tokenGeneralDiscounts: {
@@ -107,8 +107,8 @@ export const etoReducer: AppReducer<IEtoState> = (
           [action.payload.etoId]: action.payload.tokenGeneralDiscounts,
         },
       };
-    case actions.eto.setAgreementsStatus.getType():
-      //todo actions.eto.setAgreementsStatus writes to both nominee-flow reducer and here.
+    case etoActions.setAgreementsStatus.getType():
+      //todo etoActions.setAgreementsStatus writes to both nominee-flow reducer and here.
       // This is for the backwards compat. until the issuer flow is refactored to use sagas
       // in the same way as nominee flow.
       return {
@@ -118,10 +118,10 @@ export const etoReducer: AppReducer<IEtoState> = (
           [action.payload.previewCode]: action.payload.statuses,
         },
       };
-    //todo actions.eto.setInvestmentAgreementHash writes to both nominee-flow reducer and here.
+    //todo etoActions.setInvestmentAgreementHash writes to both nominee-flow reducer and here.
     // This is for the backwards compat. until the issuer flow is refactored to use sagas
     // in the same way as nominee flow.
-    case actions.eto.setInvestmentAgreementHash.getType():
+    case etoActions.setInvestmentAgreementHash.getType():
       return {
         ...state,
         signedInvestmentAgreements: {
@@ -132,10 +132,10 @@ export const etoReducer: AppReducer<IEtoState> = (
           },
         },
       };
-    //todo actions.eto.loadInvestmentAgreementHash writes to both nominee-flow reducer and here.
+    //todo etoActions.loadInvestmentAgreementHash writes to both nominee-flow reducer and here.
     // This is for the backwards compat. until the issuer flow is refactored to use sagas
     // in the same way as nominee flow.
-    case actions.eto.loadSignedInvestmentAgreement.getType():
+    case etoActions.loadSignedInvestmentAgreement.getType():
       return {
         ...state,
         signedInvestmentAgreements: {
@@ -144,19 +144,19 @@ export const etoReducer: AppReducer<IEtoState> = (
         },
       };
 
-    case actions.eto.setEtosError.getType():
+    case etoActions.setEtosError.getType():
       return {
         ...state,
         etosError: true,
       };
 
-    case actions.eto.loadEtos.getType():
+    case etoActions.loadEtos.getType():
       return {
         ...state,
         tokensLoading: true,
       };
 
-    case actions.eto.setTokensLoadingDone.getType():
+    case etoActions.setTokensLoadingDone.getType():
       return {
         ...state,
         tokensLoading: false,
@@ -165,3 +165,9 @@ export const etoReducer: AppReducer<IEtoState> = (
 
   return state;
 };
+
+const etoReducerMap = {
+  eto: etoReducer,
+};
+
+export { etoReducerMap };

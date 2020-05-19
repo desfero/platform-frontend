@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { TEtoWithCompanyAndContractReadonly } from "../../../modules/eto/types";
+import { TEtoWithCompanyAndContractReadonly } from "../../../types";
 import { EFundingRound } from "./EtoApi.interfaces.unsafe";
 import { getNextFundingRound } from "./EtoApiUtils";
 

@@ -8,11 +8,6 @@ export enum ENomineeRequestStatus {
   REJECTED = "rejected",
 }
 
-export enum ENomineeUpdateRequestStatus {
-  APPROVED = "approved",
-  REJECTED = "rejected",
-}
-
 export enum ENomineeRequestError {
   NONE = "none",
   ISSUER_ID_ERROR = "issuer_id_error",

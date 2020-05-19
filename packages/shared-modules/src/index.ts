@@ -8,6 +8,8 @@ export * from "./modules/tx-history/module";
 export * from "./modules/wallet/module";
 export * from "./modules/gas/module";
 
+export * from "./messages";
+
 export * from "./types";
 export * from "./extensions";
 export * from "./utils";

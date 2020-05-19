@@ -2,7 +2,7 @@ import { authModuleAPI, IHttpClient } from "@neufund/shared-modules";
 import { withParams } from "@neufund/shared-utils";
 import { inject, injectable } from "inversify";
 
-import { ENomineeUpdateRequestStatus } from "../../../modules/nominee-flow/types";
+import { ENomineeUpdateRequestStatus } from "../../../types";
 import { TNomineeRequestResponse } from "./EtoApi.interfaces.unsafe";
 
 const BASE_PATH = "/api/eto-listing/etos";

@@ -1,7 +1,12 @@
 import { DeepReadonly, Dictionary, Overwrite } from "@neufund/shared-utils";
 
-import { TCompanyEtoData, TEtoSpecsData } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
-import { EAgreementType } from "../tx/transactions/nominee/sign-agreement/types";
+import { TCompanyEtoData, TEtoSpecsData } from "./lib/http/eto-api/EtoApi.interfaces.unsafe";
+
+export enum EAgreementType {
+  RAAA = "raaa",
+  THA = "tha",
+  ISHA = "isha",
+}
 
 export interface IEtoTotalInvestment {
   totalEquivEurUlps: string;
@@ -89,3 +94,21 @@ export type TSocialChannel = {
 };
 
 export type TSocialChannels = TSocialChannel[];
+
+export enum EEtoFormTypes {
+  CompanyInformation = "companyInformation",
+  LegalInformation = "legalInformation",
+  KeyIndividuals = "keyIndividuals",
+  ProductVision = "productVision",
+  EtoTerms = "etoTerms",
+  EtoInvestmentTerms = "etoInvestmentTerms",
+  EtoMedia = "etoMedia",
+  EtoVotingRights = "etoVotingRights",
+  EtoEquityTokenInfo = "etoEquityTokenInfo",
+  EtoRiskAssessment = "etoRiskAssessment",
+}
+
+export enum ENomineeUpdateRequestStatus {
+  APPROVED = "approved",
+  REJECTED = "rejected",
+}

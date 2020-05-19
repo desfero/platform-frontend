@@ -1,6 +1,15 @@
 import { DeepReadonly, Dictionary } from "@neufund/shared-utils";
 import { mapValues } from "lodash";
+import * as moment from "moment";
 import * as Yup from "yup";
+
+import {
+  createMessage,
+  getMessageTranslation,
+  TMessage,
+  ValidationMessage,
+  YupMessage,
+} from "../messages";
 
 const object = <T extends {}>(objectShape: T) => new ObjectYTS(objectShape);
 const string = <T extends string>() => new StringYTS<T>();
@@ -16,16 +25,6 @@ export type SchemaYTS<T> = ObjectYTS<T>;
 export function isYTS(schema: any): schema is SchemaYTS<any> {
   return schema instanceof YTS;
 }
-
-export const YupTS = {
-  object,
-  string,
-  url,
-  array,
-  number,
-  boolean,
-  isYTS,
-};
 
 type TypeOfProps<P extends Dictionary<any>> = { [K in keyof P]: TypeOfYTS<P[K]> };
 
@@ -101,3 +100,85 @@ export class ArrayYTS<T extends YTS<any>> extends YTS<Array<TypeOfYTS<T>>> {
     return this.validator;
   }
 }
+
+const wysiwygString = () => new WysiwygStringYTS();
+const onlyTrue = (message?: TMessage) =>
+  new BooleanYTS().enhance(v =>
+    v.test(
+      "isTrue",
+      getMessageTranslation(message || createMessage(YupMessage.DEFAULT_ONLY_TRUE_MESSAGE)),
+      value => value === undefined || value === true,
+    ),
+  );
+
+export class WysiwygStringYTS extends YTS<string> {
+  constructor() {
+    super(Yup.string().meta({ isWysiwyg: true }));
+  }
+
+  max(limit: number): YTS<string> {
+    return this.enhance(v =>
+      v.max(limit, getMessageTranslation(createMessage(YupMessage.WYSIWYG_MAX_EXCEEDED_MESSAGE))),
+    );
+  }
+}
+
+/**
+ * Custom schemas
+ */
+
+export const DATE_SCHEME = "YYYY-M-D";
+export const parseStringToMomentDate = (s: string) => moment(s, DATE_SCHEME, true);
+
+const currencyCodeSchema = (v: Yup.StringSchema) =>
+  v.matches(/^[A-Z]{3}$/, {
+    message: getMessageTranslation(
+      createMessage(ValidationMessage.VALIDATION_CURRENCY_CODE),
+    ) as string,
+  });
+
+const dateSchema = (v: Yup.StringSchema) =>
+  v
+    .transform((_value: unknown, originalValue: string): string | undefined => {
+      if (originalValue === undefined) {
+        return undefined;
+      }
+      const date = parseStringToMomentDate(originalValue);
+      if (!date.isValid()) {
+        return undefined;
+      }
+      return date.format(DATE_SCHEME);
+    })
+    .test(
+      "is-valid",
+      getMessageTranslation(createMessage(ValidationMessage.VALIDATION_INVALID_DATE)),
+      s => (s !== undefined ? parseStringToMomentDate(s).isValid() : true),
+    );
+
+// TODO: fix error message
+const percentage = Yup.number()
+  .max(100, "Number too large")
+
+  //   (values: unknown) =>
+  //   getMessageTranslation(createMessage(ValidationMessage.VALIDATION_PECENTAGE_MAX, values)),
+  // )
+  .min(0, "Number too small");
+
+//   (values: unknown) =>
+//   getMessageTranslation(createMessage(ValidationMessage.VALIDATION_PERCENTAGE_MIN, values)),
+// );
+
+export const YupTS = {
+  object,
+  string,
+  url,
+  array,
+  number,
+  boolean,
+  isYTS,
+  wysiwygString,
+  onlyTrue,
+  percentage,
+  currencyCodeSchema,
+  dateSchema,
+};

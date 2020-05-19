@@ -1,9 +1,7 @@
 import { Dictionary } from "@neufund/shared-utils";
 
-import { FUNDING_ROUNDS } from "../../../components/eto/shared/constants";
-import { EEtoFormTypes } from "../../../modules/eto-flow/types";
-import { TEtoWithCompanyAndContractReadonly } from "../../../modules/eto/types";
-import { EEtoState, EFundingRound } from "./EtoApi.interfaces.unsafe";
+import { EEtoFormTypes, TEtoWithCompanyAndContractReadonly } from "../../../types";
+import { EEtoState, EFundingRound, FUNDING_ROUNDS } from "./EtoApi.interfaces.unsafe";
 
 export const etoFormIsReadonly = (formName: EEtoFormTypes, etoState?: EEtoState) => {
   const readOnlyForms = [

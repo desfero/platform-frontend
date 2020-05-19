@@ -1,6 +1,6 @@
 import { ECountries, minutesToMs } from "@neufund/shared-utils";
 
-import { EJurisdiction } from "../../lib/api/eto/EtoProductsApi.interfaces";
+import { EJurisdiction } from "./lib/http/eto-api/EtoProductsApi.interfaces";
 
 export const etoInProgressPollingDelay = minutesToMs(1);
 export const etoNormalPollingDelay = minutesToMs(10);
