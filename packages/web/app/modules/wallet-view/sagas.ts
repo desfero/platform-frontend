@@ -23,9 +23,10 @@ import {
   selectNEURStatus,
 } from "../wallet/selectors";
 import { selectEthereumAddress } from "../web3/selectors";
-import { EBalanceType, TBalanceData, TWalletData } from "./types";
+import { EBalanceType, TBalanceData, TBasicBalanceData } from "./types";
+import { hasFunds, isMainBalance } from "./utils";
 
-export function* populateWalletData(): Generator<any, TWalletData[], any> {
+export function* populateWalletData(): Generator<any, TBasicBalanceData[], any> {
   const ethWalletData = yield all({
     amount: select(selectLiquidEtherBalance),
     euroEquivalentAmount: yield* select(selectLiquidEtherBalanceEuroAmount),
@@ -103,7 +104,9 @@ export function* loadWalletView(): Generator<any, void, any> {
     const bankAccount = yield* select(selectBankAccount);
 
     const balanceData = (yield call(populateWalletData)).filter(
-      (data: TWalletData) => data.hasFunds,
+      (balance: TBasicBalanceData) => {
+        return isMainBalance(balance) || hasFunds(balance)
+      },
     );
 
     const totalBalanceEuro = addBigNumbers(

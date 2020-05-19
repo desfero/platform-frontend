@@ -4,7 +4,7 @@ import { ECurrency, EthereumAddressWithChecksum } from "@neufund/shared-utils";
 import { EProcessState } from "../../utils/enums/processStates";
 import { TBankAccount } from "../kyc/types";
 
-export type TWalletData = {
+export type TBasicBalanceData = {
   name: EBalanceType;
   hasFunds: boolean;
   amount: string;
