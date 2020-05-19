@@ -40,7 +40,7 @@ export const TransactionListLayout: React.FunctionComponent<TStateProps & TDispa
 }) => (
   <PanelRounded>
     {(transactionsHistoryPaginated.transactions || pendingTransaction) && (
-      <li className={styles.transactionList}>
+      <li className={styles.transactionList} data-test-id="transactions-history">
         {pendingTransaction && (
           <PendingTransaction
             data-test-id="pending-transactions.transaction-mining"

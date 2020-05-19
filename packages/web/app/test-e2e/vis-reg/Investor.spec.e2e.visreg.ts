@@ -30,8 +30,7 @@ describe("Investor", () => {
 
   it("should render wallet", () => {
     goToWallet();
-
-    cy.awaitedScreenshot('[aria-describedby="transactions-history-heading"]');
+    cy.awaitedScreenshot("transactions-history");
   });
 
   it("should render profile", () => {

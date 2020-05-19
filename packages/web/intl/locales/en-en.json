@@ -1532,7 +1532,7 @@
   "wallet.tx-list.name.redistribute-payout": "Redistributed Payout from NEU",
   "wallet.tx-list.name.transfer.received": "Received {currency}",
   "wallet.tx-list.name.transfer.transferred": "Sent {currency}",
-  "wallet.tx-list.no-transaction": "It seems you don't have any transactions on the platform yet",
+  "wallet.tx-list.no-transaction": "You don't have any transactions on the platform yet",
   "wallet.tx-list.tooltip": "Here you can view all your past transactions on the platform.",
   "wallet.wallet-address": "Wallet Address",
   "withdraw-flow.close-summary": "Close Summary",
