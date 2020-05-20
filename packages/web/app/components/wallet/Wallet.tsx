@@ -10,7 +10,6 @@ import { selectWalletViewData } from "../../modules/wallet-view/selectors";
 import {
   TBalance,
   TBalanceActions,
-  TBalanceData,
   TWalletViewReadyState,
   TWalletViewState,
 } from "../../modules/wallet-view/types";
@@ -26,14 +25,7 @@ import { BalanceList } from "./BalanceList";
 import { BalanceTotal } from "./BalanceTotal";
 import { BankAccount, NoBankAccount } from "./BankAccount";
 import { TransactionsHistory } from "./transactions-history/TransactionsHistory";
-import {
-  balanceAdditionalInfo,
-  balanceCurrencies,
-  balanceDataTestIds,
-  balanceNames,
-  balanceSymbols,
-  createBalanceActions,
-} from "./utils";
+import { createBalanceActions, createBalanceUiData } from "./utils";
 import { WalletContainer } from "./WalletContainer";
 
 import * as styles from "./Wallet.module.scss";
@@ -135,16 +127,7 @@ export const Wallet = compose<React.FunctionComponent>(
   ),
   withProps<{ balances: TBalance[] }, TWalletViewReadyState & TDispatchProps>(
     ({ balanceData, balanceActions }) => ({
-      balances: balanceData.map((wallet: TBalanceData) => ({
-        logo: balanceSymbols[wallet.name],
-        balanceName: balanceNames[wallet.name],
-        balanceAdditionalInfo: balanceAdditionalInfo[wallet.name],
-        amount: wallet.amount,
-        currency: balanceCurrencies[wallet.name],
-        euroEquivalentAmount: wallet.euroEquivalentAmount,
-        walletActions: balanceActions[wallet.name],
-        dataTestId: balanceDataTestIds[wallet.name],
-      })),
+      balances: balanceData.map(balance => createBalanceUiData(balance, balanceActions)),
     }),
   ),
 )(WalletLayout);

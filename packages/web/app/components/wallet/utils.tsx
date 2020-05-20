@@ -16,8 +16,20 @@ import {
   EBalanceActionLevel,
   EBalanceType,
   TBalanceActions,
+  TBalanceData,
 } from "../../modules/wallet-view/types";
 import { ECurrency } from "../shared/formatters/utils";
+
+export const createBalanceUiData = (balance: TBalanceData, balanceActions: TBalanceActions) => ({
+  logo: balanceSymbols[balance.name],
+  balanceName: balanceNames[balance.name],
+  balanceAdditionalInfo: balanceAdditionalInfo[balance.name],
+  amount: balance.amount,
+  currency: balanceCurrencies[balance.name],
+  euroEquivalentAmount: balance.euroEquivalentAmount,
+  walletActions: balanceActions[balance.name],
+  dataTestId: balanceDataTestIds[balance.name],
+});
 
 export const balanceCurrencies: { [key in EBalanceType]: ECurrency } = {
   [EBalanceType.ETH]: ECurrency.ETH,

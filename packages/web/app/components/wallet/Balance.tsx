@@ -80,11 +80,11 @@ export const Balance: React.FunctionComponent<TBalance> = balance => {
       <div className={styles.currencyLogo}>
         <Logo />
       </div>
-      <div className={styles.currency}>
+      <div className={styles.currency} data-test-id="balance-name">
         {balanceName}
         {balanceAdditionalInfo && (
           <Tooltip
-            data-test-id="transactions.info"
+            data-test-id="balance.info"
             content={balanceAdditionalInfo}
             textPosition={ECustomTooltipTextPosition.LEFT}
             preventDefault={false}
@@ -106,6 +106,7 @@ export const Balance: React.FunctionComponent<TBalance> = balance => {
             inputFormat={ENumberInputFormat.ULPS}
             outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
             valueType={ECurrency.EUR}
+            data-test-id={`${dataTestId}-euro-equivalent`}
           />
         </span>
       </div>
