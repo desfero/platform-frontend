@@ -1,11 +1,10 @@
+import { ETransactionDirection, ETransactionType, txHistoryApi } from "@neufund/shared-modules";
 import { ECurrency, ENumberInputFormat } from "@neufund/shared-utils";
 import { action } from "@storybook/addon-actions";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { ETransactionDirection, ETransactionType } from "../../../lib/api/analytics-api/interfaces";
 import { TxPendingWithMetadata } from "../../../lib/api/users-tx/interfaces";
-import { selectTxHistoryPaginated } from "../../../modules/tx-history/selectors";
 import { ETxSenderType } from "../../../modules/tx/types";
 import { TransactionListLayout } from "./TransactionsHistory";
 
@@ -103,7 +102,9 @@ const transactions = {
 storiesOf("TransactionList", module)
   .add("with a pending transaction of WITHDRAW type", () => (
     <TransactionListLayout
-      transactionsHistoryPaginated={transactions as ReturnType<typeof selectTxHistoryPaginated>}
+      transactionsHistoryPaginated={
+        transactions as ReturnType<typeof txHistoryApi.selectors.selectTxHistoryPaginated>
+      }
       loadTxHistoryNext={action("load next")}
       pendingTransaction={pendingTransactionGeneral}
       showTransactionDetails={action("show transaction details")}
@@ -111,7 +112,9 @@ storiesOf("TransactionList", module)
   ))
   .add("with a pending transaction of NOMINEE_THA_SIGN type", () => (
     <TransactionListLayout
-      transactionsHistoryPaginated={transactions as ReturnType<typeof selectTxHistoryPaginated>}
+      transactionsHistoryPaginated={
+        transactions as ReturnType<typeof txHistoryApi.selectors.selectTxHistoryPaginated>
+      }
       loadTxHistoryNext={action("load next")}
       pendingTransaction={pendingTransactionThaSigning}
       showTransactionDetails={action("show transaction details")}

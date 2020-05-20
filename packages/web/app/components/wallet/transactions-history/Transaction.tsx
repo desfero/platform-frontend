@@ -1,10 +1,9 @@
 import { InlineIcon } from "@neufund/design-system";
+import { ETransactionDirection, TTxHistory } from "@neufund/shared-modules";
 import * as cn from "classnames";
 import * as React from "react";
 import { FormattedDate } from "react-intl";
 
-import { ETransactionDirection } from "../../../lib/api/analytics-api/interfaces";
-import { TEtoInvestmentTx, TTxHistory } from "../../../modules/tx-history/types";
 import { ETheme, Money } from "../../shared/formatters/Money";
 import { ECurrency, ENumberOutputFormat } from "../../shared/formatters/utils";
 import { EInlineIconFill } from "../../shared/icons";
@@ -56,13 +55,13 @@ export const Transaction: React.FunctionComponent<TTransactionProps> = ({
             valueType={transaction.currency}
           />
         </span>
-        {(transaction as TEtoInvestmentTx).amountEur ? (
+        {(transaction as TTxHistory & { amountEur: string }).amountEur ? (
           <span className={styles.euroEquivalent}>
             {"≈"}
             <Money
               inputFormat={transaction.amountFormat}
               outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
-              value={(transaction as TEtoInvestmentTx).amountEur}
+              value={(transaction as TTxHistory & { amountEur: string }).amountEur}
               valueType={ECurrency.EUR}
             />
           </span>

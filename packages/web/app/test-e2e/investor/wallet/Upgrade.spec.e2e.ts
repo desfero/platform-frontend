@@ -55,7 +55,7 @@ describe("Upgrade ICBM wallet", () => {
     cy.get(tid("modals.shared.tx-success.modal"));
     closeModal();
     cy.get(tid("icbm-wallet.eth.balance-value"))
-      .find(tid(""))
+      .find(tid("value"))
       .should($e => {
         const val = parseFloat(extractNumber($e.text()));
         expect(val).to.be.greaterThan(0);

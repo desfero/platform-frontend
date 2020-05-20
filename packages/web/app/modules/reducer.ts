@@ -59,7 +59,6 @@ export const appReducers = {
   walletConnect: walletConnectReducer,
   wallet: walletReducer,
   walletView: walletViewReducer,
-  txHistory: txHistoryReducer,
   notifications: notificationsReducer,
   etoIssuer: etoFlowReducer,
   bookBuildingFlow: bookBuildingFlowReducer,

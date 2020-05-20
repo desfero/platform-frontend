@@ -1,12 +1,9 @@
 import { Button, EButtonLayout } from "@neufund/design-system";
-import { ETransactionDirection, txHistoryApi } from "@neufund/shared-modules";
-import * as cn from "classnames";
+import { txHistoryApi } from "@neufund/shared-modules";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { branch, compose, renderComponent } from "recompose";
 
-import { actions } from "../../../modules/actions";
-import { selectTxHistoryPaginated } from "../../../modules/tx-history/selectors";
 import { selectPlatformMiningTransaction } from "../../../modules/tx/monitor/selectors";
 import { appConnect } from "../../../store";
 import { onEnterAction } from "../../../utils/react-connected-components/OnEnterAction";
