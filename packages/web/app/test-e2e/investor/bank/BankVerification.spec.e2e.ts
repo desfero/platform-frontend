@@ -92,7 +92,7 @@ describe("Bank Verification", () => {
 
     goToWallet();
 
-    cy.get(tid("wallet-balance.neur.restricted-us-state")).should("exist");
+    cy.get(tid("wallet-balance.restricted-neur.balance-value")).should("exist");
 
     cy.get(tid("wallet-balance.neur.purchase-button")).should("be.disabled");
     cy.get(tid("wallet-balance.neur.redeem-button")).should("be.disabled");

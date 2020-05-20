@@ -25,6 +25,7 @@ import {
 import { selectEthereumAddress } from "../web3/selectors";
 import { EBalanceType, TBalanceData, TBasicBalanceData } from "./types";
 import { hasFunds, isMainBalance } from "./utils";
+import { ENEURWalletStatus } from "../wallet/types";
 
 export function* populateWalletData(): Generator<any, TBasicBalanceData[], any> {
   const ethWalletData = yield all({
@@ -63,7 +64,9 @@ export function* populateWalletData(): Generator<any, TBasicBalanceData[], any> 
       euroEquivalentAmount: ethWalletData.euroEquivalentAmount,
     },
     {
-      name: EBalanceType.NEUR,
+      name: neuroWalletData.neurStatus === ENEURWalletStatus.DISABLED_RESTRICTED_US_STATE
+        ? EBalanceType.RESTRICTED_NEUR
+        : EBalanceType.NEUR,
       hasFunds: compareBigNumbers(neuroWalletData.amount, "0") > 0,
       amount: neuroWalletData.amount,
       euroEquivalentAmount: neuroWalletData.euroEquivalentAmount,

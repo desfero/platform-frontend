@@ -12,12 +12,13 @@ export type TBasicBalanceData = {
 };
 
 export enum EBalanceType {
-  ETH = "BALANCE_TYPE_ETH",
-  NEUR = "BALANCE_TYPE_NEUR",
-  ICBM_ETH = "BALANCE_TYPE_ICBM_ETH",
-  ICBM_NEUR = "BALANCE_TYPE_ICBM_NEUR",
-  LOCKED_ICBM_ETH = "BALANCE_TYPE_LOCKED_ICBM_ETH",
-  LOCKED_ICBM_NEUR = "BALANCE_TYPE_LOCKED_ICBM_NEUR",
+  ETH = "balanceTypeEth",
+  NEUR = "balanceTypeNeur",
+  RESTRICTED_NEUR = "balanceTypeRestrictedNeur",
+  ICBM_ETH = "balanceTypeIcbmEth",
+  ICBM_NEUR = "balanceTypeIcbmNeur",
+  LOCKED_ICBM_ETH = "balanceTypeLockedIcbmEth",
+  LOCKED_ICBM_NEUR = "balanceTypeLockedIcbmNeur",
 }
 
 export enum EBalanceActionLevel {

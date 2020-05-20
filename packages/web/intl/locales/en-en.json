@@ -1486,6 +1486,7 @@
   "wallet.icbm.wallet-not-found": "We were unable to find an ICBM wallet for the entered address.",
   "wallet.link-bank-account": "Link a bank account",
   "wallet.linked-bank-account-title": "Linked Bank Account",
+  "wallet.neuro-balance-restricted.tooltip": "Unfortunately, nEUR can't be used by US investors. We will notify you via email as soon as nEUR can be purchased in the state of Alabama",
   "wallet.no-linked-bank-account": "You haven't linked a bank account. Linking a bank account will allow you to purchase and redeem nEUR. nEUR represents a Euro equivalent and is issued by <a href={href}> Quintessence PLC.</a>",
   "wallet.title": "Wallet",
   "wallet.total-balance": "Wallet balance",
