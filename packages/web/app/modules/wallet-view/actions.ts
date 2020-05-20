@@ -6,4 +6,6 @@ export const walletViewActions = {
   loadWalletView: createActionFactory("LOAD_WALLET_VIEW"),
   walletViewSetError: createActionFactory("WALLET_VIEW_SET_ERROR"),
   walletViewSetData: createActionFactory("WALLET_VIEW_SET_DATA", (data: TWalletViewState) => data),
+  stopUpgradeWatcher: createActionFactory("STOP_UPGRADE_WATCHER"),
+  startUpgradeWatcher: createActionFactory("START_UPGRADE_WATCHER"),
 };

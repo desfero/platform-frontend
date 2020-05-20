@@ -6,7 +6,7 @@ import { actions } from "../actions";
 import { selectIsUserFullyVerified } from "../auth/selectors";
 import { loadBankAccountDetails } from "../kyc/sagas";
 import { selectBankAccount } from "../kyc/selectors";
-import { neuCall, neuTakeLatestUntil } from "../sagasUtils";
+import { neuCall, neuTakeLatestUntil, neuTakeLatest } from "../sagasUtils";
 import { loadWalletDataSaga } from "../wallet/sagas";
 import {
   selectICBMLockedEtherBalance,
@@ -125,8 +125,17 @@ export function* loadWalletView(): Generator<any, void, any> {
         processState: EProcessState.SUCCESS,
       }),
     );
+    yield put(actions.walletView.startUpgradeWatcher())
   } catch (e) {
     yield put(actions.walletView.walletViewSetData({ processState: EProcessState.ERROR }));
+  } finally {
+    put(actions.walletView.stopUpgradeWatcher())
+  }
+}
+
+export function* icbmWalletUpgradeWatcher() {
+  while (true) {
+    yield neuTakeLatest(actions.txTransactions.upgradeSuccessful, loadWalletView)
   }
 }
 
@@ -136,4 +145,5 @@ export function* walletViewSagas(): any {
     "@@router/LOCATION_CHANGE",
     loadWalletView,
   );
+  yield neuTakeLatestUntil(actions.walletView.startUpgradeWatcher, actions.walletView.stopUpgradeWatcher, icbmWalletUpgradeWatcher)
 }

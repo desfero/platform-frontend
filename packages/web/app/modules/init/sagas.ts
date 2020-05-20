@@ -31,6 +31,7 @@ export function* stopGlobalWatchers(): SagaGenerator<void> {
   yield put(authModuleAPI.actions.stopJwtExpirationWatcher());
   yield put(actions.txMonitor.stopTxMonitor());
   yield put(actions.wallet.stopWalletBalanceWatcher());
+  yield put(actions.walletView.stopUpgradeWatcher());
 }
 
 function* initSmartcontracts({
