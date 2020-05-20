@@ -3,9 +3,8 @@
 Storybook for react native is a RN View component that can be embedded anywhere in your RN
 application, e.g. on a tab or within an admin screen. Storybook can be run in two ways:
 
- - by setting STORYBOOK_RUN=1
-environment variable. (This variable will be picked up by react-native-config package from
-.env.storybook file.)
+- by setting STORYBOOK_RUN=1 environment variable. (This variable will be picked up by
+  react-native-config package from .env.storybook file.)
 - by toggling storybook mode in react-native in-app developer menu
 
 ## Running storybook
