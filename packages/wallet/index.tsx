@@ -32,8 +32,9 @@ function renderApp(store: IModuleStore<TAppGlobalState>): void {
     const [isStorybookUI, setStorybookUI] = React.useState(Config.STORYBOOK_RUN === "1");
 
     React.useEffect(() => {
-      if (__DEV__) {
-        DevMenu.addItem("Toggle Storybook", () => setStorybookUI(!isStorybookUI));
+      // If it's a storybook mode do not allow toggling
+      if (__DEV__ && Config.STORYBOOK_RUN !== "1") {
+        DevMenu.addItem("Toggle Storybook", () => setStorybookUI(isStUI => !isStUI));
       }
     }, []);
 
