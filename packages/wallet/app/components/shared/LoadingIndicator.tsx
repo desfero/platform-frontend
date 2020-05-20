@@ -12,14 +12,15 @@ const INDICATOR_SIZE = 16;
  * @note Should be used in place of native `ActivityIndicator`
  */
 const LoadingIndicator: React.FunctionComponent<TExternalProps> = ({ style, ...props }) => {
-  const progressRef = React.useRef(new Animated.Value(0));
+  // There is a bug on android where scale: 0 is not working properly properly
+  // see https://github.com/facebook/react-native/issues/27146 or https://github.com/facebook/react-native/issues/6278
+  const progressRef = React.useRef(new Animated.Value(0.01));
 
   React.useEffect(() => {
     const startAnimation = () => {
       const animation = Animated.timing(progressRef.current, {
         duration: 1000,
         easing: Easing.ease,
-        useNativeDriver: true,
         toValue: 1,
       });
 

@@ -6,21 +6,17 @@ import { Container } from "inversify";
 import React from "react";
 import { AppRegistry } from "react-native";
 import Config from "react-native-config";
-import { Provider as ReduxProvider } from "react-redux";
+import DevMenu from "react-native-dev-menu";
 
 import { name as appName } from "./app.json";
 import { App } from "./app/App";
 import { AppContainer } from "./app/components/containers/AppContainer";
 import { createAppStore } from "./app/store/create";
 import { TAppGlobalState } from "./app/store/types";
-import { StorybookUIRoot } from "./storybook";
+import { Storybook } from "./storybook";
 
 if (__DEV__) {
   import("./app/devUtils");
-}
-
-function startupStorybookApp(): void {
-  AppRegistry.registerComponent(appName, () => StorybookUIRoot);
 }
 
 function startupApp(): void {
@@ -32,19 +28,27 @@ function startupApp(): void {
 }
 
 function renderApp(store: IModuleStore<TAppGlobalState>): void {
-  const Component = () => (
-    <ReduxProvider store={store}>
-      <AppContainer>
+  const Component = () => {
+    const [isStorybookUI, setStorybookUI] = React.useState(Config.STORYBOOK_RUN === "1");
+
+    React.useEffect(() => {
+      if (__DEV__) {
+        DevMenu.addItem("Toggle Storybook", () => setStorybookUI(!isStorybookUI));
+      }
+    }, []);
+
+    if (isStorybookUI) {
+      return <Storybook />;
+    }
+
+    return (
+      <AppContainer store={store}>
         <App />
       </AppContainer>
-    </ReduxProvider>
-  );
+    );
+  };
 
   AppRegistry.registerComponent(appName, () => Component);
 }
 
-if (Config.STORYBOOK_RUN === "1") {
-  startupStorybookApp();
-} else {
-  startupApp();
-}
+startupApp();
