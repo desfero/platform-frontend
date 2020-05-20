@@ -1,4 +1,5 @@
-import { all, call, put, select } from "@neufund/sagas";
+import { all, call, fork, put, select, take } from "@neufund/sagas";
+import { tokenPriceModuleApi } from "@neufund/shared-modules";
 import { addBigNumbers, compareBigNumbers } from "@neufund/shared-utils";
 
 import { EProcessState } from "../../utils/enums/processStates";
@@ -6,7 +7,7 @@ import { actions } from "../actions";
 import { selectIsUserFullyVerified } from "../auth/selectors";
 import { loadBankAccountDetails } from "../kyc/sagas";
 import { selectBankAccount } from "../kyc/selectors";
-import { neuCall, neuTakeLatestUntil, neuTakeLatest } from "../sagasUtils";
+import { neuCall, neuTakeUntil } from "../sagasUtils";
 import { loadWalletDataSaga } from "../wallet/sagas";
 import {
   selectICBMLockedEtherBalance,
@@ -125,25 +126,28 @@ export function* loadWalletView(): Generator<any, void, any> {
         processState: EProcessState.SUCCESS,
       }),
     );
-    yield put(actions.walletView.startUpgradeWatcher())
   } catch (e) {
     yield put(actions.walletView.walletViewSetData({ processState: EProcessState.ERROR }));
-  } finally {
-    put(actions.walletView.stopUpgradeWatcher())
   }
 }
 
-export function* icbmWalletUpgradeWatcher() {
+export function* walletViewController(): Generator<any, void, any> {
+  yield neuCall(loadWalletView);
+
   while (true) {
-    yield neuTakeLatest(actions.txTransactions.upgradeSuccessful, loadWalletView)
+    yield take([
+      actions.txTransactions.upgradeSuccessful,
+      tokenPriceModuleApi.actions.saveTokenPrice,
+    ]);
+    yield neuCall(loadWalletView);
   }
 }
 
-export function* walletViewSagas(): any {
-  yield neuTakeLatestUntil(
+export function* walletViewSagas(): Generator<any, void, any> {
+  yield fork(
+    neuTakeUntil,
     actions.walletView.loadWalletView,
     "@@router/LOCATION_CHANGE",
-    loadWalletView,
+    walletViewController,
   );
-  yield neuTakeLatestUntil(actions.walletView.startUpgradeWatcher, actions.walletView.stopUpgradeWatcher, icbmWalletUpgradeWatcher)
 }

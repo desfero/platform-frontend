@@ -104,7 +104,7 @@ function* upgradeSaga({ logger }: TGlobalDependencies, action: TAction): Generat
       extraParam: tokenType,
     };
     yield txSendSaga(params);
-    yield put(actions.txTransactions.upgradeSuccessful(tokenType))
+    yield put(actions.txTransactions.upgradeSuccessful(tokenType));
     logger.info("Upgrading successful");
   } catch (e) {
     logger.info("Upgrading cancelled", e);
