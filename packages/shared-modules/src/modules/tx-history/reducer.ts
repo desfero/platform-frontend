@@ -1,8 +1,8 @@
+import { AppReducer } from "@neufund/sagas";
 import { DeepReadonly, Dictionary } from "@neufund/shared-utils";
 import { compose, keyBy, reverse, sortBy } from "lodash/fp";
 
-import { AppReducer } from "../../store";
-import { actions } from "../actions";
+import { txHistoryActions } from "./actions";
 import { TTxHistory } from "./types";
 
 export enum EModuleStatus {
@@ -27,18 +27,18 @@ const initialState: ITxHistoryState = {
   status: EModuleStatus.IDLE,
 };
 
-export const txHistoryReducer: AppReducer<ITxHistoryState> = (
+const txHistoryReducer: AppReducer<ITxHistoryState, typeof txHistoryActions> = (
   state = initialState,
   action,
 ): DeepReadonly<ITxHistoryState> => {
   switch (action.type) {
-    case actions.txHistory.loadTransactions.getType():
-    case actions.txHistory.loadNextTransactions.getType():
+    case txHistoryActions.loadTransactions.getType():
+    case txHistoryActions.loadNextTransactions.getType():
       return {
         ...state,
         status: EModuleStatus.LOADING,
       };
-    case actions.txHistory.setTransactions.getType(): {
+    case txHistoryActions.setTransactions.getType(): {
       // Only set new transactions when what we have in the store differs
       // from what we have get from the api
       if (action.payload.timestampOfLastChange === state.timestampOfLastChange) {
@@ -57,7 +57,7 @@ export const txHistoryReducer: AppReducer<ITxHistoryState> = (
         status: EModuleStatus.IDLE,
       };
     }
-    case actions.txHistory.appendTransactions.getType(): {
+    case txHistoryActions.appendTransactions.getType(): {
       const order = state.transactionsOrder;
       const transactions = state.transactionsByHash;
 
@@ -77,7 +77,7 @@ export const txHistoryReducer: AppReducer<ITxHistoryState> = (
       };
     }
 
-    case actions.txHistory.updateTransactions.getType(): {
+    case txHistoryActions.updateTransactions.getType(): {
       const currentTransactionsOrder = state.transactionsOrder || [];
       const currentTransactionsByHash = state.transactionsByHash || {};
 
@@ -113,3 +113,9 @@ export const txHistoryReducer: AppReducer<ITxHistoryState> = (
 
   return state;
 };
+
+const txHistoryReducerMap = {
+  txHistory: txHistoryReducer,
+};
+
+export { txHistoryReducerMap };

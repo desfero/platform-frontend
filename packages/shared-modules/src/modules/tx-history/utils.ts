@@ -1,8 +1,9 @@
-import { ECurrency, ENumberInputFormat } from "../../components/shared/formatters/utils";
+import { ECurrency, ENumberInputFormat } from "@neufund/shared-utils";
+
 import {
   TAnalyticsTransaction,
   TAnalyticsTransactionTokenMetadata,
-} from "../../lib/api/analytics-api/interfaces";
+} from "./lib/http/analytics-api/interfaces";
 
 // TODO: Try to sync backend currency format with frontend, as currently we use `eur_t` for nEur
 const getCurrencyFromTokenSymbol = (

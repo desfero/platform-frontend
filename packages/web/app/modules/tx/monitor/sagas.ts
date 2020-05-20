@@ -1,5 +1,5 @@
 import { fork, put, select, take } from "@neufund/sagas";
-import { authModuleAPI } from "@neufund/shared-modules";
+import { authModuleAPI, txHistoryApi } from "@neufund/shared-modules";
 import { invariant } from "@neufund/shared-utils";
 import { BigNumber } from "bignumber.js";
 import { addHexPrefix } from "ethereumjs-util";
@@ -172,7 +172,7 @@ export function* updatePendingTxs({
     }
 
     yield put(actions.txMonitor.setPendingTxs(apiPendingTx));
-    yield put(actions.txHistory.loadTransactions());
+    yield put(txHistoryApi.actions.loadTransactions());
   } catch (e) {
     if (e instanceof SchemaMismatchError) {
       logger.warn("Found pending transaction Schema Mismatch", e);

@@ -1,6 +1,6 @@
 import { EquityToken, EthereumAddressWithChecksum, EthereumTxHash } from "@neufund/shared-utils";
 
-import * as YupTS from "../../yup-ts.unsafe";
+import { TypeOfYTS, YupTS } from "../../../../../lib/yup-ts.unsafe";
 
 export enum ETransactionDirection {
   IN = "in",
@@ -38,7 +38,7 @@ export const AnalyticsTransactionTokenMetadataSchema = YupTS.object({
   tokenSymbol: YupTS.string<EquityToken>(),
   tokenDecimals: YupTS.number(),
 });
-export type TAnalyticsTransactionTokenMetadata = YupTS.TypeOf<
+export type TAnalyticsTransactionTokenMetadata = TypeOfYTS<
   typeof AnalyticsTransactionTokenMetadataSchema
 >;
 
@@ -72,7 +72,7 @@ export const AnalyticsTransactionSchema = YupTS.object({
   type: YupTS.string<ETransactionType>(),
   version: YupTS.number(),
 });
-export type TAnalyticsTransaction = YupTS.TypeOf<typeof AnalyticsTransactionSchema>;
+export type TAnalyticsTransaction = TypeOfYTS<typeof AnalyticsTransactionSchema>;
 
 export const AnalyticsTransactionsResponseSchema = YupTS.object({
   beforeTransaction: YupTS.string().optional(),
@@ -80,6 +80,4 @@ export const AnalyticsTransactionsResponseSchema = YupTS.object({
   version: YupTS.number().optional(),
   transactions: YupTS.array(AnalyticsTransactionSchema),
 });
-export type TAnalyticsTransactionsResponse = YupTS.TypeOf<
-  typeof AnalyticsTransactionsResponseSchema
->;
+export type TAnalyticsTransactionsResponse = TypeOfYTS<typeof AnalyticsTransactionsResponseSchema>;

@@ -1,4 +1,6 @@
 import { Button, EButtonLayout } from "@neufund/design-system";
+import { ETransactionDirection, txHistoryApi } from "@neufund/shared-modules";
+import * as cn from "classnames";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { branch, compose, renderComponent } from "recompose";
@@ -17,7 +19,7 @@ import { Transaction } from "./Transaction";
 import * as styles from "./TransactionsHistory.module.scss";
 
 type TStateProps = {
-  transactionsHistoryPaginated: ReturnType<typeof selectTxHistoryPaginated>;
+  transactionsHistoryPaginated: ReturnType<typeof txHistoryApi.selectors.selectTxHistoryPaginated>;
   pendingTransaction: ReturnType<typeof selectPlatformMiningTransaction>;
 };
 
@@ -74,23 +76,23 @@ export const TransactionListLayout: React.FunctionComponent<TStateProps & TDispa
 const TransactionsHistory = compose<TStateProps & TDispatchProps, {}>(
   onEnterAction({
     actionCreator: dispatch => {
-      dispatch(actions.txHistory.loadTransactions());
+      dispatch(txHistoryApi.actions.loadTransactions());
     },
   }),
   onLeaveAction({
     actionCreator: dispatch => {
-      dispatch(actions.txHistory.stopWatchingForNewTransactions());
+      dispatch(txHistoryApi.actions.stopWatchingForNewTransactions());
     },
   }),
   appConnect<TStateProps, TDispatchProps>({
     stateToProps: state => ({
-      transactionsHistoryPaginated: selectTxHistoryPaginated(state),
+      transactionsHistoryPaginated: txHistoryApi.selectors.selectTxHistoryPaginated(state),
       pendingTransaction: selectPlatformMiningTransaction(state),
     }),
     dispatchToProps: dispatch => ({
-      loadTxHistoryNext: () => dispatch(actions.txHistory.loadNextTransactions()),
+      loadTxHistoryNext: () => dispatch(txHistoryApi.actions.loadNextTransactions()),
       showTransactionDetails: (id: string) =>
-        dispatch(actions.txHistory.showTransactionDetails(id)),
+        dispatch(txHistoryApi.actions.showTransactionDetails(id)),
     }),
   }),
   branch<TStateProps>(
