@@ -12,7 +12,7 @@ describe("Upgrade ICBM wallet", () => {
 
     goToWallet();
 
-    cy.get(tid("icbm-wallet.neur.balance-value"))
+    cy.get(tid("locked-icbm-wallet.neur.balance-value"))
       .find(tid("value"))
       .should($e => {
         icbmBalance = parseFloat(extractNumber($e.text()));
@@ -24,7 +24,7 @@ describe("Upgrade ICBM wallet", () => {
     cy.get(tid("modals.shared.signing-message.modal"));
     cy.get(tid("modals.shared.tx-success.modal"));
     closeModal();
-    cy.get(tid("locked-wallet.eur.balance-value"))
+    cy.get(tid("icbm-wallet.neur.balance-value"))
       .find(tid("value"))
       .should($e => {
         const val = parseFloat(extractNumber($e.text()));
@@ -42,7 +42,7 @@ describe("Upgrade ICBM wallet", () => {
 
     goToWallet();
 
-    cy.get(tid("icbm-wallet.eth.balance-value"))
+    cy.get(tid("locked-icbm-wallet.eth.balance-value"))
       .find(tid("value"))
       .should($e => {
         icbmBalance = parseFloat(extractNumber($e.text()));
@@ -54,11 +54,13 @@ describe("Upgrade ICBM wallet", () => {
     cy.get(tid("modals.shared.signing-message.modal"));
     cy.get(tid("modals.shared.tx-success.modal"));
     closeModal();
-    cy.get(tid("locked-wallet.eth.balance-values.large-value")).should($e => {
-      const val = parseFloat(extractNumber($e.text()));
-      expect(val).to.be.greaterThan(0);
-      expect(val).to.equal(icbmBalance);
-    });
+    cy.get(tid("icbm-wallet.eth.balance-value"))
+      .find(tid(""))
+      .should($e => {
+        const val = parseFloat(extractNumber($e.text()));
+        expect(val).to.be.greaterThan(0);
+        expect(val).to.equal(icbmBalance);
+      });
     cy.get(tid("wallet-start-container")).should($e => {
       expect($e.find(tid("wallet.icbm-eth.upgrade-button")).length).to.equal(0);
     });

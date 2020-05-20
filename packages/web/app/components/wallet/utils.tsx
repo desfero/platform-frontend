@@ -1,4 +1,10 @@
-import { EthIcon, EthIconWithLock, NeuroIcon, NeuroIconWithLock, TTranslatedString } from "@neufund/design-system";
+import {
+  EthIcon,
+  EthIconWithLock,
+  NeuroIcon,
+  NeuroIconWithLock,
+  TTranslatedString,
+} from "@neufund/design-system";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
@@ -100,7 +106,7 @@ export const createBalanceActions = (dispatch: Function): TBalanceActions => ({
   [EBalanceType.RESTRICTED_NEUR]: [
     {
       dispatchAction: () => dispatch(actions.txTransactions.startWithdrawNEuro()),
-      disableIf: ()=>true,
+      disableIf: () => true,
       text: <FormattedMessage id="components.wallet.start.neur-wallet.redeem" />,
       level: EBalanceActionLevel.PRIMARY,
       dataTestId: "wallet-balance.neur.redeem-button",
@@ -108,7 +114,7 @@ export const createBalanceActions = (dispatch: Function): TBalanceActions => ({
     {
       dispatchAction: () =>
         dispatch(actions.bankTransferFlow.startBankTransfer(EBankTransferType.PURCHASE)),
-      disableIf: ()=>true,
+      disableIf: () => true,
       text: <FormattedMessage id="components.wallet.start.neur-wallet.purchase" />,
       level: EBalanceActionLevel.PRIMARY,
       dataTestId: "wallet-balance.neur.purchase-button",
