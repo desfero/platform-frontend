@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Modal, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { compose } from "recompose";
 
 import {
@@ -9,6 +9,7 @@ import {
 } from "../../modules/signer-ui/module";
 import { appConnect } from "../../store/utils";
 import { Button, EButtonLayout } from "../shared/buttons/Button";
+import { BottomSheetModal } from "../shared/modals/BottomSheetModal";
 
 type TStateProps = {
   state: ReturnType<typeof signerUIModuleApi.selectors.selectSignerUIState>;
@@ -26,7 +27,7 @@ const SignerModalLayout: React.FunctionComponent<TStateProps & TDispatchProps> =
   approve,
   reject,
 }) => (
-  <Modal animationType="slide" transparent={false} visible={state !== ESignerUIState.IDLE}>
+  <BottomSheetModal isVisible={state !== ESignerUIState.IDLE}>
     <View style={styles.container}>
       <Text>
         Signing state: {state}
@@ -41,7 +42,7 @@ const SignerModalLayout: React.FunctionComponent<TStateProps & TDispatchProps> =
         Reject
       </Button>
     </View>
-  </Modal>
+  </BottomSheetModal>
 );
 
 const styles = StyleSheet.create({
