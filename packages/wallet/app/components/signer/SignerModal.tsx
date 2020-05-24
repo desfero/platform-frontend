@@ -1,5 +1,4 @@
 import * as React from "react";
-import { StyleSheet, Text, View } from "react-native";
 import { compose } from "recompose";
 
 import {
@@ -7,9 +6,10 @@ import {
   setupSignerUIModule,
   signerUIModuleApi,
 } from "../../modules/signer-ui/module";
+import { ESignerType, TSignerSignPayload } from "../../modules/signer-ui/types";
 import { appConnect } from "../../store/utils";
-import { Button, EButtonLayout } from "../shared/buttons/Button";
 import { BottomSheetModal } from "../shared/modals/BottomSheetModal";
+import { WCSessionRequestSigner } from "./WCSessionRequestSigner";
 
 type TStateProps = {
   state: ReturnType<typeof signerUIModuleApi.selectors.selectSignerUIState>;
@@ -21,33 +21,35 @@ type TDispatchProps = {
   reject: () => void;
 };
 
+type TExternalProps = {
+  approve: () => void;
+  reject: () => void;
+  data: TSignerSignPayload;
+};
+
+const Signer: React.FunctionComponent<TExternalProps> = ({ data, ...rest }) => {
+  switch (data.type) {
+    case ESignerType.SEND_TRANSACTION:
+      break;
+    case ESignerType.SIGN_MESSAGE:
+      break;
+    case ESignerType.WC_SESSION_REQUEST:
+      return <WCSessionRequestSigner data={data.data} {...rest} />;
+  }
+};
+
 const SignerModalLayout: React.FunctionComponent<TStateProps & TDispatchProps> = ({
   state,
   data,
   approve,
   reject,
-}) => (
-  <BottomSheetModal isVisible={state !== ESignerUIState.IDLE}>
-    <View style={styles.container}>
-      <Text>
-        Signing state: {state}
-        {"\n"}
-        Signing data: {JSON.stringify(data, undefined, 2)}
-      </Text>
-
-      <Button layout={EButtonLayout.PRIMARY} onPress={approve}>
-        Accept
-      </Button>
-      <Button layout={EButtonLayout.TEXT} onPress={reject}>
-        Reject
-      </Button>
-    </View>
-  </BottomSheetModal>
-);
-
-const styles = StyleSheet.create({
-  container: { paddingVertical: 40, paddingHorizontal: 20, flex: 1, justifyContent: "center" },
-});
+}) => {
+  return (
+    <BottomSheetModal isVisible={state !== ESignerUIState.IDLE}>
+      {data && <Signer data={data} approve={approve} reject={reject} />}
+    </BottomSheetModal>
+  );
+};
 
 const SignerModal = compose<TStateProps & TDispatchProps, {}>(
   appConnect<TStateProps, TDispatchProps, {}, typeof setupSignerUIModule>({

@@ -16,13 +16,13 @@ const BottomSheetModal: React.FunctionComponent<TExternalProps> = ({ children, i
 
   React.useEffect(() => {
     const showAnimation = Animated.timing(progressRef.current, {
-      duration: 300,
+      duration: 10000,
       useNativeDriver: true,
       toValue: 1,
     });
 
     const hideAnimation = Animated.timing(progressRef.current, {
-      duration: 200,
+      duration: 10000,
       useNativeDriver: true,
       toValue: 0,
     });

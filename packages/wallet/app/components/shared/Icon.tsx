@@ -16,6 +16,7 @@ import Eth from "../../assets/tokens/eth.svg";
 import NEur from "../../assets/tokens/n-eur.svg";
 import Wallet from "../../assets/wallet.svg";
 import Yes from "../../assets/yes.svg";
+import Backup from "../../assets/backup.svg";
 
 enum EIconType {
   HOME = "home",
@@ -30,17 +31,19 @@ enum EIconType {
   N_EUR = "n-eur",
   ETH = "eth",
   QR_CODE = "qr-code",
+  BACKUP = "backup",
 }
 
 const pickByIdentity = pickBy(identity);
 
 const icons = {
+  [EIconType.BACKUP]: Backup,
   [EIconType.CLOSE]: Close,
   [EIconType.ETH]: Eth,
   [EIconType.HOME]: Home,
-  [EIconType.PORTFOLIO]: Investments,
   [EIconType.N_EUR]: NEur,
   [EIconType.PLACEHOLDER]: Placeholder,
+  [EIconType.PORTFOLIO]: Investments,
   [EIconType.PROFILE]: Profile,
   [EIconType.QR_CODE]: QrCode,
   [EIconType.RIGHT_ARROW]: RightArrow,
