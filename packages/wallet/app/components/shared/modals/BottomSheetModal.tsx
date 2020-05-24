@@ -10,29 +10,29 @@ type TExternalProps = {
 };
 
 const BottomSheetModal: React.FunctionComponent<TExternalProps> = ({ children, isVisible }) => {
+  // save previous children value to show while the modal is closing
+  // in case the modal content is dynamic
+  const previousChildren = usePrevious(children);
+
   const progressRef = React.useRef(new Animated.Value(0));
 
   const wasVisible = usePrevious(isVisible);
 
   React.useEffect(() => {
-    const showAnimation = Animated.timing(progressRef.current, {
-      duration: 10000,
-      useNativeDriver: true,
-      toValue: 1,
-    });
-
-    const hideAnimation = Animated.timing(progressRef.current, {
-      duration: 10000,
-      useNativeDriver: true,
-      toValue: 0,
-    });
-
     if (!wasVisible && isVisible) {
-      showAnimation.start();
+      Animated.timing(progressRef.current, {
+        duration: 1000,
+        useNativeDriver: true,
+        toValue: 1,
+      }).start();
     }
 
     if (wasVisible && !isVisible) {
-      hideAnimation.start();
+      Animated.timing(progressRef.current, {
+        duration: 10000,
+        useNativeDriver: true,
+        toValue: 0,
+      }).start();
     }
   }, [wasVisible, isVisible]);
 
@@ -59,7 +59,7 @@ const BottomSheetModal: React.FunctionComponent<TExternalProps> = ({ children, i
     transform: [
       {
         translateY: progressRef.current.interpolate({
-          inputRange: [0.01, 1],
+          inputRange: [0, 1],
           outputRange: [0, -1 * height],
           extrapolate: "clamp",
         }),
@@ -72,11 +72,11 @@ const BottomSheetModal: React.FunctionComponent<TExternalProps> = ({ children, i
       pointerEvents={isVisible ? "auto" : "none"}
       accessibilityViewIsModal
       accessibilityLiveRegion="polite"
-      style={[styles.cover, backdrop]}
+      style={[styles.backdrop, backdrop]}
     >
       <Animated.View style={[styles.sheet, slideUp]}>
         <View style={styles.content} pointerEvents="box-none">
-          <SafeAreaView>{children}</SafeAreaView>
+          <SafeAreaView>{children ?? previousChildren}</SafeAreaView>
         </View>
       </Animated.View>
     </Animated.View>
@@ -84,7 +84,7 @@ const BottomSheetModal: React.FunctionComponent<TExternalProps> = ({ children, i
 };
 
 const styles = StyleSheet.create({
-  cover: {
+  backdrop: {
     ...StyleSheet.absoluteFillObject,
 
     backgroundColor: "rgba(0, 0, 0, 0.4)",
