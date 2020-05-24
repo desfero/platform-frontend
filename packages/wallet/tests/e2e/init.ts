@@ -7,6 +7,7 @@ import { detox as config } from "../../package.json";
 jest.setTimeout(120000);
 
 // Typings for jasmine are not properly defined in jest
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 (jasmine as any).getEnv().addReporter(adapter);
 
 beforeAll(async () => {

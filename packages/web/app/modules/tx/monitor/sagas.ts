@@ -1,4 +1,5 @@
 import { fork, put, select, take } from "@neufund/sagas";
+import { authModuleAPI, txHistoryApi } from "@neufund/shared-modules";
 import { invariant } from "@neufund/shared-utils";
 import { BigNumber } from "bignumber.js";
 import { addHexPrefix } from "ethereumjs-util";
@@ -20,7 +21,7 @@ import { SchemaMismatchError } from "./errors";
 import { selectPlatformPendingTransaction } from "./selectors";
 
 export function* deletePendingTransaction({
-  apiUserService,
+  apiUserTxService,
   logger,
 }: TGlobalDependencies): Generator<any, any, any> {
   const pendingTransaction: TxPendingWithMetadata | undefined = yield select(
@@ -35,7 +36,7 @@ export function* deletePendingTransaction({
 
   logger.info(`Removing pending transaction from list with hash ${txHash}`);
 
-  yield apiUserService.deletePendingTx(txHash);
+  yield apiUserTxService.deletePendingTx(txHash);
   yield put(actions.txMonitor.setPendingTxs({ pendingTransaction: undefined }));
 }
 
@@ -50,7 +51,7 @@ export function createTxMetadata(
 }
 
 export function* markTransactionAsPending(
-  { apiUserService }: TGlobalDependencies,
+  { apiUserTxService }: TGlobalDependencies,
   txHash: string,
   txData: ITxData,
   transactionMetadata: ITxMetadata,
@@ -65,7 +66,7 @@ export function* markTransactionAsPending(
       "There is already another custom pending transaction",
     );
 
-    yield apiUserService.deletePendingTx(currentPending.transaction.hash);
+    yield apiUserTxService.deletePendingTx(currentPending.transaction.hash);
   }
   const transactionTimestamp = Date.now();
 
@@ -93,7 +94,8 @@ export function* markTransactionAsPending(
     transactionTimestamp,
   };
 
-  yield apiUserService.addPendingTx(pendingTransaction);
+  yield apiUserTxService.addPendingTx(pendingTransaction);
+
   yield put(actions.txMonitor.setPendingTxs({ pendingTransaction }));
 
   return transactionTimestamp;
@@ -112,10 +114,10 @@ export function* ensurePendingTransactionSchemaIsValid(
 }
 
 export function* updatePendingTxs({
-  apiUserService,
+  apiUserTxService,
   logger,
 }: TGlobalDependencies): Generator<any, any, any> {
-  let apiPendingTx: TPendingTxs = yield apiUserService.pendingTxs();
+  let apiPendingTx: TPendingTxs = yield apiUserTxService.pendingTxs();
 
   // check whether transaction was mined
   if (apiPendingTx.pendingTransaction) {
@@ -171,13 +173,13 @@ export function* updatePendingTxs({
     }
 
     yield put(actions.txMonitor.setPendingTxs(apiPendingTx));
-    yield put(actions.txHistory.loadTransactions());
+    yield put(txHistoryApi.actions.loadTransactions());
   } catch (e) {
     if (e instanceof SchemaMismatchError) {
       logger.warn("Found pending transaction Schema Mismatch", e);
 
       if (apiPendingTx.pendingTransaction) {
-        yield apiUserService.deletePendingTx(apiPendingTx.pendingTransaction.transaction.hash);
+        yield apiUserTxService.deletePendingTx(apiPendingTx.pendingTransaction.transaction.hash);
       }
     } else {
       throw e;
@@ -212,7 +214,12 @@ function* removePendingTransaction({ logger }: TGlobalDependencies): Generator<a
 }
 
 export function* txMonitorSagas(): any {
-  yield fork(neuTakeUntil, actions.auth.setUser, actions.txMonitor.stopTxMonitor, txMonitor);
+  yield fork(
+    neuTakeUntil,
+    authModuleAPI.actions.setUser,
+    actions.txMonitor.stopTxMonitor,
+    txMonitor,
+  );
   yield fork(neuTakeLatest, actions.txMonitor.monitorPendingPlatformTx, txMonitorSaga);
   yield fork(neuTakeLatest, actions.txMonitor.deletePendingTransaction, removePendingTransaction);
 }

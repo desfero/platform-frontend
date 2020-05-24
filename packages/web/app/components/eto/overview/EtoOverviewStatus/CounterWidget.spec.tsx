@@ -1,3 +1,4 @@
+import { EUserType } from "@neufund/shared-modules";
 import { createMount, setupFakeClock, tid } from "@neufund/shared-utils/tests";
 import { expect } from "chai";
 import * as React from "react";
@@ -5,7 +6,6 @@ import { createSandbox, SinonStub } from "sinon";
 
 import { testCompany, testContract, testEto } from "../../../../../test/fixtures";
 import { wrapWithBasicProviders } from "../../../../../test/integrationTestUtils.unsafe";
-import { EUserType } from "../../../../lib/api/users/interfaces";
 import { EAuthStatus } from "../../../../modules/auth/reducer";
 import * as authModuleSelectors from "../../../../modules/auth/selectors";
 import * as bookBuildingFlowSelectors from "../../../../modules/bookbuilding-flow/selectors";

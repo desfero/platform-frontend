@@ -1,4 +1,5 @@
 import { Opaque } from "@neufund/shared-utils";
+
 import { TTransactionSchema } from "./schemas";
 
 export type TWalletConnectUri = Opaque<"WalletConnectUri", string>;

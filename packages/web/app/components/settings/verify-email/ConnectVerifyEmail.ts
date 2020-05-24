@@ -35,11 +35,11 @@ const connectVerifyEmailComponent = <T extends {}>(
   compose<IStateProps & IDispatchProps & T, T>(
     appConnect<IStateProps, IDispatchProps, T>({
       stateToProps: s => ({
-        isUserEmailVerified: selectIsUserEmailVerified(s.auth),
-        isThereUnverifiedEmail: selectIsThereUnverifiedEmail(s.auth),
+        isUserEmailVerified: selectIsUserEmailVerified(s),
+        isThereUnverifiedEmail: selectIsThereUnverifiedEmail(s),
         isEmailTemporaryCancelled: selectIsCancelEmail(s.profile),
-        verifiedEmail: selectVerifiedUserEmail(s.auth),
-        unverifiedEmail: selectUnverifiedUserEmail(s.auth),
+        verifiedEmail: selectVerifiedUserEmail(s),
+        unverifiedEmail: selectUnverifiedUserEmail(s),
         isLocked: selectIsConnectedButtonLocked(s.verifyEmailWidgetState),
       }),
       dispatchToProps: dispatch => ({

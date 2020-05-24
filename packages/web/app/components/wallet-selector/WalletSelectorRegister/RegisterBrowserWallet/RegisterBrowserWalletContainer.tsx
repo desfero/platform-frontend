@@ -1,9 +1,9 @@
+import { EWalletType } from "@neufund/shared-modules";
 import * as React from "react";
 import { FormattedHTMLMessage, FormattedMessage } from "react-intl-phraseapp";
 
 import { externalRoutes } from "../../../../config/externalRoutes";
 import { ECommonWalletRegistrationFlowState } from "../../../../modules/wallet-selector/types";
-import { EWalletType } from "../../../../modules/web3/types";
 import { WalletChooser } from "../../shared/WalletChooser";
 
 import * as styles from "../../shared/RegisterWalletSelector.module.scss";

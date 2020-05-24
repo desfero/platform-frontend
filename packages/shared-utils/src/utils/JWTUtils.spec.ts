@@ -136,7 +136,7 @@ describe("JWT Utils", () => {
     it("should return correct expire date", () => {
       const result = getJwtExpiryDate(jwt);
 
-      expect(result.unix()).to.equal(parsed.exp);
+      expect(result.getTime() / 1000).to.equal(parsed.exp);
     });
 
     it("should throw when failed to get jwt expiry date", () => {

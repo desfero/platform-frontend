@@ -1,11 +1,10 @@
 import { expectSaga, matchers, providers as sagaProvider } from "@neufund/sagas/tests";
+import { EUserType, EWalletType } from "@neufund/shared-modules";
 import { combineReducers } from "redux";
 
-import { EUserType } from "../../../../lib/api/users/interfaces";
 import { actions } from "../../../actions";
 import { isEmailAvailablePromise } from "../../../auth/email/sagas";
 import { signInUser } from "../../../auth/user/sagas";
-import { EWalletType } from "../../../web3/types";
 import { walletSelectorInitialState, walletSelectorReducer } from "../../reducer";
 import { ECommonWalletRegistrationFlowState, EFlowType } from "../../types";
 import { handleLightWalletError } from "../sagas";

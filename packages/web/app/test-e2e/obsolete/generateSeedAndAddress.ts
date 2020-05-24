@@ -18,7 +18,7 @@ export const generateSeedAndAddress = async (
     hdPathString: hdPath,
   });
 
-  const deserializedInstance = await deserializeLightWalletVault(
+  const deserializedInstance = deserializeLightWalletVault(
     serializedLightWallet.serializedLightWallet,
     serializedLightWallet.salt,
   );

@@ -1,5 +1,6 @@
 import { IRequiredParamsResult, IQueryParamsResult, IParseURIResult } from "@walletconnect/types";
 import { parseQueryString } from "@walletconnect/utils";
+import * as yup from "yup";
 
 import { WalletConnectModuleError } from "../errors";
 import { WC_PROTOCOL } from "./constants";
@@ -74,9 +75,20 @@ const isValidWalletConnectUri = (uri: string): uri is TWalletConnectUri => {
   }
 };
 
+/**
+ * Parses RPC payload
+ *
+ * @note It's important to strip unknown properties given we don't fully control RPC payload shape
+ *
+ * @throws An error when payload do not match schema
+ */
+const parseRPCPayload = <T extends object>(schema: yup.ObjectSchema<T>, value: unknown) =>
+  schema.validateSync(value, { stripUnknown: true });
+
 export {
   toWalletConnectUri,
   isValidWalletConnectUri,
   parseWalletConnectUri,
   InvalidWalletConnectUriError,
+  parseRPCPayload,
 };

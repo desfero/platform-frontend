@@ -1,8 +1,9 @@
-import { ContainerModule } from "inversify";
-import { Notifications } from "./Notifications";
 import { TLibSymbolType } from "@neufund/shared-modules";
-import { symbols } from "./symbols";
+import { ContainerModule } from "inversify";
+
 import { FirebaseProvider } from "./FirebaseProvider";
+import { Notifications } from "./Notifications";
+import { symbols } from "./symbols";
 
 export function setupBindings(): ContainerModule {
   return new ContainerModule(bind => {

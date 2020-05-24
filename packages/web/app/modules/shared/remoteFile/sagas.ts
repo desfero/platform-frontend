@@ -1,17 +1,15 @@
-import { fork } from "@neufund/sagas";
+import { fork, put } from "@neufund/sagas";
 import { IHttpResponse } from "@neufund/shared-modules";
 
 import { RemoteFileMessage } from "../../../components/translatedMessages/messages";
-import { createMessage } from "../../../components/translatedMessages/utils";
+import { createNotificationMessage } from "../../../components/translatedMessages/utils";
 import { TGlobalDependencies } from "../../../di/setupBindings";
 import { TFileDescription } from "../../../lib/api/file-storage/FileStorage.interfaces";
 import { TAction } from "../../actions";
+import { webNotificationUIModuleApi } from "../../notification-ui/module";
 import { neuTakeEvery } from "../../sagasUtils";
 
-function* getRemoteFile(
-  { fileStorageApi, notificationCenter, logger }: TGlobalDependencies,
-  action: TAction,
-): any {
+function* getRemoteFile({ fileStorageApi, logger }: TGlobalDependencies, action: TAction): any {
   if (action.type !== "REMOTE_FILE_GET") return;
   const { fileUrl, onDone } = action.payload;
 
@@ -21,7 +19,11 @@ function* getRemoteFile(
     onDone(undefined, fileData.body);
   } catch (e) {
     logger.error("get remote file error", e);
-    notificationCenter.error(createMessage(RemoteFileMessage.GET_FILES_DETAILS_ERROR));
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(RemoteFileMessage.GET_FILES_DETAILS_ERROR),
+      ),
+    );
     onDone(e, undefined);
   }
 }

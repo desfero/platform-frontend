@@ -1,7 +1,12 @@
 import { utils as ethersUtils } from "ethers";
 
 import { setupBindings } from "./lib/bindings";
-import { ethereumAddress, ethereumHdPath } from "./lib/schemas";
+import {
+  ethereumAddress,
+  ethereumHdPath,
+  ethereumMnemonic,
+  ethereumPrivateKey,
+} from "./lib/schemas";
 import { symbols } from "./lib/symbols";
 import { isAddress, isMnemonic, isPrivateKey } from "./lib/utils";
 
@@ -17,6 +22,8 @@ const utils = {
   isPrivateKey,
   ethereumAddress,
   ethereumHdPath,
+  ethereumPrivateKey,
+  ethereumMnemonic,
   BigNumber: ethersUtils.BigNumber,
 };
 

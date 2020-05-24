@@ -1,10 +1,10 @@
 import { fork, neuCall, neuTakeEvery, put, select } from "@neufund/sagas";
+import { EWalletType } from "@neufund/shared-modules";
 
 import { TAppGlobalState } from "../../store";
 import { actions } from "../actions";
 import { signInUser } from "../auth/user/sagas";
 import { loadPreviousWallet } from "../web3/sagas";
-import { EWalletType } from "../web3/types";
 import { walletSelectorInitialState } from "./reducer";
 import { selectUrlUserType } from "./selectors";
 import { EFlowType } from "./types";

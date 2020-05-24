@@ -1,4 +1,5 @@
 import { createLibSymbol } from "@neufund/shared-modules";
+
 import { FirebaseProvider } from "./FirebaseProvider";
 import { Notifications } from "./Notifications";
 

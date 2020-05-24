@@ -1,10 +1,10 @@
 import { expectSaga } from "@neufund/sagas/tests";
+import { EUserType } from "@neufund/shared-modules";
 import { LocationChangeAction } from "connected-react-router";
 import { getContext } from "redux-saga-test-plan/matchers";
 
 import { appRoutes } from "../../components/appRoutes";
 import { TGlobalDependencies } from "../../di/setupBindings";
-import { EUserType } from "../../lib/api/users/interfaces";
 import { actions } from "../actions";
 import { EAuthStatus } from "../auth/reducer";
 import { startRouteBasedSagas } from "./sagas";
@@ -41,10 +41,12 @@ const state = {
     token: "bla",
   },
   auth: {
-    user: {
+    status: EAuthStatus.AUTHORIZED,
+  },
+  user: {
+    data: {
       type: EUserType.NOMINEE,
     },
-    status: EAuthStatus.AUTHORIZED,
   },
   init: {
     appInit: {

@@ -1,6 +1,7 @@
 import * as React from "react";
 import {
   NativeSyntheticEvent,
+  Platform,
   StyleSheet,
   TextInput as NativeTextInput,
   TextInputFocusEventData,
@@ -10,12 +11,14 @@ import {
   baseGray,
   baseRed,
   baseWhite,
-  blueyGrey,
+  blueyGray,
   grayLighter4,
   silverLighter1,
+  yellowDarker1,
 } from "../../../../styles/colors";
 import { roundness } from "../../../../styles/common";
 import { typographyStyles } from "../../../../styles/typography";
+import { st } from "../../../utils";
 
 type TNativeTextInputProps = Omit<React.ComponentProps<typeof NativeTextInput>, "editable">;
 type TExternalProps = { disabled?: boolean; invalid?: boolean } & TNativeTextInputProps;
@@ -23,58 +26,66 @@ type TExternalProps = { disabled?: boolean; invalid?: boolean } & TNativeTextInp
 /**
  * A text input component that aligns with our design system
  */
-const TextInput: React.FunctionComponent<TExternalProps> = ({
-  style,
-  onFocus,
-  onBlur,
-  disabled,
-  invalid,
-  ...props
-}) => {
-  const [hasFocus, setHasFocus] = React.useState(false);
+const TextInput = React.forwardRef<NativeTextInput, TExternalProps>(
+  ({ style, onFocus, onBlur, disabled, invalid, ...props }, ref) => {
+    const [hasFocus, setHasFocus] = React.useState(false);
 
-  const handleFocus = (event: NativeSyntheticEvent<TextInputFocusEventData>) => {
-    setHasFocus(true);
+    const handleFocus = (event: NativeSyntheticEvent<TextInputFocusEventData>) => {
+      setHasFocus(true);
 
-    onFocus?.(event);
-  };
+      onFocus?.(event);
+    };
 
-  const handleBlur = (event: NativeSyntheticEvent<TextInputFocusEventData>) => {
-    setHasFocus(false);
+    const handleBlur = (event: NativeSyntheticEvent<TextInputFocusEventData>) => {
+      setHasFocus(false);
 
-    onBlur?.(event);
-  };
+      onBlur?.(event);
+    };
 
-  return (
-    <NativeTextInput
-      editable={!disabled}
-      placeholderTextColor={blueyGrey}
-      style={[
-        styles.input,
-        hasFocus && styles.inputFocused,
-        disabled && styles.inputDisabled,
-        invalid && styles.inputInvalid,
-        style,
-      ]}
-      onBlur={handleBlur}
-      onFocus={handleFocus}
-      {...props}
-    />
-  );
-};
+    return (
+      <NativeTextInput
+        ref={ref}
+        editable={!disabled}
+        placeholderTextColor={blueyGray}
+        selectionColor={yellowDarker1}
+        style={st(
+          styles.input,
+          [hasFocus, styles.inputFocused],
+          [disabled, styles.inputDisabled],
+          [invalid, styles.inputInvalid],
+          style,
+        )}
+        onBlur={handleBlur}
+        onFocus={handleFocus}
+        {...props}
+      />
+    );
+  },
+);
 
 const styles = StyleSheet.create({
   input: {
-    ...typographyStyles.textInput,
+    ...typographyStyles.body,
+    // there is a bug in RN where `lineHeight` to not enforce height changes
+    lineHeight: undefined,
+    textAlignVertical: "top",
     backgroundColor: baseWhite,
     borderColor: grayLighter4,
     borderRadius: roundness,
     borderStyle: "solid",
     borderWidth: 1,
     color: baseGray,
-    // `paddingVertical` do not work properly in multiline mode
-    paddingTop: 14,
-    paddingBottom: 14,
+    ...Platform.select({
+      default: {
+        paddingTop: 13,
+        paddingBottom: 14,
+      },
+      // android adds additional line-height so padding needs to be calculated separately
+      android: {
+        paddingTop: 13,
+        paddingBottom: 5,
+      },
+    }),
     paddingHorizontal: 16,
   },
   inputFocused: {
@@ -82,7 +93,7 @@ const styles = StyleSheet.create({
   },
   inputDisabled: {
     backgroundColor: silverLighter1,
-    color: blueyGrey,
+    color: blueyGray,
   },
   inputInvalid: {
     borderColor: baseRed,

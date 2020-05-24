@@ -1,4 +1,5 @@
 import { RESULTS as PERMISSION_RESULTS } from "react-native-permissions";
+
 import { setupBindings } from "./bindings";
 import { symbols } from "./symbols";
 

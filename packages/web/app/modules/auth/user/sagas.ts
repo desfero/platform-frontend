@@ -1,11 +1,9 @@
-import { call, delay, fork, put, race, select, take } from "@neufund/sagas";
-import { authModuleAPI, EJwtPermissions } from "@neufund/shared-modules";
+import { call, delay, fork, put, race, SagaGenerator, select, take } from "@neufund/sagas";
+import { authModuleAPI, EJwtPermissions, EUserType } from "@neufund/shared-modules";
 import { assertNever, minutesToMs, safeDelay, secondsToMs } from "@neufund/shared-utils";
 
 import { SignInUserErrorMessage } from "../../../components/translatedMessages/messages";
 import { TGlobalDependencies } from "../../../di/setupBindings";
-import { EUserType, IUser } from "../../../lib/api/users/interfaces";
-import { UserNotExisting } from "../../../lib/api/users/UsersApi";
 import { EUserActivityMessage } from "../../../lib/dependencies/broadcast-channel/types";
 import { REGISTRATION_LOGIN_DONE } from "../../../lib/persistence/UserStorage";
 import {
@@ -20,19 +18,9 @@ import { EInitType } from "../../init/reducer";
 import { restartServices } from "../../init/sagas";
 import { loadKycRequestData } from "../../kyc/sagas";
 import { selectRedirectURLFromQueryString } from "../../routing/selectors";
-import {
-  neuCall,
-  neuTakeEvery,
-  neuTakeLatest,
-  neuTakeLatestUntil,
-  neuTakeUntil,
-} from "../../sagasUtils";
-import {
-  getCurrentAgreementHash,
-  handleAcceptCurrentAgreement,
-} from "../../terms-of-service/sagas";
+import { neuCall, neuTakeLatest, neuTakeLatestUntil, neuTakeUntil } from "../../sagasUtils";
+import { handleAcceptCurrentAgreement } from "../../terms-of-service/sagas";
 import { ECommonWalletRegistrationFlowState } from "../../wallet-selector/types";
-import { EWalletType } from "../../web3/types";
 import { AUTH_INACTIVITY_THRESHOLD } from "../constants";
 import { checkForPendingEmailVerification } from "../email/sagas";
 import { selectIsThereUnverifiedEmail, selectUserType } from "../selectors";
@@ -88,17 +76,37 @@ export function* signInUser(
     tos?: boolean;
     backupCodesVerified?: boolean;
   },
-): Generator<any, any, any> {
+): SagaGenerator<void> {
   try {
-    yield neuCall(authModuleAPI.sagas.createJwt, [EJwtPermissions.SIGN_TOS]);
+    yield* neuCall(authModuleAPI.sagas.createJwt, [EJwtPermissions.SIGN_TOS]);
+
     yield put(
       actions.walletSelector.setWalletRegisterData({
         uiState: ECommonWalletRegistrationFlowState.REGISTRATION_WALLET_LOADING,
       }),
     );
-    yield neuCall(loadOrCreateUser, { userType, email, salt, tos, backupCodesVerified });
-    if (tos) yield neuCall(handleAcceptCurrentAgreement);
-    yield call(checkForPendingEmailVerification);
+
+    if (!web3Manager.personalWallet) {
+      throw new Error("Personal Wallet must be plugged");
+    }
+
+    const walletMetadata = web3Manager.personalWallet.getMetadata();
+
+    yield* call(authModuleAPI.sagas.loadOrCreateUser, {
+      userType,
+      walletMetadata: walletMetadata,
+      email,
+      salt,
+      backupCodesVerified,
+    });
+
+    if (tos) {
+      yield* neuCall(handleAcceptCurrentAgreement);
+    }
+
+    yield* neuCall(loadKycRequestData);
+
+    yield* call(checkForPendingEmailVerification);
 
     const walletMetadataUserType = yield* select(selectUserType);
 
@@ -119,10 +127,10 @@ export function* signInUser(
     // For other open browser pages
     yield* call(() => userStorage.set(REGISTRATION_LOGIN_DONE));
 
-    const redirectionUrl = yield select(selectRedirectURLFromQueryString);
+    const redirectionUrl = yield* select(selectRedirectURLFromQueryString);
 
     if (cleanupGenerator) {
-      yield cleanupGenerator();
+      yield* cleanupGenerator();
     }
 
     yield put(actions.auth.finishSigning());
@@ -131,118 +139,15 @@ export function* signInUser(
       redirectionUrl ? actions.routing.push(redirectionUrl) : actions.routing.goToDashboard(),
     );
   } catch (e) {
-    yield neuCall(logoutUser);
-    yield neuCall(restartServices);
+    yield* neuCall(logoutUser);
+    yield* neuCall(restartServices);
+
     if (e instanceof SignerRejectConfirmationError || e instanceof SignerTimeoutError) {
       throw e;
     } else {
       throw new SignerUnknownError();
     }
   }
-}
-
-/**
- * A wrapper around UsersApi me method
- *
- * @returns IUser if the user exists and undefined if the user doesn't exist
- *
- * @note This is used when `UserNotExisting` is expected to happen and relying on catch as
- * a regular flow disrupts the linear flow of the saga
- *
- * @see loadOrCreateUser
- */
-function* getUsersMeFromApi({
-  apiUserService,
-}: TGlobalDependencies): Generator<any, IUser | undefined, any> {
-  try {
-    const user = yield* call(() => apiUserService.me());
-    return user;
-  } catch (error) {
-    if (error instanceof UserNotExisting) {
-      return undefined;
-    } else {
-      throw error;
-    }
-  }
-}
-
-/**
- * @generator create or load the user depending on the response coming from `usersApi/me` method
- */
-export function* loadOrCreateUser(
-  { apiUserService, web3Manager }: TGlobalDependencies,
-  {
-    userType,
-    email,
-    salt,
-    tos = false,
-    backupCodesVerified = false,
-  }: {
-    userType: EUserType;
-    email?: string;
-    salt?: string;
-    tos?: boolean;
-    backupCodesVerified?: boolean;
-  },
-): Generator<any, void, any> {
-  if (!web3Manager.personalWallet) {
-    throw new Error("Personal Wallet must be plugged");
-  }
-  const walletMetadata = web3Manager.personalWallet.getMetadata();
-  const userFromApi = yield* neuCall(getUsersMeFromApi);
-  let user;
-  if (userFromApi) {
-    // we should update wallet in case of
-    // 1. there's a new e-mail provided ie. during recovery or when user re-registers existing wallet
-    // 2. when wallet type/subtype changes ie. someone moves from lightwallet to metamask via key import
-    // 3. backup codes verified flag is set. it cannot be used to unset value
-    if (
-      email ||
-      backupCodesVerified === true ||
-      userFromApi.walletType !== walletMetadata.walletType ||
-      userFromApi.walletSubtype !== walletMetadata.walletSubType
-    ) {
-      //TODO: we need to clean-up the logic above as mentioned in
-      // @See https://github.com/Neufund/platform-frontend/issues/4312
-      user = yield* call(apiUserService.updateUser, {
-        ...userFromApi,
-        salt,
-        walletType: walletMetadata.walletType,
-        walletSubtype: walletMetadata.walletSubType,
-        newEmail: email,
-        backupCodesVerified: backupCodesVerified || userFromApi.backupCodesVerified,
-      });
-    } else {
-      user = userFromApi;
-    }
-  } else {
-    user = yield* call(apiUserService.createAccount, {
-      newEmail: email || walletMetadata?.email,
-      backupCodesVerified:
-        backupCodesVerified || walletMetadata?.walletType === EWalletType.LIGHT ? false : true,
-      salt: salt || walletMetadata?.salt,
-      type: userType,
-      walletType: walletMetadata.walletType,
-      walletSubtype: walletMetadata.walletSubType,
-    });
-  }
-
-  if (tos) {
-    const currentAgreementHash = yield* neuCall(getCurrentAgreementHash);
-    yield apiUserService.setLatestAcceptedTos(currentAgreementHash);
-  }
-
-  yield put(actions.auth.setUser(user));
-
-  yield neuCall(loadKycRequestData);
-}
-
-export function* setUser(
-  { logger }: TGlobalDependencies,
-  action: TActionFromCreator<typeof actions.auth.setUser>,
-): Generator<any, any, any> {
-  const user = action.payload.user;
-  logger.setUser({ id: user.userId, type: user.type, walletType: user.walletType });
 }
 
 /*
@@ -319,7 +224,7 @@ const NO_UNVERIFIED_EMAIL_REFRESH_DELAY = minutesToMs(5);
 function* profileMonitor({ logger }: TGlobalDependencies): Generator<any, any, any> {
   try {
     const isThereUnverifiedEmail = yield select((state: TAppGlobalState) =>
-      selectIsThereUnverifiedEmail(state.auth),
+      selectIsThereUnverifiedEmail(state),
     );
 
     const delayTime = isThereUnverifiedEmail
@@ -336,16 +241,15 @@ function* profileMonitor({ logger }: TGlobalDependencies): Generator<any, any, a
 
 export function* authUserSagas(): Generator<any, any, any> {
   yield fork(neuTakeLatest, actions.auth.logout, handleLogOutUser);
-  yield fork(neuTakeEvery, actions.auth.setUser, setUser);
   yield fork(
     neuTakeUntil,
-    actions.auth.setUser,
+    authModuleAPI.actions.setUser,
     actions.auth.stopUserActivityWatcher,
     waitForUserActiveOrLogout,
   );
   yield fork(
     neuTakeLatestUntil,
-    actions.auth.setUser,
+    authModuleAPI.actions.setUser,
     actions.auth.stopProfileMonitor,
     profileMonitor,
   );

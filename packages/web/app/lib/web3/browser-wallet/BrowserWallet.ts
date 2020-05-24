@@ -1,4 +1,4 @@
-import { ESignerType } from "@neufund/shared-modules";
+import { ESignerType, EWalletSubType, EWalletType } from "@neufund/shared-modules";
 import {
   EthereumAddressWithChecksum,
   EthereumNetworkId,
@@ -112,4 +112,7 @@ export class BrowserWallet implements IPersonalWallet {
   public isUnlocked = (): boolean => true;
 
   public unplug = () => Promise.resolve();
+
+  // browser wallet is by default unlocked
+  public unlock = (_: string) => Promise.reject();
 }

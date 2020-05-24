@@ -1,10 +1,9 @@
 import { expectSaga, matchers } from "@neufund/sagas/tests";
+import { EUserType, EWalletType } from "@neufund/shared-modules";
 
 import { userMayChooseWallet } from "../../../components/wallet-selector/WalletSelectorLogin/utils";
-import { EUserType } from "../../../lib/api/users/interfaces";
 import { actions } from "../../actions";
 import { isEmailAvailablePromise } from "../../auth/email/sagas";
-import { EWalletType } from "../../web3/types";
 import { walletSelectorInitialState, walletSelectorReducer } from "../reducer";
 import { ECommonWalletRegistrationFlowState, EFlowType } from "../types";
 import { registerForm } from "./sagas";

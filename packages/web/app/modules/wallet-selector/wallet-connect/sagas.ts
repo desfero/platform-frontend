@@ -148,7 +148,7 @@ export function* walletConnectSagas(): Generator<any, void, any> {
   yield fork(
     neuTakeLatestUntil,
     actions.walletSelector.walletConnectStartEventListeners,
-    actions.auth.reset,
+    actions.auth.logoutDone,
     startWalletConnectEventChannel,
   );
 }

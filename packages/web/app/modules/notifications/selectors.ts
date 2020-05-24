@@ -23,7 +23,7 @@ export const selectIsActionRequiredSettings = (state: TAppGlobalState): boolean 
     return false;
   }
   return (
-    !selectIsUserEmailVerified(state.auth) ||
+    !selectIsUserEmailVerified(state) ||
     !selectBackupCodesVerified(state) ||
     !includes(
       [EKycRequestStatus.OUTSOURCED, EKycRequestStatus.PENDING, EKycRequestStatus.ACCEPTED],

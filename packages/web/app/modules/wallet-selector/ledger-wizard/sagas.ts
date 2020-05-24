@@ -1,4 +1,5 @@
 import { call, fork, neuCall, put, race, select, take } from "@neufund/sagas";
+import { EWalletType } from "@neufund/shared-modules";
 import { toEthereumAddress } from "@neufund/shared-utils";
 import { toPairs, zip } from "lodash";
 
@@ -10,7 +11,6 @@ import { TAppGlobalState } from "../../../store";
 import { actions, TActionFromCreator } from "../../actions";
 import { neuTakeLatestUntil } from "../../sagasUtils";
 import { isSupportingLedger } from "../../user-agent/reducer";
-import { EWalletType } from "../../web3/types";
 import { registerForm } from "../forms/sagas";
 import { resetWalletSelectorState, walletSelectorConnect } from "../sagas";
 import { selectRegisterWalletDefaultFormValues } from "../selectors";

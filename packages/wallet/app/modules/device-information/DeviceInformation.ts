@@ -1,8 +1,7 @@
-import { getUniqueId, isEmulator } from "react-native-device-info";
-import { Platform, PlatformOSType } from "react-native";
+import { coreModuleApi, ILogger } from "@neufund/shared-modules";
 import { inject, injectable } from "inversify";
-import { symbols as globalSymbols } from "../../di/symbols";
-import { ILogger } from "@neufund/shared-modules";
+import { Platform, PlatformOSType } from "react-native";
+import { getUniqueId, isEmulator } from "react-native-device-info";
 
 /**
  * @class DeviceInformation
@@ -14,7 +13,7 @@ import { ILogger } from "@neufund/shared-modules";
 export class DeviceInformation {
   protected readonly logger: ILogger;
 
-  constructor(@inject(globalSymbols.logger) logger: ILogger) {
+  constructor(@inject(coreModuleApi.symbols.logger) logger: ILogger) {
     this.logger = logger;
   }
 

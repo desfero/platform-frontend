@@ -21,6 +21,7 @@ export interface IColorSystem {
     white: string;
     green: string;
     red: string;
+    blueGray: string;
   };
   accent: {
     yellowDarker: string;
@@ -29,6 +30,7 @@ export interface IColorSystem {
     grayLighter4: string;
     silverLighter: string;
     silverLighter2: string;
-    blueGray: string;
+    blueGrayDarker: string;
+    blueGrayDarker2: string;
   };
 }

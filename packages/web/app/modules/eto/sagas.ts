@@ -1,4 +1,5 @@
 import { all, fork, put, race, select, take } from "@neufund/sagas";
+import { EUserType } from "@neufund/shared-modules";
 import {
   convertFromUlps,
   Dictionary,
@@ -19,7 +20,7 @@ import { getInvestorDocumentTitles, hashFromIpfsLink } from "../../components/do
 import { DocumentConfidentialityAgreementModal } from "../../components/modals/document-confidentiality-agreement-modal/DocumentConfidentialityAgreementModal";
 import { JurisdictionDisclaimerModal } from "../../components/modals/jurisdiction-disclaimer-modal/JurisdictionDisclaimerModal";
 import { EtoMessage } from "../../components/translatedMessages/messages";
-import { createMessage } from "../../components/translatedMessages/utils";
+import { createNotificationMessage } from "../../components/translatedMessages/utils";
 import { TGlobalDependencies } from "../../di/setupBindings";
 import {
   EEtoState,
@@ -33,7 +34,6 @@ import {
   immutableDocumentName,
 } from "../../lib/api/eto/EtoFileApi.interfaces";
 import { canShowDocument } from "../../lib/api/eto/EtoFileUtils";
-import { EUserType } from "../../lib/api/users/interfaces";
 import { EtherToken } from "../../lib/contracts/EtherToken";
 import { ETOCommitment } from "../../lib/contracts/ETOCommitment";
 import { ETOTerms } from "../../lib/contracts/ETOTerms";
@@ -46,6 +46,7 @@ import { actions, TActionFromCreator } from "../actions";
 import { selectIsUserFullyVerified, selectUserId, selectUserType } from "../auth/selectors";
 import { shouldLoadBookbuildingStats } from "../bookbuilding-flow/utils";
 import { selectClientJurisdiction } from "../kyc/selectors";
+import { webNotificationUIModuleApi } from "../notification-ui/module";
 import { neuCall, neuTakeEvery, neuTakeLatest, neuTakeUntil } from "../sagasUtils";
 import { selectTxAdditionalData, selectTxType } from "../tx/sender/selectors";
 import { getAgreementContractAndHash } from "../tx/transactions/nominee/sign-agreement/sagas";
@@ -79,7 +80,7 @@ import {
 } from "./utils";
 
 function* loadEtoPreview(
-  { apiEtoService, notificationCenter, logger }: TGlobalDependencies,
+  { apiEtoService, logger }: TGlobalDependencies,
   action: TActionFromCreator<typeof actions.eto.loadEtoPreview>,
 ): any {
   const previewCode = action.payload.previewCode;
@@ -95,7 +96,11 @@ function* loadEtoPreview(
       return;
     }
 
-    notificationCenter.error(createMessage(EtoMessage.COULD_NOT_LOAD_ETO_PREVIEW));
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(EtoMessage.COULD_NOT_LOAD_ETO_PREVIEW),
+      ),
+    );
     yield put(actions.routing.goToDashboard());
   }
 }
@@ -106,7 +111,7 @@ function* fetchEto({ apiEtoService }: TGlobalDependencies, etoId: string): any {
 }
 
 function* loadEto(
-  { apiEtoService, notificationCenter, logger }: TGlobalDependencies,
+  { apiEtoService, logger }: TGlobalDependencies,
   action: TActionFromCreator<typeof actions.eto.loadEto>,
 ): any {
   const etoId = action.payload.etoId;
@@ -123,7 +128,11 @@ function* loadEto(
       return;
     }
 
-    notificationCenter.error(createMessage(EtoMessage.COULD_NOT_LOAD_ETO));
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(EtoMessage.COULD_NOT_LOAD_ETO),
+      ),
+    );
     yield put(actions.routing.goToDashboard());
   }
 }
@@ -267,7 +276,7 @@ export function* loadEtoContract(
   return { ...eto, contract };
 }
 
-export function* loadEtos({ apiEtoService, logger, notificationCenter }: TGlobalDependencies): any {
+export function* loadEtos({ apiEtoService, logger }: TGlobalDependencies): any {
   yield put(actions.bookBuilding.loadAllPledges());
 
   try {
@@ -320,7 +329,11 @@ export function* loadEtos({ apiEtoService, logger, notificationCenter }: TGlobal
   } catch (e) {
     logger.error("ETOs could not be loaded", e);
 
-    notificationCenter.error(createMessage(EtoMessage.COULD_NOT_LOAD_ETOS));
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(EtoMessage.COULD_NOT_LOAD_ETOS),
+      ),
+    );
 
     // set empty display order to remove loading indicator
     yield put(actions.eto.setEtosDisplayOrder([]));

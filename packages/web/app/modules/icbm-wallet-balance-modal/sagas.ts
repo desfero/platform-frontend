@@ -4,10 +4,14 @@ import { toChecksumAddress } from "ethereumjs-util";
 
 import { hashFromIpfsLink } from "../../components/documents/utils";
 import { IcbmWalletMessage } from "../../components/translatedMessages/messages";
-import { createMessage } from "../../components/translatedMessages/utils";
+import {
+  createMessage,
+  createNotificationMessage,
+} from "../../components/translatedMessages/utils";
 import { TGlobalDependencies } from "../../di/setupBindings";
 import { actions, TActionFromCreator } from "../actions";
 import { downloadLink } from "../immutable-file/utils";
+import { webNotificationUIModuleApi } from "../notification-ui/module";
 import { neuCall, neuTakeEvery, neuTakeUntil } from "../sagasUtils";
 import { ETokenType } from "../tx/types";
 import { ILockedWallet, IWalletStateData } from "../wallet/reducer";
@@ -38,7 +42,6 @@ const didUserConductFirstTransaction = (
 
 function* loadIcbmWalletMigrationTransactionSaga({
   logger,
-  notificationCenter,
   contractsService,
 }: TGlobalDependencies): any {
   try {
@@ -81,13 +84,16 @@ function* loadIcbmWalletMigrationTransactionSaga({
     yield put(actions.icbmWalletBalanceModal.loadIcbmMigrationData(walletMigrationData));
   } catch (e) {
     logger.error("Error: ", e);
-    return notificationCenter.error(
-      createMessage(IcbmWalletMessage.ICBM_ERROR_RUNNING_MIGRATION_TOOL),
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(IcbmWalletMessage.ICBM_ERROR_RUNNING_MIGRATION_TOOL),
+      ),
     );
+    return;
   }
 }
 
-function* loadIcbmWalletMigrationSaga({ logger, notificationCenter }: TGlobalDependencies): any {
+function* loadIcbmWalletMigrationSaga({ logger }: TGlobalDependencies): any {
   const ethAddress = yield select(selectIcbmWalletEthAddress);
 
   try {
@@ -110,17 +116,28 @@ function* loadIcbmWalletMigrationSaga({ logger, notificationCenter }: TGlobalDep
     logger.error("Load ICBM migration wallet", e);
     // todo: all texts to text resources
     if (e instanceof NoIcbmWalletError) {
-      return notificationCenter.error(createMessage(IcbmWalletMessage.ICBM_COULD_NOT_FIND_ADDRESS));
+      yield put(
+        webNotificationUIModuleApi.actions.showError(
+          createNotificationMessage(IcbmWalletMessage.ICBM_COULD_NOT_FIND_ADDRESS),
+        ),
+      );
+      return;
     }
     if (e instanceof SameUserError) {
-      return notificationCenter.error(
-        createMessage(IcbmWalletMessage.ICBM_WALLET_AND_ICBM_ADDRESSES_ARE_THE_SAME),
+      yield put(
+        webNotificationUIModuleApi.actions.showError(
+          createNotificationMessage(IcbmWalletMessage.ICBM_WALLET_AND_ICBM_ADDRESSES_ARE_THE_SAME),
+        ),
       );
+      return;
     }
     // Default Error
-    return notificationCenter.error(
-      createMessage(IcbmWalletMessage.ICBM_COULD_NOT_LOAD_WALLET_DATA),
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(IcbmWalletMessage.ICBM_COULD_NOT_LOAD_WALLET_DATA),
+      ),
     );
+    return;
   }
 }
 
@@ -160,7 +177,7 @@ function* icbmWalletMigrationTransactionWatcher({ contractsService }: TGlobalDep
 }
 
 function* downloadICBMWalletAgreement(
-  { contractsService, apiImmutableStorage, logger, notificationCenter }: TGlobalDependencies,
+  { contractsService, apiImmutableStorage, logger }: TGlobalDependencies,
   action: TActionFromCreator<typeof actions.icbmWalletBalanceModal.downloadICBMWalletAgreement>,
 ): any {
   const lockInstance =
@@ -186,7 +203,11 @@ function* downloadICBMWalletAgreement(
     );
   } catch (e) {
     logger.error("Failed to download ICBM wallet agreement", e);
-    notificationCenter.error(createMessage(IcbmWalletMessage.ICBM_FAILED_TO_DOWNLOAD_AGREEMENT));
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(IcbmWalletMessage.ICBM_FAILED_TO_DOWNLOAD_AGREEMENT),
+      ),
+    );
   }
 }
 

@@ -1,3 +1,4 @@
+import { coreModuleApi, ILogger } from "@neufund/shared-modules";
 import { inject, injectable } from "inversify";
 import {
   Notification,
@@ -6,20 +7,18 @@ import {
 } from "react-native-notifications";
 import { EventsRegistry } from "react-native-notifications/lib/dist/events/EventsRegistry";
 import { NotificationCompletion } from "react-native-notifications/lib/dist/interfaces/NotificationCompletion";
-import { ILogger } from "@neufund/shared-modules";
 
-import { INotificationsProvider } from "./INotificationsProvider";
-import { symbols } from "./symbols";
-import { symbols as globalSymbols } from "../../di/symbols";
-import { Permissions } from "../permissions/Permissions";
 import { DeviceInformation } from "../device-information/DeviceInformation";
-import { permissionsModuleApi, PERMISSION_RESULTS } from "../permissions/module";
 import { deviceInformationModuleApi } from "../device-information/module";
-import { NotificationsModuleErrror } from "./errors";
+import { Permissions } from "../permissions/Permissions";
+import { permissionsModuleApi, PERMISSION_RESULTS } from "../permissions/module";
+import { INotificationsProvider } from "./INotificationsProvider";
+import { NotificationsModuleError } from "./errors";
+import { symbols } from "./symbols";
 
-class NotificationsError extends NotificationsModuleErrror {
+class NotificationsInitError extends NotificationsModuleError {
   constructor(message: string) {
-    super(message);
+    super(`NotificationsInitError: ${message}`);
   }
 }
 
@@ -40,7 +39,7 @@ export class Notifications {
   constructor(
     @inject(symbols.notificationsProvider) notificationsProvider: INotificationsProvider,
     @inject(permissionsModuleApi.symbols.permissions) permissions: Permissions,
-    @inject(globalSymbols.logger) logger: ILogger,
+    @inject(coreModuleApi.symbols.logger) logger: ILogger,
     @inject(deviceInformationModuleApi.symbols.deviceInformation)
     deviceInformation: DeviceInformation,
   ) {
@@ -61,14 +60,14 @@ export class Notifications {
   async init() {
     this.logger.info("Init push notifications");
     try {
-      const notificationsAllowed = await this.permissions.requestNotificationsPermissions();
-      if (notificationsAllowed.status === PERMISSION_RESULTS.GRANTED) {
+      const notificationPermissions = await this.permissions.requestNotificationsPermissions();
+      if (notificationPermissions.status === PERMISSION_RESULTS.GRANTED) {
         this.events = NotificationsHandler.events();
         await this.notificationsProvider.subscribeForNotifications();
         await this.registerTokenWithBackend();
       }
     } catch (e) {
-      throw new NotificationsError(e);
+      throw new NotificationsInitError(e);
     }
   }
 
@@ -79,7 +78,7 @@ export class Notifications {
    * @param {NotificationCompletion} notificationShowSettings Settings around how to show notification, badge, sound etc.
    */
   onReceivedNotificationInForeground(
-    listener: (notification: Notification) => any,
+    listener: (notification: Notification) => void,
     notificationShowSettings: NotificationCompletion,
   ) {
     if (!this.events) return;
@@ -101,7 +100,7 @@ export class Notifications {
    * @param {NotificationCompletion} notificationShowSettings Settings around how to show notification, badge, sound etc.
    */
   onReceiveNotificationInBackground(
-    listener: (notification: Notification) => any,
+    listener: (notification: Notification) => void,
     notificationShowSettings: NotificationCompletion,
   ) {
     if (!this.events) return;

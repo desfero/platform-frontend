@@ -1,6 +1,6 @@
 import { createSagaMiddleware, SagaMiddleware } from "@neufund/sagas";
 import { authModuleAPI, coreModuleApi, IHttpResponse, noopLogger } from "@neufund/shared-modules";
-import { dummyIntl, simpleDelay } from "@neufund/shared-utils";
+import { DeepPartial, dummyIntl, simpleDelay } from "@neufund/shared-utils";
 import { createMock, tid } from "@neufund/shared-utils/tests";
 import { routerMiddleware } from "connected-react-router";
 import { ReactWrapper } from "enzyme";
@@ -19,7 +19,6 @@ import {
   TGlobalDependencies,
 } from "../app/di/setupBindings";
 import { symbols } from "../app/di/symbols";
-import { UsersApi } from "../app/lib/api/users/UsersApi";
 import { BroadcastChannelMock } from "../app/lib/dependencies/broadcast-channel/BroadcastChannel.mock";
 import { IntlWrapper } from "../app/lib/intl/IntlWrapper";
 import { Storage } from "../app/lib/persistence/Storage";
@@ -30,7 +29,6 @@ import { LedgerWalletConnector } from "../app/lib/web3/ledger-wallet/LedgerConne
 import { Web3ManagerMock } from "../app/lib/web3/Web3Manager/Web3Manager.mock";
 import { rootSaga } from "../app/modules/sagas";
 import { generateRootModuleReducerMap } from "../app/store";
-import { DeepPartial } from "../app/types";
 import { dummyConfig } from "./fixtures";
 import { createSpyMiddleware } from "./reduxSpyMiddleware";
 
@@ -46,7 +44,6 @@ interface ICreateIntegrationTestsSetupOptions {
   browserWalletConnectorMock?: BrowserWalletConnector;
   ledgerWalletConnectorMock?: LedgerWalletConnector;
   storageMock?: Storage;
-  usersApiMock?: UsersApi;
   initialRoute?: string;
   contractsMock?: ContractsService;
 }
@@ -75,6 +72,7 @@ interface ICreateIntegrationTestsSetupOutput {
  *             Just mock all selectors/external components and assert component behaviour
  *             without spinning whole sagas under the hood
  */
+// TODO: There is a circular dependency after the function and all imports are removed. Remove the function and fix invalid circular dependency
 export function createIntegrationTestsSetup(
   options: ICreateIntegrationTestsSetupOptions = {},
 ): ICreateIntegrationTestsSetupOutput {
@@ -83,7 +81,6 @@ export function createIntegrationTestsSetup(
   const ledgerWalletMock =
     options.ledgerWalletConnectorMock || createMock(LedgerWalletConnector, {});
   const storageMock = options.storageMock || createMockStorage();
-  const usersApiMock = options.usersApiMock || createMock(UsersApi, {});
   const contractsMock = options.contractsMock || createMock(ContractsService, {});
 
   const container = new Container();
@@ -115,7 +112,6 @@ export function createIntegrationTestsSetup(
     .inSingletonScope();
   container.bind(symbols.logger).toConstantValue(noopLogger);
   container.rebind(symbols.storage).toConstantValue(storageMock);
-  container.rebind(symbols.usersApi).toConstantValue(usersApiMock);
   container.rebind(symbols.contractsService).toConstantValue(contractsMock);
 
   const context: { container: Container; deps?: TGlobalDependencies } = {

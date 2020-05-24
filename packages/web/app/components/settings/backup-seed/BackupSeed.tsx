@@ -5,7 +5,7 @@ import { compose } from "redux";
 import { actions } from "../../../modules/actions";
 import { selectBackupCodesVerified } from "../../../modules/auth/selectors";
 import { IWalletPrivateData } from "../../../modules/web3/reducer";
-import { selectIsUnlocked, selectWalletPrivateData } from "../../../modules/web3/selectors";
+import { selectWalletPrivateData } from "../../../modules/web3/selectors";
 import { appConnect } from "../../../store";
 import { Layout } from "../../layouts/Layout";
 import { createErrorBoundary } from "../../shared/errorBoundary/ErrorBoundary.unsafe";
@@ -27,7 +27,6 @@ interface IDispatchProps {
 
 interface IStateProps {
   walletPrivateData?: IWalletPrivateData;
-  isUnlocked: boolean;
   backupCodesVerified: boolean;
 }
 
@@ -66,7 +65,6 @@ export const BackupSeed = compose<React.FunctionComponent>(
   createErrorBoundary(ErrorBoundaryLayout),
   appConnect<IStateProps, IDispatchProps>({
     stateToProps: s => ({
-      isUnlocked: selectIsUnlocked(s.web3),
       walletPrivateData: selectWalletPrivateData(s.web3),
       backupCodesVerified: selectBackupCodesVerified(s),
     }),

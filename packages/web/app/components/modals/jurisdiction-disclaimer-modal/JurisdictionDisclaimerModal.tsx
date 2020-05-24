@@ -5,8 +5,8 @@ import { FormattedMessage } from "react-intl-phraseapp";
 
 import { actions } from "../../../modules/actions";
 import { appConnect } from "../../../store";
-import { Message } from "../../modals/message/Message";
-import { VALUES } from "../../shared/forms/fields/form-select-fields/FormSelectCountryField";
+import { VALUES } from "../../shared/forms";
+import { Message } from "../message/Message";
 
 import cityIcon from "../../../assets/img/eto/city.png";
 

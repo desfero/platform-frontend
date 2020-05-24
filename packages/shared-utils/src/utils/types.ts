@@ -20,6 +20,17 @@ export type TDictionaryArrayValues<T> = T extends Array<Dictionary<infer U>> ? U
 export type Primitive = string | number | boolean | undefined | null;
 
 /**
+ * Forces deeply all properties to be marked as partial (undefined)
+ */
+export type DeepPartial<T> = {
+  [P in keyof T]?: T[P] extends Array<infer U>
+    ? Array<DeepPartial<U>>
+    : T[P] extends ReadonlyArray<infer Z>
+    ? ReadonlyArray<DeepPartial<Z>>
+    : DeepPartial<T[P]>;
+};
+
+/**
  * Types allowed to keep as writable
  */
 type WhitelistedWritableTypes = Date | BigNumber;
@@ -121,6 +132,26 @@ export type XOR<T extends object, U extends object> = (Without<T, U> & U) | (Wit
  * ValueOf<{ foo: boolean, bar: string }> // boolean | string
  */
 export type Values<T> = T[keyof T];
+
+/**
+ * Get object value types of an union type
+ * @example
+ * ValuesOfUnion<{ foo: boolean, bar: string } | { baz: number }> // boolean | string | number
+ */
+export type ValuesOfUnion<T> = T extends any ? Values<T> : never;
+
+/**
+ * Get object value type (lookup type). Fallbacks to `Default` when key is not in an object
+ * @note If you don't need to get key from an union or if key is always present in an union prefer normal lookup type (`Obj["key"]`)
+ * @example
+ * Get<{ foo: boolean, bar: string } | { bar: number }, "bar", {}> // string | number
+ * Get<{ foo: boolean, bar: string } | { }, "bar", {}> // string | {}
+ */
+export type Get<Obj, Key extends string | number | symbol, Default> = Obj extends {
+  [_ in Key]: infer P;
+}
+  ? P
+  : Default;
 
 /**
  * From T, select a union of property names which values extends R

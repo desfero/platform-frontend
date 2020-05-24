@@ -49,7 +49,7 @@ export const OnboardingMain: React.FunctionComponent<TAccountSetupSteps> = ({
 export const Onboarding = compose<TAccountSetupSteps, {}>(
   appConnect<TOnboardingInitData>({
     stateToProps: state => ({
-      emailVerified: selectIsUserEmailVerified(state.auth),
+      emailVerified: selectIsUserEmailVerified(state),
       backupCodesVerified: selectBackupCodesVerified(state),
       kycRequestStatus: nonNullable(selectKycRequestStatus(state)),
       walletType: nonNullable(selectWalletType(state)),

@@ -1,16 +1,12 @@
 import { Button, Image, ISrcSet } from "@neufund/design-system";
+import { EWalletSubType, EWalletType } from "@neufund/shared-modules";
 import * as cn from "classnames";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { selectIsAccessWalletModalOpen } from "../../../modules/access-wallet/selectors";
 import { actions } from "../../../modules/actions";
-import {
-  selectIsUnlocked,
-  selectWalletSubType,
-  selectWalletType,
-} from "../../../modules/web3/selectors";
-import { EWalletSubType, EWalletType } from "../../../modules/web3/types";
+import { selectWalletSubType, selectWalletType } from "../../../modules/web3/selectors";
 import { appConnect } from "../../../store";
 import { TTranslatedString } from "../../../types";
 import { WarningAlert } from "../../shared/WarningAlert";
@@ -34,7 +30,6 @@ interface IStateProps {
   message?: TTranslatedString;
   walletType: EWalletType | undefined;
   walletSubType: EWalletSubType | undefined;
-  isUnlocked: boolean;
   inputLabel?: TTranslatedString;
 }
 
@@ -65,7 +60,6 @@ export const AccessWalletContainerComponent: React.FunctionComponent<IStateProps
   title,
   message,
   errorMessage,
-  isUnlocked,
   onAccept,
   tryToAccessWalletAgain,
   walletType,
@@ -78,11 +72,7 @@ export const AccessWalletContainerComponent: React.FunctionComponent<IStateProps
     {walletType === EWalletType.LIGHT && (
       <div>
         <img src={lockIcon} className="mt-3 mb-3" alt="" />
-        <AccessLightWalletPrompt
-          onAccept={onAccept}
-          isUnlocked={isUnlocked}
-          inputLabel={inputLabel}
-        />
+        <AccessLightWalletPrompt onAccept={onAccept} inputLabel={inputLabel} />
       </div>
     )}
     {walletType === EWalletType.LEDGER && (
@@ -140,7 +130,6 @@ export const AccessWalletContainer = appConnect<IStateProps, IDispatchProps, IEx
     inputLabel: s.accessWallet.inputLabel && getMessageTranslation(s.accessWallet.inputLabel),
     walletType: selectWalletType(s),
     walletSubType: selectWalletSubType(s.web3),
-    isUnlocked: selectIsUnlocked(s.web3),
   }),
   dispatchToProps: dispatch => ({
     onAccept: (password?: string) => {

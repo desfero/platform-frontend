@@ -1,3 +1,4 @@
+import { EWalletType } from "@neufund/shared-modules";
 import { RouterState } from "connected-react-router";
 import { isString } from "lodash";
 import * as queryString from "query-string";
@@ -5,7 +6,6 @@ import { createSelector } from "reselect";
 
 import { appRoutes } from "../../components/appRoutes";
 import { TAppGlobalState } from "../../store";
-import { EWalletType } from "../web3/types";
 
 export const selectRouter = (state: TAppGlobalState) => state.router;
 

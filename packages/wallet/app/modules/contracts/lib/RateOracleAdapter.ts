@@ -1,6 +1,7 @@
 import { IRateOracleAdapter } from "@neufund/shared-modules";
 import { BigNumber } from "bignumber.js";
 import { providers, Signer } from "ethers";
+
 import { ITokenExchangeRateOracle } from "../../../lib/contracts/ITokenExchangeRateOracle";
 import { ITokenExchangeRateOracleFactory } from "../../../lib/contracts/ITokenExchangeRateOracleFactory";
 
@@ -19,9 +20,11 @@ class RateOracleAdapterFactory {
  * An adapter for RateOracle to hide implementation differences between web3 and ethers generated contracts interfaces
  */
 class RateOracleAdapter implements IRateOracleAdapter {
-  constructor(private rateOracleContract: ITokenExchangeRateOracle) {}
+  readonly address: string;
 
-  address = this.rateOracleContract.address;
+  constructor(private readonly rateOracleContract: ITokenExchangeRateOracle) {
+    this.address = this.rateOracleContract.address;
+  }
 
   async getExchangeRates(
     numeratorTokens: string[],

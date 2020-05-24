@@ -1,8 +1,8 @@
+import { EWalletSubType, EWalletType } from "@neufund/shared-modules";
 import { action } from "@storybook/addon-actions";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { EWalletSubType, EWalletType } from "../../../modules/web3/types";
 import { withModalBody } from "../../../utils/react-connected-components/storybookHelpers.unsafe";
 import {
   BrowserWalletErrorMessage,
@@ -19,7 +19,6 @@ const props = {
     createMessage(ProfileMessage.PROFILE_ACCESS_RECOVERY_PHRASE_DESCRIPTION),
   ),
   errorMsg: undefined,
-  isUnlocked: false,
   onAccept: action("onAccept"),
   tryToAccessWalletAgain: action("tryToAccessWalletAgain"),
   walletType: EWalletType.LIGHT,
@@ -31,9 +30,6 @@ storiesOf("AccessWalletModal", module)
   .add("lightwallet", () => <AccessWalletContainerComponent {...props} />)
   .add("lightwallet with changed label and empty message", () => (
     <AccessWalletContainerComponent {...props} inputLabel={"This is changed label"} message={""} />
-  ))
-  .add("lightwallet-unlocked", () => (
-    <AccessWalletContainerComponent {...props} isUnlocked={true} />
   ))
   .add("metamask", () => (
     <AccessWalletContainerComponent

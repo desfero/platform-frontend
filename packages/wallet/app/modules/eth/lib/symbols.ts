@@ -1,11 +1,11 @@
 import { createLibSymbol } from "@neufund/shared-modules";
 
+import { AppSingleKeyStorage } from "../../storage";
 import { TEthAdapterFactoryType } from "./EthAdapter";
 import { EthManager } from "./EthManager";
 import { EthSecureEnclave } from "./EthSecureEnclave";
 import { TEthWalletProviderType } from "./EthWallet";
 import { EthWalletFactory } from "./EthWalletFactory";
-import { AppSingleKeyStorage } from "../../storage";
 import { TWalletMetadata } from "./schemas";
 
 export const symbols = {

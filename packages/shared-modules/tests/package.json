@@ -1,0 +1,5 @@
+{
+  "name": "@neufund/shared-modules/tests",
+  "private": true,
+  "main": "../dist/tests/index.js"
+}

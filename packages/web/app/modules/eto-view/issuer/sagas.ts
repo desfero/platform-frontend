@@ -3,7 +3,7 @@ import { DataUnavailableError } from "@neufund/shared-utils";
 import { match } from "react-router";
 
 import { EtoMessage } from "../../../components/translatedMessages/messages";
-import { createMessage } from "../../../components/translatedMessages/utils";
+import { createNotificationMessage } from "../../../components/translatedMessages/utils";
 import { TGlobalDependencies } from "../../../di/setupBindings";
 import { EJurisdiction } from "../../../lib/api/eto/EtoProductsApi.interfaces";
 import { actions, TActionFromCreator } from "../../actions";
@@ -11,6 +11,7 @@ import { loadIssuerEto } from "../../eto-flow/sagas";
 import { selectIssuerEtoWithCompanyAndContract } from "../../eto-flow/selectors";
 import { loadEtoWithCompanyAndContract, loadEtoWithCompanyAndContractById } from "../../eto/sagas";
 import { TEtoWithCompanyAndContractReadonly } from "../../eto/types";
+import { webNotificationUIModuleApi } from "../../notification-ui/module";
 import { neuCall, neuTakeEvery } from "../../sagasUtils";
 import {
   calculateCampaignOverviewData,
@@ -48,7 +49,7 @@ export function* selectOrLoadEto(): Generator<any, TEtoWithCompanyAndContractRea
 }
 
 export function* loadIssuerEtoView(
-  { logger, notificationCenter }: TGlobalDependencies,
+  { logger }: TGlobalDependencies,
   _: TActionFromCreator<typeof actions.etoView.loadIssuerEtoView>,
 ): Generator<any, void, any> {
   yield put(actions.etoView.resetEtoViewData());
@@ -76,13 +77,17 @@ export function* loadIssuerEtoView(
     }
   } catch (e) {
     logger.error("Could not load eto", e);
-    notificationCenter.error(createMessage(EtoMessage.COULD_NOT_LOAD_ETO));
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(EtoMessage.COULD_NOT_LOAD_ETO),
+      ),
+    );
     yield put(actions.routing.goToDashboard());
   }
 }
 
 export function* loadIssuerEtoPreview(
-  { logger, notificationCenter }: TGlobalDependencies,
+  { logger }: TGlobalDependencies,
   { payload }: TActionFromCreator<typeof actions.etoView.loadIssuerPreviewEtoView>,
 ): Generator<any, void, any> {
   yield put(actions.etoView.resetEtoViewData());
@@ -102,13 +107,17 @@ export function* loadIssuerEtoPreview(
     }
   } catch (e) {
     logger.error("Could not load eto by preview code", e);
-    notificationCenter.error(createMessage(EtoMessage.COULD_NOT_LOAD_ETO_PREVIEW));
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(EtoMessage.COULD_NOT_LOAD_ETO_PREVIEW),
+      ),
+    );
     yield put(actions.routing.goToDashboard());
   }
 }
 
 export function* loadIssuerPreviewByIdEtoView(
-  { logger, notificationCenter }: TGlobalDependencies,
+  { logger }: TGlobalDependencies,
   { payload }: TActionFromCreator<typeof actions.etoView.loadIssuerPreviewEtoViewById>,
 ): Generator<any, void, any> {
   try {
@@ -127,7 +136,11 @@ export function* loadIssuerPreviewByIdEtoView(
     }
   } catch (e) {
     logger.error("Could not load eto", e);
-    notificationCenter.error(createMessage(EtoMessage.COULD_NOT_LOAD_ETO));
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(EtoMessage.COULD_NOT_LOAD_ETO),
+      ),
+    );
     yield put(actions.routing.goToDashboard());
   }
 }

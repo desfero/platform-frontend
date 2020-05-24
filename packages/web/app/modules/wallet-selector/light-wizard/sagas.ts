@@ -1,4 +1,5 @@
 import { call, fork, put, select, take } from "@neufund/sagas";
+import { authModuleAPI, EUserType, EWalletType, IUser } from "@neufund/shared-modules";
 import { invariant } from "@neufund/shared-utils";
 import { includes } from "lodash";
 
@@ -11,24 +12,20 @@ import {
 import { createMessage } from "../../../components/translatedMessages/utils";
 import { USERS_WITH_ACCOUNT_SETUP } from "../../../config/constants";
 import { TGlobalDependencies } from "../../../di/setupBindings";
-import { EUserType, IUser } from "../../../lib/api/users/interfaces";
-import { EmailAlreadyExists } from "../../../lib/api/users/UsersApi";
 import {
   LightError,
   LightWallet,
   LightWalletLocked,
 } from "../../../lib/web3/light-wallet/LightWallet";
-import { TAppGlobalState } from "../../../store";
 import { connectLightWallet } from "../../access-wallet/sagas";
 import { actions, TActionFromCreator } from "../../actions";
-import { selectUserType } from "../../auth/selectors";
+import { selectUser, selectUserType } from "../../auth/selectors";
 import { loadUser, updateUser } from "../../auth/user/external/sagas";
 import { signInUser } from "../../auth/user/sagas";
 import { userHasKycAndEmailVerified } from "../../eto-flow/selectors";
 import { displayInfoModalSaga } from "../../generic-modal/sagas";
 import { neuCall, neuTakeEvery, neuTakeLatestUntil } from "../../sagasUtils";
-import { selectIsUnlocked } from "../../web3/selectors";
-import { EWalletType, ILightWalletMetadata } from "../../web3/types";
+import { ILightWalletMetadata } from "../../web3/types";
 import { registerForm } from "../forms/sagas";
 import { resetWalletSelectorState, walletSelectorConnect } from "../sagas";
 import { selectRegisterWalletDefaultFormValues } from "../selectors";
@@ -44,7 +41,7 @@ export const DEFAULT_HD_PATH = "m/44'/60'/0'";
 
 export function* lightWalletBackupWatch({ logger }: TGlobalDependencies): Generator<any, any, any> {
   try {
-    const user: IUser = yield select((state: TAppGlobalState) => state.auth.user);
+    const user: IUser = yield select(selectUser);
     yield neuCall(updateUser, { ...user, backupCodesVerified: true });
     yield call(
       displayInfoModalSaga,
@@ -74,7 +71,7 @@ export function* loadSeedFromWalletWatch({
   web3Manager,
 }: TGlobalDependencies): Generator<any, any, any> {
   try {
-    const isUnlocked = yield* select((s: TAppGlobalState) => selectIsUnlocked(s.web3));
+    const isUnlocked = web3Manager.personalWallet!.isUnlocked();
 
     if (!isUnlocked) {
       yield put(
@@ -98,7 +95,7 @@ export function* loadSeedFromWalletWatch({
 export function* handleLightWalletError({ logger }: TGlobalDependencies, e: Error): any {
   let error;
 
-  if (e instanceof EmailAlreadyExists) {
+  if (e instanceof authModuleAPI.error.EmailAlreadyExists) {
     error = createMessage(GenericErrorMessage.USER_ALREADY_EXISTS);
   } else if (e instanceof LightError) {
     logger.error("Light wallet recovery/register error", e);
@@ -131,7 +128,7 @@ export function* lightWalletLoginWatch(
       walletMetadata as ILightWalletMetadata,
       password,
     );
-
+    yield wallet.unlock(password);
     yield web3Manager.plugPersonalWallet(wallet);
     yield walletSelectorConnect();
   } catch (e) {

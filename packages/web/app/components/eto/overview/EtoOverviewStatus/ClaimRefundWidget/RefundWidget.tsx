@@ -1,9 +1,9 @@
 import { Button } from "@neufund/design-system";
+import { EUserType } from "@neufund/shared-modules";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { compose, withProps } from "recompose";
 
-import { EUserType } from "../../../../../lib/api/users/interfaces";
 import { actions } from "../../../../../modules/actions";
 import { selectUserType } from "../../../../../modules/auth/selectors";
 import { EETOStateOnChain } from "../../../../../modules/eto/types";

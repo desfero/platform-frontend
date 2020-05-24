@@ -1,6 +1,7 @@
 import { AppReducer } from "@neufund/sagas";
 import { DeepReadonly } from "@neufund/shared-utils";
 
+import { userActions } from "../user/actions";
 import { jwtActions } from "./actions";
 
 export interface IJwtState {
@@ -11,7 +12,7 @@ const jwtInitialState: IJwtState = {
   token: undefined,
 };
 
-const jwtReducer: AppReducer<IJwtState, typeof jwtActions> = (
+const jwtReducer: AppReducer<IJwtState, typeof jwtActions | typeof userActions> = (
   state = jwtInitialState,
   action,
 ): DeepReadonly<IJwtState> => {
@@ -21,6 +22,8 @@ const jwtReducer: AppReducer<IJwtState, typeof jwtActions> = (
         ...state,
         token: action.payload.jwt,
       };
+    case userActions.reset.getType():
+      return jwtInitialState;
     default:
       return state;
   }

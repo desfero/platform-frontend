@@ -1,15 +1,13 @@
+import {
+  ETransactionDirection,
+  ETransactionSubType,
+  ETransactionType,
+  TExtractTxHistoryFromType,
+} from "@neufund/shared-modules";
 import { assertNever } from "@neufund/shared-utils";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
-import {
-  ETransactionDirection,
-  ETransactionType,
-} from "../../../../lib/api/analytics-api/interfaces";
-import {
-  ETransactionSubType,
-  TExtractTxHistoryFromType,
-} from "../../../../modules/tx-history/types";
 import { etoPublicViewByIdLinkLegacy } from "../../../appRouteUtils";
 import { DataRow, DataRowSeparator } from "../../../shared/DataRow";
 import { ECurrency } from "../../../shared/formatters/utils";

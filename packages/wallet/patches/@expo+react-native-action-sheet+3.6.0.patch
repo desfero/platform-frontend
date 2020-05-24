@@ -1,0 +1,10 @@
+diff --git a/node_modules/@expo/react-native-action-sheet/lib/typescript/connectActionSheet.d.ts b/node_modules/@expo/react-native-action-sheet/lib/typescript/connectActionSheet.d.ts
+index 59fe5e5..6bf311e 100644
+--- a/node_modules/@expo/react-native-action-sheet/lib/typescript/connectActionSheet.d.ts
++++ b/node_modules/@expo/react-native-action-sheet/lib/typescript/connectActionSheet.d.ts
+@@ -1,4 +1,3 @@
+ import * as React from 'react';
+-import hoistNonReactStatic from 'hoist-non-react-statics';
+ import { ActionSheetProps } from './types';
+-export default function connectActionSheet<OwnProps = any>(WrappedComponent: React.ComponentType<OwnProps & ActionSheetProps>): ((props: OwnProps) => JSX.Element) & hoistNonReactStatic.NonReactStatics<React.ComponentType<OwnProps & ActionSheetProps>, {}>;
++export default function connectActionSheet<OwnProps = any>(WrappedComponent: React.ComponentType<OwnProps & ActionSheetProps>): ((props: OwnProps) => JSX.Element);

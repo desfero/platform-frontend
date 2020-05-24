@@ -73,6 +73,22 @@ describe("yup custom schemas", () => {
       expect(oneOfTypeSchema.isValidSync({ bar: "foo" })).toBeFalsy();
       expect(oneOfTypeSchema.isValidSync("some string")).toBeFalsy();
     });
+
+    it("should cast values with the valid schema transforms", () => {
+      const schema1 = yup.number();
+      const schema2 = yup.object({ foo: yup.string().required() });
+      const schema3 = yup.object({ bar: yup.boolean().required() });
+
+      const oneOfTypeSchema = oneOfSchema([schema1, schema2, schema3]);
+
+      // should cast the value during validation phase
+      expect(oneOfTypeSchema.validateSync(100)).toEqual(100);
+      expect(oneOfTypeSchema.validateSync({ bar: true, unknown: "quz" })).toEqual({ bar: true });
+
+      // should forward the same value if it's invalid
+      expect(oneOfTypeSchema.cast("foo")).toEqual("foo");
+      expect(oneOfTypeSchema.cast(undefined)).toEqual(undefined);
+    });
   });
 
   describe("tupleSchema", () => {
@@ -114,6 +130,25 @@ describe("yup custom schemas", () => {
         ]),
       ).toBeFalsy();
       expect(schema.isValidSync([{ foo: "foo" }, 100, { bar: false }])).toBeFalsy();
+    });
+
+    it("should cast values with the given schemas transforms", () => {
+      const schema1 = yup.number();
+      const schema2 = yup.object({ foo: yup.string().required() });
+      const schema3 = yup.object({ bar: yup.boolean().required() });
+
+      const schema = tupleSchema([schema1, schema2, schema3]);
+
+      // should cast the value during validation phase
+      expect(schema.validateSync([100, { foo: "baz" }, { bar: false }])).toEqual([
+        100,
+        { foo: "baz" },
+        { bar: false },
+      ]);
+
+      // should forward the same value if it's invalid
+      expect(schema.cast("foo")).toEqual("foo");
+      expect(schema.cast(undefined)).toEqual(undefined);
     });
   });
 });

@@ -1,4 +1,4 @@
-import { ESignerType } from "@neufund/shared-modules";
+import { ESignerType, EWalletSubType, EWalletType } from "@neufund/shared-modules";
 import { EthereumAddressWithChecksum } from "@neufund/shared-utils";
 import { BigNumber } from "bignumber.js";
 import * as LightWalletProvider from "eth-lightwallet";
@@ -48,8 +48,9 @@ export class LightWallet implements IPersonalWallet {
     public readonly ethereumAddress: EthereumAddressWithChecksum,
     public readonly vault: IVault,
     public readonly email: string,
-    public password?: string,
   ) {}
+
+  public password?: string;
 
   public readonly walletType = EWalletType.LIGHT;
   public readonly walletSubType = EWalletSubType.UNKNOWN;
@@ -66,18 +67,49 @@ export class LightWallet implements IPersonalWallet {
     return !!(await this.web3Adapter.getAccountAddress());
   };
 
-  public signMessage = async (data: string): Promise<string> => {
-    if (!this.password) {
-      throw new LightWalletMissingPasswordError();
-    }
-    try {
-      const msgHash = hashPersonalMessage(toBuffer(addHexPrefix(data)));
-      const rawSignedMsg = await LightWalletProvider.signing.signMsgHash(
+  public signMessage = async (data: string): Promise<string> =>
+    this.withPasswordLock(async () => {
+      try {
+        const msgHash = hashPersonalMessage(toBuffer(addHexPrefix(data)));
+        const rawSignedMsg = await LightWalletProvider.signing.signMsgHash(
+          this.vault.walletInstance,
+          await getWalletKey(this.vault.walletInstance, this.password!),
+          msgHash.toString("hex"),
+          this.ethereumAddress,
+        );
+        // from signature parameters to eth_sign RPC
+        // @see https://github.com/ethereumjs/ethereumjs-util/blob/master/docs/index.md#torpcsig
+        return ethSig.concatSig(rawSignedMsg.v, rawSignedMsg.r, rawSignedMsg.s);
+      } catch (e) {
+        throw new LightSignMessageError();
+      }
+    });
+
+  public sendTransaction = async (txData: TxData): Promise<string> =>
+    this.withPasswordLock(async () => {
+      const nonce = await this.web3Adapter.getTransactionCount(txData.from);
+
+      const encodedTxData: IRawTxData = {
+        from: txData.from,
+        to: addHexPrefix(txData.to!),
+        gas: addHexPrefix(new BigNumber((txData.gas && txData.gas.toString()) || "0").toString(16)),
+        gasPrice: addHexPrefix(
+          new BigNumber((txData.gasPrice && txData.gasPrice.toString()) || "0").toString(16),
+        ),
+        nonce: addHexPrefix(new BigNumber((nonce && nonce.toString()) || "0").toString(16)),
+        value: addHexPrefix(
+          new BigNumber((txData.value && txData.value.toString()) || "0").toString(16),
+        ),
+        data: addHexPrefix((txData.data && txData.data.toString()) || ""),
+      };
+
+      const rawData = LightWalletProvider.signing.signTx(
         this.vault.walletInstance,
-        await getWalletKey(this.vault.walletInstance, this.password),
-        msgHash.toString("hex"),
+        await getWalletKey(this.vault.walletInstance, this.password!),
+        encodedTxData,
         this.ethereumAddress,
       );
+<<<<<<< HEAD
       // from signature parameters to eth_sign RPC
       // @see https://github.com/ethereumjs/ethereumjs-util/blob/master/docs/index.md#torpcsig
       return ethSig.concatSig(rawSignedMsg.v, rawSignedMsg.r, rawSignedMsg.s);
@@ -114,21 +146,23 @@ export class LightWallet implements IPersonalWallet {
     );
     return await this.web3Adapter.sendRawTransaction(addHexPrefix(rawData));
   };
+=======
+      return this.web3Adapter.sendRawTransaction(addHexPrefix(rawData));
+    });
+>>>>>>> master
 
   public getWalletPrivateData = async (): Promise<{
     seed: string;
     privateKey: string;
-  }> => {
-    if (!this.password) {
-      throw new LightWalletMissingPasswordError();
-    }
-    const seed = await getWalletSeed(this.vault.walletInstance, this.password);
-    const privateKey = await getWalletPrivKey(this.vault.walletInstance, this.password);
-    return { seed, privateKey };
-  };
+  }> =>
+    this.withPasswordLock(async () => {
+      const seed = await getWalletSeed(this.vault.walletInstance, this.password!);
+      const privateKey = await getWalletPrivKey(this.vault.walletInstance, this.password!);
+      return { seed, privateKey };
+    });
 
   public async testPassword(newPassword: string): Promise<boolean> {
-    return await testWalletPassword(this.vault.walletInstance, newPassword);
+    return testWalletPassword(this.vault.walletInstance, newPassword);
   }
 
   public getMetadata = (): ILightWalletMetadata => ({
@@ -142,4 +176,26 @@ export class LightWallet implements IPersonalWallet {
   public isUnlocked = (): boolean => !!this.password;
 
   public unplug = () => Promise.resolve();
+
+  // unlock wallet by providing password
+  public unlock = async (password: string) => {
+    const isValidPassword = await this.testPassword(password);
+    if (!isValidPassword) {
+      throw new LightWalletWrongPassword();
+    }
+    this.password = password;
+  };
+
+  private async withPasswordLock<T>(f: () => Promise<T>): Promise<T> {
+    if (!this.password) {
+      throw new LightWalletMissingPasswordError();
+    }
+    try {
+      const r: T = await f();
+      return r;
+    } finally {
+      // erase password after use
+      this.password = undefined;
+    }
+  }
 }

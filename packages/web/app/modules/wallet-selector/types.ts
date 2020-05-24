@@ -1,7 +1,7 @@
+import { EWalletType } from "@neufund/shared-modules";
 import { DeepReadonly } from "@neufund/shared-utils";
 
 import { TMessage } from "../../components/translatedMessages/utils";
-import { EWalletType } from "../web3/types";
 
 export enum EFlowType {
   REGISTER = "register",

@@ -1,4 +1,5 @@
 import { select } from "@neufund/sagas";
+import { EUserType } from "@neufund/shared-modules";
 import BigNumber from "bignumber.js";
 import { TestContext, TestOptions } from "yup";
 
@@ -12,7 +13,6 @@ import {
   EEtoState,
   TEtoInvestmentCalculatedValues,
 } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
-import { EUserType } from "../../lib/api/users/interfaces";
 import { selectIsUserFullyVerified, selectUserType } from "../auth/selectors";
 import { EETOStateOnChain } from "../eto/types";
 

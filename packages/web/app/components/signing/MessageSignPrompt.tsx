@@ -1,9 +1,9 @@
+import { EWalletSubType, EWalletType } from "@neufund/shared-modules";
 import { nonNullable } from "@neufund/shared-utils";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { selectWalletSubType, selectWalletType } from "../../modules/web3/selectors";
-import { EWalletSubType, EWalletType } from "../../modules/web3/types";
 import { appConnect } from "../../store";
 
 import ledgerConfirm from "../../assets/img/wallet_selector/ledger_confirm.svg";

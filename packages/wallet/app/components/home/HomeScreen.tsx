@@ -1,84 +1,87 @@
-import { useNavigation } from "@react-navigation/native";
+import { toEquityTokenSymbol } from "@neufund/shared-utils";
 import React from "react";
-import { SafeAreaView, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 
-import { appRoutes } from "../../appRoutes";
-import { initActions } from "../../modules/init/actions";
-import { selectInitStatus, selectTest } from "../../modules/init/selectors";
-import { walletConnectModuleApi } from "../../modules/wallet-connect/module";
 import { appConnect } from "../../store/utils";
-import { silverLighter2 } from "../../styles/colors";
-import { Button, EButtonLayout } from "../shared/buttons/Button";
+import { spacingStyles } from "../../styles/spacings";
+import { EIconType } from "../shared/Icon";
+import { SafeAreaScreen } from "../shared/Screen";
+import { Asset, EAssetType } from "../shared/asset/Asset";
+import { Header } from "./Header";
+import { Section } from "./Section";
 
-type TDispatchProps = {
-  init: () => void;
-  walletConnectDisconnect: (peerId: string) => void;
-};
+type TStateProps = {};
 
-type TStateProps = {
-  initStatus: ReturnType<typeof selectInitStatus>;
-  test: ReturnType<typeof selectTest>;
-  walletConnectPeer: ReturnType<typeof walletConnectModuleApi.selectors.selectWalletConnectPeer>;
-};
+const HomeLayout: React.FunctionComponent<TStateProps> = () => (
+  <>
+    <Header />
+    <SafeAreaScreen style={styles.container}>
+      <Section heading="Portfolio" subHeading="€6 500.00" style={styles.section}>
+        <Asset
+          tokenImage="https://documents.neufund.io/0x95137084d1b6F58D177523De894293913394aA12/9066455f-e514-444d-bd4f-44e4df3f2a74.png"
+          name="Nomera Tech"
+          token={toEquityTokenSymbol("NOM")}
+          balance="100"
+          analogBalance="1 000"
+          analogToken={toEquityTokenSymbol("EUR")}
+          style={styles.asset}
+          type={EAssetType.NORMAL}
+        />
 
-const HomeLayout: React.FunctionComponent<TDispatchProps & TStateProps> = ({
-  init,
-  initStatus,
-  test,
-  walletConnectPeer,
-  walletConnectDisconnect,
-}) => {
-  const navigation = useNavigation();
+        <Asset
+          tokenImage="https://documents.neufund.io/0x74180B56DD74BC56a2E9D5720F39247c55F23328/e36ee175-e8c6-4f8a-9175-1e22b0a8be53.png"
+          name="Fifth Force"
+          token={toEquityTokenSymbol("FFT")}
+          balance="1000"
+          analogBalance="15 000"
+          analogToken={toEquityTokenSymbol("EUR")}
+          style={styles.asset}
+          type={EAssetType.NORMAL}
+        />
+      </Section>
 
-  React.useEffect(() => {
-    init();
-  }, []);
+      <Section heading="Wallet" subHeading="€2 318.28" style={styles.section}>
+        <Asset
+          tokenImage={EIconType.N_EUR}
+          name="nEUR"
+          token={toEquityTokenSymbol("nEUR")}
+          balance="1000"
+          analogBalance="1000"
+          analogToken={toEquityTokenSymbol("EUR")}
+          style={styles.asset}
+          type={EAssetType.NORMAL}
+        />
 
-  return (
-    <SafeAreaView style={{ backgroundColor: silverLighter2, flex: 1 }}>
-      <View>
-        <Button
-          layout={EButtonLayout.PRIMARY}
-          testID="landing.go-to-qr-code-scanner"
-          onPress={() => navigation.navigate(appRoutes.qrCode)}
-        >
-          Scan QR code
-        </Button>
-      </View>
+        <Asset
+          tokenImage={EIconType.ETH}
+          name="Ether"
+          token={toEquityTokenSymbol("ETH")}
+          balance="0"
+          analogBalance="0"
+          analogToken={toEquityTokenSymbol("EUR")}
+          style={styles.asset}
+          type={EAssetType.NORMAL}
+        />
+      </Section>
+    </SafeAreaScreen>
+  </>
+);
 
-      <Text>Home {test && test.name}</Text>
+const styles = StyleSheet.create({
+  container: {
+    ...spacingStyles.pv5,
+  },
+  section: {
+    ...spacingStyles.ph4,
+    ...spacingStyles.mb4,
+  },
+  asset: {
+    ...spacingStyles.mb2,
+  },
+});
 
-      <Text>Init status: {initStatus}</Text>
-
-      <Text>Wallet connect peer: </Text>
-      {walletConnectPeer ? (
-        <>
-          <Text>{JSON.stringify(walletConnectPeer, undefined, 2)}</Text>
-          <Button
-            layout={EButtonLayout.PRIMARY}
-            onPress={() => walletConnectDisconnect(walletConnectPeer.id)}
-          >
-            Disconnect
-          </Button>
-        </>
-      ) : (
-        <Text>not connected</Text>
-      )}
-    </SafeAreaView>
-  );
-};
-
-const HomeScreen = appConnect<TStateProps, TDispatchProps>({
-  stateToProps: state => ({
-    initStatus: selectInitStatus(state),
-    walletConnectPeer: walletConnectModuleApi.selectors.selectWalletConnectPeer(state),
-    test: selectTest(state),
-  }),
-  dispatchToProps: dispatch => ({
-    init: () => dispatch(initActions.start()),
-    walletConnectDisconnect: (peerId: string) =>
-      dispatch(walletConnectModuleApi.actions.disconnectFromPeer(peerId)),
-  }),
+const HomeScreen = appConnect<TStateProps>({
+  stateToProps: () => ({}),
 })(HomeLayout);
 
 export { HomeScreen };

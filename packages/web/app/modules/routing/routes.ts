@@ -1,4 +1,5 @@
 import { put } from "@neufund/sagas";
+import { EUserType } from "@neufund/shared-modules";
 import { RouterState } from "connected-react-router";
 import { Location } from "history";
 import { matchPath } from "react-router";
@@ -7,7 +8,6 @@ import { appRoutes } from "../../components/appRoutes";
 import { profileRoutes } from "../../components/settings/routes";
 import { e2eRoutes } from "../../components/testing/e2eRoutes";
 import { TGlobalDependencies } from "../../di/setupBindings";
-import { EUserType } from "../../lib/api/users/interfaces";
 import { actions } from "../actions";
 import { TEtoWithCompanyAndContract } from "../eto/types";
 import { neuCall } from "../sagasUtils";

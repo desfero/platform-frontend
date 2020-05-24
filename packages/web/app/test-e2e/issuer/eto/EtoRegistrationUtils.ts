@@ -1,3 +1,4 @@
+import { createUser } from "@neufund/shared-modules/tests";
 import { toCamelCase, toSnakeCase, withParams } from "@neufund/shared-utils";
 import { isFunction } from "lodash/fp";
 
@@ -5,7 +6,6 @@ import { etoRegisterRoutes } from "../../../components/eto/registration/routes";
 import { TPartialCompanyEtoData } from "../../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { confirmAccessModal } from "../../utils";
 import { assertIssuerDashboard } from "../../utils/assertions";
-import { createUser } from "../../utils/createUser";
 import { cyPromise } from "../../utils/cyPromise";
 import { checkForm, fillForm, TFormFixture, TFormFixtureExpectedValues } from "../../utils/forms";
 import { goToIssuerDashboard } from "../../utils/navigation";

@@ -4,9 +4,8 @@ cd "$(dirname "$0")"
 
 source ~/.bashrc
 
-# setup node version
-nvm install 11.14.0
-nvm use 11.14.0
-nvm alias default 11.14.0
+# setup node version (will use version from .nvmrc)
+nvm install
+nvm alias default node
 
 npm install --global yarn

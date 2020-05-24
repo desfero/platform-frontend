@@ -11,22 +11,23 @@ import {
   cancelled,
   TActionFromCreator,
 } from "@neufund/sagas";
-
 import { coreModuleApi, neuGetBindings } from "@neufund/shared-modules";
 import { assertNever } from "@neufund/shared-utils";
 
-import { appRoutes } from "../../appRoutes";
-import { TGlobalDependencies } from "../../di/setupBindings";
+import { EAppRoutes } from "../../appRoutes";
+import { navigate } from "../../routeUtils";
 import { notificationUIModuleApi } from "../notification-ui/module";
 import { signerUIModuleApi } from "../signer-ui/module";
 import { ESignerType } from "../signer-ui/types";
 import { reduxify } from "../utils";
 import { walletConnectActions } from "./actions";
+import { WalletConnectManager } from "./lib/WalletConnectManager";
 import { privateSymbols } from "./lib/symbols";
 import { EWalletConnectManagerEvents, TWalletConnectManagerEmit } from "./lib/types";
 import { InvalidWalletConnectUriError, isValidWalletConnectUri } from "./lib/utils";
-import { WalletConnectManager } from "./lib/WalletConnectManager";
-import { navigate } from "../../routeUtils";
+
+// TODO: Remove when we get rid of saga `deps` in neu wrappers
+type TGlobalDependencies = unknown;
 
 function* connectToURI(
   _: TGlobalDependencies,
@@ -47,13 +48,22 @@ function* connectToURI(
       throw new InvalidWalletConnectUriError();
     }
 
-    navigate(appRoutes.home);
+    navigate(EAppRoutes.home);
 
     const walletConnectManager = walletConnectManagerFactory(uri);
 
     const session = yield* call(() => walletConnectManager.createSession());
 
-    yield put(signerUIModuleApi.actions.sign(ESignerType.WC_SESSION_REQUEST, session));
+    yield put(
+      signerUIModuleApi.actions.sign({
+        type: ESignerType.WC_SESSION_REQUEST,
+        data: {
+          peerId: session.peer.id,
+          peerName: session.peer.meta.name,
+          peerUrl: session.peer.meta.url,
+        },
+      }),
+    );
 
     const { approved, denied } = yield* race({
       approved: take(signerUIModuleApi.actions.signed),
@@ -150,7 +160,12 @@ function* connectWalletConnectEvents(wcManager: WalletConnectManager): Generator
 
     switch (managerEvent.type) {
       case EWalletConnectManagerEvents.SIGN_MESSAGE: {
-        yield put(signerUIModuleApi.actions.sign(ESignerType.SIGN_MESSAGE, managerEvent.payload));
+        yield put(
+          signerUIModuleApi.actions.sign({
+            type: ESignerType.SIGN_MESSAGE,
+            data: managerEvent.payload,
+          }),
+        );
 
         const { approved, denied } = yield* race({
           approved: take(signerUIModuleApi.actions.signed),
@@ -170,7 +185,10 @@ function* connectWalletConnectEvents(wcManager: WalletConnectManager): Generator
 
       case EWalletConnectManagerEvents.SEND_TRANSACTION: {
         yield put(
-          signerUIModuleApi.actions.sign(ESignerType.SEND_TRANSACTION, managerEvent.payload),
+          signerUIModuleApi.actions.sign({
+            type: ESignerType.SEND_TRANSACTION,
+            data: managerEvent.payload,
+          }),
         );
 
         const { approved, denied } = yield* race({

@@ -10,7 +10,7 @@ import {
   ENomineeRequestErrorNotifications,
   EtoMessage,
 } from "../../components/translatedMessages/messages";
-import { createMessage } from "../../components/translatedMessages/utils";
+import { createNotificationMessage } from "../../components/translatedMessages/utils";
 import { TGlobalDependencies } from "../../di/setupBindings";
 import { EEtoState, TNomineeRequestResponse } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { IssuerIdInvalid, NomineeRequestExists } from "../../lib/api/eto/EtoNomineeApi";
@@ -28,6 +28,7 @@ import { selectEtoSubStateEtoEtoWithContract } from "../eto/selectors";
 import { EEtoAgreementStatus, EETOStateOnChain, TEtoWithCompanyAndContract } from "../eto/types";
 import { isOnChain } from "../eto/utils";
 import { loadBankAccountDetails } from "../kyc/sagas";
+import { webNotificationUIModuleApi } from "../notification-ui/module";
 import {
   neuCall,
   neuTakeEvery,
@@ -76,7 +77,7 @@ import {
 } from "./utils";
 
 export function* initNomineeEtoSpecificTasks(
-  { logger, notificationCenter }: TGlobalDependencies,
+  { logger }: TGlobalDependencies,
   eto: TEtoWithCompanyAndContract,
 ): Generator<any, any, any> {
   try {
@@ -131,8 +132,10 @@ export function* initNomineeEtoSpecificTasks(
     return nomineeEtoSpecificTasks;
   } catch (e) {
     logger.error("error in initNomineeTasks", e);
-    notificationCenter.error(
-      createMessage(ENomineeRequestErrorNotifications.FETCH_NOMINEE_DATA_ERROR),
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(ENomineeRequestErrorNotifications.FETCH_NOMINEE_DATA_ERROR),
+      ),
     );
   }
 }
@@ -227,17 +230,16 @@ export function* initNomineeDashboardView(): Generator<any, any, any> {
   yield put(actions.nomineeFlow.storeActiveNomineeTask(activeNomineeTask, taskSpecificData));
 }
 
-export function* nomineeDashboardView({
-  logger,
-  notificationCenter,
-}: TGlobalDependencies): Generator<any, any, any> {
+export function* nomineeDashboardView({ logger }: TGlobalDependencies): Generator<any, any, any> {
   try {
     yield neuCall(nomineeViewDataWatcher);
   } catch (e) {
     logger.error(e);
 
-    notificationCenter.error(
-      createMessage(ENomineeRequestErrorNotifications.FETCH_NOMINEE_DATA_ERROR),
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(ENomineeRequestErrorNotifications.FETCH_NOMINEE_DATA_ERROR),
+      ),
     );
     yield put(actions.nomineeFlow.storeError(ENomineeFlowError.FETCH_DATA_ERROR));
   }
@@ -361,10 +363,7 @@ export function* getNomineeTaskLinkToIssuerData(_: TGlobalDependencies): Generat
   };
 }
 
-export function* nomineeDocumentsView({
-  logger,
-  notificationCenter,
-}: TGlobalDependencies): Generator<any, any, any> {
+export function* nomineeDocumentsView({ logger }: TGlobalDependencies): Generator<any, any, any> {
   try {
     const verificationIsComplete = yield select(selectIsUserFullyVerified);
     if (verificationIsComplete) {
@@ -372,8 +371,10 @@ export function* nomineeDocumentsView({
     }
   } catch (e) {
     logger.error(e);
-    notificationCenter.error(
-      createMessage(ENomineeRequestErrorNotifications.FETCH_NOMINEE_DATA_ERROR),
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(ENomineeRequestErrorNotifications.FETCH_NOMINEE_DATA_ERROR),
+      ),
     );
     yield put(actions.nomineeFlow.storeError(ENomineeFlowError.FETCH_DATA_ERROR));
   }
@@ -395,7 +396,6 @@ export function* nomineeRequestsWatcher({ logger }: TGlobalDependencies): Genera
 export function* loadNomineeRequests({
   apiEtoNomineeService,
   logger,
-  notificationCenter,
 }: TGlobalDependencies): Generator<any, any, any> {
   try {
     const nomineeRequests = yield apiEtoNomineeService.getNomineeRequests();
@@ -404,8 +404,10 @@ export function* loadNomineeRequests({
     );
     yield put(actions.nomineeFlow.setNomineeRequests(nomineeRequestsConverted));
   } catch (e) {
-    notificationCenter.error(
-      createMessage(ENomineeRequestErrorNotifications.FETCH_NOMINEE_DATA_ERROR),
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(ENomineeRequestErrorNotifications.FETCH_NOMINEE_DATA_ERROR),
+      ),
     );
 
     logger.error("Error while loading nominee requests", e);
@@ -413,7 +415,7 @@ export function* loadNomineeRequests({
 }
 
 export function* createNomineeRequest(
-  { apiEtoNomineeService, logger, notificationCenter }: TGlobalDependencies,
+  { apiEtoNomineeService, logger }: TGlobalDependencies,
   action: TActionFromCreator<typeof actions.nomineeFlow.createNomineeRequest>,
 ): Generator<any, any, any> {
   try {
@@ -436,7 +438,11 @@ export function* createNomineeRequest(
           ENomineeRequestError.ISSUER_ID_ERROR,
         ),
       );
-      notificationCenter.error(createMessage(ENomineeRequestErrorNotifications.ISSUER_ID_ERROR));
+      yield put(
+        webNotificationUIModuleApi.actions.showError(
+          createNotificationMessage(ENomineeRequestErrorNotifications.ISSUER_ID_ERROR),
+        ),
+      );
     } else if (e instanceof NomineeRequestExists) {
       logger.error(`Nominee request to issuerId ${action.payload.issuerId} already exists`, e);
       yield put(
@@ -445,7 +451,11 @@ export function* createNomineeRequest(
           ENomineeRequestError.REQUEST_EXISTS,
         ),
       );
-      notificationCenter.error(createMessage(ENomineeRequestErrorNotifications.REQUEST_EXISTS));
+      yield put(
+        webNotificationUIModuleApi.actions.showError(
+          createNotificationMessage(ENomineeRequestErrorNotifications.REQUEST_EXISTS),
+        ),
+      );
     } else {
       logger.error("Failed to create nominee request", e);
       yield put(
@@ -454,7 +464,11 @@ export function* createNomineeRequest(
           ENomineeRequestError.GENERIC_ERROR,
         ),
       );
-      notificationCenter.error(createMessage(ENomineeRequestErrorNotifications.SUBMITTING_ERROR));
+      yield put(
+        webNotificationUIModuleApi.actions.showError(
+          createNotificationMessage(ENomineeRequestErrorNotifications.SUBMITTING_ERROR),
+        ),
+      );
     }
   } finally {
     yield put(actions.routing.goToDashboard());
@@ -486,7 +500,6 @@ export function* loadNomineeEto(
 export function* loadNomineeEtos({
   apiEtoService,
   logger,
-  notificationCenter,
 }: TGlobalDependencies): Generator<any, any, any> {
   try {
     const etos: TEtoWithCompanyAndContract[] = yield apiEtoService.loadNomineeEtos();
@@ -522,7 +535,11 @@ export function* loadNomineeEtos({
     ]);
   } catch (e) {
     logger.error("Nominee ETOs could not be loaded", e);
-    notificationCenter.error(createMessage(EtoMessage.COULD_NOT_LOAD_ETOS));
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(EtoMessage.COULD_NOT_LOAD_ETOS),
+      ),
+    );
     yield put(actions.nomineeFlow.storeError(ENomineeFlowError.LOAD_ETOS_ERROR));
   }
 }
@@ -546,10 +563,7 @@ export function* initEtoSpecificTaskData(
   return taskData === undefined ? cloneDeep(initialEtoSpecificTaskData) : taskData;
 }
 
-export function* setActiveNomineeEto({
-  logger,
-  notificationCenter,
-}: TGlobalDependencies): Generator<any, any, any> {
+export function* setActiveNomineeEto({ logger }: TGlobalDependencies): Generator<any, any, any> {
   try {
     const etos: ReturnType<typeof selectNomineeEtos> = yield select(selectNomineeEtos);
 
@@ -567,8 +581,10 @@ export function* setActiveNomineeEto({
       if (shouldForceSpecificEtoToBeActive) {
         yield put(actions.nomineeFlow.setActiveNomineeEtoPreviewCode(forcedActiveEtoPreviewCode));
 
-        notificationCenter.info(
-          createMessage(EEtoNomineeActiveEtoNotifications.ACTIVE_ETO_SET_SUCCESS),
+        yield put(
+          webNotificationUIModuleApi.actions.showInfo(
+            createNotificationMessage(EEtoNomineeActiveEtoNotifications.ACTIVE_ETO_SET_SUCCESS),
+          ),
         );
       } else {
         const firstEto = nonNullable(Object.values(etos)[0]);
@@ -579,7 +595,11 @@ export function* setActiveNomineeEto({
   } catch (e) {
     logger.fatal("Could not set active eto", e);
 
-    notificationCenter.error(createMessage(EEtoNomineeActiveEtoNotifications.ACTIVE_ETO_SET_ERROR));
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(EEtoNomineeActiveEtoNotifications.ACTIVE_ETO_SET_ERROR),
+      ),
+    );
     yield put(actions.nomineeFlow.storeError(ENomineeFlowError.ACTIVE_ETO_SET_ERROR));
   }
 }

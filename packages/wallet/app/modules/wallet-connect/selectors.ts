@@ -1,6 +1,10 @@
+import { StateFromReducersMapObject } from "redux";
 import { createSelector } from "reselect";
 
-const selectWalletConnect = (state: any) => state.walletConnect;
+import { walletConnectReducerMap } from "./reducer";
+
+const selectWalletConnect = (state: StateFromReducersMapObject<typeof walletConnectReducerMap>) =>
+  state.walletConnect;
 
 const selectWalletConnectPeer = createSelector(
   selectWalletConnect,

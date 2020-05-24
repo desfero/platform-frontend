@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import isFunction from "lodash/fp/isFunction";
 
 const callGuard = (methodName: string) => (...args: any[]) => {
@@ -21,7 +23,7 @@ function createMock<T>(clazz: new (...args: any[]) => T, mockImpl: Partial<T>): 
 
   allMethods.delete("constructor");
 
-  let mock: any = {};
+  const mock: any = {};
 
   allMethods.forEach(methodName => {
     const userProvidedMock = (mockImpl as any)[methodName];

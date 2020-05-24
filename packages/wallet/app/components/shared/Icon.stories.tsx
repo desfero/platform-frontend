@@ -10,7 +10,7 @@ storiesOf("Atoms|Icon", module).add("default", () => (
   <View style={{ flexDirection: "row" }}>
     {Object.values(EIconType).map((type, i) => (
       <View style={{ alignItems: "center", justifyContent: "center", margin: 20 }} key={i}>
-        <Icon type={type} color={iconColor} />
+        <Icon type={type} style={{ color: iconColor }} />
         <Text style={{ color: iconColor }}>{type}</Text>
       </View>
     ))}

@@ -26,8 +26,10 @@ import { symbols } from "./di/symbols";
 import { reduxLogger } from "./middlewares/redux-logger";
 import { actions, TAction } from "./modules/actions";
 import { initInitialState } from "./modules/init/reducer";
+import { setupWebNotificationUIModule } from "./modules/notification-ui/module";
 import { appReducers } from "./modules/reducer";
 import { rootSaga } from "./modules/sagas";
+import { setupWebTxHistoryModule } from "./modules/tx-history/module";
 import { IDisconnectedWeb3State, web3InitialState } from "./modules/web3/reducer";
 
 // add new external actions here
@@ -71,6 +73,10 @@ export const setupAppModule = ({ history, config, container }: TAppModuleConfig)
     setupTokenPriceModule({
       refreshOnAction: actions.web3.newBlockArrived,
     }),
+    ...setupWebTxHistoryModule({
+      refreshOnAction: actions.web3.newBlockArrived,
+    }),
+    setupWebNotificationUIModule(),
     appModule,
   ];
 };

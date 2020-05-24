@@ -1,6 +1,6 @@
-import { TReducersMapToState, TReducersMapToActions } from "@neufund/sagas";
+import { TModuleState, TModuleActions } from "@neufund/shared-modules";
 
-import { appReducers } from "../modules/reducers";
+import { setupInitModule } from "../modules/init/module";
 
-export type TAppGlobalState = TReducersMapToState<typeof appReducers>;
-export type TAppGlobalActions = TReducersMapToActions<typeof appReducers>;
+export type TAppGlobalActions = TModuleActions<typeof setupInitModule>;
+export type TAppGlobalState = TModuleState<typeof setupInitModule>;

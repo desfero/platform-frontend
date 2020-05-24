@@ -32,9 +32,12 @@ const signerUIReducer: AppReducer<ISignerUIState, typeof signerUIActions> = (
     case signerUIActions.signed.getType():
     case signerUIActions.denied.getType():
       return initialState;
-  }
 
-  return state;
+    default:
+      return state;
+  }
 };
 
-export { signerUIReducer };
+const signerUIReducerMap = { signerUI: signerUIReducer };
+
+export { signerUIReducerMap };

@@ -16,6 +16,8 @@
 #import "RNNotifications.h"
 
 
+#import "RNBootSplash.h"
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -34,6 +36,9 @@
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
+  
+  [RNBootSplash initWithStoryboard:@"LaunchScreen" rootView:rootView];
+  
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
 

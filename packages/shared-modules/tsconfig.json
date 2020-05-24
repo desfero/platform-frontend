@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "allowJs": true,
-    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "declaration": true,
     "declarationMap": true,
     "experimentalDecorators": true,
@@ -20,5 +20,10 @@
     "target": "es2017",
     "typeRoots": ["../../node_modules/@types", "./node_modules/@types", "./@types"]
   },
-  "include": ["./typings/**/*.ts", "./src/**/*.ts", "./src/**/*.tsx"]
+  "include": [
+    "../../node_modules/types-ethereumjs-util/index.d.ts",
+    "./typings/**/*.ts",
+    "./src/**/*.ts",
+    "./src/**/*.tsx"
+  ]
 }

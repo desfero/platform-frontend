@@ -1,10 +1,14 @@
 import { call } from "@neufund/sagas";
-import { EJwtPermissions, ESignerType } from "@neufund/shared-modules";
+import {
+  authModuleAPI,
+  EJwtPermissions,
+  ESignerType,
+  IUser,
+  neuGetBindings,
+} from "@neufund/shared-modules";
 import cryptoRandomString from "crypto-random-string";
 
 import { TGlobalDependencies } from "../../../../di/setupBindings";
-import { IUser } from "../../../../lib/api/users/interfaces";
-import { UserNotExisting } from "../../../../lib/api/users/UsersApi";
 import {
   createLightWalletVault,
   deserializeLightWalletVault,
@@ -21,9 +25,14 @@ import { getVaultKey } from "../utils";
  * @returns IUser or undefined depending on if the user exists or not
  */
 export function* getUserMeWithSeedOnly(
-  { apiUserService, signatureAuthApi }: TGlobalDependencies,
+  _: TGlobalDependencies,
   seed: string,
 ): Generator<any, IUser | undefined, any> {
+  const { apiUserService, signatureAuthApi } = yield* neuGetBindings({
+    apiUserService: authModuleAPI.symbols.apiUserService,
+    signatureAuthApi: authModuleAPI.symbols.signatureAuthApi,
+  });
+
   const salt = cryptoRandomString({ length: 64 });
   const address = yield getWalletAddress(seed, DEFAULT_HD_PATH);
 
@@ -44,7 +53,7 @@ export function* getUserMeWithSeedOnly(
     const user = yield* call(() => apiUserService.meWithJWT(jwt));
     return user;
   } catch (e) {
-    if (e instanceof UserNotExisting) {
+    if (e instanceof authModuleAPI.error.UserNotExisting) {
       return undefined;
     } else {
       throw e;
@@ -75,7 +84,7 @@ export function* setupLightWallet(
       recoverSeed: seed,
     });
 
-    const walletInstance = yield* call(deserializeLightWalletVault, serializedLightWallet, salt);
+    const walletInstance = deserializeLightWalletVault(serializedLightWallet, salt);
 
     const vaultKey = yield* call(getVaultKey, salt, password);
     yield vaultApi.store(vaultKey, serializedLightWallet);
@@ -86,9 +95,9 @@ export function* setupLightWallet(
         salt,
       },
       email,
-      password,
     );
 
+    yield lightWallet.unlock(password);
     yield web3Manager.plugPersonalWallet(lightWallet);
     return lightWallet.getMetadata() as ILightWalletMetadata;
   } catch (e) {

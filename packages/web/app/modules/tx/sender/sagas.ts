@@ -1,4 +1,5 @@
 import { call, Channel, put, race, select, take, takeLatest } from "@neufund/sagas";
+import { EWalletType } from "@neufund/shared-modules";
 
 import { TGlobalDependencies } from "../../../di/setupBindings";
 import {
@@ -26,7 +27,6 @@ import { IGasState } from "../../gas/reducer";
 import { selectGasPrice } from "../../gas/selectors";
 import { neuCall, neuRepeatIf, neuSpawn } from "../../sagasUtils";
 import { selectWalletType } from "../../web3/selectors";
-import { EWalletType } from "../../web3/types";
 import { createWatchTxChannel } from "../event-channel/sagas";
 import { EEventEmitterChannelEvents, TEventEmitterChannelEvents } from "../event-channel/types";
 import {

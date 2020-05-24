@@ -7,7 +7,6 @@ import {
 import { Container, ContainerModule } from "inversify";
 
 import { IBackendRoot, IConfig } from "../config/getConfig";
-import { AnalyticsApi } from "../lib/api/analytics-api/AnalyticsApi";
 import { EtoApi } from "../lib/api/eto/EtoApi";
 import { EtoFileApi } from "../lib/api/eto/EtoFileApi";
 import { EtoNomineeApi } from "../lib/api/eto/EtoNomineeApi";
@@ -21,7 +20,7 @@ import {
 import { GasApi } from "../lib/api/gas/GasApi";
 import { ImmutableStorageApi } from "../lib/api/immutable-storage/ImmutableStorageApi";
 import { KycApi } from "../lib/api/kyc/KycApi";
-import { UsersApi } from "../lib/api/users/UsersApi";
+import { UsersTxApi } from "../lib/api/users-tx/UsersTxApi";
 import { VaultApi } from "../lib/api/vault/VaultApi";
 import {
   BroadcastChannel,
@@ -79,12 +78,8 @@ export function setupBindings(config: IConfig): ContainerModule {
       .to(VaultApi)
       .inSingletonScope();
 
-    bind<AnalyticsApi>(symbols.analyticsApi)
-      .to(AnalyticsApi)
-      .inSingletonScope();
-
-    bind<UsersApi>(symbols.usersApi)
-      .to(UsersApi)
+    bind<UsersTxApi>(symbols.usersTxApi)
+      .to(UsersTxApi)
       .inSingletonScope();
 
     bind<NotificationCenter>(symbols.notificationCenter)
@@ -239,8 +234,6 @@ export const createGlobalDependencies = (container: Container) => ({
     coreModuleApi.symbols.logger,
   ),
 
-  notificationCenter: container.get<NotificationCenter>(symbols.notificationCenter),
-
   detectBrowser: container.get<TDetectBrowser>(symbols.detectBrowser),
   onfidoSDK: container.get<OnfidoSDK>(symbols.onfidoSdk),
 
@@ -268,9 +261,8 @@ export const createGlobalDependencies = (container: Container) => ({
   apiEtoProductService: container.get<EtoProductApi>(symbols.apiEtoProductService),
   apiEtoFileService: container.get<EtoFileApi>(symbols.apiEtoFileService),
   apiEtoNomineeService: container.get<EtoNomineeApi>(symbols.apiEtoNomineeService),
-  apiUserService: container.get<UsersApi>(symbols.usersApi),
+  apiUserTxService: container.get<UsersTxApi>(symbols.usersTxApi),
   vaultApi: container.get<VaultApi>(symbols.vaultApi),
-  analyticsApi: container.get<AnalyticsApi>(symbols.analyticsApi),
   fileStorageApi: container.get<FileStorageApi>(symbols.fileStorageService),
   gasApi: container.get<GasApi>(symbols.gasApi),
   apiImmutableStorage: container.get<ImmutableStorageApi>(symbols.apiImmutableStorage),

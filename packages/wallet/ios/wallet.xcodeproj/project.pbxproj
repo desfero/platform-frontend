@@ -9,14 +9,16 @@
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* walletTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* walletTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		1A445ED422722FFC7C9ECCC7 /* libPods-walletTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B95561D0D01F21D6EF11D0 /* libPods-walletTests.a */; };
 		44C078612420CDC000CD0C0F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 44C078602420CDC000CD0C0F /* GoogleService-Info.plist */; };
+		965F0307243B1D190055C7D0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 965F0306243B1D190055C7D0 /* LaunchScreen.storyboard */; };
 		BA577FB11DA5E440D4B93FF2 /* libPods-wallet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F90EC4E5707298CEB599B49 /* libPods-wallet.a */; };
 		C2C8D5B1B8D14A8096C562CB /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8664C35363264F6D9A1F72B2 /* Roboto-Regular.ttf */; };
 		CDEE3ED7D2894CE8AD0C2A44 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5C3B1B79A78840FBAD4EFBDB /* Roboto-Medium.ttf */; };
+		CE662478B3B2439E9EF842E1 /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6C6451630EA742FAA6F9D489 /* Montserrat-SemiBold.ttf */; };
+		FF0E40F95C63072B055E8E94 /* libPods-wallet-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 983C75446821FAEEFBC5BFF0 /* libPods-wallet-tvOS.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,7 +40,6 @@
 		13B07F961A680F5B00A75B9A /* wallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = wallet/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = wallet/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = wallet/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = wallet/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = wallet/main.m; sourceTree = "<group>"; };
@@ -50,8 +51,10 @@
 		5F4B4B4B38B6CC79E9FB1328 /* Pods-wallet.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wallet.debug.xcconfig"; path = "Target Support Files/Pods-wallet/Pods-wallet.debug.xcconfig"; sourceTree = "<group>"; };
 		62DAFB620663EB496791EE56 /* Pods-wallet-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wallet-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-wallet-tvOSTests/Pods-wallet-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		65141A4A63FAF655F753BDB1 /* Pods-wallet-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wallet-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-wallet-tvOSTests/Pods-wallet-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		6C6451630EA742FAA6F9D489 /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-SemiBold.ttf"; path = "../assets/fonts/Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
 		8664C35363264F6D9A1F72B2 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Regular.ttf"; path = "../assets/fonts/Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		9657C6692434B00D00D42ABE /* walletRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = walletRelease.entitlements; path = wallet/walletRelease.entitlements; sourceTree = "<group>"; };
+		965F0306243B1D190055C7D0 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9744DAC7C307A312D09888EB /* Pods-wallet.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wallet.release.xcconfig"; path = "Target Support Files/Pods-wallet/Pods-wallet.release.xcconfig"; sourceTree = "<group>"; };
 		983C75446821FAEEFBC5BFF0 /* libPods-wallet-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-wallet-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A5D0FAC9BDD5E12D168EC7A /* Pods-wallet-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wallet-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-wallet-tvOS/Pods-wallet-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
@@ -109,8 +112,8 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				965F0306243B1D190055C7D0 /* LaunchScreen.storyboard */,
 			);
 			name = wallet;
 			sourceTree = "<group>";
@@ -181,6 +184,7 @@
 			children = (
 				5C3B1B79A78840FBAD4EFBDB /* Roboto-Medium.ttf */,
 				8664C35363264F6D9A1F72B2 /* Roboto-Regular.ttf */,
+				6C6451630EA742FAA6F9D489 /* Montserrat-SemiBold.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -246,6 +250,17 @@
 						DevelopmentTeam = VATGM32JF8;
 						ProvisioningStyle = Automatic;
 					};
+					2D02E47A1E0B4A5D006451C7 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = VATGM32JF8;
+						ProvisioningStyle = Automatic;
+					};
+					2D02E48F1E0B4A5D006451C7 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = VATGM32JF8;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 2D02E47A1E0B4A5D006451C7;
+					};
 				};
 			};
 			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "wallet" */;
@@ -281,10 +296,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				44C078612420CDC000CD0C0F /* GoogleService-Info.plist in Resources */,
 				CDEE3ED7D2894CE8AD0C2A44 /* Roboto-Medium.ttf in Resources */,
 				C2C8D5B1B8D14A8096C562CB /* Roboto-Regular.ttf in Resources */,
+				965F0307243B1D190055C7D0 /* LaunchScreen.storyboard in Resources */,
+				CE662478B3B2439E9EF842E1 /* Montserrat-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -408,18 +424,6 @@
 		};
 /* End PBXTargetDependency section */
 
-/* Begin PBXVariantGroup section */
-		13B07FB11A68108700A75B9A /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				13B07FB21A68108700A75B9A /* Base */,
-			);
-			name = LaunchScreen.xib;
-			path = wallet;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -498,6 +502,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = wallet/walletRelease.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+        CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = VATGM32JF8;
 				INFOPLIST_FILE = wallet/Info.plist;

@@ -1,6 +1,5 @@
 import { Dictionary } from "@neufund/shared-utils";
-import React from "react";
-import { createContext } from "react";
+import React, { createContext } from "react";
 
 import { LightTheme } from "./light/Light";
 import { ITheme } from "./types";

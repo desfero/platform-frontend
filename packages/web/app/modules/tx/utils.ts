@@ -1,10 +1,10 @@
+import { ETransactionDirection, ETransactionType } from "@neufund/shared-modules";
 import { EquityToken, ETH_DECIMALS, multiplyBigNumbers } from "@neufund/shared-utils";
 import BigNumber from "bignumber.js";
 import { addHexPrefix } from "ethereumjs-util";
 import { TxData } from "web3";
 
 import { ECurrency } from "../../components/shared/formatters/utils";
-import { ETransactionDirection, ETransactionType } from "../../lib/api/analytics-api/interfaces";
 import { TxPendingWithMetadata } from "../../lib/api/users/interfaces";
 import { ETxType, TBigNumberVariants } from "../../lib/web3/types";
 import { EInvestmentType } from "../investment-flow/reducer";

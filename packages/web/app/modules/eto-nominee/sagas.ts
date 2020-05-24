@@ -5,7 +5,10 @@ import {
   EEtoNomineeRequestMessages,
   EEtoNomineeRequestNotifications,
 } from "../../components/translatedMessages/messages";
-import { createMessage } from "../../components/translatedMessages/utils";
+import {
+  createMessage,
+  createNotificationMessage,
+} from "../../components/translatedMessages/utils";
 import { TGlobalDependencies } from "../../di/setupBindings";
 import { TNomineeRequestResponse } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { actions, TActionFromCreator } from "../actions";
@@ -13,12 +16,12 @@ import { ensurePermissionsArePresentAndRunEffect } from "../auth/jwt/sagas";
 import { selectEtoNominee } from "../eto-flow/selectors";
 import { ENomineeUpdateRequestStatus, TNomineeRequestStorage } from "../nominee-flow/types";
 import { etoApiDataToNomineeRequests } from "../nominee-flow/utils";
+import { webNotificationUIModuleApi } from "../notification-ui/module";
 import { neuCall, neuTakeLatest, neuTakeUntil } from "../sagasUtils";
 
 export function* etoGetNomineeRequests({
   apiEtoNomineeService,
   logger,
-  notificationCenter,
 }: TGlobalDependencies): Generator<any, any, any> {
   try {
     const nomineeRequests: TNomineeRequestResponse[] = yield apiEtoNomineeService.etoGetNomineeRequest();
@@ -29,7 +32,11 @@ export function* etoGetNomineeRequests({
     yield put(actions.etoNominee.storeNomineeRequests(nomineeRequestsConverted));
   } catch (e) {
     logger.error("Failed to load Nominee requests", e);
-    notificationCenter.error(createMessage(EEtoNomineeRequestNotifications.GENERIC_NETWORK_ERROR));
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(EEtoNomineeRequestNotifications.GENERIC_NETWORK_ERROR),
+      ),
+    );
     yield put(actions.etoNominee.loadingDone());
   }
 }
@@ -50,7 +57,7 @@ export function* etoNomineeRequestsWatcher({
 }
 
 export function* etoUpdateNomineeRequest(
-  { notificationCenter }: TGlobalDependencies,
+  _: TGlobalDependencies,
   action:
     | TActionFromCreator<typeof actions.etoNominee.acceptNomineeRequest>
     | TActionFromCreator<typeof actions.etoNominee.rejectNomineeRequest>,
@@ -76,14 +83,18 @@ export function* etoUpdateNomineeRequest(
       options.messageText,
     );
   } catch (e) {
-    notificationCenter.error(createMessage(EEtoNomineeRequestNotifications.GENERIC_NETWORK_ERROR));
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(EEtoNomineeRequestNotifications.GENERIC_NETWORK_ERROR),
+      ),
+    );
   } finally {
     yield put(actions.etoNominee.loadingDone());
   }
 }
 
 export function* etoUpdateNomineeRequestEffect(
-  { apiEtoNomineeService, notificationCenter, logger }: TGlobalDependencies,
+  { apiEtoNomineeService, logger }: TGlobalDependencies,
   nomineeId: string,
   newStatus: ENomineeUpdateRequestStatus,
 ): Generator<any, any, any> {
@@ -95,15 +106,15 @@ export function* etoUpdateNomineeRequestEffect(
     }
   } catch (e) {
     logger.error("Failed to update nominee request", e);
-    notificationCenter.error(
-      createMessage(EEtoNomineeRequestNotifications.UPDATE_NOMINEE_REQUEST_ERROR),
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(EEtoNomineeRequestNotifications.UPDATE_NOMINEE_REQUEST_ERROR),
+      ),
     );
   }
 }
 
-export function* etoRejectNomineeRequest({
-  notificationCenter,
-}: TGlobalDependencies): Generator<any, any, any> {
+export function* etoRejectNomineeRequest(_: TGlobalDependencies): Generator<any, any, any> {
   try {
     yield neuCall(
       ensurePermissionsArePresentAndRunEffect,
@@ -114,22 +125,27 @@ export function* etoRejectNomineeRequest({
     );
     yield put(actions.etoNominee.loadingDone());
   } catch (e) {
-    notificationCenter.error(createMessage(EEtoNomineeRequestNotifications.GENERIC_NETWORK_ERROR));
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(EEtoNomineeRequestNotifications.GENERIC_NETWORK_ERROR),
+      ),
+    );
   }
 }
 
 export function* etoDeleteNomineeRequestEffect({
   apiEtoNomineeService,
   logger,
-  notificationCenter,
 }: TGlobalDependencies): Generator<any, any, any> {
   const nomineeId = yield select(selectEtoNominee);
 
   try {
     yield apiEtoNomineeService.etoDeleteNomineeRequest(nomineeId);
     yield put(actions.etoFlow.loadIssuerEto());
-    notificationCenter.info(
-      createMessage(EEtoNomineeRequestNotifications.DELETE_NOMINEE_REQUEST_SUCCESS),
+    yield put(
+      webNotificationUIModuleApi.actions.showInfo(
+        createNotificationMessage(EEtoNomineeRequestNotifications.DELETE_NOMINEE_REQUEST_SUCCESS),
+      ),
     );
   } catch (e) {
     logger.error(`Error while trying to delete nominee request with nominee id ${nomineeId}`);

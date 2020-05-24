@@ -1,4 +1,4 @@
-import { ESignerType } from "@neufund/shared-modules";
+import { ESignerType, EWalletSubType, EWalletType } from "@neufund/shared-modules";
 import { EthereumAddressWithChecksum } from "@neufund/shared-utils";
 import { addHexPrefix, toBuffer } from "ethereumjs-util";
 
@@ -95,4 +95,7 @@ export class LedgerWallet implements IPersonalWallet {
   public isUnlocked = (): boolean => true;
 
   public unplug = () => Promise.resolve();
+
+  // ledger wallet is by default unlocked
+  public unlock = (_: string) => Promise.reject();
 }

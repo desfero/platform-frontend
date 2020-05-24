@@ -1,7 +1,7 @@
+import { EUserType } from "@neufund/shared-modules";
 import * as React from "react";
 import { Redirect, Route } from "react-router-dom";
 
-import { EUserType } from "../../lib/api/users/interfaces";
 import { SwitchConnected } from "../../utils/react-connected-components/connectedRouting";
 import { KYCAdditionalUpload as KYCBusinessAdditionalUpload } from "./business/AdditionalUpload";
 import { KYCAdditionalUpload } from "./personal/AdditionalUpload";

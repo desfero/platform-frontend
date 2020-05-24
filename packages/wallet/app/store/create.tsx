@@ -1,73 +1,31 @@
 import { createStore, getSagaExtension } from "@neufund/sagas";
-import {
-  getContextToDepsExtension,
-  getLoadContextExtension,
-  INeuModule,
-  setupCoreModule,
-  setupTokenPriceModule,
-} from "@neufund/shared-modules";
+import { getLoadContextExtension } from "@neufund/shared-modules";
 import { Container } from "inversify";
 import Config from "react-native-config";
 
-import { createGlobalDependencies, setupBindings, TGlobalDependencies } from "../di/setupBindings";
-import { TConfig } from "../di/types";
-import { setupWalletContractsModule } from "../modules/contracts/module";
-import { setupWalletEthModule } from "../modules/eth/module";
-import { setupNotificationUIModule } from "../modules/notification-ui/module";
-import { appReducers } from "../modules/reducers";
-import { rootSaga } from "../modules/sagas";
-import { setupSignerUIModule } from "../modules/signer-ui/module";
-import { setupWalletConnectModule } from "../modules/wallet-connect/module";
+import { setupInitModule } from "../modules/init/module";
 import { TAppGlobalState } from "./types";
-import { setupStorageModule } from "../modules/storage";
-import { setupNotificationsModule } from "../modules/notifications/module";
-import { setupPermissionsModule } from "../modules/permissions/module";
-import { setupDeviceInformationModule } from "../modules/device-information/module";
 
 export const createAppStore = (container: Container) => {
   // TODO: Take universe address from artifacts meta.json
   const UNIVERSE_ADDRESS = "0x9bad13807cd939c7946008e3772da819bd98fa7b";
 
-  const config: TConfig = {
+  const config: Parameters<typeof setupInitModule>[0] = {
     backendRootUrl: Config.NF_BACKEND_URL,
     rpcUrl: Config.NF_NODE_RPC_URL,
     universeContractAddress: UNIVERSE_ADDRESS,
   };
 
-  const appModule: INeuModule<TAppGlobalState> = {
-    id: "app",
-    reducerMap: appReducers,
-    libs: [setupBindings(config)],
-    sagas: [rootSaga],
-  };
+  const appModule = setupInitModule(config);
 
-  const context: { container: Container; deps?: TGlobalDependencies } = {
+  const context: { container: Container } = {
     container,
   };
 
   return createStore<TAppGlobalState>(
     {
-      extensions: [
-        getLoadContextExtension(context.container),
-        getContextToDepsExtension(appModule, createGlobalDependencies, context),
-        getSagaExtension(context),
-      ],
+      extensions: [getLoadContextExtension(context.container), getSagaExtension(context)],
     },
-    setupCoreModule({ backendRootUrl: config.backendRootUrl }),
-    setupStorageModule(),
-    setupNotificationsModule(),
-    setupWalletEthModule({ rpcUrl: config.rpcUrl }),
-    setupPermissionsModule(),
-    setupDeviceInformationModule(),
-    ...setupWalletContractsModule({ universeContractAddress: config.universeContractAddress }),
-    setupSignerUIModule(),
-    setupNotificationUIModule(),
-    setupWalletConnectModule(),
-
-    setupTokenPriceModule({
-      // TODO: When we have a proper block watching flow for mobile app provide proper refresh action
-      refreshOnAction: undefined,
-    }),
-    appModule,
+    ...appModule,
   );
 };

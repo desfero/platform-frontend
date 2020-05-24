@@ -1,5 +1,5 @@
 import React from "react";
-import { useWindowDimensions } from "react-native";
+import { StyleSheet, useWindowDimensions } from "react-native";
 import RNQRCodeScanner from "react-native-qrcode-scanner";
 
 type TExternalProps = {
@@ -11,12 +11,18 @@ const QRCodeScanner: React.FunctionComponent<TExternalProps> = ({ onRead }) => {
 
   return (
     <RNQRCodeScanner
-      topViewStyle={{ flex: 0 }}
-      bottomViewStyle={{ flex: 0 }}
+      topViewStyle={styles.topAndBottom}
+      bottomViewStyle={styles.topAndBottom}
       cameraStyle={{ width, height }}
       onRead={e => onRead(e.data)}
     />
   );
 };
+
+const styles = StyleSheet.create({
+  topAndBottom: {
+    flex: 0,
+  },
+});
 
 export { QRCodeScanner };

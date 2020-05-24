@@ -1,14 +1,15 @@
 import { call, fork, put } from "@neufund/sagas";
 
 import { IpfsMessage } from "../../components/translatedMessages/messages";
-import { createMessage } from "../../components/translatedMessages/utils";
+import { createNotificationMessage } from "../../components/translatedMessages/utils";
 import { TGlobalDependencies } from "../../di/setupBindings";
 import { actions, TActionFromCreator } from "../actions";
+import { webNotificationUIModuleApi } from "../notification-ui/module";
 import { neuTakeEvery } from "../sagasUtils";
 import { downloadLink } from "./utils";
 
 export function* downloadFile(
-  { apiImmutableStorage, notificationCenter, logger }: TGlobalDependencies,
+  { apiImmutableStorage, logger }: TGlobalDependencies,
   action: TActionFromCreator<typeof actions.immutableStorage.downloadImmutableFile>,
 ): Generator<any, any, any> {
   try {
@@ -19,7 +20,11 @@ export function* downloadFile(
     yield call(downloadLink, downloadedFile, action.payload.fileName, extension);
   } catch (e) {
     logger.error("Failed to download file from IPFS", e);
-    notificationCenter.error(createMessage(IpfsMessage.IPFS_FAILED_TO_DOWNLOAD_IPFS_FILE)); //Failed to download file from IPFS
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(IpfsMessage.IPFS_FAILED_TO_DOWNLOAD_IPFS_FILE),
+      ),
+    ); //Failed to download file from IPFS
   } finally {
     yield put(
       actions.immutableStorage.downloadImmutableFileDone(action.payload.immutableFileId.ipfsHash),

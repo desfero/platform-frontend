@@ -1,6 +1,7 @@
 import * as React from "react";
 import { StyleSheet, Text } from "react-native";
-import { blueyGrey } from "../../../../styles/colors";
+
+import { blueyGray } from "../../../../styles/colors";
 import { typographyStyles } from "../../../../styles/typography";
 
 type TExternalProps = React.ComponentProps<typeof Text>;
@@ -16,7 +17,7 @@ const HelperText: React.FunctionComponent<TExternalProps> = ({ style, ...props }
 const styles = StyleSheet.create({
   helperText: {
     ...typographyStyles.helperText,
-    color: blueyGrey,
+    color: blueyGray,
   },
 });
 

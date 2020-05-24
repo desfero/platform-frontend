@@ -3,14 +3,6 @@ import { CSSProperties, default as React, ReactElement } from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { ToastOptions } from "react-toastify";
 
-export type DeepPartial<T> = {
-  [P in keyof T]?: T[P] extends Array<infer U>
-    ? Array<DeepPartial<U>>
-    : T[P] extends ReadonlyArray<infer U>
-    ? ReadonlyArray<DeepPartial<U>>
-    : DeepPartial<T[P]>;
-};
-
 // we dont use AllHtmlAttributes because they include many more fields which can collide easily with components props (like data)
 export type CommonHtmlProps = {
   className?: string;

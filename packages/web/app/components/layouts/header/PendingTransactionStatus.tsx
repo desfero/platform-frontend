@@ -4,7 +4,7 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { branch, compose, renderComponent } from "recompose";
 
-import { TxPendingWithMetadata } from "../../../lib/api/users/interfaces";
+import { TxPendingWithMetadata } from "../../../lib/api/users-tx/interfaces";
 import { actions } from "../../../modules/actions";
 import { selectPlatformPendingTransaction } from "../../../modules/tx/monitor/selectors";
 import { ETxSenderState } from "../../../modules/tx/sender/reducer";

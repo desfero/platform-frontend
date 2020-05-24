@@ -1,3 +1,4 @@
+import { EWalletSubType, EWalletType } from "@neufund/shared-modules";
 import { EthereumAddressWithChecksum } from "@neufund/shared-utils";
 import { RouterState } from "connected-react-router";
 import { isString } from "lodash";
@@ -7,7 +8,7 @@ import { createSelector } from "reselect";
 import { TAppGlobalState } from "../../store";
 import { selectRouter } from "../routing/selectors";
 import { IConnectedWeb3State, IWalletPrivateData, IWeb3State } from "./reducer";
-import { EWalletSubType, EWalletType, TWalletMetadata } from "./types";
+import { TWalletMetadata } from "./types";
 
 export const selectConnectedWeb3State = (state: IWeb3State): IConnectedWeb3State => {
   if (!state.connected) {
@@ -39,9 +40,9 @@ export const isLightWalletReadyToLogin = (state: IWeb3State): boolean =>
 /**
  * Works both when wallet is connected or not.
  */
-export const selectIsLightWallet = (state: IWeb3State): boolean =>
-  (state.connected && state.wallet.walletType === EWalletType.LIGHT) ||
-  isLightWalletReadyToLogin(state);
+export const selectIsLightWallet = (state: TAppGlobalState): boolean =>
+  (state.web3.connected && state.web3.wallet.walletType === EWalletType.LIGHT) ||
+  isLightWalletReadyToLogin(state.web3);
 
 export const selectIsExternalWallet = (state: TAppGlobalState): boolean => {
   const walletType = selectWalletType(state);
@@ -65,8 +66,6 @@ export const selectCurrentLightWalletSalt = (state: TAppGlobalState): string | u
     state.web3.wallet.walletType === EWalletType.LIGHT &&
     state.web3.wallet.salt) ||
   undefined;
-
-export const selectIsUnlocked = (state: IWeb3State): boolean => state.connected && state.isUnlocked;
 
 export const selectPreviousLightWalletEmail = (state: IWeb3State): string | undefined =>
   (!state.connected &&

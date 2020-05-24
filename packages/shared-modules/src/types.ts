@@ -1,12 +1,13 @@
 import { ISagaModule } from "@neufund/sagas";
 import {
+  Get,
   Opaque,
   OpaqueType,
   ReturnTypeFlatten,
   ReturnTypeStrict,
   Tuple,
   UnionToIntersection,
-  Values,
+  ValuesOfUnion,
 } from "@neufund/shared-utils";
 import { ContainerModule } from "inversify";
 import { ActionCreatorsMapObject } from "redux";
@@ -29,14 +30,12 @@ type TModule<M extends TModuleSetup<any, any>> = ReturnTypeFlatten<M> extends IN
   ? ReturnTypeFlatten<M>
   : never;
 
-type TModuleApi<M extends TModuleSetup<any, any>> = TModule<M>["api"] extends TNeuModuleAPI
-  ? TModule<M>["api"]
-  : never;
+type TModuleApi<M extends TModuleSetup<any, any>> = Get<TModule<M>, "api", {}>;
 
-type TModuleApiActions<M extends TModuleSetup<any, any>> = TModuleApi<M>["actions"];
+type TModuleApiActions<M extends TModuleSetup<any, any>> = Get<TModuleApi<M>, "actions", {}>;
 
 type TModuleActions<M extends TModuleSetup<any, any>> = ReturnTypeStrict<
-  Values<TModuleApiActions<M>>
+  ValuesOfUnion<TModuleApiActions<M>>
 >;
 
 type TModuleState<M extends TModuleSetup<any, any>> = UnionToIntersection<

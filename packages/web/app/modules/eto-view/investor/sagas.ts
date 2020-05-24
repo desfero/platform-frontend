@@ -2,7 +2,7 @@ import { call, fork, put, select } from "@neufund/sagas";
 import { match } from "react-router";
 
 import { EtoMessage } from "../../../components/translatedMessages/messages";
-import { createMessage } from "../../../components/translatedMessages/utils";
+import { createNotificationMessage } from "../../../components/translatedMessages/utils";
 import { TGlobalDependencies } from "../../../di/setupBindings";
 import { EJurisdiction } from "../../../lib/api/eto/EtoProductsApi.interfaces";
 import { actions, TActionFromCreator } from "../../actions";
@@ -13,6 +13,7 @@ import {
 } from "../../eto/sagas";
 import { TEtoWithCompanyAndContractReadonly } from "../../eto/types";
 import { selectIsUserVerifiedOnBlockchain } from "../../kyc/selectors";
+import { webNotificationUIModuleApi } from "../../notification-ui/module";
 import { ensureEtoJurisdiction } from "../../routing/eto-view/sagas";
 import { neuCall, neuTakeEvery } from "../../sagasUtils";
 import { calculateCampaignOverviewData, performLoadEtoSideEffects } from "../shared/sagas";
@@ -43,7 +44,7 @@ function* loadInvestorEtoViewInternal(
 }
 
 export function* loadInvestorEtoView(
-  { logger, notificationCenter }: TGlobalDependencies,
+  { logger }: TGlobalDependencies,
   {
     payload: { previewCode, routeMatch },
   }: TActionFromCreator<typeof actions.etoView.loadInvestorEtoView>,
@@ -62,13 +63,17 @@ export function* loadInvestorEtoView(
     yield put(actions.etoView.setEtoViewData(etoData));
   } catch (e) {
     logger.error("Could not load eto by preview code", e);
-    notificationCenter.error(createMessage(EtoMessage.COULD_NOT_LOAD_ETO_PREVIEW));
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(EtoMessage.COULD_NOT_LOAD_ETO_PREVIEW),
+      ),
+    );
     yield put(actions.routing.goToDashboard());
   }
 }
 
 export function* loadInvestorEtoViewById(
-  { logger, notificationCenter }: TGlobalDependencies,
+  { logger }: TGlobalDependencies,
   {
     payload: { etoId, routeMatch },
   }: TActionFromCreator<typeof actions.etoView.loadInvestorEtoViewById>,
@@ -87,7 +92,11 @@ export function* loadInvestorEtoViewById(
     yield put(actions.etoView.setEtoViewData(etoData));
   } catch (e) {
     logger.error("Could not load eto", e);
-    notificationCenter.error(createMessage(EtoMessage.COULD_NOT_LOAD_ETO));
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(EtoMessage.COULD_NOT_LOAD_ETO),
+      ),
+    );
     yield put(actions.routing.goToDashboard());
   }
 }

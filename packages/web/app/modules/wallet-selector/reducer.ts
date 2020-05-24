@@ -1,6 +1,7 @@
+import { EWalletType } from "@neufund/shared-modules";
+
 import { AppReducer } from "../../store";
 import { actions } from "../actions";
-import { EWalletType } from "../web3/types";
 import {
   ECommonWalletRegistrationFlowState,
   EFlowType,

@@ -1,9 +1,10 @@
-import { call, neuCall, put, SagaGenerator, select } from "@neufund/sagas";
+import { call, neuCall, put, SagaGenerator, select, takeEvery } from "@neufund/sagas";
 
 import { neuGetBindings } from "../../../utils";
 import { coreModuleApi } from "../../core/module";
-import { ICreateJwtEndpointResponse } from "../lib/SignatureAuthApi";
+import { ICreateJwtEndpointResponse } from "../lib/signature/SignatureAuthApi";
 import { symbols } from "../lib/symbols";
+import { userActions } from "../user/actions";
 import { jwtActions } from "./actions";
 import { JwtNotAvailable } from "./errors";
 import { signChallenge } from "./sagasInternal";
@@ -112,4 +113,16 @@ function* refreshJWT(): SagaGenerator<void> {
   logger.info("Jwt refreshed successfully");
 }
 
-export { createJwt, escalateJwt, refreshJWT, loadJwt, selectJwt, setJwt };
+function* clearJWT(): SagaGenerator<void> {
+  const { jwtStorage } = yield* neuGetBindings({
+    jwtStorage: symbols.jwtStorage,
+  });
+
+  yield* call(() => jwtStorage.clear());
+}
+
+function* authJwtSagas(): SagaGenerator<void> {
+  yield takeEvery(userActions.reset, clearJWT);
+}
+
+export { createJwt, escalateJwt, refreshJWT, loadJwt, selectJwt, setJwt, authJwtSagas };

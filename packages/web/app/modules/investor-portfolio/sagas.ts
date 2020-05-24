@@ -1,5 +1,5 @@
 import { all, fork, put, select } from "@neufund/sagas";
-import { contractsModuleApi } from "@neufund/shared-modules";
+import { contractsModuleApi, IUser } from "@neufund/shared-modules";
 import {
   addBigNumbers,
   convertFromUlps,
@@ -14,10 +14,9 @@ import { filter, map } from "lodash/fp";
 
 import { ECurrency } from "../../components/shared/formatters/utils";
 import { InvestorPortfolioMessage } from "../../components/translatedMessages/messages";
-import { createMessage } from "../../components/translatedMessages/utils";
+import { createNotificationMessage } from "../../components/translatedMessages/utils";
 import { TGlobalDependencies } from "../../di/setupBindings";
 import { EEtoState, TEtoSpecsData } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
-import { IUser } from "../../lib/api/users/interfaces";
 import { ETOCommitment } from "../../lib/contracts/ETOCommitment";
 import { ETOTerms } from "../../lib/contracts/ETOTerms";
 import { promisify } from "../../lib/contracts/typechain-runtime";
@@ -26,6 +25,7 @@ import { actions, TActionFromCreator } from "../actions";
 import { selectUser, selectUserId } from "../auth/selectors";
 import { InvalidETOStateError } from "../eto/errors";
 import { isOnChain } from "../eto/utils";
+import { webNotificationUIModuleApi } from "../notification-ui/module";
 import { neuCall, neuTakeEvery, neuTakeLatest } from "../sagasUtils";
 import { selectEtherPriceEur } from "../shared/tokenPrice/selectors";
 import { selectEthereumAddress } from "../web3/selectors";
@@ -111,11 +111,7 @@ export function* loadComputedContributionFromContract(
   return convertToCalculatedContribution(contributionRaw);
 }
 
-export function* loadClaimables({
-  contractsService,
-  logger,
-  notificationCenter,
-}: TGlobalDependencies): any {
+export function* loadClaimables({ contractsService, logger }: TGlobalDependencies): any {
   const user: IUser = yield select((state: TAppGlobalState) => selectUser(state));
   const { feeDisbursal, euroToken, etherToken, neumark } = contractsService;
   const etherPrice = yield select(selectEtherPriceEur);
@@ -140,17 +136,17 @@ export function* loadClaimables({
     yield put(actions.investorEtoTicket.setTokensDisbursalError());
 
     logger.error("Failed to load claimables", error);
-    notificationCenter.error(
-      createMessage(InvestorPortfolioMessage.INVESTOR_PORTFOLIO_FAILED_TO_LOAD_CLAIMABLES),
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(
+          InvestorPortfolioMessage.INVESTOR_PORTFOLIO_FAILED_TO_LOAD_CLAIMABLES,
+        ),
+      ),
     );
   }
 }
 
-export function* getIncomingPayouts({
-  contractsService,
-  logger,
-  notificationCenter,
-}: TGlobalDependencies): any {
+export function* getIncomingPayouts({ contractsService, logger }: TGlobalDependencies): any {
   const { feeDisbursal, euroToken, etherToken, neumark } = contractsService;
 
   try {
@@ -189,8 +185,12 @@ export function* getIncomingPayouts({
   } catch (error) {
     logger.error("Failed to load incoming payouts", error);
     yield put(actions.investorEtoTicket.setIncomingPayoutsError());
-    notificationCenter.error(
-      createMessage(InvestorPortfolioMessage.INVESTOR_PORTFOLIO_FAILED_TO_LOAD_INCOMING_PAYOUTS),
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(
+          InvestorPortfolioMessage.INVESTOR_PORTFOLIO_FAILED_TO_LOAD_INCOMING_PAYOUTS,
+        ),
+      ),
     );
   }
 }

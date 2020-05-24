@@ -1,21 +1,26 @@
 import "react-native-gesture-handler";
 import "./app/polyfills";
 
+import { IModuleStore } from "@neufund/sagas";
 import { Container } from "inversify";
 import React from "react";
-import { Provider as ReduxProvider } from "react-redux";
 import { AppRegistry } from "react-native";
-import { IModuleStore } from "@neufund/sagas";
 import Config from "react-native-config";
+import { Provider as ReduxProvider } from "react-redux";
 
-import { App } from "./app/App";
 import { name as appName } from "./app.json";
+import { App } from "./app/App";
+import { AppContainer } from "./app/components/containers/AppContainer";
 import { createAppStore } from "./app/store/create";
 import { TAppGlobalState } from "./app/store/types";
-import { StorybookUIRoot } from "./storybook";
+import { Storybook } from "./storybook";
+
+if (__DEV__) {
+  import("./app/devUtils");
+}
 
 function startupStorybookApp(): void {
-  AppRegistry.registerComponent(appName, () => StorybookUIRoot);
+  AppRegistry.registerComponent(appName, () => Storybook);
 }
 
 function startupApp(): void {
@@ -29,7 +34,9 @@ function startupApp(): void {
 function renderApp(store: IModuleStore<TAppGlobalState>): void {
   const Component = () => (
     <ReduxProvider store={store}>
-      <App />
+      <AppContainer>
+        <App />
+      </AppContainer>
     </ReduxProvider>
   );
 

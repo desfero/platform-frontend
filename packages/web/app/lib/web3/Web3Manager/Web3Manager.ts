@@ -31,6 +31,7 @@ export class SignerUnknownError extends SignerError {}
 
 export enum EWeb3ManagerEvents {
   NEW_PERSONAL_WALLET_PLUGGED = "web3_manager_new_personal_wallet_plugged",
+  PERSONAL_WALLET_UNPLUGGED = "web3_manager_personal_wallet_unplugged",
   NEW_BLOCK_ARRIVED = "newBlockArrived",
   ETH_BLOCK_TRACKER_ERROR = "ethBlockTrackerError",
 }
@@ -112,6 +113,10 @@ export class Web3Manager extends EventEmitter implements IEthManager {
 
   public async unplugPersonalWallet(): Promise<void> {
     if (this.personalWallet) {
+      this.emit(EWeb3ManagerEvents.PERSONAL_WALLET_UNPLUGGED, {
+        metaData: this.personalWallet.getMetadata(),
+      });
+
       await this.personalWallet.unplug();
       this.personalWallet = undefined;
     } else {

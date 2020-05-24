@@ -1,39 +1,12 @@
-import { delay } from "@neufund/sagas";
 import { expectSaga } from "@neufund/sagas/tests";
-import { noopLogger } from "@neufund/shared-modules";
-import { createMock } from "@neufund/shared-utils/tests";
-import { expect } from "chai";
 import { EventEmitter } from "events";
 
-import { LIGHT_WALLET_PASSWORD_CACHE_TIME } from "../../config/constants";
 import { TGlobalDependencies } from "../../di/setupBindings";
 import { EWeb3ManagerEvents, Web3Manager } from "../../lib/web3/Web3Manager/Web3Manager";
 import { actions } from "../actions";
-import { autoLockLightWallet, initWeb3ManagerEvents } from "./sagas";
+import { initWeb3ManagerEvents } from "./sagas";
 
 describe("Web3 sagas", () => {
-  describe("light wallet password", () => {
-    it("should reset password after timeout", async () => {
-      const personalWalletMock = {
-        password: "some dummy pass",
-      } as any;
-      const web3ManagerMock = createMock(Web3Manager, {
-        personalWallet: personalWalletMock,
-      });
-
-      await expectSaga(autoLockLightWallet as any, {
-        web3Manager: web3ManagerMock,
-        logger: noopLogger,
-      })
-        .put(actions.web3.walletLocked())
-        .delay(LIGHT_WALLET_PASSWORD_CACHE_TIME)
-        .provide([[delay(LIGHT_WALLET_PASSWORD_CACHE_TIME), undefined]])
-        .run();
-
-      expect(personalWalletMock.password).to.be.undefined;
-    });
-  });
-
   describe("web3Manager events connection", () => {
     it("connects to event from web3Manager", () => {
       const web3ManagerMock = new EventEmitter();

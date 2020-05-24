@@ -16,3 +16,8 @@ safely delete the patch.
 There is a clash in detox and jest typings as they both export global with the same names. Given
 that we use detox by importing from module we can for now manually remove global types until
 https://github.com/solkaz/ts-detox-example/issues/2 get's fixed.
+
+### @expo/react-native-action-sheet
+
+We need to patch typings given there is not way to force no hoist in transitive dependency, and we
+end up with invalid typings for `hoist-non-react-statics`.

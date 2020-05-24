@@ -1,3 +1,4 @@
+import { DeepPartial } from "@neufund/shared-utils";
 import { createBrowserHistory } from "history";
 import * as React from "react";
 import { Provider as ReduxProvider } from "react-redux";
@@ -6,7 +7,6 @@ import configureStore, { MockStore } from "redux-mock-store";
 
 import { TAction } from "../../modules/actions";
 import { generateRootModuleReducerMap } from "../../store";
-import { DeepPartial } from "../../types";
 
 const mockStore = configureStore();
 

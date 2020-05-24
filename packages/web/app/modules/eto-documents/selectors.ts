@@ -1,8 +1,8 @@
+import { EUserType } from "@neufund/shared-modules";
 import { DeepReadonly } from "@neufund/shared-utils";
 
 import { EEtoState } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { EEtoDocumentType, IEtoFilesInfo } from "../../lib/api/eto/EtoFileApi.interfaces";
-import { EUserType } from "../../lib/api/users/interfaces";
 import { TAppGlobalState } from "../../store";
 import { selectUserType } from "../auth/selectors";
 import { selectIssuerEtoState } from "../eto-flow/selectors";

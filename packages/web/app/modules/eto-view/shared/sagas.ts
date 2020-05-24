@@ -1,13 +1,13 @@
 import { call, fork, neuFork, neuTakeOnly, put, race, select } from "@neufund/sagas";
+import { EUserType } from "@neufund/shared-modules";
 import { LOCATION_CHANGE } from "connected-react-router";
 import { match } from "react-router";
 
 import { appRoutes } from "../../../components/appRoutes";
 import { EtoMessage } from "../../../components/translatedMessages/messages";
-import { createMessage } from "../../../components/translatedMessages/utils";
+import { createNotificationMessage } from "../../../components/translatedMessages/utils";
 import { TGlobalDependencies } from "../../../di/setupBindings";
 import { EEtoState } from "../../../lib/api/eto/EtoApi.interfaces.unsafe";
-import { EUserType } from "../../../lib/api/users/interfaces";
 import { TAppGlobalState } from "../../../store";
 import { EProcessState } from "../../../utils/enums/processStates";
 import { actions, TActionFromCreator } from "../../actions";
@@ -24,6 +24,7 @@ import {
   EEtoSubState,
   TEtoWithCompanyAndContractReadonly,
 } from "../../eto/types";
+import { webNotificationUIModuleApi } from "../../notification-ui/module";
 import { TEtoViewByPreviewCodeMatch } from "../../routing/types";
 import { neuCall, neuTakeEveryUntil, neuTakeLatest } from "../../sagasUtils";
 import { etoViewInvestorSagas } from "../investor/sagas";
@@ -161,10 +162,7 @@ export function* etoFlowBackwardsCompat(
   }
 }
 
-export function* reloadEtoView({
-  logger,
-  notificationCenter,
-}: TGlobalDependencies): Generator<any, void, any> {
+export function* reloadEtoView({ logger }: TGlobalDependencies): Generator<any, void, any> {
   try {
     const oldEtoViewData: TEtoViewState = yield select(selectEtoViewData);
 
@@ -187,7 +185,11 @@ export function* reloadEtoView({
     yield put(actions.etoView.setEtoViewData(etoData));
   } catch (e) {
     logger.error("Could not reload eto by preview code", e);
-    notificationCenter.error(createMessage(EtoMessage.COULD_NOT_LOAD_ETO_PREVIEW));
+    yield put(
+      webNotificationUIModuleApi.actions.showError(
+        createNotificationMessage(EtoMessage.COULD_NOT_LOAD_ETO_PREVIEW),
+      ),
+    );
     yield put(actions.routing.goToDashboard());
   }
 }
