@@ -1,9 +1,10 @@
 import * as React from "react";
 import { StyleSheet, View } from "react-native";
+
 import { baseGray } from "../../styles/colors";
 import { spacingStyles } from "../../styles/spacings";
-import { Button, EButtonLayout } from "../shared/buttons/Button";
 import { EIconType, Icon } from "../shared/Icon";
+import { Button, EButtonLayout } from "../shared/buttons/Button";
 import { Headline } from "../shared/typography/Headline";
 
 type TExternalProps = {

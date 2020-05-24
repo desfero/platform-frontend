@@ -6,6 +6,8 @@ import { baseWhite } from "../../../styles/colors";
 import { spacingStyles } from "../../../styles/spacings";
 import { BaseAnimation } from "../animations/BaseAnimation";
 
+const BOTTOM_SHEET_BACKDROP_COLOR = "rgba(0, 0, 0, 0.4)";
+
 type TExternalProps = {
   isVisible: boolean;
 };
@@ -18,18 +20,20 @@ const BottomSheetModal: React.FunctionComponent<TExternalProps> = ({ isVisible, 
     <BaseAnimation
       isActive={isVisible}
       render={({ progress, memoizedChildren }) => {
+        const minimumAnimationRange = 0.01;
+
         const backdrop = {
           transform: [
             {
               translateY: progress.interpolate({
-                inputRange: [0, 0.01],
+                inputRange: [0, minimumAnimationRange],
                 outputRange: [height, 0],
                 extrapolate: "clamp",
               }),
             },
           ],
           opacity: progress.interpolate({
-            inputRange: [0.01, 0.5],
+            inputRange: [0, 0.5],
             outputRange: [0, 1],
             extrapolate: "clamp",
           }),
@@ -40,7 +44,7 @@ const BottomSheetModal: React.FunctionComponent<TExternalProps> = ({ isVisible, 
             {
               translateY: progress.interpolate({
                 inputRange: [0, 1],
-                outputRange: [0, -1 * height],
+                outputRange: [0, -height],
               }),
             },
           ],
@@ -70,7 +74,7 @@ const styles = StyleSheet.create({
   backdrop: {
     ...StyleSheet.absoluteFillObject,
 
-    backgroundColor: "rgba(0, 0, 0, 0.4)",
+    backgroundColor: BOTTOM_SHEET_BACKDROP_COLOR,
   },
   sheet: {
     ...spacingStyles.p1,

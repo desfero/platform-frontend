@@ -1,3 +1,4 @@
+import { assertNever } from "@neufund/shared-utils";
 import * as React from "react";
 import { compose } from "recompose";
 
@@ -10,8 +11,8 @@ import { ESignerType, TSignerSignPayload } from "../../modules/signer-ui/types";
 import { appConnect } from "../../store/utils";
 import { BottomSheetModal } from "../shared/modals/BottomSheetModal";
 import { SendTransactionSigner } from "./SendTransactionSigner";
-import { WCSessionRequestSigner } from "./WCSessionRequestSigner";
 import { SignMessageSigner } from "./SignMessageSigner";
+import { WCSessionRequestSigner } from "./WCSessionRequestSigner";
 
 type TStateProps = {
   state: ReturnType<typeof signerUIModuleApi.selectors.selectSignerUIState>;
@@ -37,6 +38,8 @@ const Signer: React.FunctionComponent<TExternalProps> = ({ request, ...rest }) =
       return <SignMessageSigner data={request.data} {...rest} />;
     case ESignerType.WC_SESSION_REQUEST:
       return <WCSessionRequestSigner data={request.data} {...rest} />;
+    default:
+      assertNever(request);
   }
 };
 

@@ -4,6 +4,7 @@ import pickBy from "lodash/fp/pickBy";
 import * as React from "react";
 import { StyleProp, StyleSheet, ViewStyle } from "react-native";
 
+import Backup from "../../assets/backup.svg";
 import Close from "../../assets/close.svg";
 import Home from "../../assets/home.svg";
 import Investments from "../../assets/investments.svg";
@@ -16,7 +17,6 @@ import Eth from "../../assets/tokens/eth.svg";
 import NEur from "../../assets/tokens/n-eur.svg";
 import Wallet from "../../assets/wallet.svg";
 import Yes from "../../assets/yes.svg";
-import Backup from "../../assets/backup.svg";
 
 enum EIconType {
   HOME = "home",

@@ -9,8 +9,7 @@ module.exports = {
     "@typescript-eslint/no-magic-numbers": [
       "error",
       {
-        // 0 is often used to access first element of an array
-        ignore: [0, 1, 2, 4, 10],
+        ignore: [0, 0.5, 1, 2, 4, 10],
         ignoreEnums: true,
         ignoreNumericLiteralTypes: true,
         ignoreReadonlyClassProperties: true,
