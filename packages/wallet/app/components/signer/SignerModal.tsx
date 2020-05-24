@@ -1,6 +1,5 @@
 import * as React from "react";
 import { compose } from "recompose";
-import { Text } from "react-native";
 
 import {
   ESignerUIState,
@@ -10,7 +9,9 @@ import {
 import { ESignerType, TSignerSignPayload } from "../../modules/signer-ui/types";
 import { appConnect } from "../../store/utils";
 import { BottomSheetModal } from "../shared/modals/BottomSheetModal";
+import { SendTransactionSigner } from "./SendTransactionSigner";
 import { WCSessionRequestSigner } from "./WCSessionRequestSigner";
+import { SignMessageSigner } from "./SignMessageSigner";
 
 type TStateProps = {
   state: ReturnType<typeof signerUIModuleApi.selectors.selectSignerUIState>;
@@ -25,17 +26,17 @@ type TDispatchProps = {
 type TExternalProps = {
   approve: () => void;
   reject: () => void;
-  data: TSignerSignPayload;
+  request: TSignerSignPayload;
 };
 
-const Signer: React.FunctionComponent<TExternalProps> = ({ data, ...rest }) => {
-  switch (data.type) {
+const Signer: React.FunctionComponent<TExternalProps> = ({ request, ...rest }) => {
+  switch (request.type) {
     case ESignerType.SEND_TRANSACTION:
-      break;
+      return <SendTransactionSigner data={request.data} {...rest} />;
     case ESignerType.SIGN_MESSAGE:
-      break;
+      return <SignMessageSigner data={request.data} {...rest} />;
     case ESignerType.WC_SESSION_REQUEST:
-      return <WCSessionRequestSigner data={data.data} {...rest} />;
+      return <WCSessionRequestSigner data={request.data} {...rest} />;
   }
 };
 
@@ -47,7 +48,7 @@ const SignerModalLayout: React.FunctionComponent<TStateProps & TDispatchProps> =
 }) => {
   return (
     <BottomSheetModal isVisible={state !== ESignerUIState.IDLE}>
-      {data && <Signer data={data} approve={approve} reject={reject} />}
+      {data && <Signer request={data} approve={approve} reject={reject} />}
     </BottomSheetModal>
   );
 };

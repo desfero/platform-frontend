@@ -5,22 +5,17 @@ import { grayLighter2 } from "../../styles/colors";
 import { spacingStyles } from "../../styles/spacings";
 import { EIconType } from "../shared/Icon";
 import { Text } from "../shared/typography/Text";
-import { Link } from "../shared/Link";
-import { BoldText } from "../shared/typography/BoldText";
 import { SignerContainer } from "./SignerContainer";
 
 type TExternalProps = {
-  data: TSignerRequestData[ESignerType.WC_SESSION_REQUEST];
+  data: TSignerRequestData[ESignerType.SIGN_MESSAGE];
   approve: () => void;
   reject: () => void;
 };
 
-const WCSessionRequestSigner: React.FunctionComponent<TExternalProps> = ({ data, ...rest }) => (
-  <SignerContainer icon={EIconType.BACKUP} headline="Connection request" {...rest}>
-    <Text style={styles.body}>
-      <BoldText>{data.peerName}</BoldText> is requesting to connect to your account via{" "}
-      <Link url={data.peerUrl}>{data.peerUrl}</Link>.
-    </Text>
+const SignMessageSigner: React.FunctionComponent<TExternalProps> = ({ data, ...rest }) => (
+  <SignerContainer icon={EIconType.BACKUP} headline="Sign message request" {...rest}>
+    <Text style={styles.body}>Please confirm message request.</Text>
   </SignerContainer>
 );
 
@@ -33,4 +28,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export { WCSessionRequestSigner };
+export { SignMessageSigner };
