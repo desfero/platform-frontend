@@ -53,7 +53,7 @@ const BottomSheetModal: React.FunctionComponent<TExternalProps> = ({ isVisible, 
             accessibilityLiveRegion="polite"
             style={[styles.backdrop, backdrop]}
           >
-            <Animated.View style={[styles.sheet, slideUp]}>
+            <Animated.View style={[styles.sheet, slideUp, { height }]}>
               <View style={[styles.content, { paddingBottom: bottom }]} pointerEvents="box-none">
                 {memoizedChildren}
               </View>
@@ -79,7 +79,6 @@ const styles = StyleSheet.create({
     top: "100%",
     left: 0,
     right: 0,
-    height: "100%",
     justifyContent: "flex-end",
   },
   content: {
