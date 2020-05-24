@@ -1,4 +1,3 @@
-import { InvariantError } from "@neufund/shared-utils";
 import identity from "lodash/fp/identity";
 import pickBy from "lodash/fp/pickBy";
 import * as React from "react";
@@ -8,6 +7,7 @@ import Backup from "../../assets/backup.svg";
 import Close from "../../assets/close.svg";
 import Home from "../../assets/home.svg";
 import Investments from "../../assets/investments.svg";
+import Pending from "../../assets/pending.svg";
 import Placeholder from "../../assets/placeholder.svg";
 import Profile from "../../assets/profile.svg";
 import QrCode from "../../assets/qr-code.svg";
@@ -32,16 +32,18 @@ enum EIconType {
   ETH = "eth",
   QR_CODE = "qr-code",
   BACKUP = "backup",
+  PENDING = "pending",
 }
 
 const pickByIdentity = pickBy(identity);
 
-const icons = {
+const icons: Record<EIconType, typeof Close> = {
   [EIconType.BACKUP]: Backup,
   [EIconType.CLOSE]: Close,
   [EIconType.ETH]: Eth,
   [EIconType.HOME]: Home,
   [EIconType.N_EUR]: NEur,
+  [EIconType.PENDING]: Pending,
   [EIconType.PLACEHOLDER]: Placeholder,
   [EIconType.PORTFOLIO]: Investments,
   [EIconType.PROFILE]: Profile,
@@ -52,16 +54,7 @@ const icons = {
   [EIconType.YES]: Yes,
 };
 
-const getIcon = (type: EIconType) => {
-  const icon = icons[type];
-  if (!icon) {
-    throw new InvariantError(`Invalid icon type ${type}`);
-  }
-
-  return icon;
-};
-
-type TSvgIconProps = React.ComponentProps<ReturnType<typeof getIcon>>;
+type TSvgIconProps = React.ComponentProps<typeof Close>;
 
 type TExternalProps = {
   type: EIconType;
@@ -72,7 +65,7 @@ type TExternalProps = {
  * A wrapper component which provides access to our a predefined list of icons by `type` prop
  */
 const Icon: React.FunctionComponent<TExternalProps> = ({ type, style, ...props }) => {
-  const Component = getIcon(type);
+  const Component = icons[type];
 
   // extract color from styles so all styles are consistently provided though styles
   const { color, width, height, ...styleWithoutColor } = StyleSheet.flatten(style);

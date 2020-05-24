@@ -54,6 +54,11 @@ const typographyStyles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 24,
   },
+  textBold: {
+    ...fonts.robotoMedium,
+    fontSize: 14,
+    lineHeight: 24,
+  },
   text: {
     ...fonts.robotoRegular,
     fontSize: 14,

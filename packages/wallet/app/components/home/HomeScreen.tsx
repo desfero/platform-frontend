@@ -43,7 +43,7 @@ const HomeLayout: React.FunctionComponent<TStateProps> = () => (
       <Section heading="Wallet" subHeading="€2 318.28" style={styles.section}>
         <Asset
           tokenImage={EIconType.N_EUR}
-          name="nEur"
+          name="nEUR"
           token={toEquityTokenSymbol("nEUR")}
           balance="1000"
           analogBalance="1000"

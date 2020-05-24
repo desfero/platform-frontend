@@ -1,14 +1,13 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
-import { Text } from "react-native";
 
 import { EAppRoutes } from "./appRoutes";
 import { HomeScreen } from "./components/home/HomeScreen";
 import { PortfolioScreen } from "./components/portfolio/PortfolioScreen";
 import { ProfileScreen } from "./components/profile/ProfileScreen";
 import { EIconType, Icon } from "./components/shared/Icon";
+import { MenuLabel } from "./components/shared/typography/MenuLabel";
 import { WalletScreen } from "./components/wallet/WalletScreen";
-import { typographyStyles } from "./styles/typography";
 import { useTheme } from "./themes/ThemeProvider";
 
 const Tab = createBottomTabNavigator();
@@ -58,9 +57,7 @@ const AppAuthRouterTabs: React.FunctionComponent = () => {
           name={name}
           component={component}
           options={{
-            tabBarLabel: ({ color }: TBarProps) => (
-              <Text style={{ ...typographyStyles.menuLabel, color }}>{name}</Text>
-            ),
+            tabBarLabel: ({ color }: TBarProps) => <MenuLabel style={{ color }}>{name}</MenuLabel>,
             tabBarIcon: ({ color }: TBarProps) => <Icon style={{ color }} type={icon} />,
           }}
         />
