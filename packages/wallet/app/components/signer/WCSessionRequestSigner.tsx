@@ -32,7 +32,7 @@ const WCSessionRequestSigner: React.FunctionComponent<TExternalProps> = ({
       </Text>
     </View>
 
-    <Button layout={EButtonLayout.PRIMARY} onPress={approve}>
+    <Button layout={EButtonLayout.PRIMARY} style={styles.acceptButton} onPress={approve}>
       Confirm
     </Button>
     <Button layout={EButtonLayout.TEXT} onPress={reject}>
@@ -59,10 +59,7 @@ const styles = StyleSheet.create({
     color: grayLighter2,
   },
   acceptButton: {
-    ...spacingStyles.mt3,
-  },
-  rejectButton: {
-    ...spacingStyles.mt1,
+    ...spacingStyles.mb1,
   },
 });
 

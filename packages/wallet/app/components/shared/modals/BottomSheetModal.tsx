@@ -1,85 +1,68 @@
 import * as React from "react";
-import { View, Animated, StyleSheet, useWindowDimensions, SafeAreaView } from "react-native";
-import { usePrevious } from "../../../hooks/usePrevious";
+import { View, Animated, StyleSheet, useWindowDimensions } from "react-native";
+import { useSafeArea } from "react-native-safe-area-context";
 
 import { baseWhite } from "../../../styles/colors";
 import { spacingStyles } from "../../../styles/spacings";
+import { BaseAnimation } from "../animations/BaseAnimation";
 
 type TExternalProps = {
   isVisible: boolean;
 };
 
-const BottomSheetModal: React.FunctionComponent<TExternalProps> = ({ children, isVisible }) => {
-  // save previous children value to show while the modal is closing
-  // in case the modal content is dynamic
-  const previousChildren = usePrevious(children);
-
-  const progressRef = React.useRef(new Animated.Value(0));
-
-  const wasVisible = usePrevious(isVisible);
-
-  React.useEffect(() => {
-    if (!wasVisible && isVisible) {
-      Animated.timing(progressRef.current, {
-        duration: 1000,
-        useNativeDriver: true,
-        toValue: 1,
-      }).start();
-    }
-
-    if (wasVisible && !isVisible) {
-      Animated.timing(progressRef.current, {
-        duration: 10000,
-        useNativeDriver: true,
-        toValue: 0,
-      }).start();
-    }
-  }, [wasVisible, isVisible]);
-
+const BottomSheetModal: React.FunctionComponent<TExternalProps> = ({ isVisible, ...rest }) => {
   const { height } = useWindowDimensions();
-
-  const backdrop = {
-    transform: [
-      {
-        translateY: progressRef.current.interpolate({
-          inputRange: [0, 0.01],
-          outputRange: [height, 0],
-          extrapolate: "clamp",
-        }),
-      },
-    ],
-    opacity: progressRef.current.interpolate({
-      inputRange: [0.01, 0.5],
-      outputRange: [0, 1],
-      extrapolate: "clamp",
-    }),
-  };
-
-  const slideUp = {
-    transform: [
-      {
-        translateY: progressRef.current.interpolate({
-          inputRange: [0, 1],
-          outputRange: [0, -1 * height],
-          extrapolate: "clamp",
-        }),
-      },
-    ],
-  };
+  const { bottom } = useSafeArea();
 
   return (
-    <Animated.View
-      pointerEvents={isVisible ? "auto" : "none"}
-      accessibilityViewIsModal
-      accessibilityLiveRegion="polite"
-      style={[styles.backdrop, backdrop]}
-    >
-      <Animated.View style={[styles.sheet, slideUp]}>
-        <View style={styles.content} pointerEvents="box-none">
-          <SafeAreaView>{children ?? previousChildren}</SafeAreaView>
-        </View>
-      </Animated.View>
-    </Animated.View>
+    <BaseAnimation
+      isActive={isVisible}
+      render={({ progress, memoizedChildren }) => {
+        const backdrop = {
+          transform: [
+            {
+              translateY: progress.interpolate({
+                inputRange: [0, 0.01],
+                outputRange: [height, 0],
+                extrapolate: "clamp",
+              }),
+            },
+          ],
+          opacity: progress.interpolate({
+            inputRange: [0.01, 0.5],
+            outputRange: [0, 1],
+            extrapolate: "clamp",
+          }),
+        };
+
+        const slideUp = {
+          transform: [
+            {
+              translateY: progress.interpolate({
+                inputRange: [0, 1],
+                outputRange: [0, -1 * height],
+              }),
+            },
+          ],
+        };
+
+        return (
+          <Animated.View
+            pointerEvents={isVisible ? "auto" : "none"}
+            accessibilityViewIsModal
+            accessibilityLiveRegion="polite"
+            style={[styles.backdrop, backdrop]}
+          >
+            <Animated.View style={[styles.sheet, slideUp]}>
+              <View style={[styles.content, { paddingBottom: bottom }]} pointerEvents="box-none">
+                {memoizedChildren}
+              </View>
+            </Animated.View>
+          </Animated.View>
+        );
+      }}
+      {...rest}
+    />
   );
 };
 
