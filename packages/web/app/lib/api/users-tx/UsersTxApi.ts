@@ -11,8 +11,8 @@ import {
   GasStipendSchema,
   OOO_TRANSACTION_TYPE,
   TPendingTxs,
+  TxPendingExternal,
   TxPendingWithMetadata,
-  TxWithMetadata,
 } from "./interfaces";
 
 const USER_API_ROOT = "/api/user";
@@ -27,7 +27,7 @@ export class UsersTxApi {
   public async pendingTxs(): Promise<TPendingTxs> {
     this.logger.info("Fetching pending transactions");
 
-    const response = await this.httpClient.get<Array<TxPendingWithMetadata | TxWithMetadata>>({
+    const response = await this.httpClient.get<Array<TxPendingWithMetadata | TxPendingExternal>>({
       baseUrl: USER_API_ROOT,
       url: "/pending_transactions/me",
     });
@@ -41,7 +41,7 @@ export class UsersTxApi {
         // move other transactions to OOO transactions
         oooTransactions: response.body.filter(
           tx => tx.transactionType === OOO_TRANSACTION_TYPE,
-        ) as TxWithMetadata[],
+        ) as TxPendingExternal[],
       };
     }
 

@@ -6,7 +6,7 @@ import * as ethSig from "eth-sig-util";
 import { addHexPrefix, hashPersonalMessage, toBuffer } from "ethereumjs-util";
 
 import { ITxData, ITxMetadata } from "../../../lib/web3/types";
-import { EWalletSubType, EWalletType, ILightWalletMetadata } from "../../../modules/web3/types";
+import { ILightWalletMetadata } from "../../../modules/web3/types";
 import { IPersonalWallet } from "../PersonalWeb3";
 import { IRawTxData } from "../types";
 import { Web3Adapter } from "../Web3Adapter";
@@ -85,7 +85,7 @@ export class LightWallet implements IPersonalWallet {
       }
     });
 
-  public sendTransaction = async (txData: TxData): Promise<string> =>
+  public sendTransaction = async (txData: ITxData, _: ITxMetadata): Promise<string> =>
     this.withPasswordLock(async () => {
       const nonce = await this.web3Adapter.getTransactionCount(txData.from);
 
@@ -109,47 +109,8 @@ export class LightWallet implements IPersonalWallet {
         encodedTxData,
         this.ethereumAddress,
       );
-<<<<<<< HEAD
-      // from signature parameters to eth_sign RPC
-      // @see https://github.com/ethereumjs/ethereumjs-util/blob/master/docs/index.md#torpcsig
-      return ethSig.concatSig(rawSignedMsg.v, rawSignedMsg.r, rawSignedMsg.s);
-    } catch (e) {
-      throw new LightSignMessageError();
-    }
-  };
-
-  public sendTransaction = async (txData: ITxData, _: ITxMetadata): Promise<string> => {
-    if (!this.password) {
-      throw new LightWalletMissingPasswordError();
-    }
-    const nonce = await this.web3Adapter.getTransactionCount(txData.from);
-
-    const encodedTxData: IRawTxData = {
-      from: txData.from,
-      to: addHexPrefix(txData.to!),
-      gas: addHexPrefix(new BigNumber((txData.gas && txData.gas.toString()) || "0").toString(16)),
-      gasPrice: addHexPrefix(
-        new BigNumber((txData.gasPrice && txData.gasPrice.toString()) || "0").toString(16),
-      ),
-      nonce: addHexPrefix(new BigNumber((nonce && nonce.toString()) || "0").toString(16)),
-      value: addHexPrefix(
-        new BigNumber((txData.value && txData.value.toString()) || "0").toString(16),
-      ),
-      data: addHexPrefix((txData.data && txData.data.toString()) || ""),
-    };
-
-    const rawData = LightWalletProvider.signing.signTx(
-      this.vault.walletInstance,
-      await getWalletKey(this.vault.walletInstance, this.password),
-      encodedTxData,
-      this.ethereumAddress,
-    );
-    return await this.web3Adapter.sendRawTransaction(addHexPrefix(rawData));
-  };
-=======
       return this.web3Adapter.sendRawTransaction(addHexPrefix(rawData));
     });
->>>>>>> master
 
   public getWalletPrivateData = async (): Promise<{
     seed: string;

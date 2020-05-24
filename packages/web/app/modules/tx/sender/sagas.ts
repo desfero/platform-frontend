@@ -6,7 +6,7 @@ import {
   TPendingTxs,
   TxPendingExternal,
   TxPendingWithMetadata,
-} from "../../../lib/api/users/interfaces";
+} from "../../../lib/api/users-tx/interfaces";
 import { BrowserWalletError } from "../../../lib/web3/browser-wallet/BrowserWallet";
 import { LedgerError } from "../../../lib/web3/ledger-wallet/errors";
 import { LightError } from "../../../lib/web3/light-wallet/LightWallet";

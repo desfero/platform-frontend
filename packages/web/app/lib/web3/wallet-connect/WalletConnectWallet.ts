@@ -1,5 +1,5 @@
 import { ESignerType, EWalletSubType, EWalletType } from "@neufund/shared-modules";
-import { EthereumAddressWithChecksum, safeSetTimeout } from "@neufund/shared-utils";
+import { assertNever, EthereumAddressWithChecksum, safeSetTimeout } from "@neufund/shared-utils";
 import { IClientMeta, IConnector } from "@walletconnect/types";
 import { parseTransactionData } from "@walletconnect/utils";
 import { addHexPrefix, hashPersonalMessage, toBuffer } from "ethereumjs-util";

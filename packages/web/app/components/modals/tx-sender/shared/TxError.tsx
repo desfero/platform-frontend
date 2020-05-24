@@ -4,8 +4,8 @@ import { FormattedMessage } from "react-intl-phraseapp";
 import { compose } from "recompose";
 
 import { externalRoutes } from "../../../../config/externalRoutes";
-import { Tx } from "../../../../lib/api/users-tx/interfaces";
-import { ITxData } from "../../../../lib/web3/types";
+import { TxPendingData } from "../../../../lib/api/users-tx/interfaces";
+import { ETxType, ITxData } from "../../../../lib/web3/types";
 import { ETransactionErrorType } from "../../../../modules/tx/sender/reducer";
 import {
   selectTxAdditionalData,
@@ -102,7 +102,7 @@ const getErrorTitleByType = (type: ETxType, error?: ETransactionErrorType) => {
 };
 
 type TTxErrorLayoutProps = {
-  txData?: Tx;
+  txData?: TxPendingData;
   error?: ETransactionErrorType;
   blockId?: number;
   txHash: string;

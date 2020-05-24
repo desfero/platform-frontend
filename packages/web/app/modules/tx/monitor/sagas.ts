@@ -6,7 +6,7 @@ import { addHexPrefix } from "ethereumjs-util";
 import * as Web3 from "web3";
 
 import { TGlobalDependencies } from "../../../di/setupBindings";
-import { TPendingTxs, TxPendingWithMetadata } from "../../../lib/api/users/interfaces";
+import { TPendingTxs, TxPendingWithMetadata } from "../../../lib/api/users-tx/interfaces";
 import { ETxType, ITxData, ITxMetadata } from "../../../lib/web3/types";
 import { OutOfGasError, RevertedTransactionError } from "../../../lib/web3/Web3Adapter";
 import { actions } from "../../actions";
