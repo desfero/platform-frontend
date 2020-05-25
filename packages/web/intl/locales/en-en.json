@@ -45,7 +45,7 @@
   "bank-transfer.redeem.init.total-redeemed": "Total redeemed",
   "bank-transfer.redeem.init.wallet-name": "nEUR Wallet",
   "bank-transfer.redeem.success.congratulations": "Congratulations!",
-  "bank-transfer.redeem.success.explanation": "Congratulations! Your funds are on the way to your bank account. We'll email you once the request has been completed and the funds transferred to your bank account. The nEUR redeem takes around 4–6 business days to complete.",
+  "bank-transfer.redeem.success.explanation": "Congratulations! Your funds are on the way to your bank account. We'll email you once the request has been completed and the funds are transferred to your bank account. The nEUR redeem takes around 4–6 business days to complete.",
   "bank-transfer.redeem.success.go-to-wallet": "Go to wallet",
   "bank-transfer.redeem.summary.bank-fee": "Bank transaction fee",
   "bank-transfer.redeem.summary.continue": "CONTINUE",
