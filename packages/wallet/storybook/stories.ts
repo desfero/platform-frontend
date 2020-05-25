@@ -16,7 +16,6 @@ import "../app/components/shared/forms/layouts/TextAreaInput.stories";
 import "../app/components/shared/forms/layouts/HelperText.stories";
 import "../app/components/shared/forms/layouts/Label.stories";
 import "../app/components/shared/forms/layouts/FieldLayout.stories";
-
-import "../app/components/wallet/transactions/Transactions.stories";
-import "../app/components/wallet/transactions/SuccessfulTransaction.stories";
-import "../app/components/wallet/transactions/PendingTransaction.stories";
+import "../app/components/screens/WalletScreen/TransactionSection/Transactions.stories";
+import "../app/components/screens/WalletScreen/TransactionSection/SuccessfulTransaction.stories";
+import "../app/components/screens/WalletScreen/TransactionSection/PendingTransaction.stories";
