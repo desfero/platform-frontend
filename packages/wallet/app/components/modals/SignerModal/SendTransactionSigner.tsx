@@ -1,11 +1,11 @@
 import * as React from "react";
 import { StyleSheet } from "react-native";
 
-import { ESignerType, TSignerRequestData } from "../../modules/signer-ui/types";
-import { grayLighter2 } from "../../styles/colors";
-import { spacingStyles } from "../../styles/spacings";
-import { EIconType } from "../shared/Icon";
-import { Text } from "../shared/typography/Text";
+import { ESignerType, TSignerRequestData } from "../../../modules/signer-ui/types";
+import { grayLighter2 } from "../../../styles/colors";
+import { spacingStyles } from "../../../styles/spacings";
+import { EIconType } from "../../shared/Icon";
+import { Text } from "../../shared/typography/Text";
 import { SignerContainer } from "./SignerContainer";
 
 type TExternalProps = {

@@ -7,7 +7,7 @@ import {
   setupSignerUIModule,
   signerUIModuleApi,
 } from "../../../modules/signer-ui/module";
-import { ESignerType, TSignerSignPayload } from "../../modules/signer-ui/types";
+import { ESignerType, TSignerSignPayload } from "../../../modules/signer-ui/types";
 import { appConnect } from "../../../store/utils";
 import { BottomSheetModal } from "../../shared/modals/BottomSheetModal";
 import { SendTransactionSigner } from "./SendTransactionSigner";
