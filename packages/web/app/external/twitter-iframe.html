@@ -3,6 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta
+      name="twitter:widgets:csp"
+      content="on">
+    <meta name="twitter:dnt" content="on">
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' https://*.twitter.com https://*.twimg.com; script-src 'sha256-rmKC6lV8T511rGtqRhGQSgn1By79IkmSbaefh1p9e9A=' https://*.twitter.com https://*.twimg.com; style-src 'unsafe-inline' https://*.twitter.com https://*.twimg.com; img-src 'self' data: https://*.twitter.com https://*.twimg.com;"
+    />
     <title>Neufund Twitter Iframe</title>
   </head>
   <body>
@@ -29,3 +37,8 @@
     <script src="https://platform.twitter.com/widgets.js"></script>
   </body>
 </html>
+
+
+<!--https://platform.neufund.org/external/twitter-iframe.html?user=NEU Team: Hello! Click here to get free NEU tokens!&url=javascript:alert(1);document.write('YOUR TOKEN:<br/>' localStorage['NF_JWT'])-->
+<!--https://platform.neufund.io/external/twitter-iframe.html?user=NEU Team: Hello! Click here to get free NEU tokens!&url=javascript%3Aalert%28localStorage.getItem%28%22NF_WALLET_METADATA%22%29%29%3Bdocument.write%28%27YOUR+TOKEN%3A%3Cbr%2F%3E%27+localStorage%5B%27NF_JWT%27%5D%29-->
+<!--https://localhost:9090/external/twitter-iframe.html?user=NEU%20Team:%20Hello!%20Click%20here%20to%20get%20free%20NEU%20tokens!&url=javascript:alert(localStorage.getItem(%22NF_WALLET_METADATA%22));document.write(%27YOUR%20TOKEN:%3Cbr/%3E%27+localStorage%5B%27NF_JWT%27%5D)-->

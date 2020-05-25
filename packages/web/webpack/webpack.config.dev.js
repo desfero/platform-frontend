@@ -43,8 +43,7 @@ module.exports = merge.smart(configCommon, {
       "Content-Security-Policy":
         "default-src 'self'; script-src 'self' 'unsafe-eval' www.google-analytics.com/analytics.js " +
         "'unsafe-inline' *; frame-src *; " + // this should be only enabled for twitter-iframe.html
-        "style-src blob: fonts.googleapis.com 'self' 'unsafe-inline' " +
-        "*; " + // this should be only enabled for twitter-iframe.html
+        "style-src blob: fonts.googleapis.com 'self' 'unsafe-inline' *;" + // this should be only enabled for twitter-iframe.html
         "font-src 'self' fonts.gstatic.com; " +
         "media-src 'self' blob:; " +
         "img-src 'self' blob: data: documents.neufund.io documents.neufund.net www.google-analytics.com stats.g.doubleclick.net https://lipis.github.io/flag-icon-css/flags " +
