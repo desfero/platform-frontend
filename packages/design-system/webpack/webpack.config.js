@@ -63,7 +63,7 @@ const webpackConfig = (env, argv = {}) => {
       ],
     },
     // node modules that are used by web pkg and hence shouldn't be bundled
-    externals: Object.keys(peerDependencies),
+    externals: [...Object.keys(peerDependencies), "lodash/fp"],
     module: {
       rules: [
         {
