@@ -1,4 +1,3 @@
-import { invariant } from "@neufund/shared-utils";
 import * as React from "react";
 import { Animated } from "react-native";
 
@@ -16,7 +15,7 @@ type TExternalProps<T> = {
 type TUIState = {
   animationProgress: Animated.Value;
   isRendered: boolean;
-  children: React.ReactNode | undefined;
+  memoizedChildren: React.ReactNode | undefined;
 };
 
 /**
@@ -30,7 +29,7 @@ class BaseAnimation<T extends object> extends React.Component<TExternalProps<T>,
   state: TUIState = {
     animationProgress: new Animated.Value(0),
     isRendered: false,
-    children: undefined,
+    memoizedChildren: undefined,
   };
 
   static getDerivedStateFromProps(nextProps: TExternalProps<unknown>) {
@@ -40,12 +39,17 @@ class BaseAnimation<T extends object> extends React.Component<TExternalProps<T>,
         // update children until element is not active anymore
         // in case element is not active render the latest active state
         // this will help with content jumping when redux state was already cleared
-        // from the element content
-        children: nextProps.children,
+        memoizedChildren: nextProps.children,
       };
     }
 
     return null;
+  }
+
+  componentDidMount() {
+    if (this.props.isActive) {
+      this.showAnimation();
+    }
   }
 
   componentDidUpdate(prevProps: TExternalProps<T>) {
@@ -86,22 +90,20 @@ class BaseAnimation<T extends object> extends React.Component<TExternalProps<T>,
       } else {
         this.setState({
           isRendered: false,
-          children: undefined,
+          memoizedChildren: undefined,
         });
       }
     });
   }
 
   render() {
-    const { isRendered, animationProgress, children } = this.state;
+    const { isRendered, animationProgress, memoizedChildren } = this.state;
 
     if (!isRendered) return null;
 
-    invariant(children, "Animation children should be defined at this point");
-
     return this.props.render({
       progress: animationProgress,
-      memoizedChildren: children,
+      memoizedChildren,
       ...this.props,
     });
   }

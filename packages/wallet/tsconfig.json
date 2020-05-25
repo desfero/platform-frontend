@@ -34,8 +34,8 @@
     "./babel.config.js",
     "./metro.config.js",
     "./tests/e2e",
-    "./app/**/*.spec.*",
-    "./app/**/*.specUtils.*",
+    "./**/*.spec.*",
+    "./**/*.specUtils.*",
     "./**/__mocks__/**/*"
   ]
 }

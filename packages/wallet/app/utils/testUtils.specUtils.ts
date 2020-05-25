@@ -1,6 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import isFunction from "lodash/fp/isFunction";
+import { set } from "mockdate";
+
+const timeTravel = (msToAdvance: number) => {
+  const now = Date.now();
+  set(new Date(now + msToAdvance));
+  jest.advanceTimersByTime(msToAdvance);
+};
+
+const setupTimeTravel = () => {
+  set(0);
+  jest.useFakeTimers();
+};
 
 const callGuard = (methodName: string) => (...args: any[]) => {
   throw new Error(`Unexpected call to method: '${methodName}' with args: ${args}`);
@@ -40,4 +52,4 @@ function createMock<T>(clazz: new (...args: any[]) => T, mockImpl: Partial<T>): 
   return mock;
 }
 
-export { createMock };
+export { createMock, timeTravel, setupTimeTravel };

@@ -6,6 +6,6 @@
     "noUnusedParameters": false,
     "types": ["jest"]
   },
-  "include": ["./**/*.d.ts", "./app/**/*.spec.*", "./app/**/*.specUtils.*", "./**/__mocks__/**/*"],
+  "include": ["./**/*.d.ts", "./**/*.spec.*", "./**/*.specUtils.*", "./**/__mocks__/**/*"],
   "exclude": ["node_modules"]
 }
