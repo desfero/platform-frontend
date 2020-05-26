@@ -1,14 +1,15 @@
 import { EquityToken, isInEnum } from "@neufund/shared-utils";
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 import { baseWhite, bluish } from "../../../styles/colors";
 import { spacingStyles } from "../../../styles/spacings";
-import { typographyStyles } from "../../../styles/typography";
 import { EIconType } from "../Icon";
+import { Money } from "../Money";
 import { HelperText } from "../forms/layouts/HelperText";
 import { Panel } from "../panel/Panel";
 import { BodyBoldText } from "../typography/BodyText";
+import { MenuLabelBold } from "../typography/MenuLabel";
 import { TokenIcon, TokenImage } from "./TokenIcon";
 
 type TPanelProps = React.ComponentProps<typeof Panel>;
@@ -41,7 +42,7 @@ const Asset: React.FunctionComponent<TExternalProps> = ({
   <Panel contentContainerStyle={styles.panelContent} {...props}>
     {type === EAssetType.RESERVED && (
       <View style={styles.reservedContainer}>
-        <Text style={styles.reservedText}>Reserved</Text>
+        <MenuLabelBold style={styles.reservedText}>Reserved</MenuLabelBold>
       </View>
     )}
 
@@ -60,10 +61,10 @@ const Asset: React.FunctionComponent<TExternalProps> = ({
     </View>
     <View style={styles.balanceContainer}>
       <BodyBoldText style={styles.balanceText}>
-        {balance} {token}
+        <Money value={balance} currency={token} decimalPlaces={18} />
       </BodyBoldText>
       <HelperText style={styles.analogBalanceText}>
-        ≈ {analogBalance} {analogToken}
+        ≈ <Money value={analogBalance} currency={analogToken} decimalPlaces={18} />
       </HelperText>
     </View>
   </Panel>
@@ -104,8 +105,6 @@ const styles = StyleSheet.create({
     transform: [{ rotate: "-45deg" }],
   },
   reservedText: {
-    ...typographyStyles.menuLabelBold,
-
     color: baseWhite,
     textTransform: "uppercase",
   },

@@ -5,6 +5,7 @@ import {
   EthereumHDMnemonic,
   EthereumHDPath,
   EthereumPrivateKey,
+  EthereumTxHash,
 } from "./types";
 
 const toEquityTokenSymbol = (symbol: string) => symbol as EquityToken;
@@ -23,6 +24,8 @@ const toEthereumPrivateKey = (privateKey: string) => privateKey as EthereumPriva
 
 const toEthereumHDMnemonic = (mnemonic: string) => mnemonic as EthereumHDMnemonic;
 
+const toEthereumTxHash = (txHash: string) => txHash as EthereumTxHash;
+
 export {
   toEquityTokenSymbol,
   toEthereumAddress,
@@ -30,4 +33,5 @@ export {
   toEthereumPrivateKey,
   toEthereumHDMnemonic,
   toEthereumChecksumAddress,
+  toEthereumTxHash,
 };

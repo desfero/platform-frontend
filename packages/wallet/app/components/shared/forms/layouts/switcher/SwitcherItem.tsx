@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 import {
   baseGray,
@@ -9,10 +9,10 @@ import {
   grayLighter4,
 } from "../../../../../styles/colors";
 import { spacingStyles } from "../../../../../styles/spacings";
-import { typographyStyles } from "../../../../../styles/typography";
 import { st } from "../../../../utils";
 import { EIconType, Icon } from "../../../Icon";
 import { BodyText } from "../../../typography/BodyText";
+import { MenuLabel } from "../../../typography/MenuLabel";
 
 type TTouchableProps = React.ComponentProps<typeof TouchableOpacity>;
 
@@ -56,9 +56,9 @@ const SwitcherItem: React.FunctionComponent<TItemExternalProps> = ({
         <BodyText style={styles.title} numberOfLines={1}>
           {title}
         </BodyText>
-        <Text style={styles.subTitle} numberOfLines={1}>
+        <MenuLabel style={styles.subTitle} numberOfLines={1}>
           {subTitle}
-        </Text>
+        </MenuLabel>
       </View>
     </>
   </TouchableOpacity>
@@ -94,7 +94,6 @@ const styles = StyleSheet.create({
     color: baseGray,
   },
   subTitle: {
-    ...typographyStyles.menuLabel,
     color: blueyGray,
   },
 });

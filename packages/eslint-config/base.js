@@ -1,6 +1,6 @@
 module.exports = {
   env: {
-    es6: true,
+    es6: true
   },
   extends: [
     "eslint:recommended",
@@ -8,11 +8,11 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "plugin:import/typescript",
     "prettier",
-    "prettier/@typescript-eslint",
+    "prettier/@typescript-eslint"
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
-    sourceType: "module",
+    sourceType: "module"
   },
   plugins: ["@typescript-eslint", "import"],
   rules: {
@@ -63,7 +63,7 @@ module.exports = {
     "@typescript-eslint/array-type": ["error", { default: "array-simple" }],
     "@typescript-eslint/consistent-type-assertions": [
       "error",
-      { assertionStyle: "as", objectLiteralTypeAssertions: "never" },
+      { assertionStyle: "as", objectLiteralTypeAssertions: "never" }
     ],
     "@typescript-eslint/no-base-to-string": "error",
     "@typescript-eslint/no-dynamic-delete": "error",
@@ -94,8 +94,8 @@ module.exports = {
         ignore: [0],
         ignoreEnums: true,
         ignoreNumericLiteralTypes: true,
-        ignoreReadonlyClassProperties: true,
-      },
+        ignoreReadonlyClassProperties: true
+      }
     ],
 
     /**
@@ -106,27 +106,27 @@ module.exports = {
       {
         groups: [
           ["builtin", "external"],
-          ["internal", "parent", "sibling", "index"],
+          ["internal", "parent", "sibling", "index"]
         ],
         "newlines-between": "always",
         alphabetize: {
-          order: "asc",
-        },
-      },
+          order: "asc"
+        }
+      }
     ],
     "import/no-useless-path-segments": "error",
     "import/first": "error",
     "import/no-duplicates": "error",
     "import/newline-after-import": "error",
     "import/no-named-default": "error",
-    "import/no-default-export": "error",
+    "import/no-default-export": "error"
   },
   overrides: [
     {
       files: ["**/*.stories.*", "**/*.spec.*", "**/e2e/**"],
       rules: {
-        "@typescript-eslint/no-magic-numbers": "off",
-      },
-    },
-  ],
+        "@typescript-eslint/no-magic-numbers": "off"
+      }
+    }
+  ]
 };

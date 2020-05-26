@@ -1,4 +1,8 @@
 import { getStorybookUI, configure } from "@storybook/react-native";
+import React from "react";
+import { IntlProvider } from "react-intl";
+import { InteractionManager } from "react-native";
+import RNBootSplash from "react-native-bootsplash";
 
 import "./rn-addons";
 
@@ -15,4 +19,20 @@ configure(() => {
 // issue with storybook server https://github.com/storybookjs/react-native/issues/13
 const StorybookUIRoot = getStorybookUI({ asyncStorage: null });
 
-export { StorybookUIRoot };
+const Storybook: React.FunctionComponent = () => {
+  React.useEffect(() => {
+    InteractionManager.runAfterInteractions(() => {
+      // we do have custom logic when to hide splash screen for the normal flow
+      // for storybook we can hide just when we have UI ready
+      RNBootSplash.hide();
+    });
+  }, []);
+
+  return (
+    <IntlProvider locale="en-gb">
+      <StorybookUIRoot />
+    </IntlProvider>
+  );
+};
+
+export { Storybook };

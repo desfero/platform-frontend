@@ -13,14 +13,14 @@ import { App } from "./app/App";
 import { AppContainer } from "./app/components/containers/AppContainer";
 import { createAppStore } from "./app/store/create";
 import { TAppGlobalState } from "./app/store/types";
-import { StorybookUIRoot } from "./storybook";
+import { Storybook } from "./storybook";
 
 if (__DEV__) {
   import("./app/devUtils");
 }
 
 function startupStorybookApp(): void {
-  AppRegistry.registerComponent(appName, () => StorybookUIRoot);
+  AppRegistry.registerComponent(appName, () => Storybook);
 }
 
 function startupApp(): void {
