@@ -7,7 +7,6 @@ import {
 import { Container, ContainerModule } from "inversify";
 
 import { IBackendRoot, IConfig } from "../config/getConfig";
-import { AnalyticsApi } from "../lib/api/analytics-api/AnalyticsApi";
 import { EtoApi } from "../lib/api/eto/EtoApi";
 import { EtoFileApi } from "../lib/api/eto/EtoFileApi";
 import { EtoNomineeApi } from "../lib/api/eto/EtoNomineeApi";
@@ -77,10 +76,6 @@ export function setupBindings(config: IConfig): ContainerModule {
 
     bind<VaultApi>(symbols.vaultApi)
       .to(VaultApi)
-      .inSingletonScope();
-
-    bind<AnalyticsApi>(symbols.analyticsApi)
-      .to(AnalyticsApi)
       .inSingletonScope();
 
     bind<UsersTxApi>(symbols.usersTxApi)
@@ -268,7 +263,6 @@ export const createGlobalDependencies = (container: Container) => ({
   apiEtoNomineeService: container.get<EtoNomineeApi>(symbols.apiEtoNomineeService),
   apiUserTxService: container.get<UsersTxApi>(symbols.usersTxApi),
   vaultApi: container.get<VaultApi>(symbols.vaultApi),
-  analyticsApi: container.get<AnalyticsApi>(symbols.analyticsApi),
   fileStorageApi: container.get<FileStorageApi>(symbols.fileStorageService),
   gasApi: container.get<GasApi>(symbols.gasApi),
   apiImmutableStorage: container.get<ImmutableStorageApi>(symbols.apiImmutableStorage),

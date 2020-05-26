@@ -1,13 +1,11 @@
 import { Button, EButtonLayout } from "@neufund/design-system";
+import { ETransactionDirection, txHistoryApi } from "@neufund/shared-modules";
 import * as cn from "classnames";
 import * as React from "react";
 import { FormattedDate } from "react-intl";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { branch, compose, renderComponent } from "recompose";
 
-import { ETransactionDirection } from "../../../lib/api/analytics-api/interfaces";
-import { actions } from "../../../modules/actions";
-import { selectTxHistoryPaginated } from "../../../modules/tx-history/selectors";
 import { selectPlatformMiningTransaction } from "../../../modules/tx/monitor/selectors";
 import { appConnect } from "../../../store";
 import { onEnterAction } from "../../../utils/react-connected-components/OnEnterAction";
@@ -24,7 +22,7 @@ import { Transaction, TransactionData, TransactionName } from "../../shared/tran
 import * as styles from "./TransactionsHistory.module.scss";
 
 type TStateProps = {
-  transactionsHistoryPaginated: ReturnType<typeof selectTxHistoryPaginated>;
+  transactionsHistoryPaginated: ReturnType<typeof txHistoryApi.selectors.selectTxHistoryPaginated>;
   pendingTransaction: ReturnType<typeof selectPlatformMiningTransaction>;
 };
 
@@ -118,23 +116,23 @@ const TransactionListLayout: React.FunctionComponent<TStateProps & TDispatchProp
 const TransactionsList = compose<TStateProps & TDispatchProps, {}>(
   onEnterAction({
     actionCreator: dispatch => {
-      dispatch(actions.txHistory.loadTransactions());
+      dispatch(txHistoryApi.actions.loadTransactions());
     },
   }),
   onLeaveAction({
     actionCreator: dispatch => {
-      dispatch(actions.txHistory.stopWatchingForNewTransactions());
+      dispatch(txHistoryApi.actions.stopWatchingForNewTransactions());
     },
   }),
   appConnect<TStateProps, TDispatchProps>({
     stateToProps: state => ({
-      transactionsHistoryPaginated: selectTxHistoryPaginated(state),
+      transactionsHistoryPaginated: txHistoryApi.selectors.selectTxHistoryPaginated(state),
       pendingTransaction: selectPlatformMiningTransaction(state),
     }),
     dispatchToProps: dispatch => ({
-      loadTxHistoryNext: () => dispatch(actions.txHistory.loadNextTransactions()),
+      loadTxHistoryNext: () => dispatch(txHistoryApi.actions.loadNextTransactions()),
       showTransactionDetails: (id: string) =>
-        dispatch(actions.txHistory.showTransactionDetails(id)),
+        dispatch(txHistoryApi.actions.showTransactionDetails(id)),
     }),
   }),
   branch<TStateProps>(

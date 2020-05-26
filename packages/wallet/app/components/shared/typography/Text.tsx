@@ -11,4 +11,10 @@ const Text: React.FunctionComponent<TExternalProps> = ({ children, style, ...pro
   </NativeText>
 );
 
-export { Text };
+const TextBold: React.FunctionComponent<TExternalProps> = ({ children, style, ...props }) => (
+  <NativeText style={[typographyStyles.textBold, style]} {...props}>
+    {children}
+  </NativeText>
+);
+
+export { Text, TextBold };

@@ -1,7 +1,7 @@
+import { ETransactionDirection, ETransactionType } from "@neufund/shared-modules";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { ETransactionDirection, ETransactionType } from "../../../lib/api/analytics-api/interfaces";
 import { TxPendingWithMetadata } from "../../../lib/api/users-tx/interfaces";
 import { generalPendingTxFixture } from "../../../modules/tx/utils";
 import { PendingTransactionImage } from "../../layouts/header/PendingTransactionStatus";

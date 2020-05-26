@@ -14,8 +14,8 @@ import {
 import { coreModuleApi, neuGetBindings } from "@neufund/shared-modules";
 import { assertNever } from "@neufund/shared-utils";
 
-import { EAppRoutes } from "../../appRoutes";
-import { navigate } from "../../routeUtils";
+import { EAppRoutes } from "../../router/appRoutes";
+import { navigate } from "../../router/routeUtils";
 import { notificationUIModuleApi } from "../notification-ui/module";
 import { signerUIModuleApi } from "../signer-ui/module";
 import { ESignerType } from "../signer-ui/types";

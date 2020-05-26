@@ -2,6 +2,7 @@ import { getStorybookUI, configure } from "@storybook/react-native";
 import React from "react";
 import { InteractionManager } from "react-native";
 import RNBootSplash from "react-native-bootsplash";
+import { IntlProvider } from "react-intl";
 
 import "./rn-addons";
 
@@ -27,7 +28,11 @@ const Storybook: React.FunctionComponent = () => {
     });
   }, []);
 
-  return <StorybookUIRoot />;
+  return (
+    <IntlProvider locale="en-gb">
+      <StorybookUIRoot />
+    </IntlProvider>
+  );
 };
 
 export { Storybook };

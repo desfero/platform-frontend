@@ -47,6 +47,7 @@
     "prepare": "yarn contract-artifacts:generate"
   },
   "dependencies": {
+    "@expo/react-native-action-sheet": "^3.6.0",
     "@neufund/sagas": "^1.0.0",
     "@neufund/shared-modules": "^1.0.0",
     "@neufund/shared-utils": "^1.0.0",
@@ -88,6 +89,7 @@
     "react-native-svg": "^12.0.3",
     "react-native-svg-transformer": "^0.14.3",
     "react-redux": "^6.0.0",
+    "react-intl": "^4.5.1",
     "recompose": "^0.30.0",
     "redux": "^4.0.1",
     "reflect-metadata": "^0.1.10",

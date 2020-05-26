@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+    <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" clip-path="url(#pending-icon__clip0)">
+        <path d="M12 .747c6.213 0 11.25 5.037 11.25 11.25S18.213 23.247 12 23.247.75 18.21.75 11.997 5.787.747 12 .747z"/>
+        <path d="M8.252 17.612c-3.101-2.07-3.938-6.261-1.868-9.363.96-1.44 2.437-2.455 4.125-2.837M18.3 14.394c-.34.903-.872 1.72-1.558 2.4M14.058 18.425c-.919.295-1.891.388-2.849.272"/>
+        <path d="M12 3.747c.828 0 1.5.672 1.5 1.5s-.672 1.5-1.5 1.5-1.5-.672-1.5-1.5.672-1.5 1.5-1.5z"/>
+    </g>
+    <defs>
+        <clipPath id="pending-icon__clip0">
+            <path fill="currentColor" d="M0 0h24v24H0V0z"/>
+        </clipPath>
+    </defs>
+</svg>

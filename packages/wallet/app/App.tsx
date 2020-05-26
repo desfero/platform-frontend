@@ -4,14 +4,14 @@ import React from "react";
 import { InteractionManager } from "react-native";
 import RNBootSplash from "react-native-bootsplash";
 
-import { AppAuthRouter } from "./AppAuthRouter";
-import { AppNoAuthRouter } from "./AppNoAuthRouter";
 import { CriticalError } from "./components/CriticalError";
-import { SignerModal } from "./components/signer/SignerModal";
+import { SignerModal } from "./components/modals/SignerModal/SignerModal";
 import { usePrevious } from "./hooks/usePrevious";
 import { EAuthState, authModuleAPI } from "./modules/auth/module";
 import { initModuleApi, EInitStatus } from "./modules/init/module";
-import { navigationRef } from "./routeUtils";
+import { AppAuthRouter } from "./router/AppAuthRouter";
+import { AppNoAuthRouter } from "./router/AppNoAuthRouter";
+import { navigationRef } from "./router/routeUtils";
 import { appConnect } from "./store/utils";
 import { useTheme } from "./themes/ThemeProvider";
 

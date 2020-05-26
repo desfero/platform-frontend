@@ -1,7 +1,7 @@
+import { ETransactionType } from "@neufund/shared-modules";
 import { ECurrency } from "@neufund/shared-utils";
 import { expect } from "chai";
 
-import { ETransactionType } from "../../lib/api/analytics-api/interfaces";
 import { EInvestmentType } from "../investment-flow/reducer";
 import { ETxSenderType } from "./types";
 import {

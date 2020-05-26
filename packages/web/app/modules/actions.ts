@@ -1,4 +1,5 @@
 import { StringableActionCreator } from "@neufund/sagas";
+import { txHistoryApi } from "@neufund/shared-modules";
 import { TDictionaryValues } from "@neufund/shared-utils";
 import { LocationChangeAction } from "connected-react-router";
 
@@ -32,7 +33,6 @@ import { routingActions } from "./routing/actions";
 import { formSingleFileUploadActions } from "./shared/formSingleFileUpload/actions";
 import { remoteFileActions } from "./shared/remoteFile/actions";
 import { tosModalActions } from "./terms-of-service/actions";
-import { txHistoryActions } from "./tx-history/actions";
 import { txActions } from "./tx/actions";
 import { userAgentActions } from "./user-agent/actions";
 import { verifyEmailActions } from "./verify-email-widget/actions";
@@ -44,6 +44,7 @@ import { web3Actions } from "./web3/actions";
 /** You should add new actions also here (with a namespace).*/
 export const actions = {
   ...txActions,
+  txHistory: txHistoryApi.actions,
   bankTransferFlow: bankTransferFLowActions,
   contracts: contractsActions,
   profile: profileActions,
@@ -51,7 +52,6 @@ export const actions = {
   verifyEmail: verifyEmailActions,
   genericModal: genericModalActions,
   accessWallet: accessWalletActions,
-  txHistory: txHistoryActions,
   init: initActions,
   kyc: kycActions,
   routing: routingActions,

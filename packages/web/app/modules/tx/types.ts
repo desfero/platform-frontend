@@ -1,4 +1,5 @@
-import { ETransactionType } from "../../lib/api/analytics-api/interfaces";
+import { ETransactionType } from "@neufund/shared-modules";
+
 import { TClaimAdditionalData } from "./transactions/claim/types";
 import { TEtoSetDateAdditionalData } from "./transactions/eto-flow/types";
 import { TInvestmentAdditionalData } from "./transactions/investment/types";
