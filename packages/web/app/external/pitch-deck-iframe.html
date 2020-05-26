@@ -3,6 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; frame-src *; script-src 'self' 'sha256-80vXT2q9DtdrNkWOqKM45NjhN0z2WCwccwwrAQbJw2E='; style-src 'unsafe-inline'; img-src 'self';"
+    />
     <title>Neufund Pitch Deck Iframe</title>
     <style>
       html,
@@ -17,7 +21,7 @@
   </head>
   <body>
     <iframe id="pitch" allowfullscreen width="100%" height="100%"></iframe>
-
+    <script src="/external/sanitize-url.js"></script>
     <script>
       const iframe = document.getElementById("pitch");
       const search = location.search.substring(1);
@@ -29,7 +33,7 @@
             .replace(/=/g, '":"') +
           '"}',
       );
-      iframe.src = query.url;
+      iframe.src = sanitizeUrl(query.url);
     </script>
   </body>
 </html>
