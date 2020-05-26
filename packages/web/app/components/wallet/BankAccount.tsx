@@ -14,6 +14,7 @@ import { BankAccountDetails } from "./bank-account/BankAccount";
 
 import linkIcon from "../../assets/img/inline_icons/social_link.svg";
 import * as styles from "./Wallet.module.scss";
+import { externalRoutes } from "../../config/externalRoutes";
 
 type TBankAccountProps = {
   verifyBankAccount: () => void;
@@ -61,7 +62,7 @@ export const NoBankAccount: React.FunctionComponent<TNobankAccountProps> = ({
       <FormattedHTMLMessage
         tagName="span"
         id="wallet.no-linked-bank-account"
-        values={{ href: "" }}
+        values={{ href: externalRoutes.quintessenceLanding }}
       />
       <Button
         onClick={verifyBankAccount}

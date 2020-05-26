@@ -99,9 +99,8 @@ $vertical-margin: px-to-rem(18);
   align-self: flex-end;
 
   padding-right: px-to-rem(20);
+  @include nds-body-small;
 
-  font-family: $font-family-roboto;
-  font-size: px-to-rem(14);
   font-weight: 500;
   color: $neu-charcoal-grey;
   line-height: 1.4;

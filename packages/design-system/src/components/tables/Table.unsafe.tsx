@@ -1,5 +1,4 @@
 import { CommonHtmlProps } from "@neufund/web/app/types";
-import * as cn from "classnames";
 import * as React from "react";
 import {
   Column,
@@ -82,8 +81,6 @@ const Table: React.FunctionComponent<TExternalProps & CommonHtmlProps> = ({
   data,
   withFooter,
   customFooter,
-  CustomHeader,
-  className,
 }) => {
   const {
     getTableProps,
@@ -98,8 +95,8 @@ const Table: React.FunctionComponent<TExternalProps & CommonHtmlProps> = ({
   });
   return (
     <div className={styles.container}>
-      <table className={cn(styles.table, className)} {...getTableProps()}>
-        {CustomHeader ? <CustomHeader /> : <TableHeader headerGroups={headerGroups} />}
+      <table className={styles.table} {...getTableProps()}>
+        <TableHeader headerGroups={headerGroups} />
         <TableBody rows={rows} getTableBodyProps={getTableBodyProps} prepareRow={prepareRow} />
         {withFooter && !customFooter && <TableFooter footerGroups={footerGroups} />}
         {!!customFooter && customFooter}

@@ -77,10 +77,8 @@
 
   .address {
     @include address;
+    @include nds-body-small;
 
-    font-family: $font-family-roboto;
-    font-size: px-to-rem(14);
-    font-weight: normal;
     display: flex;
     flex-flow: row;
     align-items: center;
@@ -98,8 +96,7 @@
   }
 
   .history-link {
-    font-family: $font-family-roboto;
-    font-size: px-to-rem(12);
+    @include nds-helper-text;
     color: $neu-shuttle-gray;
   }
 }

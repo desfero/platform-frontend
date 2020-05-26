@@ -5,13 +5,15 @@ import { EProcessState } from "../../utils/enums/processStates";
 import { TBankAccount } from "../kyc/types";
 
 export type TBasicBalanceData = {
-  name: EBalanceType;
+  name: EBalanceViewType;
   hasFunds: boolean;
   amount: string;
   euroEquivalentAmount: string;
 };
 
-export enum EBalanceType {
+// this enum doesn't reflect our internal data structures,
+// it's just for distinguishing the types of UI we use in the wallet view
+export enum EBalanceViewType {
   ETH = "balanceTypeEth",
   NEUR = "balanceTypeNeur",
   RESTRICTED_NEUR = "balanceTypeRestrictedNeur",
@@ -27,7 +29,7 @@ export enum EBalanceActionLevel {
 }
 
 export type TBalanceData = {
-  name: EBalanceType;
+  name: EBalanceViewType;
   amount: string;
   euroEquivalentAmount: string;
 };
@@ -40,12 +42,19 @@ export type TWalletViewReadyState = {
   userIsFullyVerified: boolean;
 };
 
+export enum EWalletViewError {
+  GENERIC_ERROR= "genericError"
+}
+
 export type TWalletViewState =
   | ({
       processState: EProcessState.SUCCESS;
     } & TWalletViewReadyState)
   | ({
-      processState: EProcessState.ERROR | EProcessState.NOT_STARTED | EProcessState.IN_PROGRESS;
+      processState: EProcessState.ERROR
+    } & {errorType: EWalletViewError})
+  | ({
+      processState:  EProcessState.NOT_STARTED | EProcessState.IN_PROGRESS;
     } & {});
 
 export type TBalance = {
@@ -67,4 +76,4 @@ export type TBalanceAction = {
   dataTestId?: string;
 };
 
-export type TBalanceActions = { [key in EBalanceType]: TBalanceAction[] };
+export type TBalanceActions = { [key in EBalanceViewType]: TBalanceAction[] };

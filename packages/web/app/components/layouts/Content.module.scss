@@ -10,7 +10,7 @@
 
     @include media-breakpoint-up (md) {
       padding: 0 $layout-content-padding-lg;
-      margin: px-to-rem(49) auto $layout-content-padding-lg;
+      margin: $layout-content-top-padding auto $layout-content-padding-lg;
       max-width: 1204px;
     }
 
@@ -21,7 +21,7 @@
   &.small-width {
     @include media-breakpoint-down (sm) {
       width: auto;
-      margin: px-to-rem(48px) px-to-rem(20px);
+      margin: $layout-content-top-padding px-to-rem(20px);
     }
 
     width: px-to-rem(560px);

@@ -4,7 +4,7 @@ import { mount } from "enzyme";
 import * as React from "react";
 
 import { wrapWithIntl } from "../../../test/integrationTestUtils.unsafe";
-import { EBalanceType } from "../../modules/wallet-view/types";
+import { EBalanceViewType } from "../../modules/wallet-view/types";
 import { Balance } from "./Balance";
 import { createBalanceActions, createBalanceUiData } from "./utils";
 
@@ -18,55 +18,55 @@ const dummyDispatch = () => {};
 
 const actions = createBalanceActions(dummyDispatch);
 const ethEmpty = {
-  name: EBalanceType.ETH,
+  name: EBalanceViewType.ETH,
   amount: "0",
   euroEquivalentAmount: "0",
 };
 
 const ethNotEmpty = {
-  name: EBalanceType.ETH,
+  name: EBalanceViewType.ETH,
   amount: "25054421780000000",
   euroEquivalentAmount: "352678976500000000",
 };
 
 const neuroEmpty = {
-  name: EBalanceType.NEUR,
+  name: EBalanceViewType.NEUR,
   amount: "0",
   euroEquivalentAmount: "0",
 };
 
 const neuroNotEmpty = {
-  name: EBalanceType.NEUR,
+  name: EBalanceViewType.NEUR,
   amount: "25054421780000000",
   euroEquivalentAmount: "352678976500000000",
 };
 
 const neuroRestricted = {
-  name: EBalanceType.RESTRICTED_NEUR,
+  name: EBalanceViewType.RESTRICTED_NEUR,
   amount: "25054421780000000",
   euroEquivalentAmount: "352678976500000000",
 };
 
 const icbmEth = {
-  name: EBalanceType.ICBM_ETH,
+  name: EBalanceViewType.ICBM_ETH,
   amount: "25054421780000000",
   euroEquivalentAmount: "352678976500000000",
 };
 
 const icbmNeuro = {
-  name: EBalanceType.ICBM_NEUR,
+  name: EBalanceViewType.ICBM_NEUR,
   amount: "25054421780000000",
   euroEquivalentAmount: "352678976500000000",
 };
 
 const lockedIcbmEth = {
-  name: EBalanceType.LOCKED_ICBM_ETH,
+  name: EBalanceViewType.LOCKED_ICBM_ETH,
   amount: "25054421780000000",
   euroEquivalentAmount: "352678976500000000",
 };
 
 const lockedIcbmNeuro = {
-  name: EBalanceType.LOCKED_ICBM_NEUR,
+  name: EBalanceViewType.LOCKED_ICBM_NEUR,
   amount: "25054421780000000",
   euroEquivalentAmount: "352678976500000000",
 };

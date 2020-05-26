@@ -6,14 +6,14 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { hasBalance } from "../../modules/investment-flow/utils";
-import { EBalanceActionLevel, EBalanceType, TBalance } from "../../modules/wallet-view/types";
+import { EBalanceActionLevel, EBalanceViewType, TBalance } from "../../modules/wallet-view/types";
 import { BalanceList } from "./BalanceList";
 
 const balances: TBalance[] = [
   {
     amount: "2000312217000000000",
     balanceAdditionalInfo: undefined,
-    balanceName: EBalanceType.ETH,
+    balanceName: EBalanceViewType.ETH,
     currency: ECurrency.ETH,
     euroEquivalentAmount: "389864625857099778516.40584",
     logo: EthIcon,
@@ -35,7 +35,7 @@ const balances: TBalance[] = [
   {
     amount: "100000000000000000000",
     balanceAdditionalInfo: <FormattedMessage id="wallet.icbm-balance-unlocked.tooltip" />,
-    balanceName: EBalanceType.ICBM_ETH,
+    balanceName: EBalanceViewType.ICBM_ETH,
     currency: ECurrency.ETH,
     euroEquivalentAmount: "1.9490188708730952e+22",
     logo: EthIconWithLock,

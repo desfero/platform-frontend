@@ -1,6 +1,5 @@
 @mixin table-text-style {
-  font-family: $font-family-roboto;
-  font-size: 1rem;
+  @include nds-body;
   font-weight: 500;
 
   width: 100%;
@@ -27,27 +26,21 @@
 }
 
 .total-balance-title {
-  font-family: $font-family-roboto;
-  font-size: px-to-rem(14);
-  font-weight: 500;
+  @include nds-body-small;
   text-transform: uppercase;
   color: $neu-gull-gray;
   line-height: 1;
 }
 
 .total-balance {
-  font-family: $font-family-montserrat;
-  font-size: 2rem;
-  font-weight: 600;
-  letter-spacing: .32px;
+  @include nds-headline-2;
   color: $neu-charcoal-grey;
   line-height: 1;
 }
 
 .subtitle {
-  font-family: $font-family-roboto;
-  font-size: px-to-rem(14);
-  font-weight: 500;
+  @include nds-body-small;
+
   text-transform: uppercase;
   color: $neu-charcoal-grey;
   margin-bottom: px-to-rem(4);
@@ -161,6 +154,8 @@
 }
 
 .balance-actions-button {
+  @include  font-headline-small-roboto;
+
   @include media-breakpoint-up(sm) {
     display: none;
   }
@@ -172,8 +167,6 @@
   height: px-to-rem(32);
   padding: 0;
 
-  font-family: $font-family-roboto;
-  font-size: 1rem;
   color: $neu-charcoal-grey;
 }
 

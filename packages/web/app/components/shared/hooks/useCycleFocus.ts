@@ -24,10 +24,10 @@ import * as React from "react";
  *   const cycleFocus = useCycleFocus(allRefs)
  *
  *   return (<>
- *     <button ref={refFoo} onKeyDown={cycleFocus((e)=>refFoo,e)}>foo</button>
- *     <button ref={refBar} onKeyDown={cycleFocus((e)=>refBar,e)}>bar</button>
- *     <button ref={refBaz} onKeyDown={cycleFocus((e)=>refBaz,e)}>baz</button>
- *   <>)
+ *     <button ref={refFoo} onKeyDown={(e) => cycleFocus(refFoo, e)}>foo</button>
+ *     <button ref={refBar} onKeyDown={(e) => cycleFocus(refBar, e)}>bar</button>
+ *     <button ref={refBaz} onKeyDown={(e) => cycleFocus(refBaz, e)}>baz</button>
+ *   </>)
  * }
  *
  * */

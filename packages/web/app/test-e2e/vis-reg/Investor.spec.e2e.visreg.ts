@@ -28,7 +28,7 @@ describe("Investor", () => {
     cy.screenshot();
   });
 
-  it.only("should render wallet", () => {
+  it("should render wallet", () => {
     goToWallet();
     cy.awaitedScreenshot(tid("transactions-history"));
   });

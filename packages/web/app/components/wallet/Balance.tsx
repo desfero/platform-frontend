@@ -22,7 +22,7 @@ const BalanceActions: React.FunctionComponent<TBalance> = props => {
 
   const toggleBalanceActionsRef = React.useRef<HTMLButtonElement>(null);
   const balanceActionRefs = walletActions.map(_ => React.useRef<HTMLButtonElement>(null));
-  const allRefs = [toggleBalanceActionsRef, ...[...balanceActionRefs].reverse()]; //reverse the button order to reflect the visual ordering
+  const allRefs = [toggleBalanceActionsRef, ...[...balanceActionRefs].reverse()]; //reverse the button order to match the visual order of the buttons
 
   const moveFocusOnTabKey = useCycleFocus(allRefs);
 

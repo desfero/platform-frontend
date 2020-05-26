@@ -25,7 +25,7 @@ import {
 } from "../wallet/selectors";
 import { ENEURWalletStatus } from "../wallet/types";
 import { selectEthereumAddress } from "../web3/selectors";
-import { EBalanceType, TBalanceData, TBasicBalanceData } from "./types";
+import { EBalanceViewType, EWalletViewError, TBalanceData, TBasicBalanceData } from "./types";
 import { hasFunds, isMainBalance } from "./utils";
 
 export function* populateWalletData(): Generator<any, TBasicBalanceData[], any> {
@@ -59,7 +59,7 @@ export function* populateWalletData(): Generator<any, TBasicBalanceData[], any> 
 
   return [
     {
-      name: EBalanceType.ETH,
+      name: EBalanceViewType.ETH,
       hasFunds: compareBigNumbers(ethWalletData.amount, "0") > 0,
       amount: ethWalletData.amount,
       euroEquivalentAmount: ethWalletData.euroEquivalentAmount,
@@ -67,32 +67,32 @@ export function* populateWalletData(): Generator<any, TBasicBalanceData[], any> 
     {
       name:
         neuroWalletData.neurStatus === ENEURWalletStatus.DISABLED_RESTRICTED_US_STATE
-          ? EBalanceType.RESTRICTED_NEUR
-          : EBalanceType.NEUR,
+          ? EBalanceViewType.RESTRICTED_NEUR
+          : EBalanceViewType.NEUR,
       hasFunds: compareBigNumbers(neuroWalletData.amount, "0") > 0,
       amount: neuroWalletData.amount,
       euroEquivalentAmount: neuroWalletData.euroEquivalentAmount,
     },
     {
-      name: EBalanceType.ICBM_ETH,
+      name: EBalanceViewType.ICBM_ETH,
       hasFunds: compareBigNumbers(icbmEthWalletData.amount, "0") > 0,
       amount: icbmEthWalletData.amount,
       euroEquivalentAmount: icbmEthWalletData.euroEquivalentAmount,
     },
     {
-      name: EBalanceType.ICBM_NEUR,
+      name: EBalanceViewType.ICBM_NEUR,
       hasFunds: compareBigNumbers(icbmNeuroWalletData.amount, "0") > 0,
       amount: icbmNeuroWalletData.amount,
       euroEquivalentAmount: icbmNeuroWalletData.euroEquivalentAmount,
     },
     {
-      name: EBalanceType.LOCKED_ICBM_ETH,
+      name: EBalanceViewType.LOCKED_ICBM_ETH,
       hasFunds: compareBigNumbers(lockedIcbmEthWalletData.amount, "0") > 0,
       amount: lockedIcbmEthWalletData.amount,
       euroEquivalentAmount: lockedIcbmEthWalletData.euroEquivalentAmount,
     },
     {
-      name: EBalanceType.LOCKED_ICBM_NEUR,
+      name: EBalanceViewType.LOCKED_ICBM_NEUR,
       hasFunds: compareBigNumbers(lockedIcbmNeuroWalletData.amount, "0") > 0,
       amount: lockedIcbmNeuroWalletData.amount,
       euroEquivalentAmount: lockedIcbmNeuroWalletData.euroEquivalentAmount,
@@ -108,7 +108,7 @@ export function* loadWalletView(): Generator<any, void, any> {
     const userAddress = yield* select(selectEthereumAddress);
     const bankAccount = yield* select(selectBankAccount);
 
-    const balanceData = (yield call(populateWalletData)).filter(
+    const balanceData = (yield* call(populateWalletData)).filter(
       (balance: TBasicBalanceData) => isMainBalance(balance) || hasFunds(balance),
     );
 
@@ -127,7 +127,7 @@ export function* loadWalletView(): Generator<any, void, any> {
       }),
     );
   } catch (e) {
-    yield put(actions.walletView.walletViewSetData({ processState: EProcessState.ERROR }));
+    yield put(actions.walletView.walletViewSetData({ processState: EProcessState.ERROR, errorType: EWalletViewError.GENERIC_ERROR}));
   }
 }
 

@@ -27,41 +27,41 @@ import {
 } from "../wallet/selectors";
 import { selectEthereumAddress } from "../web3/selectors";
 import { loadWalletView, populateWalletData } from "./sagas";
-import { EBalanceType } from "./types";
+import { EBalanceViewType } from "./types";
 
 const testWalletData = [
   {
-    name: EBalanceType.ETH,
+    name: EBalanceViewType.ETH,
     hasFunds: true,
     amount: "300000",
     euroEquivalentAmount: "123456",
   },
   {
-    name: EBalanceType.NEUR,
+    name: EBalanceViewType.NEUR,
     hasFunds: true,
     amount: "87654",
     euroEquivalentAmount: "87654",
   },
   {
-    name: EBalanceType.ICBM_ETH,
+    name: EBalanceViewType.ICBM_ETH,
     hasFunds: false,
     amount: "0",
     euroEquivalentAmount: "0",
   },
   {
-    name: EBalanceType.ICBM_NEUR,
+    name: EBalanceViewType.ICBM_NEUR,
     hasFunds: false,
     amount: "0",
     euroEquivalentAmount: "0",
   },
   {
-    name: EBalanceType.LOCKED_ICBM_ETH,
+    name: EBalanceViewType.LOCKED_ICBM_ETH,
     hasFunds: true,
     amount: "23456",
     euroEquivalentAmount: "876543",
   },
   {
-    name: EBalanceType.LOCKED_ICBM_NEUR,
+    name: EBalanceViewType.LOCKED_ICBM_NEUR,
     hasFunds: false,
     amount: "0",
     euroEquivalentAmount: "0",
@@ -88,37 +88,37 @@ describe("Wallet View", () => {
         ])
         .returns([
           {
-            name: EBalanceType.ETH,
+            name: EBalanceViewType.ETH,
             hasFunds: false,
             amount: "0",
             euroEquivalentAmount: "0",
           },
           {
-            name: EBalanceType.NEUR,
+            name: EBalanceViewType.NEUR,
             hasFunds: false,
             amount: "0",
             euroEquivalentAmount: "0",
           },
           {
-            name: EBalanceType.ICBM_ETH,
+            name: EBalanceViewType.ICBM_ETH,
             hasFunds: false,
             amount: "0",
             euroEquivalentAmount: "0",
           },
           {
-            name: EBalanceType.ICBM_NEUR,
+            name: EBalanceViewType.ICBM_NEUR,
             hasFunds: false,
             amount: "0",
             euroEquivalentAmount: "0",
           },
           {
-            name: EBalanceType.LOCKED_ICBM_ETH,
+            name: EBalanceViewType.LOCKED_ICBM_ETH,
             hasFunds: false,
             amount: "0",
             euroEquivalentAmount: "0",
           },
           {
-            name: EBalanceType.LOCKED_ICBM_NEUR,
+            name: EBalanceViewType.LOCKED_ICBM_NEUR,
             hasFunds: false,
             amount: "0",
             euroEquivalentAmount: "0",
@@ -175,19 +175,19 @@ describe("Wallet View", () => {
 
       const resultBalanceData = [
         {
-          name: EBalanceType.ETH,
+          name: EBalanceViewType.ETH,
           hasFunds: true,
           amount: "300000",
           euroEquivalentAmount: "123456",
         },
         {
-          name: EBalanceType.NEUR,
+          name: EBalanceViewType.NEUR,
           hasFunds: true,
           amount: "87654",
           euroEquivalentAmount: "87654",
         },
         {
-          name: EBalanceType.LOCKED_ICBM_ETH,
+          name: EBalanceViewType.LOCKED_ICBM_ETH,
           hasFunds: true,
           amount: "23456",
           euroEquivalentAmount: "876543",
