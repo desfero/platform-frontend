@@ -15,10 +15,10 @@ const AppContainer: React.FunctionComponent<TExternalProps> = ({ children, store
   <ReduxProvider store={store}>
     <ThemeProvider>
       <IntlProvider locale="en-gb">
-      <ActionSheetProvider>
-        <SafeAreaProvider>{children}</SafeAreaProvider>
-      </ActionSheetProvider>
-    </IntlProvider>
+        <ActionSheetProvider>
+          <SafeAreaProvider>{children}</SafeAreaProvider>
+        </ActionSheetProvider>
+      </IntlProvider>
     </ThemeProvider>
   </ReduxProvider>
 );

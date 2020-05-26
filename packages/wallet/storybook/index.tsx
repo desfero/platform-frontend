@@ -1,8 +1,8 @@
 import { getStorybookUI, configure } from "@storybook/react-native";
 import React from "react";
+import { IntlProvider } from "react-intl";
 import { InteractionManager } from "react-native";
 import RNBootSplash from "react-native-bootsplash";
-import { IntlProvider } from "react-intl";
 
 import "./rn-addons";
 
