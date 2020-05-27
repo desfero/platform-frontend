@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="23px" height="23px" viewBox="0 0 23 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>warning</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Dashboard_first_view" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-174.000000, -92.000000)">
+        <g id="warning" transform="translate(174.000000, 92.000000)">
+            <g id="Group-3">
+                <g id="Group" fill="#FF6D00">
+                    <circle id="Oval" cx="11.5" cy="11.5" r="11.5"></circle>
+                </g>
+                <path d="M11.7515028,15.1270121 L10.5367141,15.1270121 L9.94667386,2.875 L12.3415431,2.875 L11.7515028,15.1270121 Z M9.73842436,18.5631288 C9.73842436,17.5141631 10.2011964,16.9896881 11.1267543,16.9896881 C11.5741073,16.9896881 11.9192582,17.1246633 12.1622171,17.3946177 C12.4051761,17.6645721 12.5266537,18.0540719 12.5266537,18.5631288 C12.5266537,19.0567597 12.4032479,19.4404748 12.1564324,19.7142857 C11.909617,19.9880966 11.5663944,20.125 11.1267543,20.125 C10.7256792,20.125 10.3940259,20.0035223 10.1317845,19.7605634 C9.8695431,19.5176044 9.73842436,19.1184635 9.73842436,18.5631288 Z" id="!" fill="#FFFFFF"></path>
+            </g>
+        </g>
+    </g>
+</svg>

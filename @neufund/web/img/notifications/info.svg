@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="23px" height="23px" viewBox="0 0 23 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 3</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="ETO_Dashboard_Company_page_infosnot_filled-n" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-166.000000, -76.000000)">
+        <g id="Group-3" transform="translate(166.000000, 76.000000)">
+            <g id="Group"></g>
+            <circle id="Oval" fill="#78D7DC" cx="11.5" cy="11.5" r="11.5"></circle>
+            <g id="letter-i" transform="translate(9.000000, 4.384615)" fill="#FFFFFF" fill-rule="nonzero">
+                <circle id="Oval" cx="2.599975" cy="1.886725" r="1.886725"></circle>
+                <path d="M5.183625,5.7738 L5.18365,4.62695 L0.01635,4.62695 L0.01635,5.7738 C0.401225,5.7738 0.7132,6.085775 0.7132,6.470625 L0.7132,10.956275 C0.7132,11.341125 0.4012,11.653125 0.01635,11.653125 L0.01635,12.8 L5.18365,12.8 L5.18365,11.653175 C4.798775,11.653175 4.4868,11.341175 4.4868,10.956325 L4.4868,6.470625 C4.486775,6.085775 4.798775,5.7738 5.183625,5.7738 Z" id="Shape"></path>
+            </g>
+        </g>
+    </g>
+</svg>

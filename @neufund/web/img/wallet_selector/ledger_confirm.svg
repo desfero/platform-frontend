@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="122px" height="71px" viewBox="0 0 122 71" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>4</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="regstration_ledger_confirm" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-620.000000, -392.000000)">
+        <g id="4" transform="translate(621.000000, 388.000000)">
+            <g id="Group-5">
+                <g id="Page-1" transform="translate(0.000000, 35.000000)">
+                    <polygon id="Fill-1" fill="#FFFFFF" points="12.125 7.5 26.125 7.5 26.125 1.5 12.125 1.5"></polygon>
+                    <polygon id="Fill-2" fill="#FFFFFF" points="94.125 9.5 108.125 9.5 108.125 1.5 94.125 1.5"></polygon>
+                    <g id="Group-23" transform="translate(0.000000, 0.250000)">
+                        <path d="M117.1021,6 L2.8981,6 C1.2971,6 0.0001,7.298 0.0001,8.897 L0.0001,35.103 C0.0001,36.702 1.2971,38 2.8981,38 L117.1021,38 C118.7031,38 120.0001,36.702 120.0001,35.103 L120.0001,8.897 C120.0001,7.298 118.7031,6 117.1021,6" id="Fill-3" fill="#FFFFFF"></path>
+                        <path d="M117.1021,6 L2.8981,6 C1.2971,6 0.0001,7.298 0.0001,8.897 L0.0001,35.103 C0.0001,36.702 1.2971,38 2.8981,38 L117.1021,38 C118.7031,38 120.0001,36.702 120.0001,35.103 L120.0001,8.897 C120.0001,7.298 118.7031,6 117.1021,6 Z" id="Stroke-5" stroke="#C4C5C6" stroke-width="2"></path>
+                        <polyline id="Stroke-7" stroke="#C4C5C6" stroke-width="2" points="25.625 5.25 25.625 0.75 12.125 0.75 12.125 5.25"></polyline>
+                        <polyline id="Stroke-9" stroke="#C4C5C6" stroke-width="2" points="107.625 5.25 107.625 0.75 94.125 0.75 94.125 5.25"></polyline>
+                        <polygon id="Fill-11" fill="#FFFFFF" points="11.25 30.5 108.75 30.5 108.75 13.5 11.25 13.5"></polygon>
+                        <polygon id="Stroke-13" stroke="#C4C5C6" stroke-width="2.431" points="11.25 30.5 108.75 30.5 108.75 13.5 11.25 13.5"></polygon>
+                    </g>
+                </g>
+                <text id="ok" font-family="OpenSans-Semibold, Open Sans" font-size="14" font-weight="500" fill="#C4C5C6">
+                    <tspan x="93.2216797" y="15">ok</tspan>
+                </text>
+                <path d="M101,29.5071414 L101,28.5071414" id="Line" stroke="#C4C5C6" stroke-linecap="square"></path>
+                <path id="Line-decoration-1" d="M104,18.7071414 L101,29.5071414 L98,18.7071414" stroke="#C4C5C6" stroke-linecap="square"></path>
+            </g>
+            <text id="0x647927492..." font-family="LucidaGrande, Lucida Grande" font-size="10" font-weight="normal" letter-spacing="0.07" fill="#C4C5C6">
+                <tspan x="22" y="61">0x647927492...</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

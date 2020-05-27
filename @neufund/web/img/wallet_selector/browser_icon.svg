@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="65px" height="74px" viewBox="0 0 65 74" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 5</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <circle id="path-1" cx="26" cy="7" r="7"></circle>
+    </defs>
+    <g id="regstrationexsting-wallet_Start2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-652.000000, -407.000000)">
+        <g id="Group-5" transform="translate(652.000000, 407.000000)">
+            <polygon id="Page-1" fill="#EFEFEF" points="32.0146951 0 0 18.4833813 0 55.450144 32.0146951 73.9335253 64.0286509 55.450144 64.0286509 18.4833813"></polygon>
+            <g id="Group-3" transform="translate(16.000000, 22.000000)">
+                <g id="Group-2" transform="translate(0.000000, 3.000000)" fill="#C4C5C6">
+                    <rect id="Rectangle-4" x="0" y="6.39196883" width="27.8405754" height="20.4543003"></rect>
+                    <rect id="Rectangle-4" x="0" y="0" width="27.8405754" height="4.47437818"></rect>
+                </g>
+                <g id="Oval-2">
+                    <use fill="#C4C5C6" fill-rule="evenodd" xlink:href="#path-1"></use>
+                    <circle stroke="#EFEFEF" stroke-width="3" cx="26" cy="7" r="8.5"></circle>
+                </g>
+                <path d="M24.1606516,9.22425488 L25.0427072,9.14710676 L24.5661253,8.75440467 L24.1606516,9.22425488 Z M28.3948188,4.31783419 C28.7320925,3.92700908 29.312266,3.89192536 29.6909409,4.23863236 C30.0709673,4.58552266 30.1051132,5.1846038 29.7679172,5.57451018 L25.3602675,10.6819935 C25.1841099,10.8864664 24.9335334,11 24.6733592,11 C24.4665929,11 24.2643584,10.9283485 24.0995833,10.7927549 L21.3444363,8.52246056 C20.9486435,8.19613053 20.8845143,7.60134676 21.2012032,7.19289163 C21.5178718,6.78517114 22.0967519,6.71869221 22.491848,7.04520635 L24.5661253,8.75440467 L28.3948188,4.31783419 Z" id="Shape" fill="#F6F9FE" fill-rule="nonzero"></path>
+            </g>
+        </g>
+    </g>
+</svg>

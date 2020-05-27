@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="374" height="385" viewBox="0 0 374 385">
+  <g fill="none" fill-rule="evenodd">
+    <rect width="374" height="385" fill="#F6F9FE" rx="15"/>
+    <rect width="58" height="10" x="34" y="163" fill="#656B72" fill-opacity=".17"/>
+    <g transform="translate(34 239)">
+      <rect width="148" height="104" fill="#656B72" fill-opacity=".17"/>
+      <path fill="#FEFEFE" fill-opacity=".69" d="M12,37 L122,37 L122,47 L12,47 L12,37 Z M12,53 L129,53 L129,63 L12,63 L12,53 Z M11,21 L128,21 L128,31 L11,31 L11,21 Z"/>
+    </g>
+    <g transform="translate(197 239)">
+      <rect width="148" height="104" fill="#656B72" fill-opacity=".17"/>
+      <path fill="#FEFEFE" fill-opacity=".69" d="M12,37 L122,37 L122,47 L12,47 L12,37 Z M12,53 L129,53 L129,63 L12,63 L12,53 Z M11,21 L128,21 L128,31 L11,31 L11,21 Z"/>
+    </g>
+    <path fill="#656B72" fill-opacity=".17" d="M239 80L319 80 319 90 239 90 239 80zM239 63L327 63 327 73 239 73 239 63zM34 120L106 120 106 130 34 130 34 120zM34 102L114 102 114 112 34 112 34 102zM34 84L114 84 114 94 34 94 34 84z"/>
+    <text fill="#656B72" font-family="Lato-Medium, Lato" font-size="9" font-weight="400" letter-spacing=".29">
+      <tspan x="34" y="50">FULL NAM</tspan> <tspan x="80.735" y="50">E</tspan>
+    </text>
+    <text fill="#656B72" font-family="Lato-Medium, Lato" font-size="9" font-weight="400" letter-spacing=".34">
+      <tspan x="34" y="71">CURRENT ADDRES</tspan> <tspan x="117.451" y="71">S</tspan>
+    </text>
+    <text fill="#656B72" font-family="Lato-Medium, Lato" font-size="9" font-weight="400" letter-spacing=".34">
+      <tspan x="34" y="215">UTILITY / BANK STATEMENT</tspan>
+    </text>
+    <text fill="#656B72" font-family="Lato-Medium, Lato" font-size="9" font-weight="400" letter-spacing=".34">
+      <tspan x="239" y="50">ISSUING COMPANY</tspan>
+    </text>
+  </g>
+</svg>
