@@ -13,7 +13,8 @@ import {
 import { providers, utils } from "ethers";
 import { inject, injectable } from "inversify";
 
-import { EthModuleError } from "../errors";
+import { EthModuleError } from "modules/eth/errors";
+
 import { EthAdapter } from "./EthAdapter";
 import { EthWallet } from "./EthWallet";
 import { EthWalletFactory } from "./EthWalletFactory";

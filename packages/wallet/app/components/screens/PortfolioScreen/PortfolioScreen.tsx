@@ -2,9 +2,10 @@ import { toEquityTokenSymbol } from "@neufund/shared-utils";
 import React from "react";
 import { StyleSheet } from "react-native";
 
-import { spacingStyles } from "../../../styles/spacings";
-import { HeaderScreen } from "../../shared/HeaderScreen";
-import { Asset, EAssetType } from "../../shared/asset/Asset";
+import { HeaderScreen } from "components/shared/HeaderScreen";
+import { Asset, EAssetType } from "components/shared/asset/Asset";
+
+import { spacingStyles } from "styles/spacings";
 
 const PortfolioScreen: React.FunctionComponent = () => (
   <HeaderScreen heading={"€6 500.00"} subHeading={"Portfolio balance"}>

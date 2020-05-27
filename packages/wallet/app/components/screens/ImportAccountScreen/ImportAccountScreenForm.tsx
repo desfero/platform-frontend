@@ -2,17 +2,21 @@ import * as React from "react";
 import { InteractionManager, StyleSheet } from "react-native";
 import * as Yup from "yup";
 
-import { EAuthState } from "../../../modules/auth/module";
-import { walletEthModuleApi } from "../../../modules/eth/module";
-import { useNavigationTyped } from "../../../router/routeUtils";
-import { spacingStyles } from "../../../styles/spacings";
-import { TComponentRefType } from "../../../utils/types";
-import { oneOfSchema } from "../../../utils/yupSchemas";
-import { Button, EButtonLayout } from "../../shared/buttons/Button";
-import { Field } from "../../shared/forms/fields/Field";
-import { Form } from "../../shared/forms/fields/Form";
-import { EFieldType } from "../../shared/forms/layouts/FieldLayout";
-import { TextAreaInput } from "../../shared/forms/layouts/TextAreaInput";
+import { Button, EButtonLayout } from "components/shared/buttons/Button";
+import { Field } from "components/shared/forms/fields/Field";
+import { Form } from "components/shared/forms/fields/Form";
+import { EFieldType } from "components/shared/forms/layouts/FieldLayout";
+import { TextAreaInput } from "components/shared/forms/layouts/TextAreaInput";
+
+import { EAuthState } from "modules/auth/module";
+import { walletEthModuleApi } from "modules/eth/module";
+
+import { useNavigationTyped } from "router/routeUtils";
+
+import { spacingStyles } from "styles/spacings";
+
+import { TComponentRefType } from "utils/types";
+import { oneOfSchema } from "utils/yupSchemas";
 
 const ethereumPrivateKeyUISchema = walletEthModuleApi.utils
   .ethereumPrivateKey()

@@ -1,4 +1,5 @@
-import { IStorageItem } from "../types/IStorageItem";
+import { IStorageItem } from "modules/storage/types/IStorageItem";
+
 import { StorageMetaData } from "./StorageMetaData";
 
 /**

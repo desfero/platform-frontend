@@ -2,7 +2,8 @@ import { IRequiredParamsResult, IQueryParamsResult, IParseURIResult } from "@wal
 import { parseQueryString } from "@walletconnect/utils";
 import * as yup from "yup";
 
-import { WalletConnectModuleError } from "../errors";
+import { WalletConnectModuleError } from "modules/wallet-connect/errors";
+
 import { WC_PROTOCOL } from "./constants";
 import { TWalletConnectUri } from "./types";
 

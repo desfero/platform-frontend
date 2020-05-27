@@ -6,8 +6,10 @@ import {
   toEthereumHDPath,
 } from "@neufund/shared-utils";
 
-import { createMock } from "../../../utils/testUtils.specUtils";
-import { AppSingleKeyStorage } from "../../storage";
+import { AppSingleKeyStorage } from "modules/storage";
+
+import { createMock } from "utils/testUtils.specUtils";
+
 import { EthSecureEnclave } from "./EthSecureEnclave";
 import { EthWallet } from "./EthWallet";
 import { EthWalletFactory, NoExistingWalletFoundError } from "./EthWalletFactory";

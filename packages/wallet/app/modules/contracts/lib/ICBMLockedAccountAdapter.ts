@@ -2,8 +2,8 @@ import { IICBMLockedAccountAdapter } from "@neufund/shared-modules";
 import { BigNumber } from "bignumber.js";
 import { providers, Signer } from "ethers";
 
-import { ICBMLockedAccount } from "../../../lib/contracts/ICBMLockedAccount";
-import { ICBMLockedAccountFactory } from "../../../lib/contracts/ICBMLockedAccountFactory";
+import { ICBMLockedAccount } from "lib/contracts/ICBMLockedAccount";
+import { ICBMLockedAccountFactory } from "lib/contracts/ICBMLockedAccountFactory";
 
 class ICBMLockedAccountAdapterFactory {
   static connect(

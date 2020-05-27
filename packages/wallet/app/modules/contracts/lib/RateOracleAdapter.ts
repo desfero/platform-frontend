@@ -2,8 +2,8 @@ import { IRateOracleAdapter } from "@neufund/shared-modules";
 import { BigNumber } from "bignumber.js";
 import { providers, Signer } from "ethers";
 
-import { ITokenExchangeRateOracle } from "../../../lib/contracts/ITokenExchangeRateOracle";
-import { ITokenExchangeRateOracleFactory } from "../../../lib/contracts/ITokenExchangeRateOracleFactory";
+import { ITokenExchangeRateOracle } from "lib/contracts/ITokenExchangeRateOracle";
+import { ITokenExchangeRateOracleFactory } from "lib/contracts/ITokenExchangeRateOracleFactory";
 
 class RateOracleAdapterFactory {
   static connect(

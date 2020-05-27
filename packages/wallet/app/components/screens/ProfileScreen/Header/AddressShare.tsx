@@ -2,12 +2,13 @@ import { EthereumAddressWithChecksum } from "@neufund/shared-utils";
 import React from "react";
 import { StyleSheet, View, Share } from "react-native";
 
-import { baseGray, grayLighter1 } from "../../../../styles/colors";
-import { spacingStyles } from "../../../../styles/spacings";
-import { EIconType, Icon } from "../../../shared/Icon";
-import { PanelTouchable } from "../../../shared/panel/Panel";
-import { BodyText } from "../../../shared/typography/BodyText";
-import { HelperText } from "../../../shared/typography/HelperText";
+import { EIconType, Icon } from "components/shared/Icon";
+import { PanelTouchable } from "components/shared/panel/Panel";
+import { BodyText } from "components/shared/typography/BodyText";
+import { HelperText } from "components/shared/typography/HelperText";
+
+import { baseGray, grayLighter1 } from "styles/colors";
+import { spacingStyles } from "styles/spacings";
 
 type TViewProps = React.ComponentProps<typeof View>;
 

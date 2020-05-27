@@ -2,14 +2,16 @@ import { EquityToken, isInEnum } from "@neufund/shared-utils";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
-import { baseWhite, bluish } from "../../../styles/colors";
-import { spacingStyles } from "../../../styles/spacings";
-import { EIconType } from "../Icon";
-import { Money } from "../Money";
-import { Panel } from "../panel/Panel";
-import { BodyBoldText } from "../typography/BodyText";
-import { HelperText } from "../typography/HelperText";
-import { MenuLabelBold } from "../typography/MenuLabel";
+import { EIconType } from "components/shared/Icon";
+import { Money } from "components/shared/Money";
+import { Panel } from "components/shared/panel/Panel";
+import { BodyBoldText } from "components/shared/typography/BodyText";
+import { HelperText } from "components/shared/typography/HelperText";
+import { MenuLabelBold } from "components/shared/typography/MenuLabel";
+
+import { baseWhite, bluish } from "styles/colors";
+import { spacingStyles } from "styles/spacings";
+
 import { TokenIcon, TokenImage } from "./TokenIcon";
 
 type TPanelProps = React.ComponentProps<typeof Panel>;

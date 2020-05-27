@@ -8,8 +8,9 @@ import {
 } from "@neufund/shared-utils";
 import Config from "react-native-config";
 
-import { walletEthModuleApi } from "../eth/module";
-import { notificationUIModuleApi } from "../notification-ui/module";
+import { walletEthModuleApi } from "modules/eth/module";
+import { notificationUIModuleApi } from "modules/notification-ui/module";
+
 import { authActions } from "./actions";
 import { InvalidImportPhraseError } from "./errors";
 import { loadOrCreateUser } from "./sagasInternal";

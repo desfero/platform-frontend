@@ -3,11 +3,14 @@ import { EthereumTxHash, toEquityTokenSymbol, toEthereumTxHash } from "@neufund/
 import * as React from "react";
 import { Linking, StyleSheet } from "react-native";
 
-import { etherscanTxLink } from "../../../config/externalRoutes";
-import { spacingStyles } from "../../../styles/spacings";
-import { HeaderScreen } from "../../shared/HeaderScreen";
-import { EIconType } from "../../shared/Icon";
-import { Asset, EAssetType } from "../../shared/asset/Asset";
+import { HeaderScreen } from "components/shared/HeaderScreen";
+import { EIconType } from "components/shared/Icon";
+import { Asset, EAssetType } from "components/shared/asset/Asset";
+
+import { etherscanTxLink } from "config/externalRoutes";
+
+import { spacingStyles } from "styles/spacings";
+
 import { TransactionSection } from "./TransactionSection/TransactionsSection";
 import { MOCK_TRANSACTIONS } from "./constants";
 

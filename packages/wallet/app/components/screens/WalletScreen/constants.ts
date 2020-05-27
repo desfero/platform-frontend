@@ -6,7 +6,8 @@ import noop from "lodash/fp/noop";
 import times from "lodash/fp/times";
 import uniqueId from "lodash/fp/uniqueId";
 
-import { EIconType } from "../../shared/Icon";
+import { EIconType } from "components/shared/Icon";
+
 import { ETransactionType } from "./TransactionSection/Transactions";
 import { ETransactionDirection } from "./TransactionSection/types";
 

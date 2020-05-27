@@ -1,11 +1,12 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 
-import { baseGray, blueyGray, transparent } from "../../../styles/colors";
-import { st } from "../../utils";
-import { EIconType, Icon } from "../Icon";
-import { LoadingIndicator } from "../LoadingIndicator";
-import { BodyBoldText } from "../typography/BodyText";
+import { EIconType, Icon } from "components/shared/Icon";
+import { LoadingIndicator } from "components/shared/LoadingIndicator";
+import { BodyBoldText } from "components/shared/typography/BodyText";
+import { st } from "components/utils";
+
+import { baseGray, blueyGray, transparent } from "styles/colors";
 
 type TTouchableProps = React.ComponentProps<typeof TouchableOpacity>;
 

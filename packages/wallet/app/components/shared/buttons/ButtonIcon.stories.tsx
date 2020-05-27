@@ -3,8 +3,9 @@ import { storiesOf } from "@storybook/react-native";
 import * as React from "react";
 import { View } from "react-native";
 
-import { EIconType } from "../Icon";
-import { LineBreak } from "../LineBreak";
+import { EIconType } from "components/shared/Icon";
+import { LineBreak } from "components/shared/LineBreak";
+
 import { ButtonIcon } from "./ButtonIcon";
 
 storiesOf("Atoms|ButtonIcon", module)

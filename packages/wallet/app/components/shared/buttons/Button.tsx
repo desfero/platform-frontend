@@ -2,6 +2,11 @@ import { assertNever } from "@neufund/shared-utils";
 import React from "react";
 import { StyleSheet, TouchableHighlight } from "react-native";
 
+import { LoadingIndicator } from "components/shared/LoadingIndicator";
+import { Touchable } from "components/shared/Touchable";
+import { BodyBoldText } from "components/shared/typography/BodyText";
+import { st } from "components/utils";
+
 import {
   baseGray,
   baseWhite,
@@ -13,11 +18,7 @@ import {
   silverLighter2,
   transparent,
   yellowDarker1,
-} from "../../../styles/colors";
-import { st } from "../../utils";
-import { LoadingIndicator } from "../LoadingIndicator";
-import { Touchable } from "../Touchable";
-import { BodyBoldText } from "../typography/BodyText";
+} from "styles/colors";
 
 enum EButtonLayout {
   PRIMARY = "primary",

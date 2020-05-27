@@ -8,13 +8,14 @@ import {
   View,
 } from "react-native";
 
-import { baseGray, baseGreen, baseWhite } from "../../../styles/colors";
-import { roundness, shadowStyles } from "../../../styles/common";
-import { spacing2, spacingStyles } from "../../../styles/spacings";
-import { typographyStyles } from "../../../styles/typography";
-import { Panel } from "../../shared/panel/Panel";
-import { Headline } from "../../shared/typography/Headline";
-import { HelperText } from "../../shared/typography/HelperText";
+import { Panel } from "components/shared/panel/Panel";
+import { Headline } from "components/shared/typography/Headline";
+import { HelperText } from "components/shared/typography/HelperText";
+
+import { baseGray, baseGreen, baseWhite } from "styles/colors";
+import { roundness, shadowStyles } from "styles/common";
+import { spacing2, spacingStyles } from "styles/spacings";
+import { typographyStyles } from "styles/typography";
 
 type TEtoCardProps = {
   categories: string[];

@@ -8,9 +8,10 @@ import { utils } from "ethers";
 import { KeyPair } from "ethers/utils/secp256k1";
 import { injectable, inject } from "inversify";
 
-import { DeviceInformation } from "../../device-information/DeviceInformation";
-import { deviceInformationModuleApi } from "../../device-information/module";
-import { EthModuleError } from "../errors";
+import { DeviceInformation } from "modules/device-information/DeviceInformation";
+import { deviceInformationModuleApi } from "modules/device-information/module";
+import { EthModuleError } from "modules/eth/errors";
+
 import {
   ISecureStorage,
   TSecureReference,

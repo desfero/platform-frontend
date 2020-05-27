@@ -1,4 +1,4 @@
-import { IStorageMetaData } from "../types/IStorageMetadata";
+import { IStorageMetaData } from "modules/storage/types/IStorageMetadata";
 
 export class StorageMetaData implements IStorageMetaData {
   public appVersion: number;

@@ -3,7 +3,8 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { utils } from "ethers";
 import * as Keychain from "react-native-keychain";
 
-import { CacheClass, Cache } from "../../../utils/memoryCache";
+import { CacheClass, Cache } from "utils/memoryCache";
+
 import { CACHE_TIMEOUT } from "./constants";
 
 export type TSecureReference = Opaque<"SecureReference", string>;

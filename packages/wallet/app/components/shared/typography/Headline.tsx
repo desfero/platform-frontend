@@ -2,7 +2,7 @@ import { assertNever } from "@neufund/shared-utils";
 import * as React from "react";
 import { Animated } from "react-native";
 
-import { typographyStyles } from "../../../styles/typography";
+import { typographyStyles } from "styles/typography";
 
 enum EHeadlineLevel {
   LEVEL1 = 1,

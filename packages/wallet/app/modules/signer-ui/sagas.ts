@@ -2,7 +2,8 @@ import { takeLatest, put, take, call, TActionFromCreator, SagaGenerator } from "
 import { coreModuleApi, neuGetBindings } from "@neufund/shared-modules";
 import { assertNever, invariant } from "@neufund/shared-utils";
 
-import { walletEthModuleApi } from "../eth/module";
+import { walletEthModuleApi } from "modules/eth/module";
+
 import { signerUIActions } from "./actions";
 import { ESignerType } from "./types";
 

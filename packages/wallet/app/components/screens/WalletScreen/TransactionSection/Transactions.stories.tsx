@@ -2,7 +2,8 @@ import { action } from "@storybook/addon-actions";
 import { storiesOf } from "@storybook/react-native";
 import * as React from "react";
 
-import { MOCK_TRANSACTIONS } from "../constants";
+import { MOCK_TRANSACTIONS } from "components/screens/WalletScreen/constants";
+
 import { Transactions } from "./Transactions";
 
 storiesOf("Organisms|Transactions", module).add("default", () => (

@@ -1,4 +1,5 @@
-import { walletEthModuleApi } from "../eth/module";
+import { walletEthModuleApi } from "modules/eth/module";
+
 import { EImportPhrase, UNSUPPORTED_IMPORT_PHRASE } from "./types";
 
 const parseImportPhrase = (importPhrase: string) => {

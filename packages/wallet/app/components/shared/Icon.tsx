@@ -3,19 +3,19 @@ import pickBy from "lodash/fp/pickBy";
 import * as React from "react";
 import { StyleProp, StyleSheet, ViewStyle } from "react-native";
 
-import Close from "../../assets/close.svg";
-import Home from "../../assets/home.svg";
-import Investments from "../../assets/investments.svg";
-import Pending from "../../assets/pending.svg";
-import Placeholder from "../../assets/placeholder.svg";
-import Profile from "../../assets/profile.svg";
-import QrCode from "../../assets/qr-code.svg";
-import RightArrow from "../../assets/right-arrow.svg";
-import Share from "../../assets/share.svg";
-import Eth from "../../assets/tokens/eth.svg";
-import NEur from "../../assets/tokens/n-eur.svg";
-import Wallet from "../../assets/wallet.svg";
-import Yes from "../../assets/yes.svg";
+import Close from "assets/close.svg";
+import Home from "assets/home.svg";
+import Investments from "assets/investments.svg";
+import Pending from "assets/pending.svg";
+import Placeholder from "assets/placeholder.svg";
+import Profile from "assets/profile.svg";
+import QrCode from "assets/qr-code.svg";
+import RightArrow from "assets/right-arrow.svg";
+import Share from "assets/share.svg";
+import Eth from "assets/tokens/eth.svg";
+import NEur from "assets/tokens/n-eur.svg";
+import Wallet from "assets/wallet.svg";
+import Yes from "assets/yes.svg";
 
 enum EIconType {
   HOME = "home",

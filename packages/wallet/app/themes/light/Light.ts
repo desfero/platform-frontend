@@ -1,4 +1,5 @@
-import { EThemeVariant, ITheme } from "../types";
+import { EThemeVariant, ITheme } from "themes/types";
+
 import { lightColorSystem } from "./colorSystem";
 
 const navigationTheme = {

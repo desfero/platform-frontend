@@ -1,7 +1,8 @@
 import { assertType, AssertEqual } from "@neufund/shared-utils/tests";
 import * as yup from "yup";
 
-import { tupleSchema } from "../../../utils/yupSchemas";
+import { tupleSchema } from "utils/yupSchemas";
+
 import { getJSONRPCSchema } from "./schemas";
 
 type YupPrimitiveInfer<T> = T extends yup.Schema<infer T> ? T : never;

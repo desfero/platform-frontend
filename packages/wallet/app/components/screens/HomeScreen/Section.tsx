@@ -1,8 +1,9 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
-import { spacingStyles } from "../../../styles/spacings";
-import { EHeadlineLevel, Headline } from "../../shared/typography/Headline";
+import { EHeadlineLevel, Headline } from "components/shared/typography/Headline";
+
+import { spacingStyles } from "styles/spacings";
 
 type TExternalProps = {
   heading: string;

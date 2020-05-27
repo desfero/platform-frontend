@@ -4,7 +4,8 @@ import { KeyboardAvoidingView, Platform, Animated, StyleSheet } from "react-nati
 import { useSafeArea } from "react-native-safe-area-context";
 import SafeAreaView from "react-native-safe-area-view";
 
-import { baseWhite } from "../../styles/colors";
+import { baseWhite } from "styles/colors";
+
 import { EStatusBarStyle, useStatusBarStyle } from "./hooks/useStatusBarStyle";
 
 type TExternalCommonProps = {

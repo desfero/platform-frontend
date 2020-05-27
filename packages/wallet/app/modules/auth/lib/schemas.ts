@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-import { StorageSchema } from "../../storage";
+import { StorageSchema } from "modules/storage";
 
 const JWTSchema = yup.string().required();
 

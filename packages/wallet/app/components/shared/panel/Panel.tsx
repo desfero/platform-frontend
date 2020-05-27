@@ -1,9 +1,9 @@
 import React from "react";
 import { StyleProp, StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
 
-import { baseWhite } from "../../../styles/colors";
-import { roundness, shadowStyles } from "../../../styles/common";
-import { spacingStyles } from "../../../styles/spacings";
+import { baseWhite } from "styles/colors";
+import { roundness, shadowStyles } from "styles/common";
+import { spacingStyles } from "styles/spacings";
 
 type TExternalProps = {
   contentContainerStyle?: StyleProp<ViewStyle>;

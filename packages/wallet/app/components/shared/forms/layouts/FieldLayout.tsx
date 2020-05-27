@@ -3,8 +3,10 @@ import { Ref } from "react";
 import * as React from "react";
 import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 
-import { TComponentRefType } from "../../../../utils/types";
-import { HelperText } from "../../typography/HelperText";
+import { HelperText } from "components/shared/typography/HelperText";
+
+import { TComponentRefType } from "utils/types";
+
 import { ErrorMessage } from "./ErrorMessage";
 import { Label } from "./Label";
 import { TextAreaInput } from "./TextAreaInput";

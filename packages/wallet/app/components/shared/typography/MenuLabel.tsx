@@ -1,7 +1,7 @@
 import React from "react";
 import { Text as NativeText } from "react-native";
 
-import { typographyStyles } from "../../../styles/typography";
+import { typographyStyles } from "styles/typography";
 
 type TExternalProps = React.ComponentProps<typeof NativeText>;
 

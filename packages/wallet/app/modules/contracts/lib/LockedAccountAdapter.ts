@@ -2,8 +2,8 @@ import { ILockedAccountAdapter } from "@neufund/shared-modules";
 import { BigNumber } from "bignumber.js";
 import { providers, Signer } from "ethers";
 
-import { LockedAccount } from "../../../lib/contracts/LockedAccount";
-import { LockedAccountFactory } from "../../../lib/contracts/LockedAccountFactory";
+import { LockedAccount } from "lib/contracts/LockedAccount";
+import { LockedAccountFactory } from "lib/contracts/LockedAccountFactory";
 
 class LockedAccountAdapterFactory {
   static connect(

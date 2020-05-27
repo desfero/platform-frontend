@@ -1,7 +1,8 @@
 import { coreModuleApi, TLibSymbolType } from "@neufund/shared-modules";
 import { ContainerModule } from "inversify";
 
-import { AppSingleKeyStorage, storageModuleApi } from "../../storage";
+import { AppSingleKeyStorage, storageModuleApi } from "modules/storage";
+
 import { ethAdapterFactory } from "./EthAdapter";
 import { EthManager } from "./EthManager";
 import { EthSecureEnclave } from "./EthSecureEnclave";

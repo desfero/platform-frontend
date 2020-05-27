@@ -4,16 +4,20 @@ import * as React from "react";
 import { StyleSheet } from "react-native";
 import * as Yup from "yup";
 
-import fixtures from "../../../lib/contracts/fixtures.json";
-import { authModuleAPI, EAuthState } from "../../../modules/auth/module";
-import { walletEthModuleApi } from "../../../modules/eth/module";
-import { appConnect } from "../../../store/utils";
-import { spacingStyles } from "../../../styles/spacings";
-import { SafeAreaScreen } from "../../shared/Screen";
-import { Button, EButtonLayout } from "../../shared/buttons/Button";
-import { Field } from "../../shared/forms/fields/Field";
-import { Form } from "../../shared/forms/fields/Form";
-import { EFieldType } from "../../shared/forms/layouts/FieldLayout";
+import { SafeAreaScreen } from "components/shared/Screen";
+import { Button, EButtonLayout } from "components/shared/buttons/Button";
+import { Field } from "components/shared/forms/fields/Field";
+import { Form } from "components/shared/forms/fields/Form";
+import { EFieldType } from "components/shared/forms/layouts/FieldLayout";
+
+import fixtures from "lib/contracts/fixtures.json";
+
+import { authModuleAPI, EAuthState } from "modules/auth/module";
+import { walletEthModuleApi } from "modules/eth/module";
+
+import { appConnect } from "store/utils";
+
+import { spacingStyles } from "styles/spacings";
 
 type TStateProps = {
   authState: ReturnType<typeof authModuleAPI.selectors.selectAuthState>;

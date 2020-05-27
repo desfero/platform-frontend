@@ -1,15 +1,16 @@
 import { setupCoreModule, setupTokenPriceModule } from "@neufund/shared-modules";
 
-import { setupAuthModule } from "../auth/module";
-import { setupWalletContractsModule } from "../contracts/module";
-import { setupDeviceInformationModule } from "../device-information/module";
-import { setupWalletEthModule } from "../eth/module";
-import { setupNotificationUIModule } from "../notification-ui/module";
-import { setupNotificationsModule } from "../notifications/module";
-import { setupPermissionsModule } from "../permissions/module";
-import { setupSignerUIModule } from "../signer-ui/module";
-import { setupStorageModule } from "../storage";
-import { setupWalletConnectModule } from "../wallet-connect/module";
+import { setupAuthModule } from "modules/auth/module";
+import { setupWalletContractsModule } from "modules/contracts/module";
+import { setupDeviceInformationModule } from "modules/device-information/module";
+import { setupWalletEthModule } from "modules/eth/module";
+import { setupNotificationUIModule } from "modules/notification-ui/module";
+import { setupNotificationsModule } from "modules/notifications/module";
+import { setupPermissionsModule } from "modules/permissions/module";
+import { setupSignerUIModule } from "modules/signer-ui/module";
+import { setupStorageModule } from "modules/storage";
+import { setupWalletConnectModule } from "modules/wallet-connect/module";
+
 import { initActions } from "./actions";
 import { initReducersMap } from "./reducer";
 import { initSaga } from "./sagas";

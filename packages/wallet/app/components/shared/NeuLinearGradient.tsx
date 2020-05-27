@@ -1,7 +1,7 @@
 import React from "react";
 import LinearGradient from "react-native-linear-gradient";
 
-import { useTheme } from "../../themes/ThemeProvider";
+import { useTheme } from "themes/ThemeProvider";
 
 type TExternalProps = Omit<
   React.ComponentProps<typeof LinearGradient>,

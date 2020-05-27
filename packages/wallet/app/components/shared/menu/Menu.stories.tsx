@@ -2,7 +2,8 @@ import { action } from "@storybook/addon-actions";
 import { storiesOf } from "@storybook/react-native";
 import * as React from "react";
 
-import { EIconType } from "../Icon";
+import { EIconType } from "components/shared/Icon";
+
 import { EMenuItemType, Menu } from "./Menu";
 
 const switcherItemsWithTitleAndHelptext = [

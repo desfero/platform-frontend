@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-community/async-storage";
 import { injectable } from "inversify";
 
-import { ISecureStorageProvider } from "../types/ISecureStorageProvider";
+import { ISecureStorageProvider } from "modules/storage/types/ISecureStorageProvider";
 
 /**
  * A class implementing IAppStorageProvider for AsyncStorage provider library

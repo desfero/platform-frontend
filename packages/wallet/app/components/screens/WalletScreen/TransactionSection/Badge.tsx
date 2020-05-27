@@ -1,9 +1,10 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 
-import { baseWhite, bluish } from "../../../../styles/colors";
-import { spacingStyles } from "../../../../styles/spacings";
-import { MenuLabelBold } from "../../../shared/typography/MenuLabel";
+import { MenuLabelBold } from "components/shared/typography/MenuLabel";
+
+import { baseWhite, bluish } from "styles/colors";
+import { spacingStyles } from "styles/spacings";
 
 enum EBadgeType {
   PENDING = "pending",

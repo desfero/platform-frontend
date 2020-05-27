@@ -3,11 +3,12 @@ import { useField } from "formik";
 import React, { Ref } from "react";
 import { StyleProp, ViewStyle } from "react-native";
 
-import { TComponentRefType } from "../../../../utils/types";
-import { EFieldType, FieldLayout } from "../layouts/FieldLayout";
-import { TextAreaInput } from "../layouts/TextAreaInput";
-import { TextInput } from "../layouts/TextInput";
-import { Switcher } from "../layouts/switcher/Switcher";
+import { EFieldType, FieldLayout } from "components/shared/forms/layouts/FieldLayout";
+import { TextAreaInput } from "components/shared/forms/layouts/TextAreaInput";
+import { TextInput } from "components/shared/forms/layouts/TextInput";
+import { Switcher } from "components/shared/forms/layouts/switcher/Switcher";
+
+import { TComponentRefType } from "utils/types";
 
 type TCustomInputProps =
   | ({ type: EFieldType.INPUT } & Pick<React.ComponentProps<typeof TextInput>, "placeholder">)

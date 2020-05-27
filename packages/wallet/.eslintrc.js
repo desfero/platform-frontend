@@ -1,3 +1,5 @@
+const tsConfig = require("./tsconfig.json");
+
 module.exports = {
   root: true,
   extends: "@neufund/eslint-config/react-native",
@@ -16,6 +18,27 @@ module.exports = {
         ignoreReadonlyClassProperties: true,
       },
     ],
+    "import/order": [
+      "error",
+      {
+        groups: [
+          ["builtin", "external"],
+          ["internal", "parent", "sibling", "index"],
+        ],
+        "newlines-between": "always",
+        alphabetize: {
+          order: "asc",
+        },
+        pathGroups: Object.keys(tsConfig.compilerOptions.paths).map(path => ({
+          // e.g. "assets/*" => "assets/**"
+          pattern: `${path}*`,
+          group: "external",
+          position: "after",
+        })),
+        pathGroupsExcludedImportTypes: ["builtin"],
+      },
+    ],
+    "import/no-relative-parent-imports": "error",
   },
   overrides: [
     {

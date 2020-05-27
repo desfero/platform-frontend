@@ -16,8 +16,9 @@ import {
   silverLighter2,
   darkBlueGray2,
   darkBlueGray1,
-} from "../../styles/colors";
-import { IColorSystem } from "../types";
+} from "styles/colors";
+
+import { IColorSystem } from "themes/types";
 
 const lightColorSystem: IColorSystem = {
   base: {

@@ -1,10 +1,11 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
-import { baseGray, silverLighter1 } from "../../../../styles/colors";
-import { spacing3, spacingStyles } from "../../../../styles/spacings";
-import { EIconType, Icon } from "../../../shared/Icon";
-import { EHeadlineLevel, Headline } from "../../../shared/typography/Headline";
+import { EIconType, Icon } from "components/shared/Icon";
+import { EHeadlineLevel, Headline } from "components/shared/typography/Headline";
+
+import { baseGray, silverLighter1 } from "styles/colors";
+import { spacing3, spacingStyles } from "styles/spacings";
 
 type TViewProps = React.ComponentProps<typeof View>;
 

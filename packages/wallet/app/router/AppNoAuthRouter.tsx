@@ -2,12 +2,14 @@ import { createStackNavigator, TransitionPresets } from "@react-navigation/stack
 import React from "react";
 import Config from "react-native-config";
 
-import { ImportAccountScreen } from "../components/screens/ImportAccountScreen/ImportAccountScreen";
-import { LandingScreen } from "../components/screens/LandingScreen/LandingScreen";
-import { SwitchAccountScreen } from "../components/screens/SwitchAccountScreen/SwitchAccountScreen";
-import { UnlockAccountScreen } from "../components/screens/UnlockAccountScreen/UnlockAccountScreen";
-import { ModalStackHeader } from "../components/shared/ModalStackHeader";
-import { TAuthWalletMetadata } from "../modules/auth/module";
+import { ImportAccountScreen } from "components/screens/ImportAccountScreen/ImportAccountScreen";
+import { LandingScreen } from "components/screens/LandingScreen/LandingScreen";
+import { SwitchAccountScreen } from "components/screens/SwitchAccountScreen/SwitchAccountScreen";
+import { UnlockAccountScreen } from "components/screens/UnlockAccountScreen/UnlockAccountScreen";
+import { ModalStackHeader } from "components/shared/ModalStackHeader";
+
+import { TAuthWalletMetadata } from "modules/auth/module";
+
 import { EAppRoutes } from "./appRoutes";
 import { RootStackParamList } from "./routeUtils";
 

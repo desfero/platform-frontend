@@ -1,7 +1,7 @@
 import * as React from "react";
 import { StyleSheet, Image } from "react-native";
 
-import { Icon } from "../Icon";
+import { Icon } from "components/shared/Icon";
 
 type TImageProps = React.ComponentProps<typeof Image>;
 type TIconProps = React.ComponentProps<typeof Icon>;

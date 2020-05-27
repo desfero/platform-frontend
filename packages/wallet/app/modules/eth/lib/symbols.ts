@@ -1,6 +1,7 @@
 import { createLibSymbol } from "@neufund/shared-modules";
 
-import { AppSingleKeyStorage } from "../../storage";
+import { AppSingleKeyStorage } from "modules/storage";
+
 import { TEthAdapterFactoryType } from "./EthAdapter";
 import { EthManager } from "./EthManager";
 import { EthSecureEnclave } from "./EthSecureEnclave";

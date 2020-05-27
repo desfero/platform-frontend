@@ -14,12 +14,14 @@ import {
 import { coreModuleApi, neuGetBindings } from "@neufund/shared-modules";
 import { assertNever } from "@neufund/shared-utils";
 
-import { EAppRoutes } from "../../router/appRoutes";
-import { navigate } from "../../router/routeUtils";
-import { notificationUIModuleApi } from "../notification-ui/module";
-import { signerUIModuleApi } from "../signer-ui/module";
-import { ESignerType } from "../signer-ui/types";
-import { reduxify } from "../utils";
+import { notificationUIModuleApi } from "modules/notification-ui/module";
+import { signerUIModuleApi } from "modules/signer-ui/module";
+import { ESignerType } from "modules/signer-ui/types";
+import { reduxify } from "modules/utils";
+
+import { EAppRoutes } from "router/appRoutes";
+import { navigate } from "router/routeUtils";
+
 import { walletConnectActions } from "./actions";
 import { WalletConnectManager } from "./lib/WalletConnectManager";
 import { privateSymbols } from "./lib/symbols";

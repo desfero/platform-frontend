@@ -15,9 +15,9 @@
 		44C078612420CDC000CD0C0F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 44C078602420CDC000CD0C0F /* GoogleService-Info.plist */; };
 		965F0307243B1D190055C7D0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 965F0306243B1D190055C7D0 /* LaunchScreen.storyboard */; };
 		BA577FB11DA5E440D4B93FF2 /* libPods-wallet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F90EC4E5707298CEB599B49 /* libPods-wallet.a */; };
-		C2C8D5B1B8D14A8096C562CB /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8664C35363264F6D9A1F72B2 /* Roboto-Regular.ttf */; };
-		CDEE3ED7D2894CE8AD0C2A44 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5C3B1B79A78840FBAD4EFBDB /* Roboto-Medium.ttf */; };
-		CE662478B3B2439E9EF842E1 /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6C6451630EA742FAA6F9D489 /* Montserrat-SemiBold.ttf */; };
+		41D7C7554656486D8F2A1095 /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7ECC95DD7A44468B165BFFE /* Montserrat-SemiBold.ttf */; };
+		8455F0A31BCC4D29A2D8B030 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C486F05C15B478AB5F6C2BC /* Roboto-Medium.ttf */; };
+		36B4241186394786A6707D8C /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2471D79059C840348B73F08D /* Roboto-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,12 +46,9 @@
 		1CB8445FD0BAA91A1AA7CC94 /* Pods-wallet-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wallet-tvOS.release.xcconfig"; path = "Target Support Files/Pods-wallet-tvOS/Pods-wallet-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		4434BAB2241136A100F148AD /* wallet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = wallet.entitlements; path = wallet/wallet.entitlements; sourceTree = "<group>"; };
 		44C078602420CDC000CD0C0F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		5C3B1B79A78840FBAD4EFBDB /* Roboto-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Medium.ttf"; path = "../assets/fonts/Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		5F4B4B4B38B6CC79E9FB1328 /* Pods-wallet.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wallet.debug.xcconfig"; path = "Target Support Files/Pods-wallet/Pods-wallet.debug.xcconfig"; sourceTree = "<group>"; };
 		62DAFB620663EB496791EE56 /* Pods-wallet-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wallet-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-wallet-tvOSTests/Pods-wallet-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		65141A4A63FAF655F753BDB1 /* Pods-wallet-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wallet-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-wallet-tvOSTests/Pods-wallet-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		6C6451630EA742FAA6F9D489 /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-SemiBold.ttf"; path = "../assets/fonts/Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
-		8664C35363264F6D9A1F72B2 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Regular.ttf"; path = "../assets/fonts/Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		9657C6692434B00D00D42ABE /* walletRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = walletRelease.entitlements; path = wallet/walletRelease.entitlements; sourceTree = "<group>"; };
 		965F0306243B1D190055C7D0 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9744DAC7C307A312D09888EB /* Pods-wallet.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wallet.release.xcconfig"; path = "Target Support Files/Pods-wallet/Pods-wallet.release.xcconfig"; sourceTree = "<group>"; };
@@ -62,6 +59,9 @@
 		E6B95561D0D01F21D6EF11D0 /* libPods-walletTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-walletTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		D7ECC95DD7A44468B165BFFE /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; name = "Montserrat-SemiBold.ttf"; path = "../app/assets/fonts/Montserrat-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7C486F05C15B478AB5F6C2BC /* Roboto-Medium.ttf */ = {isa = PBXFileReference; name = "Roboto-Medium.ttf"; path = "../app/assets/fonts/Roboto-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2471D79059C840348B73F08D /* Roboto-Regular.ttf */ = {isa = PBXFileReference; name = "Roboto-Regular.ttf"; path = "../app/assets/fonts/Roboto-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,9 +181,9 @@
 		ED0F22FB71AA4240B94A8BF8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				5C3B1B79A78840FBAD4EFBDB /* Roboto-Medium.ttf */,
-				8664C35363264F6D9A1F72B2 /* Roboto-Regular.ttf */,
-				6C6451630EA742FAA6F9D489 /* Montserrat-SemiBold.ttf */,
+				D7ECC95DD7A44468B165BFFE /* Montserrat-SemiBold.ttf */,
+				7C486F05C15B478AB5F6C2BC /* Roboto-Medium.ttf */,
+				2471D79059C840348B73F08D /* Roboto-Regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -285,10 +285,10 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				44C078612420CDC000CD0C0F /* GoogleService-Info.plist in Resources */,
-				CDEE3ED7D2894CE8AD0C2A44 /* Roboto-Medium.ttf in Resources */,
-				C2C8D5B1B8D14A8096C562CB /* Roboto-Regular.ttf in Resources */,
 				965F0307243B1D190055C7D0 /* LaunchScreen.storyboard in Resources */,
-				CE662478B3B2439E9EF842E1 /* Montserrat-SemiBold.ttf in Resources */,
+				41D7C7554656486D8F2A1095 /* Montserrat-SemiBold.ttf in Resources */,
+				8455F0A31BCC4D29A2D8B030 /* Roboto-Medium.ttf in Resources */,
+				36B4241186394786A6707D8C /* Roboto-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

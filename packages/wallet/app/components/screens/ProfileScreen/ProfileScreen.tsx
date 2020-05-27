@@ -3,15 +3,19 @@ import React from "react";
 import { Text } from "react-native";
 import Config from "react-native-config";
 
-import { authModuleAPI } from "../../../modules/auth/module";
-import { walletConnectModuleApi } from "../../../modules/wallet-connect/module";
-import { EAppRoutes } from "../../../router/appRoutes";
-import { useNavigationTyped } from "../../../router/routeUtils";
-import { appConnect } from "../../../store/utils";
-import { EIconType } from "../../shared/Icon";
-import { SafeAreaScreen } from "../../shared/Screen";
-import { Button, EButtonLayout } from "../../shared/buttons/Button";
-import { Menu, EMenuItemType } from "../../shared/menu/Menu";
+import { EIconType } from "components/shared/Icon";
+import { SafeAreaScreen } from "components/shared/Screen";
+import { Button, EButtonLayout } from "components/shared/buttons/Button";
+import { Menu, EMenuItemType } from "components/shared/menu/Menu";
+
+import { authModuleAPI } from "modules/auth/module";
+import { walletConnectModuleApi } from "modules/wallet-connect/module";
+
+import { EAppRoutes } from "router/appRoutes";
+import { useNavigationTyped } from "router/routeUtils";
+
+import { appConnect } from "store/utils";
+
 import { Header } from "./Header/Header";
 
 type TStateProps = {

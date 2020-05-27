@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Animated } from "react-native";
 
-import { typographyStyles } from "../../../styles/typography";
+import { typographyStyles } from "styles/typography";
 
 type TExternalProps = { sizeFactor?: Animated.Animated } & React.ComponentProps<
   typeof Animated.Text

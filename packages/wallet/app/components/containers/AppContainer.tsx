@@ -5,7 +5,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Provider as ReduxProvider } from "react-redux";
 import { Store } from "redux";
 
-import { ThemeProvider } from "../../themes/ThemeProvider";
+import { ThemeProvider } from "themes/ThemeProvider";
 
 type TExternalProps = {
   store: Store;

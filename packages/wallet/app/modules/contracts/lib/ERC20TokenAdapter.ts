@@ -2,8 +2,8 @@ import { IERC20TokenAdapter } from "@neufund/shared-modules";
 import { BigNumber } from "bignumber.js";
 import { providers, Signer } from "ethers";
 
-import { IERC20Token } from "../../../lib/contracts/IERC20Token";
-import { IERC20TokenFactory } from "../../../lib/contracts/IERC20TokenFactory";
+import { IERC20Token } from "lib/contracts/IERC20Token";
+import { IERC20TokenFactory } from "lib/contracts/IERC20TokenFactory";
 
 class ERC20TokenAdapterFactory {
   static connect(

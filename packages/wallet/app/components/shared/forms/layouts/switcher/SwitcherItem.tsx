@@ -1,18 +1,13 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 
-import {
-  baseGray,
-  baseSilver,
-  baseWhite,
-  blueyGray,
-  grayLighter4,
-} from "../../../../../styles/colors";
-import { spacingStyles } from "../../../../../styles/spacings";
-import { st } from "../../../../utils";
-import { EIconType, Icon } from "../../../Icon";
-import { BodyText } from "../../../typography/BodyText";
-import { MenuLabel } from "../../../typography/MenuLabel";
+import { EIconType, Icon } from "components/shared/Icon";
+import { BodyText } from "components/shared/typography/BodyText";
+import { MenuLabel } from "components/shared/typography/MenuLabel";
+import { st } from "components/utils";
+
+import { baseGray, baseSilver, baseWhite, blueyGray, grayLighter4 } from "styles/colors";
+import { spacingStyles } from "styles/spacings";
 
 type TTouchableProps = React.ComponentProps<typeof TouchableOpacity>;
 

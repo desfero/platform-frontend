@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Animated } from "react-native";
 
-import { spacingStyles } from "../../../../styles/spacings";
+import { spacingStyles } from "styles/spacings";
 
 export const ICON_SIZE = 24;
 

@@ -2,10 +2,11 @@ import { createStackNavigator, TransitionPresets } from "@react-navigation/stack
 import React from "react";
 import Config from "react-native-config";
 
-import { QRCode } from "../components/QRCode";
-import { SwitchAccountScreen } from "../components/screens/SwitchAccountScreen/SwitchAccountScreen";
-import { WebView } from "../components/screens/WebViewScreen/WebViewScreen";
-import { ModalStackHeader } from "../components/shared/ModalStackHeader";
+import { QRCode } from "components/QRCode";
+import { SwitchAccountScreen } from "components/screens/SwitchAccountScreen/SwitchAccountScreen";
+import { WebView } from "components/screens/WebViewScreen/WebViewScreen";
+import { ModalStackHeader } from "components/shared/ModalStackHeader";
+
 import { AppAuthRouterTabs } from "./AppAuthRouterTabs";
 import { EAppRoutes } from "./appRoutes";
 import { RootStackParamList } from "./routeUtils";

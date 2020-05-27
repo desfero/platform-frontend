@@ -5,9 +5,11 @@ import { IClientMeta } from "@walletconnect/types";
 import { EventEmitter2 } from "eventemitter2";
 import { interfaces } from "inversify";
 
-import { unwrapPromise } from "../../../utils/promiseUtils";
-import { WalletConnectModuleError } from "../errors";
-import { TWalletConnectPeer } from "../types";
+import { WalletConnectModuleError } from "modules/wallet-connect/errors";
+import { TWalletConnectPeer } from "modules/wallet-connect/types";
+
+import { unwrapPromise } from "utils/promiseUtils";
+
 import {
   CALL_REQUEST_EVENT,
   DISCONNECT_EVENT,

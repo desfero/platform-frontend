@@ -1,8 +1,10 @@
 import { noopLogger } from "@neufund/shared-modules";
 import { toEthereumHDPath } from "@neufund/shared-utils";
 
-import { createMock } from "../../../utils/testUtils.specUtils";
-import { DeviceInformation } from "../../device-information/DeviceInformation";
+import { DeviceInformation } from "modules/device-information/DeviceInformation";
+
+import { createMock } from "utils/testUtils.specUtils";
+
 import {
   EthSecureEnclave,
   FailedToDerivePrivateKey,

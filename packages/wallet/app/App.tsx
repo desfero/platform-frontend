@@ -4,16 +4,20 @@ import React from "react";
 import { InteractionManager } from "react-native";
 import RNBootSplash from "react-native-bootsplash";
 
-import { CriticalError } from "./components/CriticalError";
-import { SignerModal } from "./components/modals/SignerModal/SignerModal";
+import { CriticalError } from "components/CriticalError";
+import { SignerModal } from "components/modals/SignerModal/SignerModal";
+
+import { EAuthState, authModuleAPI } from "modules/auth/module";
+import { initModuleApi, EInitStatus } from "modules/init/module";
+
+import { AppAuthRouter } from "router/AppAuthRouter";
+import { AppNoAuthRouter } from "router/AppNoAuthRouter";
+import { navigationRef } from "router/routeUtils";
+
+import { useTheme } from "themes/ThemeProvider";
+
 import { usePrevious } from "./hooks/usePrevious";
-import { EAuthState, authModuleAPI } from "./modules/auth/module";
-import { initModuleApi, EInitStatus } from "./modules/init/module";
-import { AppAuthRouter } from "./router/AppAuthRouter";
-import { AppNoAuthRouter } from "./router/AppNoAuthRouter";
-import { navigationRef } from "./router/routeUtils";
 import { appConnect } from "./store/utils";
-import { useTheme } from "./themes/ThemeProvider";
 
 type TStateProps = {
   initStatus: ReturnType<typeof initModuleApi.selectors.selectInitStatus>;

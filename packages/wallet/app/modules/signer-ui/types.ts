@@ -1,6 +1,6 @@
 import { EthereumAddressWithChecksum } from "@neufund/shared-utils";
 
-import { TTransactionRequestRequired } from "../eth/lib/types";
+import { TTransactionRequestRequired } from "modules/eth/lib/types";
 
 enum ESignerType {
   WC_SESSION_REQUEST = "wc_session_request",

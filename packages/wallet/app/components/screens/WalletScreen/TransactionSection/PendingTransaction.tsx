@@ -9,13 +9,15 @@ import {
   View,
 } from "react-native";
 
-import { baseGray, baseGreen, baseSilver, blueyGray } from "../../../../styles/colors";
-import { spacingStyles } from "../../../../styles/spacings";
-import { EIconType, Icon } from "../../../shared/Icon";
-import { Money } from "../../../shared/Money";
-import { HelperText } from "../../../shared/typography/HelperText";
-import { Text, TextBold } from "../../../shared/typography/Text";
-import { st } from "../../../utils";
+import { EIconType, Icon } from "components/shared/Icon";
+import { Money } from "components/shared/Money";
+import { HelperText } from "components/shared/typography/HelperText";
+import { Text, TextBold } from "components/shared/typography/Text";
+import { st } from "components/utils";
+
+import { baseGray, baseGreen, baseSilver, blueyGray } from "styles/colors";
+import { spacingStyles } from "styles/spacings";
+
 import { Badge, EBadgeType } from "./Badge";
 import { IconSpacer } from "./IconSpacer";
 import { ETransactionDirection, TTransaction } from "./types";

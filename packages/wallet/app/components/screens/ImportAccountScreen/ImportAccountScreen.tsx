@@ -1,13 +1,17 @@
 import * as React from "react";
 import { StyleSheet } from "react-native";
 
-import { authModuleAPI } from "../../../modules/auth/module";
-import { appConnect } from "../../../store/utils";
-import { baseGray, grayLighter2 } from "../../../styles/colors";
-import { spacingStyles } from "../../../styles/spacings";
-import { SafeAreaScreen } from "../../shared/Screen";
-import { BodyText } from "../../shared/typography/BodyText";
-import { EHeadlineLevel, Headline } from "../../shared/typography/Headline";
+import { SafeAreaScreen } from "components/shared/Screen";
+import { BodyText } from "components/shared/typography/BodyText";
+import { EHeadlineLevel, Headline } from "components/shared/typography/Headline";
+
+import { authModuleAPI } from "modules/auth/module";
+
+import { appConnect } from "store/utils";
+
+import { baseGray, grayLighter2 } from "styles/colors";
+import { spacingStyles } from "styles/spacings";
+
 import { ImportAccountScreenForm } from "./ImportAccountScreenForm";
 
 type TStateProps = {

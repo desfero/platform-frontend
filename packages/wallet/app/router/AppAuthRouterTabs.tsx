@@ -1,13 +1,15 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 
-import { HomeScreen } from "../components/screens/HomeScreen/HomeScreen";
-import { PortfolioScreen } from "../components/screens/PortfolioScreen/PortfolioScreen";
-import { ProfileScreen } from "../components/screens/ProfileScreen/ProfileScreen";
-import { WalletScreen } from "../components/screens/WalletScreen/WalletScreen";
-import { EIconType, Icon } from "../components/shared/Icon";
-import { MenuLabel } from "../components/shared/typography/MenuLabel";
-import { useTheme } from "../themes/ThemeProvider";
+import { HomeScreen } from "components/screens/HomeScreen/HomeScreen";
+import { PortfolioScreen } from "components/screens/PortfolioScreen/PortfolioScreen";
+import { ProfileScreen } from "components/screens/ProfileScreen/ProfileScreen";
+import { WalletScreen } from "components/screens/WalletScreen/WalletScreen";
+import { EIconType, Icon } from "components/shared/Icon";
+import { MenuLabel } from "components/shared/typography/MenuLabel";
+
+import { useTheme } from "themes/ThemeProvider";
+
 import { EAppRoutes } from "./appRoutes";
 
 const Tab = createBottomTabNavigator();

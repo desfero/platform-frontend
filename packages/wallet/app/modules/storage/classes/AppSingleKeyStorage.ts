@@ -1,9 +1,10 @@
 import { coreModuleApi, ILogger, ISingleKeyStorage } from "@neufund/shared-modules";
 import { inject, injectable } from "inversify";
 
-import { symbols } from "../symbols";
-import { IStorageItem } from "../types/IStorageItem";
-import { IStorageSchema } from "../types/IStorageSchema";
+import { symbols } from "modules/storage/symbols";
+import { IStorageItem } from "modules/storage/types/IStorageItem";
+import { IStorageSchema } from "modules/storage/types/IStorageSchema";
+
 import { AppStorage } from "./AppStorage";
 import { AsyncStorageProvider } from "./AsyncStorageProvider";
 

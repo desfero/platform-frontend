@@ -3,7 +3,8 @@ import { action } from "@storybook/addon-actions";
 import { storiesOf } from "@storybook/react-native";
 import * as React from "react";
 
-import { EIconType } from "../../../shared/Icon";
+import { EIconType } from "components/shared/Icon";
+
 import { SuccessfulTransaction } from "./SuccessfulTransaction";
 import { ETransactionDirection } from "./types";
 

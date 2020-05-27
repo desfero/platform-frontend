@@ -2,16 +2,21 @@ import React from "react";
 import { Image, StyleSheet, View } from "react-native";
 import Config from "react-native-config";
 
-import logo from "../../../../assets/images/logo.png";
-import { authModuleAPI, EAuthState } from "../../../modules/auth/module";
-import { EAppRoutes } from "../../../router/appRoutes";
-import { useNavigationTyped } from "../../../router/routeUtils";
-import { appConnect } from "../../../store/utils";
-import { silverLighter2 } from "../../../styles/colors";
-import { spacingStyles } from "../../../styles/spacings";
-import { NeuGradientScreen } from "../../shared/NeuGradientScreen";
-import { Button, EButtonLayout } from "../../shared/buttons/Button";
-import { EHeadlineLevel, Headline } from "../../shared/typography/Headline";
+import logo from "assets/images/logo.png";
+
+import { NeuGradientScreen } from "components/shared/NeuGradientScreen";
+import { Button, EButtonLayout } from "components/shared/buttons/Button";
+import { EHeadlineLevel, Headline } from "components/shared/typography/Headline";
+
+import { authModuleAPI, EAuthState } from "modules/auth/module";
+
+import { EAppRoutes } from "router/appRoutes";
+import { useNavigationTyped } from "router/routeUtils";
+
+import { appConnect } from "store/utils";
+
+import { silverLighter2 } from "styles/colors";
+import { spacingStyles } from "styles/spacings";
 
 type TStateProps = {
   authState: ReturnType<typeof authModuleAPI.selectors.selectAuthState>;

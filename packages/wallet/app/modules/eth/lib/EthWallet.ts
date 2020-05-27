@@ -9,7 +9,8 @@ import { utils } from "ethers";
 import { UnsignedTransaction } from "ethers/utils";
 import { interfaces } from "inversify";
 
-import { EthModuleError } from "../errors";
+import { EthModuleError } from "modules/eth/errors";
+
 import { EthSecureEnclave } from "./EthSecureEnclave";
 import { TWalletMetadata } from "./schemas";
 import { privateSymbols } from "./symbols";

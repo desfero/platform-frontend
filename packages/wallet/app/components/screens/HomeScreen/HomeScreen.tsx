@@ -2,20 +2,25 @@ import { toEquityTokenSymbol } from "@neufund/shared-utils";
 import React from "react";
 import { StyleSheet } from "react-native";
 
-import emfluxmotorsBanner from "../../../assets/images/emfluxmotors.png";
-import greypBanner from "../../../assets/images/greyp.png";
-import icbmBanner from "../../../assets/images/icbm.png";
-import myswooopBanner from "../../../assets/images/myswooop.png";
-import neufundBanner from "../../../assets/images/neufund.png";
-import ngraveBanner from "../../../assets/images/ngrave.png";
-import nuCaoBanner from "../../../assets/images/nucao.png";
-import { EAppRoutes } from "../../../router/appRoutes";
-import { useNavigationTyped } from "../../../router/routeUtils";
-import { appConnect } from "../../../store/utils";
-import { spacingStyles } from "../../../styles/spacings";
-import { EIconType } from "../../shared/Icon";
-import { SafeAreaScreen } from "../../shared/Screen";
-import { Asset, EAssetType } from "../../shared/asset/Asset";
+import emfluxmotorsBanner from "assets/images/emfluxmotors.png";
+import greypBanner from "assets/images/greyp.png";
+import icbmBanner from "assets/images/icbm.png";
+import myswooopBanner from "assets/images/myswooop.png";
+import neufundBanner from "assets/images/neufund.png";
+import ngraveBanner from "assets/images/ngrave.png";
+import nuCaoBanner from "assets/images/nucao.png";
+
+import { EIconType } from "components/shared/Icon";
+import { SafeAreaScreen } from "components/shared/Screen";
+import { Asset, EAssetType } from "components/shared/asset/Asset";
+
+import { EAppRoutes } from "router/appRoutes";
+import { useNavigationTyped } from "router/routeUtils";
+
+import { appConnect } from "store/utils";
+
+import { spacingStyles } from "styles/spacings";
+
 import { EtoCard } from "./EtoCard";
 import { Header } from "./Header";
 import { Section } from "./Section";

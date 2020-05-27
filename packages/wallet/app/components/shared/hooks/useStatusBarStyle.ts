@@ -3,7 +3,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import * as React from "react";
 import { Platform, StatusBar, StatusBarStyle } from "react-native";
 
-import { baseWhite, darkBlueGray1 } from "../../../styles/colors";
+import { baseWhite, darkBlueGray1 } from "styles/colors";
 
 enum EStatusBarStyle {
   WHITE = "white",

@@ -8,10 +8,11 @@ import {
 import { EventsRegistry } from "react-native-notifications/lib/dist/events/EventsRegistry";
 import { NotificationCompletion } from "react-native-notifications/lib/dist/interfaces/NotificationCompletion";
 
-import { DeviceInformation } from "../device-information/DeviceInformation";
-import { deviceInformationModuleApi } from "../device-information/module";
-import { Permissions } from "../permissions/Permissions";
-import { permissionsModuleApi, PERMISSION_RESULTS } from "../permissions/module";
+import { DeviceInformation } from "modules/device-information/DeviceInformation";
+import { deviceInformationModuleApi } from "modules/device-information/module";
+import { Permissions } from "modules/permissions/Permissions";
+import { permissionsModuleApi, PERMISSION_RESULTS } from "modules/permissions/module";
+
 import { INotificationsProvider } from "./INotificationsProvider";
 import { NotificationsModuleError } from "./errors";
 import { symbols } from "./symbols";

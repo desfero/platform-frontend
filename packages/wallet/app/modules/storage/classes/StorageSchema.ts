@@ -1,6 +1,7 @@
 import { Schema } from "yup";
 
-import { IStorageSchema } from "../types/IStorageSchema";
+import { IStorageSchema } from "modules/storage/types/IStorageSchema";
+
 import { ApplicationStorageError } from "./ApplicationStorageError";
 
 export class NoMigrationPathError extends ApplicationStorageError {

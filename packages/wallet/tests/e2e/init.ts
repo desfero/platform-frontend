@@ -1,6 +1,7 @@
 import detox from "detox";
 import adapter from "detox/runners/jest/adapter";
 
+// eslint-disable-next-line import/no-relative-parent-imports
 import { detox as config } from "../../package.json";
 
 // Set the default timeout

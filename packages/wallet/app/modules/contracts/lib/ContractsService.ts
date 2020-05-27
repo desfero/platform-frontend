@@ -1,22 +1,24 @@
 import {
   coreModuleApi,
   IContractsService,
+  IERC20TokenAdapter,
+  IICBMLockedAccountAdapter,
+  ILockedAccountAdapter,
   ILogger,
   IRateOracleAdapter,
-  IERC20TokenAdapter,
-  ILockedAccountAdapter,
-  IICBMLockedAccountAdapter,
   TLibSymbolType,
 } from "@neufund/shared-modules";
 import { EthereumAddressWithChecksum } from "@neufund/shared-utils";
 import { BigNumber } from "bignumber.js";
-import { Signer, providers } from "ethers";
+import { providers, Signer } from "ethers";
 import { inject, injectable } from "inversify";
 
-import { Universe } from "../../../lib/contracts/Universe";
-import { UniverseFactory } from "../../../lib/contracts/UniverseFactory";
-import * as knownInterfaces from "../../../lib/contracts/knownInterfaces.json";
-import { walletEthModuleApi } from "../../eth/module";
+import { Universe } from "lib/contracts/Universe";
+import { UniverseFactory } from "lib/contracts/UniverseFactory";
+import * as knownInterfaces from "lib/contracts/knownInterfaces.json";
+
+import { walletEthModuleApi } from "modules/eth/module";
+
 import { ERC20TokenAdapterFactory } from "./ERC20TokenAdapter";
 import { ICBMLockedAccountAdapterFactory } from "./ICBMLockedAccountAdapter";
 import { LockedAccountAdapterFactory } from "./LockedAccountAdapter";

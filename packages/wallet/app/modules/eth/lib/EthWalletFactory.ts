@@ -7,8 +7,9 @@ import {
 } from "@neufund/shared-utils";
 import { inject, injectable } from "inversify";
 
-import { AppSingleKeyStorage } from "../../storage";
-import { EthModuleError } from "../errors";
+import { EthModuleError } from "modules/eth/errors";
+import { AppSingleKeyStorage } from "modules/storage";
+
 import { EthSecureEnclave } from "./EthSecureEnclave";
 import { EthWallet, TEthWalletProviderType } from "./EthWallet";
 import { TSecureReference } from "./SecureStorage";

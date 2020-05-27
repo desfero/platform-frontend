@@ -2,8 +2,9 @@ import React from "react";
 import { Animated, StyleSheet, View } from "react-native";
 import SafeAreaView from "react-native-safe-area-view";
 
-import { baseWhite, silverLighter2 } from "../../styles/colors";
-import { spacing1, spacing4, spacing8 } from "../../styles/spacings";
+import { baseWhite, silverLighter2 } from "styles/colors";
+import { spacing1, spacing4, spacing8 } from "styles/spacings";
+
 import { NeuLinearGradient } from "./NeuLinearGradient";
 import { EStatusBarStyle, SafeAreaScreen } from "./Screen";
 import { BodyText } from "./typography/BodyText";

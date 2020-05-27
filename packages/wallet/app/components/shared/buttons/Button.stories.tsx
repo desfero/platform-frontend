@@ -3,7 +3,8 @@ import { storiesOf } from "@storybook/react-native";
 import * as React from "react";
 import { View } from "react-native";
 
-import { LineBreak } from "../LineBreak";
+import { LineBreak } from "components/shared/LineBreak";
+
 import { Button, EButtonLayout } from "./Button";
 
 storiesOf("Atoms|Button", module)

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Animated, Easing, StyleSheet } from "react-native";
 
-import { darkBlueGray2 } from "../../styles/colors";
+import { darkBlueGray2 } from "styles/colors";
 
 type TExternalProps = React.ComponentProps<typeof Animated.View>;
 

@@ -2,13 +2,16 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import SafeAreaView from "react-native-safe-area-view";
 
-import NeufundLogo from "../../../assets/neufund-logo.svg";
-import { EAppRoutes } from "../../../router/appRoutes";
-import { useNavigationTyped } from "../../../router/routeUtils";
-import { baseSilver } from "../../../styles/colors";
-import { spacingStyles } from "../../../styles/spacings";
-import { EIconType } from "../../shared/Icon";
-import { ButtonIcon } from "../../shared/buttons/ButtonIcon";
+import NeufundLogo from "assets/neufund-logo.svg";
+
+import { EIconType } from "components/shared/Icon";
+import { ButtonIcon } from "components/shared/buttons/ButtonIcon";
+
+import { EAppRoutes } from "router/appRoutes";
+import { useNavigationTyped } from "router/routeUtils";
+
+import { baseSilver } from "styles/colors";
+import { spacingStyles } from "styles/spacings";
 
 const Header: React.FunctionComponent = () => {
   const navigation = useNavigationTyped();

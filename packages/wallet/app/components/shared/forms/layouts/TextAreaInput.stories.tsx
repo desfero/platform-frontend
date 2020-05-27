@@ -2,7 +2,8 @@ import { storiesOf } from "@storybook/react-native";
 import * as React from "react";
 import { View } from "react-native";
 
-import { LineBreak } from "../../LineBreak";
+import { LineBreak } from "components/shared/LineBreak";
+
 import { TextAreaInput } from "./TextAreaInput";
 
 storiesOf("Atoms|TextAreaInput", module).add("default", () => (

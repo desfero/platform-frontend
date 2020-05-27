@@ -2,7 +2,8 @@ import { assertNever } from "@neufund/shared-utils";
 import React from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 
-import { baseSilver } from "../../../../styles/colors";
+import { baseSilver } from "styles/colors";
+
 import { IconSpacer } from "./IconSpacer";
 import { PendingTransaction } from "./PendingTransaction";
 import { SuccessfulTransaction } from "./SuccessfulTransaction";

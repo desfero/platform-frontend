@@ -2,9 +2,10 @@ import { XOR } from "@neufund/shared-utils";
 import * as React from "react";
 import { GestureResponderEvent, Linking, StyleSheet, Text, TouchableHighlight } from "react-native";
 
-import { baseGray, grayLighter2 } from "../../styles/colors";
-import { typographyStyles } from "../../styles/typography";
-import { st } from "../utils";
+import { st } from "components/utils";
+
+import { baseGray, grayLighter2 } from "styles/colors";
+import { typographyStyles } from "styles/typography";
 
 type TouchableHighlightProps = React.ComponentProps<typeof TouchableHighlight>;
 type TExternalProps = XOR<{ url: string }, { onPress: (event: GestureResponderEvent) => void }> &

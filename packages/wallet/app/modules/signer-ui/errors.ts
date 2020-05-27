@@ -1,4 +1,4 @@
-import { AppError } from "../../classes/AppError";
+import { AppError } from "classes/AppError";
 
 class WalletConnectModuleError extends AppError {
   constructor(message: string) {
