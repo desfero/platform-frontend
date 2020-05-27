@@ -22,7 +22,7 @@ storiesOf("Atoms|ButtonIcon", module)
 
       <ButtonIcon
         icon={EIconType.HOME}
-        disabled={true}
+        disabled
         onPress={action("onPress")}
         accessibilityLabel="Go to Home"
         accessibilityHint="Returns back to the main screen"
@@ -32,7 +32,7 @@ storiesOf("Atoms|ButtonIcon", module)
 
       <ButtonIcon
         icon={EIconType.HOME}
-        loading={true}
+        loading
         onPress={action("onPress")}
         accessibilityLabel="Go to Home"
         accessibilityHint="Returns back to the main screen"

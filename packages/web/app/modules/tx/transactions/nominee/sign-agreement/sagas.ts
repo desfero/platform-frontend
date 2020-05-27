@@ -11,7 +11,6 @@ import { actions } from "../../../../actions";
 import { InvalidETOStateError } from "../../../../eto/errors";
 import { EETOStateOnChain, TEtoWithCompanyAndContractReadonly } from "../../../../eto/types";
 import { isOnChain } from "../../../../eto/utils";
-import { selectStandardGasPriceWithOverHead } from "../../../../gas/selectors";
 import {
   selectActiveNomineeEto,
   selectNomineeActiveEtoPreviewCode,
@@ -20,7 +19,7 @@ import {
 import { neuCall, neuTakeLatest } from "../../../../sagasUtils";
 import { selectEthereumAddress } from "../../../../web3/selectors";
 import { txSendSaga } from "../../../sender/sagas";
-import { selectTxType } from "../../../sender/selectors";
+import { selectStandardGasPriceWithOverHead, selectTxType } from "../../../sender/selectors";
 import { ETxSenderType } from "../../../types";
 import { EAgreementType, IAgreementContractAndHash } from "./types";
 

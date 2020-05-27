@@ -1,4 +1,5 @@
 import { call, fork, put, select, take } from "@neufund/sagas";
+import { ILockedWallet, IWalletStateData, walletApi } from "@neufund/shared-modules";
 import { BigNumber } from "bignumber.js";
 import { toChecksumAddress } from "ethereumjs-util";
 
@@ -14,9 +15,6 @@ import { downloadLink } from "../immutable-file/utils";
 import { webNotificationUIModuleApi } from "../notification-ui/module";
 import { neuCall, neuTakeEvery, neuTakeUntil } from "../sagasUtils";
 import { ETokenType } from "../tx/types";
-import { ILockedWallet, IWalletStateData } from "../wallet/reducer";
-import { loadWalletDataAsync } from "../wallet/sagas";
-import { selectLockedWalletConnected } from "../wallet/selectors";
 import { selectEthereumAddress } from "../web3/selectors";
 import { IWalletMigrationData } from "./reducer";
 import { selectIcbmModalIsFirstTransactionDone, selectIcbmWalletEthAddress } from "./selectors";
@@ -93,14 +91,18 @@ function* loadIcbmWalletMigrationTransactionSaga({
   }
 }
 
-function* loadIcbmWalletMigrationSaga({ logger }: TGlobalDependencies): any {
+function* loadIcbmWalletMigrationSaga({ logger, contractsService }: TGlobalDependencies): any {
   const ethAddress = yield select(selectIcbmWalletEthAddress);
 
   try {
     const userAddress = yield select(selectEthereumAddress);
     if (userAddress === ethAddress) throw new SameUserError();
 
-    const migrationWalletData: IWalletStateData = yield neuCall(loadWalletDataAsync, ethAddress);
+    const migrationWalletData: IWalletStateData = yield neuCall(
+      walletApi.sagas.loadWalletDataAsync,
+      ethAddress,
+      contractsService,
+    );
     const isIcbmUser = hasIcbmWallet(migrationWalletData.etherTokenICBMLockedWallet);
     if (!isIcbmUser) throw new NoIcbmWalletError();
 
@@ -153,7 +155,7 @@ function* icbmWalletMigrationTransactionWatcher({ contractsService }: TGlobalDep
       icbmEthAddress,
     );
     // Check for second migration transaction
-    const isLockedWalletConnected = yield select(selectLockedWalletConnected);
+    const isLockedWalletConnected = yield select(walletApi.selectors.selectLockedWalletConnected);
 
     if (isFirstRun) {
       // Second Transaction already done no need for watching transactions

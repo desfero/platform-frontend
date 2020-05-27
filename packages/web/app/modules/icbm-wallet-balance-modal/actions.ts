@@ -1,7 +1,7 @@
+import { ILockedWallet } from "@neufund/shared-modules";
 import { createActionFactory } from "@neufund/shared-utils";
 
 import { ETokenType } from "../tx/types";
-import { ILockedWallet } from "../wallet/reducer";
 import { IWalletMigrationData } from "./reducer";
 
 export const icbmWalletBalanceModalActions = {

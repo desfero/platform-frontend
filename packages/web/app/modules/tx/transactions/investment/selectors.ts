@@ -1,3 +1,4 @@
+import { walletApi } from "@neufund/shared-modules";
 import {
   compareBigNumbers,
   convertToUlps,
@@ -8,12 +9,6 @@ import { BigNumber } from "bignumber.js";
 
 import { TAppGlobalState } from "../../../../store";
 import { EInvestmentType } from "../../../investment-flow/reducer";
-import {
-  selectLiquidEtherBalance,
-  selectLiquidEuroTokenBalance,
-  selectLockedEtherBalance,
-  selectLockedEuroTokenBalance,
-} from "../../../wallet/selectors";
 import { selectTxGasCostEthUlps } from "../../sender/selectors";
 
 export const selectWalletBalance = (state: TAppGlobalState): string => {
@@ -24,14 +19,14 @@ export const selectWalletBalance = (state: TAppGlobalState): string => {
     case EInvestmentType.Eth:
       // For ETH wallet estimated gas price have to be subtracted before
       const gasCostEth = selectTxGasCostEthUlps(state);
-      const etherBalanceUlps = selectLiquidEtherBalance(state);
+      const etherBalanceUlps = walletApi.selectors.selectLiquidEtherBalance(state);
       return subtractBigNumbers([etherBalanceUlps, gasCostEth]);
     case EInvestmentType.NEur:
-      return selectLiquidEuroTokenBalance(state);
+      return walletApi.selectors.selectLiquidEuroTokenBalance(state);
     case EInvestmentType.ICBMEth:
-      return selectLockedEtherBalance(state);
+      return walletApi.selectors.selectLockedEtherBalance(state);
     case EInvestmentType.ICBMnEuro:
-      return selectLockedEuroTokenBalance(state);
+      return walletApi.selectors.selectLockedEuroTokenBalance(state);
     default:
       return "0";
   }

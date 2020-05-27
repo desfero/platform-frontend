@@ -1,4 +1,5 @@
 import { ButtonArrowRight, ButtonInline } from "@neufund/design-system";
+import { walletApi } from "@neufund/shared-modules";
 import BigNumber from "bignumber.js";
 import * as cn from "classnames";
 import * as React from "react";
@@ -14,7 +15,6 @@ import {
   selectInitialAmount,
   selectRedeemFeeUlps,
 } from "../../../../modules/bank-transfer-flow/selectors";
-import { selectLiquidEuroTokenBalance } from "../../../../modules/wallet/selectors";
 import { doesUserHaveEnoughNEuro, doesUserWithdrawMinimal } from "../../../../modules/web3/utils";
 import { appConnect } from "../../../../store";
 import { onEnterAction } from "../../../../utils/react-connected-components/OnEnterAction";
@@ -248,8 +248,8 @@ const BankTransferRedeemInit = compose<TComponentProps, {}>(
   }),
   appConnect<IStateProps, IDispatchProps>({
     stateToProps: state => ({
-      neuroAmount: selectLiquidEuroTokenBalance(state),
-      neuroEuroAmount: selectLiquidEuroTokenBalance(state),
+      neuroAmount: walletApi.selectors.selectLiquidEuroTokenBalance(state),
+      neuroEuroAmount: walletApi.selectors.selectLiquidEuroTokenBalance(state),
       bankFee: selectRedeemFeeUlps(state),
       minAmount: selectBankRedeemMinAmount(state),
       initialAmount: selectInitialAmount(state),

@@ -5,19 +5,20 @@ import { InteractionManager } from "react-native";
 import RNBootSplash from "react-native-bootsplash";
 
 import "./rn-addons";
+import { loadStories } from "./storyLoader";
 
-// import stories
+// load stories from dynamically generated file
 configure(() => {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  require("./stories");
+  loadStories();
 }, module);
 
 // Refer to https://github.com/storybookjs/storybook/tree/master/app/react-native#start-command-parameters
 // To find allowed options for getStorybookUI
-// replace asyncStorage with proper one when we have it
 
-// issue with storybook server https://github.com/storybookjs/react-native/issues/13
-const StorybookUIRoot = getStorybookUI({ asyncStorage: null });
+const StorybookUIRoot = getStorybookUI({
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  asyncStorage: require("@react-native-community/async-storage").default,
+});
 
 const Storybook: React.FunctionComponent = () => {
   React.useEffect(() => {

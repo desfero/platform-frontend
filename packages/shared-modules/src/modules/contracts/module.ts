@@ -1,6 +1,8 @@
 import { generateSharedModuleId } from "../../utils";
 import { setupContainerModule } from "./lib/bindings";
 import { IContractsService } from "./lib/ContractService";
+import { IERC20TokenAdapter } from "./lib/IERC20TokenAdapter";
+import { IICBMLockedAccountAdapter, ILockedAccountAdapter } from "./lib/ILockedAccountAdapter";
 import { IRateOracleAdapter } from "./lib/IRateOracleAdapter";
 import { symbols } from "./lib/symbols";
 import * as utils from "./utils";
@@ -20,4 +22,12 @@ const contractsModuleApi = {
   utils,
 };
 
-export { IRateOracleAdapter, IContractsService, setupContractsModule, contractsModuleApi };
+export {
+  IRateOracleAdapter,
+  IContractsService,
+  setupContractsModule,
+  contractsModuleApi,
+  ILockedAccountAdapter,
+  IERC20TokenAdapter,
+  IICBMLockedAccountAdapter,
+};

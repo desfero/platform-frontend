@@ -4,8 +4,8 @@ import * as React from "react";
 import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 
 import { TComponentRefType } from "../../../../utils/types";
+import { HelperText } from "../../typography/HelperText";
 import { ErrorMessage } from "./ErrorMessage";
-import { HelperText } from "./HelperText";
 import { Label } from "./Label";
 import { TextAreaInput } from "./TextAreaInput";
 import { TextInput } from "./TextInput";

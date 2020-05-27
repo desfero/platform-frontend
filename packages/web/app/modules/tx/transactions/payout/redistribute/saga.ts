@@ -7,11 +7,11 @@ import { TGlobalDependencies } from "../../../../../di/setupBindings";
 import { ITxData } from "../../../../../lib/web3/types";
 import { actions } from "../../../../actions";
 import { selectIsVerifiedInvestor } from "../../../../auth/selectors";
-import { selectStandardGasPriceWithOverHead } from "../../../../gas/selectors";
 import { ITokenDisbursal } from "../../../../investor-portfolio/types";
 import { neuCall } from "../../../../sagasUtils";
 import { getTokenAddress } from "../../../../shared/sagas";
 import { selectEthereumAddress } from "../../../../web3/selectors";
+import { selectStandardGasPriceWithOverHead } from "../../../sender/selectors";
 import { ETxSenderType } from "../../../types";
 
 // Use highest possible solidity uint256 to redistribute all disbursals for token

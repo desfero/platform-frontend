@@ -11,7 +11,6 @@ import { etoNomineeReducer } from "./eto-nominee/reducer";
 import { etoViewReducer } from "./eto-view/shared/reducer";
 import { etoReducer } from "./eto/reducer";
 import { fullPageLoadingReducer } from "./full-page-loading/reducer";
-import { gasReducer } from "./gas/reducer";
 import { genericModalReducer } from "./generic-modal/reducer";
 import { icbmWalletBalanceModalReducer } from "./icbm-wallet-balance-modal/reducer";
 import { immutableStorageReducer } from "./immutable-file/reducer";
@@ -34,7 +33,6 @@ import { lightWalletWizardReducer } from "./wallet-selector/light-wizard/reducer
 import { walletSelectorReducer } from "./wallet-selector/reducer";
 import { walletConnectReducer } from "./wallet-selector/wallet-connect/reducer";
 import { walletViewReducer } from "./wallet-view/reducer";
-import { walletReducer } from "./wallet/reducer";
 import { web3Reducer } from "./web3/reducer";
 
 // add new app reducers here. They must be AppReducer<T> type
@@ -57,7 +55,6 @@ export const appReducers = {
   init: initReducer,
   lightWalletWizard: lightWalletWizardReducer,
   walletConnect: walletConnectReducer,
-  wallet: walletReducer,
   walletView: walletViewReducer,
   notifications: notificationsReducer,
   etoIssuer: etoFlowReducer,
@@ -68,7 +65,6 @@ export const appReducers = {
   etoView: etoViewReducer,
   depositEthModal: depositEthModalReducer,
   icbmWalletBalanceModal: icbmWalletBalanceModalReducer,
-  gas: gasReducer,
   investmentFlow: investmentFlowReducer,
   videoModal: videoModalReducer,
   personProfileModal: personProfileModalReducer,

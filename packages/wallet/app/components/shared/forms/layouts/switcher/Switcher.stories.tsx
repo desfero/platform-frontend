@@ -65,7 +65,7 @@ storiesOf("Atoms|Switcher", module)
     <Switcher
       onChangeItem={action("onChangeItem")}
       selectedItemId="0x429123b08DF32b0006fd1F3b0Ef893A8993802f3"
-      disabled={true}
+      disabled
       items={switcherItemsWithTitleAndSubTitle}
     />
   ))
@@ -73,7 +73,7 @@ storiesOf("Atoms|Switcher", module)
     <Switcher
       onChangeItem={action("onChangeItem")}
       selectedItemId="0x429123b08DF32b0006fd1F3b0Ef893A8993802f3"
-      invalid={true}
+      invalid
       items={switcherItemsWithTitleAndSubTitle}
     />
   ));

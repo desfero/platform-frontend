@@ -31,7 +31,7 @@ storiesOf("Molecules|FieldLayout", module)
     />
   ))
   .add("disabled input", () => (
-    <FieldLayout label="User name" type={EFieldType.INPUT} disabled={true} value="desfero" />
+    <FieldLayout label="User name" type={EFieldType.INPUT} disabled value="desfero" />
   ))
   .add("textarea", () => (
     <FieldLayout
@@ -61,7 +61,7 @@ storiesOf("Molecules|FieldLayout", module)
   ))
   .add("switcher disabled", () => (
     <FieldLayout
-      disabled={true}
+      disabled
       type={EFieldType.SWITCHER}
       selectedItemId="0xBA9807E260E1E162F46a5ACd228153EdFE2604eC"
       items={switcherItemsWithTitleAndSubTitle}
@@ -70,7 +70,7 @@ storiesOf("Molecules|FieldLayout", module)
   ))
   .add("switcher inavlid", () => (
     <FieldLayout
-      invalid={true}
+      invalid
       type={EFieldType.SWITCHER}
       selectedItemId="0xBA9807E260E1E162F46a5ACd228153EdFE2604eC"
       items={switcherItemsWithTitleAndSubTitle}

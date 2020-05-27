@@ -13,7 +13,7 @@ type TRef = TComponentRefType<typeof TextInput>;
  * @note It's wrapper around TextInput to provide consistent look for multiline text inputs
  */
 const TextAreaInput = React.forwardRef<TRef, TExternalProps>(({ style, ...props }, ref) => (
-  <TextInput style={[styles.textAreaInput, style]} multiline={true} ref={ref} {...props} />
+  <TextInput style={[styles.textAreaInput, style]} multiline ref={ref} {...props} />
 ));
 
 const styles = StyleSheet.create({

@@ -6,11 +6,11 @@ import { TGlobalDependencies } from "../../../../di/setupBindings";
 import { IERC223Token } from "../../../../lib/contracts/IERC223Token";
 import { ITxData } from "../../../../lib/web3/types";
 import { actions, TActionFromCreator } from "../../../actions";
-import { selectStandardGasPriceWithOverHead } from "../../../gas/selectors";
 import { neuCall, neuTakeLatest } from "../../../sagasUtils";
 import { selectEthereumAddress } from "../../../web3/selectors";
 import { isAddressValid } from "../../../web3/utils";
 import { txSendSaga } from "../../sender/sagas";
+import { selectStandardGasPriceWithOverHead } from "../../sender/selectors";
 import { ETxSenderType } from "../../types";
 import {
   selectUserFlowTokenData,

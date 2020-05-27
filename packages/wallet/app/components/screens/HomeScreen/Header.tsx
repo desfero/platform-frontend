@@ -1,17 +1,17 @@
-import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import SafeAreaView from "react-native-safe-area-view";
 
 import NeufundLogo from "../../../assets/neufund-logo.svg";
 import { EAppRoutes } from "../../../router/appRoutes";
+import { useNavigationTyped } from "../../../router/routeUtils";
 import { baseSilver } from "../../../styles/colors";
 import { spacingStyles } from "../../../styles/spacings";
 import { EIconType } from "../../shared/Icon";
 import { ButtonIcon } from "../../shared/buttons/ButtonIcon";
 
 const Header: React.FunctionComponent = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigationTyped();
 
   return (
     <SafeAreaView forceInset={{ top: "always", bottom: "never" }}>
