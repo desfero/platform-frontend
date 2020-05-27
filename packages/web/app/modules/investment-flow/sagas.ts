@@ -81,7 +81,7 @@ function* processCurrencyValue(
   yield put(actions.investmentFlow.validateInputs());
 }
 
-function* computeAndSetCurrencies(value: string, currency: ECurrency): any {
+export function* computeAndSetCurrencies(value: string, currency: ECurrency): any {
   const state: TAppGlobalState = yield select();
   const etherPriceEur = selectEtherPriceEur(state);
   const eurPriceEther = selectEurPriceEther(state);
@@ -250,9 +250,9 @@ function* validateAndCalculateInputs({ contractsService }: TGlobalDependencies):
 function* start(
   action: TActionFromCreator<typeof actions.investmentFlow.startInvestment>,
 ): Generator<any, any, any> {
-  const etoId = action.payload.etoId;
+  const { etoId } = action.payload;
   const eto: TEtoWithCompanyAndContractReadonly = nonNullable(
-    yield select((state: TAppGlobalState) => selectEtoWithCompanyAndContractById(state, etoId)),
+    yield* select((state: TAppGlobalState) => selectEtoWithCompanyAndContractById(state, etoId)),
   );
 
   yield put(actions.investmentFlow.resetInvestment());
@@ -287,7 +287,7 @@ function* createWallets(): Generator<any, void, any> {
   yield put(actions.investmentFlow.setWallets(walletData));
 }
 
-function* selectInitialInvestmentType(): Generator<any, void, any> {
+export function* selectInitialInvestmentType(): Generator<any, void, any> {
   const wallets = yield* select(selectWallets);
   yield put(actions.investmentFlow.selectInvestmentType(wallets[0]?.type));
 }
@@ -398,7 +398,7 @@ function* getInvestmentWalletData(): Generator<any, WalletSelectionData[], any> 
   return activeTypes;
 }
 
-function* recalculateCurrencies(): any {
+export function* recalculateCurrencies(): any {
   yield delay(100); // wait for new token price to be available
   const s: TAppGlobalState = yield select();
   const type = selectInvestmentType(s);
@@ -412,9 +412,9 @@ function* recalculateCurrencies(): any {
   const eurVal = selectInvestmentEurValueUlps(s);
 
   if (curr === ECurrency.ETH && ethVal) {
-    yield computeAndSetCurrencies(ethVal, curr);
+    yield call(computeAndSetCurrencies, ethVal, curr);
   } else if (eurVal) {
-    yield computeAndSetCurrencies(eurVal, curr);
+    yield call(computeAndSetCurrencies, eurVal, curr);
   }
 }
 
