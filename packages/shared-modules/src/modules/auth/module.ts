@@ -5,7 +5,6 @@ import { jwtReducerMap } from "./jwt/reducer";
 import { authJwtSagas, createJwt, escalateJwt, loadJwt, refreshJWT, setJwt } from "./jwt/sagas";
 import * as jwtSelectors from "./jwt/selectors";
 import { EJwtPermissions } from "./jwt/types";
-import { IUserState } from "./user/reducer";
 import { setupContainerModule } from "./lib/bindings";
 import { AuthHttpClient, IAuthHttpClient } from "./lib/http/AuthHttpClient";
 import { AuthJsonHttpClient } from "./lib/http/AuthJsonHttpClient";
@@ -26,7 +25,7 @@ import {
   UserNotExisting,
 } from "./lib/users/UsersApi";
 import { userActions } from "./user/actions";
-import { userReducerMap } from "./user/reducer";
+import { IUserState, userReducerMap } from "./user/reducer";
 import { authUserSagas, loadOrCreateUser, loadUser, resetUser, updateUser } from "./user/sagas";
 import * as userSelectors from "./user/selectors";
 
@@ -52,7 +51,7 @@ const authModuleAPI = {
     ...jwtActions,
     ...userActions,
   },
-  reducerMap,
+  reducer: reducerMap,
   symbols,
   selectors: {
     ...jwtSelectors,

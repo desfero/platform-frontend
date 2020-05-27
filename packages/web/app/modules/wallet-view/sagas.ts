@@ -1,5 +1,5 @@
 import { all, call, fork, put, select, take } from "@neufund/sagas";
-import { tokenPriceModuleApi } from "@neufund/shared-modules";
+import { tokenPriceModuleApi, walletApi } from "@neufund/shared-modules";
 import { addBigNumbers, compareBigNumbers } from "@neufund/shared-utils";
 
 import { EProcessState } from "../../utils/enums/processStates";
@@ -8,21 +8,7 @@ import { selectIsUserFullyVerified } from "../auth/selectors";
 import { loadBankAccountDetails } from "../kyc/sagas";
 import { selectBankAccount } from "../kyc/selectors";
 import { neuCall, neuTakeUntil } from "../sagasUtils";
-import { loadWalletDataSaga } from "../wallet/sagas";
-import {
-  selectICBMLockedEtherBalance,
-  selectICBMLockedEtherBalanceEuroAmount,
-  selectICBMLockedEuroTokenBalance,
-  selectIsEtherUpgradeTargetSet,
-  selectIsEuroUpgradeTargetSet,
-  selectLiquidEtherBalance,
-  selectLiquidEtherBalanceEuroAmount,
-  selectLiquidEuroTokenBalance,
-  selectLockedEtherBalance,
-  selectLockedEtherBalanceEuroAmount,
-  selectLockedEuroTokenBalance,
-  selectNEURStatus,
-} from "../wallet/selectors";
+import { selectNEURStatus } from "../wallet/selectors";
 import { ENEURWalletStatus } from "../wallet/types";
 import { selectEthereumAddress } from "../web3/selectors";
 import { EBalanceViewType, EWalletViewError, TBalanceData, TBasicBalanceData } from "./types";
@@ -30,31 +16,31 @@ import { hasFunds, isMainBalance } from "./utils";
 
 export function* populateWalletData(): Generator<any, TBasicBalanceData[], any> {
   const ethWalletData = yield all({
-    amount: select(selectLiquidEtherBalance),
-    euroEquivalentAmount: yield* select(selectLiquidEtherBalanceEuroAmount),
+    amount: select(walletApi.selectors.selectLiquidEtherBalance),
+    euroEquivalentAmount: yield* select(walletApi.selectors.selectLiquidEtherBalanceEuroAmount),
   });
   const neuroWalletData = yield all({
-    amount: select(selectLiquidEuroTokenBalance),
-    euroEquivalentAmount: select(selectLiquidEuroTokenBalance),
+    amount: select(walletApi.selectors.selectLiquidEuroTokenBalance),
+    euroEquivalentAmount: select(walletApi.selectors.selectLiquidEuroTokenBalance),
     neurStatus: select(selectNEURStatus),
   });
   const icbmEthWalletData = yield all({
-    amount: select(selectLockedEtherBalance),
-    euroEquivalentAmount: select(selectLockedEtherBalanceEuroAmount),
+    amount: select(walletApi.selectors.selectLockedEtherBalance),
+    euroEquivalentAmount: select(walletApi.selectors.selectLockedEtherBalanceEuroAmount),
   });
   const icbmNeuroWalletData = yield all({
-    amount: select(selectLockedEuroTokenBalance),
-    euroEquivalentAmount: select(selectLockedEuroTokenBalance),
+    amount: select(walletApi.selectors.selectLockedEuroTokenBalance),
+    euroEquivalentAmount: select(walletApi.selectors.selectLockedEuroTokenBalance),
   });
   const lockedIcbmEthWalletData = yield all({
-    amount: select(selectICBMLockedEtherBalance),
-    euroEquivalentAmount: select(selectICBMLockedEtherBalanceEuroAmount),
-    isEtherUpgradeTargetSet: select(selectIsEtherUpgradeTargetSet),
+    amount: select(walletApi.selectors.selectICBMLockedEtherBalance),
+    euroEquivalentAmount: select(walletApi.selectors.selectICBMLockedEtherBalanceEuroAmount),
+    isEtherUpgradeTargetSet: select(walletApi.selectors.selectIsEtherUpgradeTargetSet),
   });
   const lockedIcbmNeuroWalletData = yield all({
-    amount: select(selectICBMLockedEuroTokenBalance),
-    euroEquivalentAmount: select(selectICBMLockedEuroTokenBalance),
-    isEuroUpgradeTargetSet: select(selectIsEuroUpgradeTargetSet),
+    amount: select(walletApi.selectors.selectICBMLockedEuroTokenBalance),
+    euroEquivalentAmount: select(walletApi.selectors.selectICBMLockedEuroTokenBalance),
+    isEuroUpgradeTargetSet: select(walletApi.selectors.selectIsEuroUpgradeTargetSet),
   });
 
   return [
@@ -102,7 +88,7 @@ export function* populateWalletData(): Generator<any, TBasicBalanceData[], any> 
 
 export function* loadWalletView(): Generator<any, void, any> {
   try {
-    yield all([neuCall(loadWalletDataSaga), neuCall(loadBankAccountDetails)]);
+    yield all([neuCall(walletApi.sagas.loadWalletDataSaga), neuCall(loadBankAccountDetails)]);
 
     const userIsFullyVerified = yield* select(selectIsUserFullyVerified);
     const userAddress = yield* select(selectEthereumAddress);

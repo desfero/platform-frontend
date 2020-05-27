@@ -5,7 +5,9 @@ import {
   EWalletSubType,
   EWalletType,
   IUserState,
+  IWalletStateData,
   tokenPriceModuleApi,
+  walletApi,
 } from "@neufund/shared-modules";
 import { ECountries, EthereumAddressWithChecksum } from "@neufund/shared-utils";
 import { combineReducers } from "redux";
@@ -20,8 +22,6 @@ import { EProcessState } from "../../utils/enums/processStates";
 import { actions } from "../actions";
 import { IKycState, kycReducer } from "../kyc/reducer";
 import { loadBankAccountDetails } from "../kyc/sagas";
-import { IWalletState, walletReducer } from "../wallet/reducer";
-import { loadWalletDataSaga } from "../wallet/sagas";
 import { IConnectedWeb3State, web3Reducer } from "../web3/reducer";
 import { loadWalletView, populateWalletData } from "./sagas";
 import { EBalanceViewType } from "./types";
@@ -105,6 +105,8 @@ const walletData = [
 ];
 
 const wallet = {
+  loading: false,
+  error: undefined,
   data: {
     euroTokenLockedWallet: {
       LockedBalance: "0",
@@ -135,8 +137,8 @@ const wallet = {
     etherTokenUpgradeTarget: "0x295a803de79cd256ff544682a51435e549a080b2",
     euroTokenUpgradeTarget: "0x295a803de79cd256ff544682a51435e549a080b2",
     neumarkAddress: "0x295a803de79cd256ff544682a51435e549a080b2",
-  },
-} as IWalletState;
+  } as IWalletStateData,
+};
 
 const tokenPrice = {
   loading: false,
@@ -210,9 +212,9 @@ describe("Wallet View", () => {
         .withReducer(
           combineReducers({
             tokenPrice: tokenPriceModuleApi.reducer.tokenPrice,
-            user: authModuleAPI.reducerMap.user,
+            user: authModuleAPI.reducer.user,
             kyc: kycReducer,
-            wallet: walletReducer,
+            wallet: walletApi.reducer.wallet,
             web3: web3Reducer,
           }),
           {
@@ -231,9 +233,9 @@ describe("Wallet View", () => {
         .withReducer(
           combineReducers({
             tokenPrice: tokenPriceModuleApi.reducer.tokenPrice,
-            user: authModuleAPI.reducerMap.user,
+            user: authModuleAPI.reducer.user,
             kyc: kycReducer,
-            wallet: walletReducer,
+            wallet: walletApi.reducer.wallet,
             web3: web3Reducer,
           }),
           {
@@ -242,6 +244,8 @@ describe("Wallet View", () => {
             kyc,
             web3,
             wallet: {
+              loading: false,
+              error: undefined,
               data: {
                 ...wallet.data,
                 etherTokenBalance: "3000",
@@ -253,8 +257,8 @@ describe("Wallet View", () => {
                   neumarksDue: "0",
                   unlockDate: "0",
                 },
-              },
-            } as IWalletState,
+              } as IWalletStateData,
+            },
           },
         )
         .returns(walletData)
@@ -333,7 +337,7 @@ describe("Wallet View", () => {
         })
         .provide([
           [getContext("deps"), context],
-          [matchers.call.fn(loadWalletDataSaga), undefined],
+          [matchers.call.fn(walletApi.sagas.loadWalletDataSaga), undefined],
           [matchers.call.fn(loadBankAccountDetails), undefined],
           [matchers.call.fn(populateWalletData), walletData],
         ])

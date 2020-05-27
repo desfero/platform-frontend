@@ -2,7 +2,7 @@ import { generateSharedModuleId } from "../../utils";
 import { setupTokenPriceModule } from "../token-price/module";
 import { walletActions } from "./actions";
 import { walletReducerMap } from "./reducer";
-import { loadWalletDataAsync, setupWalletSagas } from "./sagas";
+import { loadWalletDataAsync, loadWalletDataSaga, setupWalletSagas } from "./sagas";
 import * as selectors from "./selectors";
 import { ILockedWallet, IWalletStateData } from "./types";
 import * as utils from "./utils";
@@ -26,7 +26,9 @@ const walletApi = {
   actions: walletActions,
   selectors,
   utils,
+  reducer: walletReducerMap,
   sagas: {
+    loadWalletDataSaga,
     loadWalletDataAsync,
   },
 };
