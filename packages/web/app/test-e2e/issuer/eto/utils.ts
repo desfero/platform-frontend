@@ -191,7 +191,7 @@ export const pushEtoDataToAPI = () => {
             WHITELIST_DISCOUNT_FRAC: "0",
           },
           nominee: "0xC6CD8b540549BCeCd050CFd07dCE7eaeF9BB1C23",
-          shareholder_rights: {
+          tokenholder_rights: {
             GENERAL_VOTING_DURATION: "950400",
             GENERAL_VOTING_RULE: "1",
             HAS_FOUNDERS_VESTING: false,
