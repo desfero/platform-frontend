@@ -54,7 +54,9 @@ export const balanceNames: { [key in EBalanceViewType]: string } = {
 export const balanceAdditionalInfo: { [key in EBalanceViewType]: TTranslatedString | undefined } = {
   [EBalanceViewType.ETH]: undefined,
   [EBalanceViewType.NEUR]: undefined,
-  [EBalanceViewType.RESTRICTED_NEUR]: <FormattedMessage id="wallet.neuro-balance-restricted.tooltip" />,
+  [EBalanceViewType.RESTRICTED_NEUR]: (
+    <FormattedMessage id="wallet.neuro-balance-restricted.tooltip" />
+  ),
   [EBalanceViewType.ICBM_ETH]: <FormattedMessage id="wallet.icbm-balance-unlocked.tooltip" />,
   [EBalanceViewType.ICBM_NEUR]: <FormattedMessage id="wallet.icbm-balance-unlocked.tooltip" />,
   [EBalanceViewType.LOCKED_ICBM_ETH]: <FormattedMessage id="wallet.icbm-balance-locked.tooltip" />,

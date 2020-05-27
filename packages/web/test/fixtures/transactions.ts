@@ -1,16 +1,16 @@
 import {
+  ETransactionDirection,
+  ETransactionStatus,
+  ETransactionSubType,
+  ETransactionType,
+} from "@neufund/shared-modules";
+import {
   ECurrency,
   ENumberInputFormat,
   EquityToken,
   EthereumAddressWithChecksum,
-  EthereumTxHash
+  EthereumTxHash,
 } from "@neufund/shared-utils";
-import {
-  ETransactionDirection,
-  ETransactionStatus,
-  ETransactionSubType,
-  ETransactionType
-} from "@neufund/shared-modules";
 
 export const commonTxData = {
   amount: "132465754321456756325",
@@ -22,7 +22,7 @@ export const commonTxData = {
   transactionDirection: ETransactionDirection.IN,
   transactionIndex: 34567,
   txHash: "0xea3145cf6334a8fe5a9570c05fef7ebb2b3c728369fccae5cf8f30809d99be94" as EthereumTxHash,
-}
+};
 
 export const refundTxData = {
   type: ETransactionType.ETO_REFUND,
@@ -32,8 +32,8 @@ export const refundTxData = {
   currency: ECurrency.ETH,
   amountEur: "132465754321456756325",
   toAddress: "0x00b30CC2cc22c9820d47a4E0C9E1A54455bA0883" as EthereumAddressWithChecksum,
-  ...commonTxData
-} as const
+  ...commonTxData,
+} as const;
 
 export const investmentTxData = {
   type: ETransactionType.ETO_INVESTMENT,
@@ -44,15 +44,15 @@ export const investmentTxData = {
   currency: ECurrency.ETH,
   equityTokenAmount: "3247684567593044t",
   equityTokenAmountFormat: ENumberInputFormat.ULPS,
-  equityTokenCurrency:  "BLA" as EquityToken,
-  equityTokenIcon: 'icon',
+  equityTokenCurrency: "BLA" as EquityToken,
+  equityTokenIcon: "icon",
   etoId: "0x00b30CC2cc22c9820d47a4E0C9E1A54455bA0883" as EthereumAddressWithChecksum,
   toAddress: "0x00b30CC2cc22c9820d47a4E0C9E1A54455bA0883" as EthereumAddressWithChecksum,
   fromAddress: "0x16cd5aC5A1b77FB72032E3A09E91A98bB21D8989" as EthereumAddressWithChecksum,
   neuReward: "2378945068372",
   neuRewardEur: "0",
-  ...commonTxData
-} as const
+  ...commonTxData,
+} as const;
 
 export const payoutTransferTxData = {
   type: ETransactionType.PAYOUT,
@@ -60,16 +60,16 @@ export const payoutTransferTxData = {
   amountEur: "0264943153487654532343658",
   currency: ECurrency.ETH,
   toAddress: "0x00b30CC2cc22c9820d47a4E0C9E1A54455bA0883" as EthereumAddressWithChecksum,
-  ...commonTxData
-} as const
+  ...commonTxData,
+} as const;
 
 export const redistributeTxData = {
   type: ETransactionType.REDISTRIBUTE_PAYOUT,
   subType: undefined,
   amountEur: "0264943153487654532343658",
   currency: ECurrency.ETH,
-  ...commonTxData
-} as const
+  ...commonTxData,
+} as const;
 
 export const transferEquityTokenTxData = {
   type: ETransactionType.TRANSFER,
@@ -79,8 +79,8 @@ export const transferEquityTokenTxData = {
   fromAddress: "0x16cd5aC5A1b77FB72032E3A09E91A98bB21D8989" as EthereumAddressWithChecksum,
   toAddress: "0x00b30CC2cc22c9820d47a4E0C9E1A54455bA0883" as EthereumAddressWithChecksum,
   icon: "icon",
-  ...commonTxData
-} as const
+  ...commonTxData,
+} as const;
 
 export const transferWellKnownTokenTxData = {
   type: ETransactionType.TRANSFER,
@@ -89,16 +89,16 @@ export const transferWellKnownTokenTxData = {
   amountEur: "0264943153487654532343658",
   fromAddress: "0x16cd5aC5A1b77FB72032E3A09E91A98bB21D8989" as EthereumAddressWithChecksum,
   toAddress: "0x00b30CC2cc22c9820d47a4E0C9E1A54455bA0883" as EthereumAddressWithChecksum,
-  ...commonTxData
-} as const
+  ...commonTxData,
+} as const;
 
 export const neuroTransferTxData = {
   type: ETransactionType.NEUR_PURCHASE,
   subType: undefined,
   currency: ECurrency.EUR_TOKEN,
   toAddress: "0x00b30CC2cc22c9820d47a4E0C9E1A54455bA0883" as EthereumAddressWithChecksum,
-  ...commonTxData
-} as const
+  ...commonTxData,
+} as const;
 
 export const neurRedeemPendingTransferTxData = {
   type: ETransactionType.NEUR_REDEEM,
@@ -106,8 +106,8 @@ export const neurRedeemPendingTransferTxData = {
   currency: ECurrency.EUR_TOKEN,
   reference: "34568rew876543rhg",
   fromAddress: "0x00b30CC2cc22c9820d47a4E0C9E1A54455bA0883" as EthereumAddressWithChecksum,
-  ...commonTxData
-} as const
+  ...commonTxData,
+} as const;
 
 export const neurRedeemCompletedTransferTxData = {
   type: ETransactionType.NEUR_REDEEM,
@@ -117,16 +117,16 @@ export const neurRedeemCompletedTransferTxData = {
   fromAddress: "0x16cd5aC5A1b77FB72032E3A09E91A98bB21D8989" as EthereumAddressWithChecksum,
   settledAmount: "8678760987654876",
   feeAmount: "123",
-  ...commonTxData
-} as const
+  ...commonTxData,
+} as const;
 
 export const neurDestroyTransferTxData = {
   type: ETransactionType.NEUR_DESTROY,
   subType: undefined,
   liquidatedByAddress: "0x00b30CC2cc22c9820d47a4E0C9E1A54455bA0883" as EthereumAddressWithChecksum,
   currency: ECurrency.EUR_TOKEN,
-  ...commonTxData
-} as const
+  ...commonTxData,
+} as const;
 
 export const etoTokensClaimTransferTxData = {
   type: ETransactionType.ETO_TOKENS_CLAIM,
@@ -136,5 +136,5 @@ export const etoTokensClaimTransferTxData = {
   neuReward: "0264943153487654532343658",
   icon: "icon",
   neuRewardEur: "0264943153487654532343658",
-  ...commonTxData
-} as const
+  ...commonTxData,
+} as const;

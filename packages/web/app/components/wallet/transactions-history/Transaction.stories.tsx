@@ -1,8 +1,7 @@
+import { action } from "@storybook/addon-actions";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { Transaction } from "./Transaction";
-import { action } from "@storybook/addon-actions";
 import {
   etoTokensClaimTransferTxData,
   investmentTxData,
@@ -14,73 +13,74 @@ import {
   redistributeTxData,
   refundTxData,
   transferEquityTokenTxData,
-  transferWellKnownTokenTxData
+  transferWellKnownTokenTxData,
 } from "../../../../test/fixtures/transactions";
+import { Transaction } from "./Transaction";
 
 storiesOf("Molecules|Transaction", module)
-  .add("refundTxData", () => {
-    return <Transaction
+  .add("refundTxData", () => (
+    <Transaction
       showTransactionDetails={action("showTransactionDetails")}
       transaction={refundTxData}
-    />;
-  })
-  .add("investmentTxData", () => {
-    return <Transaction
+    />
+  ))
+  .add("investmentTxData", () => (
+    <Transaction
       showTransactionDetails={action("showTransactionDetails")}
       transaction={investmentTxData}
-    />;
-  })
-  .add("payoutTransferTxData", () => {
-    return <Transaction
+    />
+  ))
+  .add("payoutTransferTxData", () => (
+    <Transaction
       showTransactionDetails={action("showTransactionDetails")}
       transaction={payoutTransferTxData}
-    />;
-  })
-  .add("redistributeTxData", () => {
-    return <Transaction
+    />
+  ))
+  .add("redistributeTxData", () => (
+    <Transaction
       showTransactionDetails={action("showTransactionDetails")}
       transaction={redistributeTxData}
-    />;
-  })
-  .add("transferEquityTokenTxData", () => {
-        return <Transaction
+    />
+  ))
+  .add("transferEquityTokenTxData", () => (
+    <Transaction
       showTransactionDetails={action("showTransactionDetails")}
       transaction={transferEquityTokenTxData}
-    />;
-  })
-  .add("transferWellKnownTokenTxData", () => {
-    return <Transaction
+    />
+  ))
+  .add("transferWellKnownTokenTxData", () => (
+    <Transaction
       showTransactionDetails={action("showTransactionDetails")}
       transaction={transferWellKnownTokenTxData}
-    />;
-  })
-  .add("neuroTransferTxData", () => {
-    return <Transaction
+    />
+  ))
+  .add("neuroTransferTxData", () => (
+    <Transaction
       showTransactionDetails={action("showTransactionDetails")}
       transaction={neuroTransferTxData}
-    />;
-  })
-  .add("neurRedeemPendingTransferTxData", () => {
-    return <Transaction
+    />
+  ))
+  .add("neurRedeemPendingTransferTxData", () => (
+    <Transaction
       showTransactionDetails={action("showTransactionDetails")}
       transaction={neurRedeemPendingTransferTxData}
-    />;
-  })
-  .add("neurRedeemCompletedTransferTxData", () => {
-    return <Transaction
+    />
+  ))
+  .add("neurRedeemCompletedTransferTxData", () => (
+    <Transaction
       showTransactionDetails={action("showTransactionDetails")}
       transaction={neurRedeemCompletedTransferTxData}
-    />;
-  })
-  .add("neurDestroyTransferTxData", () => {
-    return <Transaction
+    />
+  ))
+  .add("neurDestroyTransferTxData", () => (
+    <Transaction
       showTransactionDetails={action("showTransactionDetails")}
       transaction={neurDestroyTransferTxData}
-    />;
-  })
-  .add("etoTokensClaimTransferTxData", () => {
-    return <Transaction
+    />
+  ))
+  .add("etoTokensClaimTransferTxData", () => (
+    <Transaction
       showTransactionDetails={action("showTransactionDetails")}
       transaction={etoTokensClaimTransferTxData}
-    />;
-  })
+    />
+  ));

@@ -17,6 +17,7 @@ const setupTokenPriceModule = (config: Config) => ({
 
 const tokenPriceModuleApi = {
   actions: tokenPriceActions,
+  reducer: tokenPriceReducerMap,
   selectors,
 };
 

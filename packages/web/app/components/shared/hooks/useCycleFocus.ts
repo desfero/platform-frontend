@@ -34,7 +34,6 @@ import * as React from "react";
 
 const useCycleFocus = (refs: React.RefObject<HTMLElement>[]) => {
   React.useEffect(() => {
-    //set initial focus on mount
     if (refs[0] && refs[0].current !== null) {
       refs[0].current.focus();
     }

@@ -90,6 +90,7 @@ $vertical-margin: px-to-rem(18);
 
 .transaction-amount {
   @include transaction-list-cell;
+  @include nds-body-small;
 
   height: 100%;
   display: flex;
@@ -99,7 +100,6 @@ $vertical-margin: px-to-rem(18);
   align-self: flex-end;
 
   padding-right: px-to-rem(20);
-  @include nds-body-small;
 
   font-weight: 500;
   color: $neu-charcoal-grey;

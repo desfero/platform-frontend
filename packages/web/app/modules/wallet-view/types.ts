@@ -43,7 +43,7 @@ export type TWalletViewReadyState = {
 };
 
 export enum EWalletViewError {
-  GENERIC_ERROR= "genericError"
+  GENERIC_ERROR = "genericError",
 }
 
 export type TWalletViewState =
@@ -51,10 +51,10 @@ export type TWalletViewState =
       processState: EProcessState.SUCCESS;
     } & TWalletViewReadyState)
   | ({
-      processState: EProcessState.ERROR
-    } & {errorType: EWalletViewError})
+      processState: EProcessState.ERROR;
+    } & { errorType: EWalletViewError })
   | ({
-      processState:  EProcessState.NOT_STARTED | EProcessState.IN_PROGRESS;
+      processState: EProcessState.NOT_STARTED | EProcessState.IN_PROGRESS;
     } & {});
 
 export type TBalance = {

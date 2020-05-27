@@ -127,7 +127,12 @@ export function* loadWalletView(): Generator<any, void, any> {
       }),
     );
   } catch (e) {
-    yield put(actions.walletView.walletViewSetData({ processState: EProcessState.ERROR, errorType: EWalletViewError.GENERIC_ERROR}));
+    yield put(
+      actions.walletView.walletViewSetData({
+        processState: EProcessState.ERROR,
+        errorType: EWalletViewError.GENERIC_ERROR,
+      }),
+    );
   }
 }
 

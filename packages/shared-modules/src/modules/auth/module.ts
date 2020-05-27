@@ -5,6 +5,7 @@ import { jwtReducerMap } from "./jwt/reducer";
 import { authJwtSagas, createJwt, escalateJwt, loadJwt, refreshJWT, setJwt } from "./jwt/sagas";
 import * as jwtSelectors from "./jwt/selectors";
 import { EJwtPermissions } from "./jwt/types";
+import { IUserState } from "./user/reducer";
 import { setupContainerModule } from "./lib/bindings";
 import { AuthHttpClient, IAuthHttpClient } from "./lib/http/AuthHttpClient";
 import { AuthJsonHttpClient } from "./lib/http/AuthJsonHttpClient";
@@ -51,6 +52,7 @@ const authModuleAPI = {
     ...jwtActions,
     ...userActions,
   },
+  reducerMap,
   symbols,
   selectors: {
     ...jwtSelectors,
@@ -88,6 +90,7 @@ export {
   EWalletSubType,
   EUserType,
   IUser,
+  IUserState,
   IEmailStatus,
   IUserInput,
   IVerifyEmailUser,

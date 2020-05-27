@@ -8,13 +8,13 @@ import {
 import * as React from "react";
 import { FormattedHTMLMessage, FormattedMessage } from "react-intl-phraseapp";
 
+import { externalRoutes } from "../../config/externalRoutes";
 import { KycBankVerifiedBankAccount } from "../../lib/api/kyc/KycApi.interfaces";
 import { Container, EColumnSpan } from "../layouts/Container";
 import { BankAccountDetails } from "./bank-account/BankAccount";
 
 import linkIcon from "../../assets/img/inline_icons/social_link.svg";
 import * as styles from "./Wallet.module.scss";
-import { externalRoutes } from "../../config/externalRoutes";
 
 type TBankAccountProps = {
   verifyBankAccount: () => void;
