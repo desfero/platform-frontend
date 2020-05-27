@@ -1,8 +1,9 @@
-import { authModuleAPI, IHttpClient, IHttpResponse } from "@neufund/shared-modules";
 import { inject, injectable } from "inversify";
 import * as Web3Utils from "web3-utils";
 
-import * as YupTS from "../../yup-ts.unsafe";
+import { TypeOfYTS, YupTS } from "../../../../../lib/yup-ts.unsafe";
+import { authModuleAPI } from "../../../../auth/module";
+import { IHttpClient, IHttpResponse } from "../../../../core/lib/client/IHttpClient";
 
 const BASE_PATH = "/api/gas/";
 const GET_GAS_PATH = "/gas";
@@ -40,5 +41,5 @@ const GasModel = YupTS.object({
   safeLow: YupTS.string(),
   standard: YupTS.string(),
 });
-export type GasModelShape = YupTS.TypeOf<typeof GasModel>;
+export type GasModelShape = TypeOfYTS<typeof GasModel>;
 const gasModelSchema = GasModel.toYup();

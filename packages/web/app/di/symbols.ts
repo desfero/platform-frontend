@@ -24,7 +24,6 @@ export const symbols = {
   apiEtoFileService: Symbol("apiEtoFileService"),
   apiEtoNomineeService: Symbol("apiEtoNomineeService"),
   fileStorageService: Symbol("fileStorageService"),
-  gasApi: Symbol("gasApi"),
 
   // contracts
   contractsService: createLibSymbol<ContractsService>("contractsService"),

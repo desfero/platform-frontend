@@ -3,7 +3,9 @@ import {
   setupAuthModule,
   setupContractsModule,
   setupCoreModule,
+  setupGasModule,
   setupTokenPriceModule,
+  setupWalletModule,
   TAppConnectOptions,
   TModuleSetup,
   TModuleState,
@@ -25,6 +27,7 @@ import { setupBindings } from "./di/setupBindings";
 import { symbols } from "./di/symbols";
 import { reduxLogger } from "./middlewares/redux-logger";
 import { actions, TAction } from "./modules/actions";
+import { waitUntilSmartContractsAreInitialized } from "./modules/init/sagas";
 import { setupWebNotificationUIModule } from "./modules/notification-ui/module";
 import { appReducers } from "./modules/reducer";
 import { rootSaga } from "./modules/sagas";
@@ -72,9 +75,11 @@ export const setupAppModule = ({ history, config, container }: TAppModuleConfig)
     setupTokenPriceModule({
       refreshOnAction: actions.web3.newBlockArrived,
     }),
+    ...setupWalletModule({ waitUntilSmartContractsAreInitialized }),
     ...setupWebTxHistoryModule({
       refreshOnAction: actions.web3.newBlockArrived,
     }),
+    setupGasModule(),
     setupWebNotificationUIModule(),
     appModule,
   ];

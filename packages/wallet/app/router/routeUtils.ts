@@ -1,4 +1,4 @@
-import { NavigationContainerRef } from "@react-navigation/native";
+import { NavigationContainerRef, useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import * as React from "react";
 
@@ -24,10 +24,13 @@ export type RootStackParamList = {
   [EAppRoutes.wallet]: undefined;
   [EAppRoutes.profile]: undefined;
   [EAppRoutes.qrCode]: undefined;
+  [EAppRoutes.webView]: { uri: string };
 };
 
 const navigate = (name: string, params?: StackNavigationProp<RootStackParamList>) => {
   navigationRef.current?.navigate(name, params);
 };
 
-export { navigate, navigationRef };
+const useNavigationTyped = () => useNavigation<StackNavigationProp<RootStackParamList>>();
+
+export { navigate, navigationRef, useNavigationTyped };

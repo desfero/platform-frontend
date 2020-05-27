@@ -1,5 +1,4 @@
 import { nonNullable } from "@neufund/shared-utils";
-import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { Text } from "react-native";
 import Config from "react-native-config";
@@ -7,6 +6,7 @@ import Config from "react-native-config";
 import { authModuleAPI } from "../../../modules/auth/module";
 import { walletConnectModuleApi } from "../../../modules/wallet-connect/module";
 import { EAppRoutes } from "../../../router/appRoutes";
+import { useNavigationTyped } from "../../../router/routeUtils";
 import { appConnect } from "../../../store/utils";
 import { EIconType } from "../../shared/Icon";
 import { SafeAreaScreen } from "../../shared/Screen";
@@ -32,7 +32,7 @@ const ProfileLayout: React.FunctionComponent<TStateProps & TDispatchProps> = ({
   walletConnectDisconnect,
   logout,
 }) => {
-  const navigation = useNavigation();
+  const navigation = useNavigationTyped();
 
   const items = React.useMemo(() => {
     const defaultItems: TMenuProps["items"] = [];
@@ -54,7 +54,7 @@ const ProfileLayout: React.FunctionComponent<TStateProps & TDispatchProps> = ({
   }, [authWallet, navigation]);
 
   return (
-    <SafeAreaScreen forceTopInset={true}>
+    <SafeAreaScreen forceTopInset>
       <Header name={authWallet.name} address={authWallet.address} />
 
       <Menu items={items} />

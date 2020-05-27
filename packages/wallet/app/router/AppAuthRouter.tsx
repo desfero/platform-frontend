@@ -4,6 +4,7 @@ import Config from "react-native-config";
 
 import { QRCode } from "../components/QRCode";
 import { SwitchAccountScreen } from "../components/screens/SwitchAccountScreen/SwitchAccountScreen";
+import { WebView } from "../components/screens/WebViewScreen/WebViewScreen";
 import { ModalStackHeader } from "../components/shared/ModalStackHeader";
 import { AppAuthRouterTabs } from "./AppAuthRouterTabs";
 import { EAppRoutes } from "./appRoutes";
@@ -49,6 +50,13 @@ const AppAuthRouter: React.FunctionComponent = () => (
           options={{ header: ModalStackHeader, title: "Switch account" }}
         />
       )}
+      <Stack.Screen
+        name={EAppRoutes.webView}
+        component={WebView}
+        options={{
+          header: ModalStackHeader,
+        }}
+      />
     </Stack.Navigator>
   </>
 );

@@ -1,10 +1,10 @@
-import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
 import { InteractionManager, StyleSheet } from "react-native";
 import * as Yup from "yup";
 
 import { EAuthState } from "../../../modules/auth/module";
 import { walletEthModuleApi } from "../../../modules/eth/module";
+import { useNavigationTyped } from "../../../router/routeUtils";
 import { spacingStyles } from "../../../styles/spacings";
 import { TComponentRefType } from "../../../utils/types";
 import { oneOfSchema } from "../../../utils/yupSchemas";
@@ -49,7 +49,7 @@ const ImportAccountScreenForm: React.FunctionComponent<TExternalProps> = ({
   authState,
   importExistingAccount,
 }) => {
-  const navigation = useNavigation();
+  const navigation = useNavigationTyped();
 
   const inputRef = React.useCallback(
     (ref: TComponentRefType<typeof TextAreaInput>) => {

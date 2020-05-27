@@ -44,7 +44,8 @@
     "storybook:android:release": "ENVFILE=./storybook/.env.storybook react-native run-android --variant release",
     "contract-artifacts:generate": "node ./scripts/generate-contracts.js",
     "postinstall": "patch-package",
-    "prepare": "yarn contract-artifacts:generate"
+    "prepare": "yarn contract-artifacts:generate",
+    "prestorybook": "rnstl"
   },
   "dependencies": {
     "@expo/react-native-action-sheet": "^3.6.0",
@@ -88,6 +89,7 @@
     "react-native-screens": "^2.0.0-beta.2",
     "react-native-svg": "^12.0.3",
     "react-native-svg-transformer": "^0.14.3",
+    "react-native-webview": "^9.4.0",
     "react-redux": "^6.0.0",
     "react-intl": "^4.5.1",
     "recompose": "^0.30.0",
@@ -104,14 +106,14 @@
     "@babel/plugin-proposal-decorators": "^7.8.3",
     "@babel/runtime": "^7.9.2",
     "@neufund/eslint-config": "^1.0.0",
-    "@storybook/addon-actions": "^5.3.13",
-    "@storybook/addon-knobs": "^5.3.13",
-    "@storybook/addon-links": "^5.3.13",
-    "@storybook/addon-ondevice-actions": "^5.3.13",
-    "@storybook/addon-ondevice-knobs": "^5.3.13",
-    "@storybook/addon-ondevice-notes": "^5.3.13",
-    "@storybook/react-native": "^5.3.13",
-    "@storybook/react-native-server": "^5.3.13",
+    "@storybook/addon-actions": "^5.3.18",
+    "@storybook/addon-knobs": "^5.3.18",
+    "@storybook/addon-links": "^5.3.18",
+    "@storybook/addon-ondevice-actions": "^5.3.18",
+    "@storybook/addon-ondevice-knobs": "^5.3.18",
+    "@storybook/addon-ondevice-notes": "^5.3.18",
+    "@storybook/react-native": "^5.3.18",
+    "@storybook/react-native-server": "^5.3.18",
     "@testing-library/react-native": "^5.0.3",
     "@types/detox": "^14.5.2",
     "@types/jest": "^25.1.2",
@@ -133,6 +135,7 @@
     "prettier": "^2.0.4",
     "react-devtools": "^3.6.3",
     "react-native-clean-project": "^3.3.0",
+    "react-native-storybook-loader": "^1.8.1",
     "react-test-renderer": "16.9.0",
     "ts-generator": "^0.0.8",
     "ts-jest": "^25.2.1",
@@ -198,5 +201,12 @@
     },
     "test-runner": "jest",
     "runner-config": "./tests/e2e/jest.config.json"
+  },
+  "config": {
+    "react-native-storybook-loader": {
+      "searchDir": "./app/components",
+      "pattern": "**/*.stories.tsx",
+      "outputFile": "./storybook/storyLoader.js"
+    }
   }
 }

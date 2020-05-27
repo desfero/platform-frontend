@@ -1,8 +1,6 @@
 const { join } = require("path");
 const { mapValues } = require("lodash");
 const dotenv = require("dotenv");
-const fs = require("fs");
-const url = require("url");
 
 const { getArtifactsMeta } = require("../scripts/getArtifacts");
 

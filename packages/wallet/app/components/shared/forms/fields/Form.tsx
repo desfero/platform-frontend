@@ -19,8 +19,8 @@ const Form = <Values extends {}>({
     validate={validate}
     validationSchema={validationSchema}
     initialValues={initialValues}
-    enableReinitialize={true}
-    validateOnMount={true}
+    enableReinitialize
+    validateOnMount
   >
     {formikProps => (typeof children === "function" ? children(formikProps) : children)}
   </Formik>

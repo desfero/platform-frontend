@@ -41,6 +41,7 @@ target 'wallet' do
 
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
 
+
   target 'walletTests' do
     inherit! :search_paths
     # Pods for testing

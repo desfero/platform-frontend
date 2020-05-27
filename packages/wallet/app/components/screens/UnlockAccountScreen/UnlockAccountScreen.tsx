@@ -1,4 +1,3 @@
-import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { Image, StyleSheet, View } from "react-native";
 import Config from "react-native-config";
@@ -6,6 +5,7 @@ import Config from "react-native-config";
 import logo from "../../../../assets/images/logo.png";
 import { authModuleAPI, EAuthState } from "../../../modules/auth/module";
 import { EAppRoutes } from "../../../router/appRoutes";
+import { useNavigationTyped } from "../../../router/routeUtils";
 import { appConnect } from "../../../store/utils";
 import { silverLighter2 } from "../../../styles/colors";
 import { spacingStyles } from "../../../styles/spacings";
@@ -27,12 +27,12 @@ const UnlockAccountLayout: React.FunctionComponent<TStateProps & TDispatchProps>
   authState,
   authWallet,
 }) => {
-  const navigation = useNavigation();
+  const navigation = useNavigationTyped();
 
   return (
     <NeuGradientScreen style={styles.wrapper}>
       <View style={styles.logoContainer}>
-        <Image style={styles.logo} source={logo} accessibilityIgnoresInvertColors={true} />
+        <Image style={styles.logo} source={logo} accessibilityIgnoresInvertColors />
       </View>
 
       <View style={styles.container}>

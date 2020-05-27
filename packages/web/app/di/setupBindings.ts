@@ -17,7 +17,6 @@ import {
   richTextEditorUploadAdapterFactory,
   TRichTextEditorUploadAdapterFactoryType,
 } from "../lib/api/file-storage/RichTextEditorUploadAdapter";
-import { GasApi } from "../lib/api/gas/GasApi";
 import { ImmutableStorageApi } from "../lib/api/immutable-storage/ImmutableStorageApi";
 import { KycApi } from "../lib/api/kyc/KycApi";
 import { UsersTxApi } from "../lib/api/users-tx/UsersTxApi";
@@ -148,10 +147,6 @@ export function setupBindings(config: IConfig): ContainerModule {
       .to(ImmutableStorageApi)
       .inSingletonScope();
 
-    bind(symbols.gasApi)
-      .to(GasApi)
-      .inSingletonScope();
-
     // persistence storage
     bind<Storage>(symbols.storage).toConstantValue(new Storage(window.localStorage));
 
@@ -264,7 +259,6 @@ export const createGlobalDependencies = (container: Container) => ({
   apiUserTxService: container.get<UsersTxApi>(symbols.usersTxApi),
   vaultApi: container.get<VaultApi>(symbols.vaultApi),
   fileStorageApi: container.get<FileStorageApi>(symbols.fileStorageService),
-  gasApi: container.get<GasApi>(symbols.gasApi),
   apiImmutableStorage: container.get<ImmutableStorageApi>(symbols.apiImmutableStorage),
 
   intlWrapper: container.get<IntlWrapper>(symbols.intlWrapper),
