@@ -10,7 +10,6 @@ import { etoFlowSagas } from "./eto-flow/sagas";
 import { etoNomineeSagas } from "./eto-nominee/sagas";
 import { etoViewSagas } from "./eto-view/shared/sagas";
 import { etoSagas } from "./eto/sagas";
-import { gasApiSagas } from "./gas/sagas";
 import { icbmWalletGetDataSagas } from "./icbm-wallet-balance-modal/sagas";
 import { immutableFileSagas } from "./immutable-file/sagas";
 import { initSagas } from "./init/sagas";
@@ -35,7 +34,6 @@ import { ledgerSagas } from "./wallet-selector/ledger-wizard/sagas";
 import { lightWalletSagas } from "./wallet-selector/light-wizard/sagas";
 import { walletSelectorSagas } from "./wallet-selector/sagas";
 import { walletConnectSagas } from "./wallet-selector/wallet-connect/sagas";
-import { walletSagas } from "./wallet/sagas";
 import { web3Sagas } from "./web3/sagas";
 
 /**
@@ -109,12 +107,6 @@ function* allSagas(): Generator<any, any, any> {
       neuTakeUntil,
       [actions.init.startServices, actions.init.restartServices],
       actions.init.stopServices,
-      walletSagas,
-    ),
-    fork(
-      neuTakeUntil,
-      [actions.init.startServices, actions.init.restartServices],
-      actions.init.stopServices,
       icbmWalletGetDataSagas,
     ),
     fork(
@@ -176,12 +168,6 @@ function* allSagas(): Generator<any, any, any> {
       [actions.init.startServices, actions.init.restartServices],
       actions.init.stopServices,
       txTransactionsSagasWatcher,
-    ),
-    fork(
-      neuTakeUntil,
-      [actions.init.startServices, actions.init.restartServices],
-      actions.init.stopServices,
-      gasApiSagas,
     ),
     fork(
       neuTakeUntil,

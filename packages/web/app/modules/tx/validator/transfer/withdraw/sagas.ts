@@ -1,4 +1,5 @@
 import { put, select } from "@neufund/sagas";
+import { walletApi } from "@neufund/shared-modules";
 import { addBigNumbers, convertToUlps, multiplyBigNumbers } from "@neufund/shared-utils";
 
 import { TGlobalDependencies } from "../../../../../di/setupBindings";
@@ -7,7 +8,6 @@ import { UserHasNoFundsError } from "../../../../../lib/web3/Web3Adapter";
 import { actions } from "../../../../actions";
 import { neuCall } from "../../../../sagasUtils";
 import { selectEtherPriceEur } from "../../../../shared/tokenPrice/selectors";
-import { selectEtherBalanceAsBigNumber } from "../../../../wallet/selectors";
 import { isAddressValid } from "../../../../web3/utils";
 import { generateEthWithdrawTransaction } from "../../../transactions/withdraw/sagas";
 import { IWithdrawDraftType } from "../../../types";
@@ -88,7 +88,7 @@ export function* isAddressValidAcceptsEther(
   value: string,
 ): Generator<any, any, any> {
   try {
-    const etherBalance = yield* select(selectEtherBalanceAsBigNumber);
+    const etherBalance = yield* select(walletApi.selectors.selectEtherBalanceAsBigNumber);
     if (etherBalance.isZero()) {
       throw new UserHasNoFundsError();
     }

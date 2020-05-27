@@ -1,3 +1,4 @@
+import { walletApi } from "@neufund/shared-modules";
 import {
   addBigNumbers,
   compareBigNumbers,
@@ -25,7 +26,6 @@ import {
 import { EETOStateOnChain, TEtoWithCompanyAndContractReadonly } from "../eto/types";
 import { isOnChain } from "../eto/utils";
 import { selectEtherPriceEur } from "../shared/tokenPrice/selectors";
-import { selectLockedWalletConnected, selectNeuBalanceEurEquiv } from "../wallet/selectors";
 import {
   ICalculatedContribution,
   IInvestorTicket,
@@ -217,7 +217,7 @@ export const selectIsWhitelisted = (state: TAppGlobalState, etoId: string) => {
 };
 
 export const selectIsEligibleToPreEto = (state: TAppGlobalState, etoId: string) => {
-  const isLockedWalletConnected = selectLockedWalletConnected(state);
+  const isLockedWalletConnected = walletApi.selectors.selectLockedWalletConnected(state);
   // pre-sale eligibility depends on bookbuilding participation which will eventually be committed to smart contract
   const isOnBookbuildingWhitelist = selectMyPledge(state, etoId) !== undefined;
 
@@ -318,7 +318,7 @@ export const selectMyAssetsEurEquivTotal = createSelector(selectMyAssetsWithToke
 
 export const selectMyAssetsEurEquivTotalWithNeu = createSelector(
   selectMyAssetsEurEquivTotal,
-  selectNeuBalanceEurEquiv,
+  walletApi.selectors.selectNeuBalanceEurEquiv,
   (myAssetsEurEquivTotal, neuValue) =>
     myAssetsEurEquivTotal ? addBigNumbers([myAssetsEurEquivTotal, neuValue]) : neuValue,
 );

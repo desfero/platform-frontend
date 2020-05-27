@@ -1,8 +1,10 @@
+import { gasApi } from "@neufund/shared-modules";
 import { multiplyBigNumbers } from "@neufund/shared-utils";
 
 import { TAppGlobalState } from "../../../store";
 import { selectEtherPriceEur } from "../../shared/tokenPrice/selectors";
 import { ETxSenderType, TAdditionalDataByType } from "../types";
+import { calculateGasPriceWithOverhead } from "../utils";
 import { ETxSenderState } from "./reducer";
 
 export const selectTxSenderModalOpened = (state: TAppGlobalState) =>
@@ -28,3 +30,6 @@ export const selectTxGasCostEthUlps = (state: TAppGlobalState): string => {
 
 export const selectTxGasCostEurUlps = (state: TAppGlobalState): string =>
   multiplyBigNumbers([selectEtherPriceEur(state), selectTxGasCostEthUlps(state)]);
+
+export const selectStandardGasPriceWithOverHead = (state: TAppGlobalState): string =>
+  calculateGasPriceWithOverhead(gasApi.selectors.selectStandardGasPrice(state));

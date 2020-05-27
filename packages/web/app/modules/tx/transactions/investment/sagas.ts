@@ -1,4 +1,5 @@
 import { fork, put, select, take } from "@neufund/sagas";
+import { walletApi } from "@neufund/shared-modules";
 import { compareBigNumbers } from "@neufund/shared-utils";
 import { BigNumber } from "bignumber.js";
 
@@ -8,7 +9,6 @@ import { TAppGlobalState } from "../../../../store";
 import { actions, TActionFromCreator } from "../../../actions";
 import { selectEtoWithCompanyAndContractById } from "../../../eto/selectors";
 import { TEtoWithCompanyAndContractReadonly } from "../../../eto/types";
-import { selectStandardGasPriceWithOverHead } from "../../../gas/selectors";
 import { EInvestmentType } from "../../../investment-flow/reducer";
 import { onInvestmentTxModalHide } from "../../../investment-flow/sagas";
 import {
@@ -24,10 +24,9 @@ import {
 } from "../../../investor-portfolio/selectors";
 import { neuCall, neuTakeLatest } from "../../../sagasUtils";
 import { selectEtherPriceEur } from "../../../shared/tokenPrice/selectors";
-import { selectEtherTokenBalance } from "../../../wallet/selectors";
 import { selectEthereumAddress } from "../../../web3/selectors";
 import { txSendSaga } from "../../sender/sagas";
-import { selectTxGasCostEthUlps } from "../../sender/selectors";
+import { selectStandardGasPriceWithOverHead, selectTxGasCostEthUlps } from "../../sender/selectors";
 import { ETxSenderType, TAdditionalDataByType } from "../../types";
 
 export const INVESTMENT_GAS_AMOUNT = "600000";
@@ -37,7 +36,7 @@ function* getEtherTokenTransaction(
   etoId: string,
   investAmountUlps: BigNumber,
 ): Generator<any, any, any> {
-  const etherTokenBalance = yield select(selectEtherTokenBalance);
+  const etherTokenBalance = yield select(walletApi.selectors.selectEtherTokenBalance);
   if (!etherTokenBalance) {
     throw new Error("No ether Token Balance");
   }

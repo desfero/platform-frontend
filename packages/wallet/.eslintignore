@@ -7,6 +7,7 @@ jest.config.js
 metro.config.js
 react-native.config.js
 scripts
+/storybook/storyLoader.js
 
 // TODO: Remove when eslint gets support for typescript `import type { ... } from '...'`
 app/components/shared/menu/Menu.tsx

@@ -1,4 +1,5 @@
 import { put, select } from "@neufund/sagas";
+import { walletApi } from "@neufund/shared-modules";
 import {
   addBigNumbers,
   compareBigNumbers,
@@ -7,18 +8,17 @@ import {
 } from "@neufund/shared-utils";
 import { cloneDeep } from "lodash";
 
-import { IWindowWithData } from "../../../../../test/helperTypes";
-import { ITxData } from "../../../../lib/web3/types";
 import { NotEnoughEtherForGasError, UserHasNoFundsError } from "../../../../lib/web3/Web3Adapter";
 import { actions } from "../../../actions";
 import { neuCall } from "../../../sagasUtils";
-import { selectEtherBalance } from "../../../wallet/selectors";
 import { generateRandomEthereumAddress, isAddressValid } from "../../../web3/utils";
 import { ITokenTransferDraftType, IWithdrawDraftType } from "../../types";
 import { MINIMUM_ETH_RESERVE_GAS_UNITS } from "../../utils";
 import { txProcessAddressValidations } from "../address/sagas";
 import { EAdditionalValidationDataNotifications, EValidationState } from "../reducer";
 import { validateGas } from "../sagas";
+import { IWindowWithData } from "./../../../../../test/helperTypes";
+import { ITxData } from "./../../../../lib/web3/types";
 import { UserHasNotEnoughTokensError } from "./token-transfer/errors";
 import { isValidFormNumber } from "./utils";
 import { SmartContractDoesNotAcceptEtherError } from "./withdraw/errors";
@@ -55,7 +55,7 @@ export function* validateWalletAlmostEmpty({
   gas,
   value,
 }: ITxData): Generator<any, any, any> {
-  const allEther: string = yield select(selectEtherBalance);
+  const allEther: string = yield select(walletApi.selectors.selectEtherBalance);
 
   let warnings: EAdditionalValidationDataNotifications[] = [];
 

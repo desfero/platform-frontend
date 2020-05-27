@@ -1,8 +1,8 @@
+import { ILockedWallet } from "@neufund/shared-modules";
 import { DeepReadonly } from "@neufund/shared-utils";
 
 import { AppReducer } from "../../store";
 import { actions } from "../actions";
-import { ILockedWallet } from "../wallet/reducer";
 
 export type TWalletMigrationSteps = 1 | 2;
 export interface IWalletMigrationData {

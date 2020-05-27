@@ -1,3 +1,4 @@
+import { walletApi } from "@neufund/shared-modules";
 import {
   getCurrentUTCTimestamp,
   multiplyBigNumbers,
@@ -10,7 +11,6 @@ import { FormattedMessage } from "react-intl-phraseapp";
 import { compose, lifecycle, withState } from "recompose";
 
 import { ETxSenderType } from "../../../../modules/tx/types";
-import { getUnlockedWalletEtherAmountAfterFee } from "../../../../modules/wallet/utils";
 import { Money } from "../../../shared/formatters/Money";
 import {
   ECurrency,
@@ -114,7 +114,7 @@ const UnlockWalletTransactionDetails = compose<
       const { updateReturnedFunds, additionalData, updateUnlockFee } = this.props;
       const { lockedEtherUnlockDate, lockedEtherBalance } = additionalData;
       setInterval(() => {
-        const amountAfterFee = getUnlockedWalletEtherAmountAfterFee(
+        const amountAfterFee = walletApi.utils.getUnlockedWalletEtherAmountAfterFee(
           new BigNumber(lockedEtherBalance),
           // TODO: Remove with https://github.com/Neufund/platform-frontend/issues/2156
           lockedEtherUnlockDate,

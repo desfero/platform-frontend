@@ -1,4 +1,5 @@
 import { all, fork, put, select, take } from "@neufund/sagas";
+import { walletApi } from "@neufund/shared-modules";
 import { Dictionary, InvariantError, nonNullable } from "@neufund/shared-utils";
 import BigNumber from "bignumber.js";
 import { cloneDeep, isEmpty } from "lodash/fp";
@@ -37,7 +38,6 @@ import {
   neuTakeOnly,
 } from "../sagasUtils";
 import { EAgreementType } from "../tx/transactions/nominee/sign-agreement/types";
-import { selectLiquidEuroTokenBalance } from "../wallet/selectors";
 import {
   initalNomineeTaskStatus,
   initialEtoSpecificTaskData,
@@ -329,7 +329,7 @@ export function* getNomineeTaskRedeemShareCapitalData(
     loadCapitalIncrease,
     actions.eto.loadCapitalIncrease(etoId, previewCode),
   );
-  const walletBalance: string = yield select(selectLiquidEuroTokenBalance);
+  const walletBalance: string = yield select(walletApi.selectors.selectLiquidEuroTokenBalance);
   const taskSubstate: ERedeemShareCapitalTaskSubstate = yield neuCall(
     getRedeemShareCapitalTaskState,
     { capitalIncrease, walletBalance },

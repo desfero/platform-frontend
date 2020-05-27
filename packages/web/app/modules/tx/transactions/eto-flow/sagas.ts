@@ -15,10 +15,10 @@ import {
   selectPreEtoStartDate,
 } from "../../../eto-flow/selectors";
 import { TEtoWithCompanyAndContractReadonly } from "../../../eto/types";
-import { selectStandardGasPriceWithOverHead } from "../../../gas/selectors";
 import { neuCall, neuTakeLatest } from "../../../sagasUtils";
 import { selectEthereumAddress } from "../../../web3/selectors";
 import { txSendSaga } from "../../sender/sagas";
+import { selectStandardGasPriceWithOverHead } from "../../sender/selectors";
 import { ETxSenderType } from "../../types";
 
 function* generateSetStartDateTransaction({

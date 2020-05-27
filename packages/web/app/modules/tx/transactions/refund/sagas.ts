@@ -11,14 +11,13 @@ import { ITxData } from "../../../../lib/web3/types";
 import { TAppGlobalState } from "../../../../store";
 import { actions, TActionFromCreator } from "../../../actions";
 import { selectEtoWithCompanyAndContractById } from "../../../eto/selectors";
-import { selectStandardGasPriceWithOverHead } from "../../../gas/selectors";
 import { selectInvestorTicket } from "../../../investor-portfolio/selectors";
 import { IInvestorTicket } from "../../../investor-portfolio/types";
 import { neuCall, neuTakeLatest } from "../../../sagasUtils";
 import { selectEtherPriceEur } from "../../../shared/tokenPrice/selectors";
 import { selectEthereumAddress } from "../../../web3/selectors";
 import { txSendSaga } from "../../sender/sagas";
-import { selectTxGasCostEthUlps } from "../../sender/selectors";
+import { selectStandardGasPriceWithOverHead, selectTxGasCostEthUlps } from "../../sender/selectors";
 import { ETxSenderType } from "../../types";
 
 function* generateGetRefundTransaction(

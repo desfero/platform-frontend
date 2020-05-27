@@ -23,5 +23,10 @@ module.exports = {
      */
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "error",
+
+    /**
+     * Props
+     */
+    "react/jsx-boolean-value": "error",
   },
 };

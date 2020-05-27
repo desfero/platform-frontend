@@ -6,9 +6,9 @@ import { baseWhite, bluish } from "../../../styles/colors";
 import { spacingStyles } from "../../../styles/spacings";
 import { EIconType } from "../Icon";
 import { Money } from "../Money";
-import { HelperText } from "../forms/layouts/HelperText";
 import { Panel } from "../panel/Panel";
 import { BodyBoldText } from "../typography/BodyText";
+import { HelperText } from "../typography/HelperText";
 import { MenuLabelBold } from "../typography/MenuLabel";
 import { TokenIcon, TokenImage } from "./TokenIcon";
 

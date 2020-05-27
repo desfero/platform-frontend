@@ -1,6 +1,6 @@
 import { createActionFactory } from "@neufund/shared-utils";
 
-import { GasModelShape } from "../../lib/api/gas/GasApi";
+import { GasModelShape } from "./lib/http/gas-api/GasApi";
 
 export const gasActions = {
   gasApiEnsureLoading: createActionFactory("GAS_API_ENSURE_LOADING"),

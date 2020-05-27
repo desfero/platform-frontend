@@ -1,6 +1,7 @@
 const { tsGenerator } = require("ts-generator");
 const { TypeChain } = require("typechain/dist/TypeChain");
 const fs = require("fs");
+const os = require("os");
 const path = require("path");
 const mapValues = require("lodash/fp/mapValues");
 
@@ -15,7 +16,9 @@ const artifactsVersion = process.env.NF_CONTRACT_ARTIFACTS_VERSION || "localhost
 
 const outDir = "app/lib/contracts";
 
-async function generateKnownInterfaces() {
+const filteredArtifacts = [/Gov\.json/, /Test.+\.json/, /Mock.+\.json/];
+
+function generateKnownInterfaces() {
   const { KNOWN_INTERFACES } = getArtifactsMeta(artifactsVersion);
 
   fs.writeFileSync(
@@ -48,7 +51,18 @@ async function generateFixtures() {
   );
 }
 
-async function generateTypechainWrappers() {
+async function filterArtifacts(sourcePath) {
+  const tmpdir = await fs.promises.mkdtemp(path.join(os.tmpdir(), "neufund-artifacts"));
+  const dir = await fs.promises.opendir(sourcePath);
+  for await (const dirent of dir) {
+    if (!filteredArtifacts.some(p => p.test(dirent.name))) {
+      await fs.promises.copyFile(`${sourcePath}${dirent.name}`, `${tmpdir}/${dirent.name}`);
+    }
+  }
+  return tmpdir;
+}
+
+async function generateTypechainWrappers(sourcePath) {
   const cwd = process.cwd();
 
   await tsGenerator(
@@ -57,7 +71,7 @@ async function generateTypechainWrappers() {
       cwd,
       rawConfig: {
         outDir,
-        files: `${getArtifactsRelativePath(artifactsVersion)}/contracts/*.json`,
+        files: `${sourcePath}/*.json`,
         target: "ethers",
       },
     }),
@@ -66,7 +80,10 @@ async function generateTypechainWrappers() {
 
 async function main() {
   try {
-    await generateTypechainWrappers();
+    const filteredPath = await filterArtifacts(
+      `${getArtifactsRelativePath(artifactsVersion)}/contracts/`,
+    );
+    await generateTypechainWrappers(filteredPath);
   } catch (e) {
     console.error("Failed to generate typechain contract wrappers");
     console.error(e.message);
@@ -74,7 +91,7 @@ async function main() {
   }
 
   try {
-    await generateKnownInterfaces();
+    generateKnownInterfaces();
   } catch (e) {
     console.error("Failed to read meta.json and generate knownInterfaces.json");
     console.error(e.message);

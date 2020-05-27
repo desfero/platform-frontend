@@ -11,6 +11,7 @@ enum EAppRoutes {
   wallet = "Wallet",
   profile = "Profile",
   qrCode = "QRCode",
+  webView = "WebView",
 }
 
 export { EAppRoutes };

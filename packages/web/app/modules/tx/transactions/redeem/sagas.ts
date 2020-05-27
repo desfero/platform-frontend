@@ -1,4 +1,5 @@
 import { fork, put, select, take } from "@neufund/sagas";
+import { walletApi } from "@neufund/shared-modules";
 import {
   compareBigNumbers,
   convertToUlps,
@@ -16,13 +17,12 @@ import {
   selectBankFeeUlps,
   selectIsBankAccountVerified,
 } from "../../../bank-transfer-flow/selectors";
-import { selectStandardGasPriceWithOverHead } from "../../../gas/selectors";
 import { selectBankAccount } from "../../../kyc/selectors";
 import { TBankAccount } from "../../../kyc/types";
 import { neuCall, neuTakeLatest } from "../../../sagasUtils";
-import { selectLiquidEuroTokenBalance } from "../../../wallet/selectors";
 import { selectEthereumAddress } from "../../../web3/selectors";
 import { txSendSaga } from "../../sender/sagas";
+import { selectStandardGasPriceWithOverHead } from "../../sender/selectors";
 import { ETxSenderType } from "../../types";
 
 function* generateNeuWithdrawTransaction(
@@ -51,7 +51,7 @@ function* startNEuroRedeemGenerator(_: TGlobalDependencies): any {
   const txDataFromUser = action.payload.txDraftData;
   const selectedAmount = txDataFromUser.value;
 
-  const nEURBalanceUlps = yield select(selectLiquidEuroTokenBalance);
+  const nEURBalanceUlps = yield select(walletApi.selectors.selectLiquidEuroTokenBalance);
 
   const nEURBalance = new BigNumber(nEURBalanceUlps)
     .div(new BigNumber("10").pow(ETH_DECIMALS))

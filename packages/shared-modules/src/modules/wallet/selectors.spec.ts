@@ -1,7 +1,6 @@
 import { Q18 } from "@neufund/shared-utils";
 import { expect } from "chai";
 
-import { TAppGlobalState } from "../../store";
 import {
   selectICBMLockedEuroTotalAmount,
   selectLiquidEuroTotalAmount,
@@ -13,13 +12,15 @@ import {
   selectTotalEuroBalance,
   selectTotalEuroTokenBalance,
 } from "./selectors";
+import { TWalletModuleState } from "./types";
 
 describe("Wallet > selectors", () => {
   const etherLockedBalance = Q18.mul("23.11");
   const etherLockedUnlockDate = 1569888000;
 
-  const defaultState = {
+  const defaultState: TWalletModuleState = {
     wallet: {
+      error: undefined,
       loading: false,
       data: {
         etherTokenLockedWallet: {
@@ -43,6 +44,7 @@ describe("Wallet > selectors", () => {
           neumarksDue: "0",
           unlockDate: "0",
         },
+        neumarkAddress: "0x7824e49353BD72E20B61717cf82a06a4EEE209e8",
         etherTokenBalance: Q18.mul("10").toString(),
         euroTokenBalance: Q18.mul("10.12").toString(),
         etherBalance: Q18.mul("100").toString(),
@@ -50,15 +52,18 @@ describe("Wallet > selectors", () => {
       },
     },
     tokenPrice: {
+      loading: false,
       tokenPriceData: {
         etherPriceEur: "10",
         neuPriceEur: "10000",
+        eurPriceEther: "10000",
+        priceOutdated: false,
       },
     },
   };
 
   it("should calculate total value correctly", () => {
-    const fullStateMock = (defaultState as any) as TAppGlobalState;
+    const fullStateMock = defaultState;
 
     const totalEther = Q18.mul((10 + 23.11 + 50 + 100).toString());
     expect(selectTotalEtherBalance(fullStateMock)).to.be.eq(totalEther.toString());

@@ -5,9 +5,9 @@ import { StyleSheet, View, Share } from "react-native";
 import { baseGray, grayLighter1 } from "../../../../styles/colors";
 import { spacingStyles } from "../../../../styles/spacings";
 import { EIconType, Icon } from "../../../shared/Icon";
-import { HelperText } from "../../../shared/forms/layouts/HelperText";
 import { PanelTouchable } from "../../../shared/panel/Panel";
 import { BodyText } from "../../../shared/typography/BodyText";
+import { HelperText } from "../../../shared/typography/HelperText";
 
 type TViewProps = React.ComponentProps<typeof View>;
 

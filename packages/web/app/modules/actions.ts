@@ -1,5 +1,5 @@
 import { StringableActionCreator } from "@neufund/sagas";
-import { txHistoryApi } from "@neufund/shared-modules";
+import { gasApi, txHistoryApi, walletApi } from "@neufund/shared-modules";
 import { TDictionaryValues } from "@neufund/shared-utils";
 import { LocationChangeAction } from "connected-react-router";
 
@@ -16,7 +16,6 @@ import { etoNomineeActions } from "./eto-nominee/actions";
 import { etoViewActions } from "./eto-view/shared/actions";
 import { etoActions } from "./eto/actions";
 import { fullPageLoadingActions } from "./full-page-loading/actions";
-import { gasActions } from "./gas/actions";
 import { genericModalActions } from "./generic-modal/actions";
 import { icbmWalletBalanceModalActions } from "./icbm-wallet-balance-modal/actions";
 import { immutableStorageActions } from "./immutable-file/actions";
@@ -38,7 +37,6 @@ import { userAgentActions } from "./user-agent/actions";
 import { verifyEmailActions } from "./verify-email-widget/actions";
 import { videoModalActions } from "./video-modal/actions";
 import { walletSelectorActions } from "./wallet-selector/actions";
-import { walletActions } from "./wallet/actions";
 import { web3Actions } from "./web3/actions";
 
 /** You should add new actions also here (with a namespace).*/
@@ -60,7 +58,7 @@ export const actions = {
   investorEtoTicket: investorEtoTicketActions,
   userAgent: userAgentActions,
   auth: authActions,
-  wallet: walletActions,
+  wallet: walletApi.actions,
   notifications: notificationActions,
   notificationModal: notificationModalActions,
   etoFlow: etoFlowActions,
@@ -73,7 +71,7 @@ export const actions = {
   remoteFile: remoteFileActions,
   depositEthModal: depositModalActions,
   icbmWalletBalanceModal: icbmWalletBalanceModalActions,
-  gas: gasActions,
+  gas: gasApi.actions,
   investmentFlow: investmentFlowActions,
   videoModal: videoModalActions,
   personProfileModal: personProfileModalActions,

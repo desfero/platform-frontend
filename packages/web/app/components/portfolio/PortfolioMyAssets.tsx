@@ -1,4 +1,5 @@
 import { Button, EButtonLayout, Table, TokenDetails } from "@neufund/design-system";
+import { walletApi } from "@neufund/shared-modules";
 import { multiplyBigNumbers, withContainer } from "@neufund/shared-utils";
 import BigNumber from "bignumber.js";
 import * as React from "react";
@@ -13,11 +14,6 @@ import {
 } from "../../modules/investor-portfolio/selectors";
 import { TETOWithTokenData } from "../../modules/investor-portfolio/types";
 import { selectNeuPriceEur } from "../../modules/shared/tokenPrice/selectors";
-import {
-  selectNeuBalance,
-  selectNeuBalanceEurEquiv,
-  selectNeumarkAddress,
-} from "../../modules/wallet/selectors";
 import { appConnect } from "../../store";
 import { etoPublicViewLink } from "../appRouteUtils";
 import { Container } from "../layouts/Container";
@@ -281,10 +277,10 @@ const PortfolioMyAssetsNoAssets: React.FunctionComponent = () => (
 const PortfolioMyAssets = compose<TComponentProps, IExternalProps>(
   appConnect<IStateProps, IDispatchProps>({
     stateToProps: state => ({
-      myNeuBalance: selectNeuBalance(state),
+      myNeuBalance: walletApi.selectors.selectNeuBalance(state),
       neuPrice: selectNeuPriceEur(state),
-      neumarkAddress: selectNeumarkAddress(state),
-      neuValue: selectNeuBalanceEurEquiv(state),
+      neumarkAddress: walletApi.selectors.selectNeumarkAddress(state),
+      neuValue: walletApi.selectors.selectNeuBalanceEurEquiv(state),
       myAssets: selectMyAssetsWithTokenData(state)!,
       hasError: selectEtosError(state),
       totalEurEquiv: selectMyAssetsEurEquivTotalWithNeu(state),

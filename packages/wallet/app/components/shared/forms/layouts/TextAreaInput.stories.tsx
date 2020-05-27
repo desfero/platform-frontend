@@ -11,7 +11,7 @@ storiesOf("Atoms|TextAreaInput", module).add("default", () => (
 
     <LineBreak />
 
-    <TextAreaInput autoFocus={true} placeholder="Type here..." />
+    <TextAreaInput autoFocus placeholder="Type here..." />
 
     <LineBreak />
 
@@ -19,10 +19,10 @@ storiesOf("Atoms|TextAreaInput", module).add("default", () => (
 
     <LineBreak />
 
-    <TextAreaInput disabled={true} defaultValue="Hello world" />
+    <TextAreaInput disabled defaultValue="Hello world" />
 
     <LineBreak />
 
-    <TextAreaInput invalid={true} defaultValue="Hello world" />
+    <TextAreaInput invalid defaultValue="Hello world" />
   </View>
 ));

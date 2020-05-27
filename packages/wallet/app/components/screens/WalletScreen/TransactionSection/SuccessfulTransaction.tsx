@@ -6,7 +6,7 @@ import { baseGray, baseGreen, blueyGray } from "../../../../styles/colors";
 import { spacingStyles } from "../../../../styles/spacings";
 import { EIconType, Icon } from "../../../shared/Icon";
 import { Money } from "../../../shared/Money";
-import { HelperText } from "../../../shared/forms/layouts/HelperText";
+import { HelperText } from "../../../shared/typography/HelperText";
 import { Text, TextBold } from "../../../shared/typography/Text";
 import { st } from "../../../utils";
 import { IconSpacer } from "./IconSpacer";
