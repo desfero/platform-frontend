@@ -3,6 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta
+      name="twitter:widgets:csp"
+      content="on">
+    <meta name="twitter:dnt" content="on">
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' https://*.twitter.com https://*.twimg.com; script-src 'self' 'sha256-yOiSnRs8ZnzrkPZJrEFmLXLrSGWEuMf/NGVz5PgT86Q=' https://*.twitter.com https://*.twimg.com; style-src 'unsafe-inline' https://*.twitter.com https://*.twimg.com; img-src 'self' data: https://*.twitter.com https://*.twimg.com;"
+    />
     <title>Neufund Twitter Iframe</title>
   </head>
   <body>
@@ -12,6 +20,7 @@
       data-chrome="noheader nofooter noborders transparent"
       data-tweet-limit="5"
     ></a>
+    <script src="/external/sanitize-url.js"></script>
     <script>
       const a = document.getElementById("twitter");
       const search = location.search.substring(1);
@@ -23,7 +32,7 @@
             .replace(/=/g, '":"') +
           '"}',
       );
-      a.href = query.url;
+      a.href = sanitizeUrl(query.url);
       a.innerText = "Tweets by " + query.user;
     </script>
     <script src="https://platform.twitter.com/widgets.js"></script>

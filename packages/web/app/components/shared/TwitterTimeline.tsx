@@ -16,8 +16,10 @@ export class TwitterTimelineEmbed extends React.Component<IProps> {
         width="100%"
         height="100%"
         frameBorder={0}
-        allowFullScreen
         title="Twitter Timeline"
+        // allow-same-origin allow-forms are for twitter user trackers
+        // csp of "/external/twitter-iframe.html" allows only specific domains anyway
+        sandbox="allow-scripts allow-same-origin allow-forms"
       />
     );
   }
