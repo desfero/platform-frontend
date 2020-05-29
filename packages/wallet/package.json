@@ -132,6 +132,7 @@
     "jest": "^25.1.0",
     "metro-config": "^0.56.0",
     "metro-react-native-babel-preset": "^0.59.0",
+    "patch-package": "^6.1.0",
     "prettier": "^2.0.4",
     "react-devtools": "^3.6.3",
     "react-native-clean-project": "^3.3.0",
