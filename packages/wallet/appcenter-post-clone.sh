@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # use the proper nvm version from our .nvmrc
-nvm install
+node -v
 
 # install dependencies from the monorepo root
 cd ../..
