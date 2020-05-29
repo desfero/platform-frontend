@@ -5,8 +5,8 @@ cd ../..
 yarn
 cd ./packages/wallet
 
-# move to native folder and fix local dependencies
-#cd .. && cd native && node scripts/appcenter-postclone.js
+# fix local dependencies
+node scripts/appcenter-postclone.js
 
 # install pods
 cd ios
