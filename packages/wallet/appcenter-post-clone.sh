@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-// use the proper nvm version from our .nvmrc
+# use the proper nvm version from our .nvmrc
 nvm install
 
 # install dependencies from the monorepo root
