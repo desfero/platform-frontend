@@ -146,22 +146,7 @@
   },
   "workspaces": {
     "nohoist": [
-      "**/react-native",
-      "**/react-native/**",
-      "**/react-native-*",
-      "**/react-native-*/**",
-      "**/@react-native-firebase/**",
-      "**/detox",
-      "**/yup",
-      "**/detox/**",
-      "**/@types/detox",
-      "**/@types/detox/**",
-      "**/@types/jest",
-      "**/@types/jest/**",
-      "**/jest",
-      "**/jest/**",
-      "**/@neufund/eslint-config",
-      "**/@neufund/eslint-config/**"
+      "**"
     ]
   },
   "detox": {
