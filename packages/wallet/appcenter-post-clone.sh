@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-set -o errexit
-set -o pipefail
-set -o nounset
-
 # use the proper nvm version from our .nvmrc
 node -v
 

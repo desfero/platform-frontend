@@ -217,8 +217,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "wallet" */;
 			buildPhases = (
-				969BBF0D24827F4100AC2ADB /* Generate GoogleService-Info.plist from NF_IOS_FIREBASE_JSON */,
 				FFA1CD5EFAD8E507A040E386 /* [CP] Check Pods Manifest.lock */,
+				969BBF0D24827F4100AC2ADB /* Generate GoogleService-Info.plist from NF_IOS_FIREBASE_JSON */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
