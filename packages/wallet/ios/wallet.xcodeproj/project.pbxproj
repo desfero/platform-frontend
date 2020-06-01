@@ -330,7 +330,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [[ -z $NF_IOS_FIREBASE_JSON ]]; then\n    echo \"error: NF_IOS_FIREBASE_JSON env variable not provided.\"\n    exit 1  \nelse\n    echo $NF_IOS_FIREBASE_JSON | base64 --decode > ./GoogleService-Info.plist\n    echo \"GoggleService-Info.plist generated\"\nfi\n\n\n";
+			shellScript = "echo \"Printing content\"\necho $NF_IOS_FIREBASE_JSON\n\nif [[ -z $NF_IOS_FIREBASE_JSON ]]; then\n    echo \"error: NF_IOS_FIREBASE_JSON env variable not provided.\"\n    exit 1  \nelse\n    echo $NF_IOS_FIREBASE_JSON | base64 --decode > \"${SRCROOT}/GoogleService-Info.plist\"\n    echo \"GoogleService-Info.plist generated\"\nfi\n\n\n";
 		};
 		A557A9047F68D9CD14E5FC8F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
