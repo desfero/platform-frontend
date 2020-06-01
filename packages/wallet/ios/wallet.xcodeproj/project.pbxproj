@@ -310,7 +310,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh index.tsx\n";
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh index.js\n";
 		};
 		969BBF0D24827F4100AC2ADB /* Generate GoogleService-Info.plist from NF_IOS_FIREBASE_JSON */ = {
 			isa = PBXShellScriptBuildPhase;
