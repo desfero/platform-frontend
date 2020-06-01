@@ -17,6 +17,7 @@
 		8455F0A31BCC4D29A2D8B030 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C486F05C15B478AB5F6C2BC /* Roboto-Medium.ttf */; };
 		965F0307243B1D190055C7D0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 965F0306243B1D190055C7D0 /* LaunchScreen.storyboard */; };
 		969BBF0C24827A1100AC2ADB /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 969BBF0B24827A1100AC2ADB /* Config.xcconfig */; };
+		96E57A1F2485900A009CEC5B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 44C078602420CDC000CD0C0F /* GoogleService-Info.plist */; };
 		BA577FB11DA5E440D4B93FF2 /* libPods-wallet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F90EC4E5707298CEB599B49 /* libPods-wallet.a */; };
 /* End PBXBuildFile section */
 
@@ -287,6 +288,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				96E57A1F2485900A009CEC5B /* GoogleService-Info.plist in Resources */,
 				965F0307243B1D190055C7D0 /* LaunchScreen.storyboard in Resources */,
 				41D7C7554656486D8F2A1095 /* Montserrat-SemiBold.ttf in Resources */,
 				8455F0A31BCC4D29A2D8B030 /* Roboto-Medium.ttf in Resources */,
