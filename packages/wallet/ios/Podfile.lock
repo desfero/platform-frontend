@@ -273,7 +273,7 @@ PODS:
     - React
   - react-native-camera/RN (3.19.0):
     - React
-  - react-native-config (0.12.0):
+  - react-native-config (1.2.0):
     - React
   - react-native-notifications (3.1.2):
     - React
@@ -552,7 +552,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
   react-native-camera: 1f4c5be75a037b5573716a01d84ca0390c162954
-  react-native-config: f2c2ae45625a068c35681a16b9bfb1ca58b0adc7
+  react-native-config: 1ad4712773ff7e867b261be0aab293921d4498f9
   react-native-notifications: f56a12d741eeb2fd4d7a418a4689111c50f7cd72
   react-native-randombytes: 3638d24759d67c68f6ccba60c52a7a8a8faa6a23
   react-native-safe-area-context: 4b3d1b9ebb040a4814a222703e7434b20c95fcf5
