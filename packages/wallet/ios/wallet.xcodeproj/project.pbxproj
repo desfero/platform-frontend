@@ -14,7 +14,6 @@
 		1A445ED422722FFC7C9ECCC7 /* libPods-walletTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B95561D0D01F21D6EF11D0 /* libPods-walletTests.a */; };
 		36B4241186394786A6707D8C /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2471D79059C840348B73F08D /* Roboto-Regular.ttf */; };
 		41D7C7554656486D8F2A1095 /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7ECC95DD7A44468B165BFFE /* Montserrat-SemiBold.ttf */; };
-		44C078612420CDC000CD0C0F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 44C078602420CDC000CD0C0F /* GoogleService-Info.plist */; };
 		8455F0A31BCC4D29A2D8B030 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C486F05C15B478AB5F6C2BC /* Roboto-Medium.ttf */; };
 		965F0307243B1D190055C7D0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 965F0306243B1D190055C7D0 /* LaunchScreen.storyboard */; };
 		969BBF0C24827A1100AC2ADB /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 969BBF0B24827A1100AC2ADB /* Config.xcconfig */; };
@@ -288,7 +287,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				44C078612420CDC000CD0C0F /* GoogleService-Info.plist in Resources */,
 				965F0307243B1D190055C7D0 /* LaunchScreen.storyboard in Resources */,
 				41D7C7554656486D8F2A1095 /* Montserrat-SemiBold.ttf in Resources */,
 				8455F0A31BCC4D29A2D8B030 /* Roboto-Medium.ttf in Resources */,
