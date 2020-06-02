@@ -6,6 +6,7 @@ node -v
 # install dependencies from the monorepo root
 cd ../..
 yarn
+yarn
 cd ./packages/wallet
 
 # fix local dependencies
