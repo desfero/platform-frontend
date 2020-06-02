@@ -1,0 +1,13 @@
+diff --git a/node_modules/metro-resolver/src/resolve.js b/node_modules/metro-resolver/src/resolve.js
+index 0aef96f..bbaa319 100644
+--- a/node_modules/metro-resolver/src/resolve.js
++++ b/node_modules/metro-resolver/src/resolve.js
+@@ -139,7 +139,7 @@ function resolve(context, moduleName, platform) {
+     }
+   }
+ 
+-  const allDirPaths = dirPaths.concat(extraPaths);
++  const allDirPaths = extraPaths.concat(dirPaths);
+ 
+   for (let i = 0; i < allDirPaths.length; ++i) {
+     const realModuleName = context.redirectModulePath(allDirPaths[i]);

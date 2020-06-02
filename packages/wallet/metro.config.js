@@ -13,11 +13,14 @@ const symlinkedModules = {
   crypto: require.resolve("react-native-crypto"),
   stream: require.resolve("stream-browserify"),
   vm: require.resolve("vm-browserify"),
+
+  "react-redux": require.resolve("react-redux"),
+  "redux":  require.resolve("redux"),
 };
 
 module.exports = (async () => {
   const {
-    resolver: { sourceExts, assetExts },
+    resolver: { sourceExts, assetExts, hasteImplModulePath },
   } = await getDefaultConfig();
 
   return {

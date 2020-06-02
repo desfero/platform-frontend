@@ -3,6 +3,6 @@
  *       therefore converting file to .ts won't work
  */
 
-import { startupApp } from "./app";
+import { startupApp } from "./app/index";
 
 startupApp();

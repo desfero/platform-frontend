@@ -1,5 +1,5 @@
 import "react-native-gesture-handler";
-import "./app/polyfills";
+import "./polyfills";
 
 import { IModuleStore } from "@neufund/sagas";
 import { Container } from "inversify";
@@ -41,6 +41,8 @@ function renderApp(store: IModuleStore<TAppGlobalState>): void {
     if (isStorybookUI) {
       return <Storybook />;
     }
+
+    debugger;
 
     return (
       <AppContainer store={store}>
