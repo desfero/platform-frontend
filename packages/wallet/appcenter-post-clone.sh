@@ -5,8 +5,7 @@ node -v
 
 # install dependencies from the monorepo root
 cd ../..
-yarn
-yarn
+yarn --frozen-lockfile
 cd ./packages/wallet
 
 # fix local dependencies

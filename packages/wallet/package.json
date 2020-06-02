@@ -148,7 +148,7 @@
   },
   "workspaces": {
     "nohoist": [
-      "**"
+      "**/!(@neufund)/**"
     ]
   },
   "detox": {
