@@ -53,7 +53,6 @@
 		9657C6692434B00D00D42ABE /* walletRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = walletRelease.entitlements; path = wallet/walletRelease.entitlements; sourceTree = "<group>"; };
 		965F0306243B1D190055C7D0 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		969BBF0B24827A1100AC2ADB /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
-		96E57A2224859DA6009CEC5B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9744DAC7C307A312D09888EB /* Pods-wallet.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wallet.release.xcconfig"; path = "Target Support Files/Pods-wallet/Pods-wallet.release.xcconfig"; sourceTree = "<group>"; };
 		983C75446821FAEEFBC5BFF0 /* libPods-wallet-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-wallet-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A5D0FAC9BDD5E12D168EC7A /* Pods-wallet-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wallet-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-wallet-tvOS/Pods-wallet-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
@@ -156,7 +155,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				96E57A2224859DA6009CEC5B /* GoogleService-Info.plist */,
 				969BBF0B24827A1100AC2ADB /* Config.xcconfig */,
 				13B07FAE1A68108700A75B9A /* wallet */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
