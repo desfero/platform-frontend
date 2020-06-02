@@ -17,8 +17,8 @@ cd ios
 pod install
 cd ..
 
-# move yarn.lock to wallet package to force AppCenter to use yarn
-mv ../../yarn.lock ./yarn.lock
+# force AppCenter to use yarn
+touch ./yarn.lock
 
 # Creates an .env from ENV variables for use with react-native-config
 ENV_WHITELIST="^NF_"
